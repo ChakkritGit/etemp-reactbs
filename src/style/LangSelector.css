@@ -1,0 +1,4 @@
+.active-lang {
+  background: var(--main-color) !important;
+  color: var(--white) !important;
+}
