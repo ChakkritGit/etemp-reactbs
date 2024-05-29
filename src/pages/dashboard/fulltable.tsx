@@ -13,7 +13,8 @@ import {
   RiFolderSharedLine, RiLoader3Line, RiPrinterLine
 } from "react-icons/ri"
 import { useEffect, useState } from "react"
-import { datatableLogexport, devicesType, logtype } from "../../types/user.type"
+import { logtype } from "../../types/log.type"
+import { devicesType } from "../../types/device.type"
 import axios from "axios"
 import Swal from "sweetalert2"
 import { useTranslation } from "react-i18next"
@@ -22,10 +23,10 @@ import Loading from "../../components/loading/loading"
 import * as XLSX from 'xlsx'
 import { RiArrowRightSLine } from "react-icons/ri"
 import toast from "react-hot-toast"
-import { localtoken } from "../../authen/localdata"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { getDateNow } from "../../constants/constants"
+import { responseType } from "../../types/response.type"
 
 export default function Fulltable() {
   const { t } = useTranslation()
@@ -34,7 +35,7 @@ export default function Fulltable() {
   const [devData, setDevData] = useState<devicesType>()
   const [loading, setLoading] = useState(false)
   const [tableData, setTableData] = useState<logtype[]>([])
-  const { searchQuery, deviceId, expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, deviceId, expand, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
@@ -43,10 +44,10 @@ export default function Fulltable() {
   const fetchData = async () => {
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : localStorage.getItem('devid')}`, {
-          headers: { authorization: `Bearer ${localtoken}` }
+        .get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+          headers: { authorization: `Bearer ${token}` }
         })
-      setDevData(responseData.data.value)
+      setDevData(responseData.data.data)
     } catch (error) {
       console.error('Something wrong' + error)
     }
@@ -58,10 +59,10 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/log?filter=${'day'}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
-          headers: { authorization: `Bearer ${localtoken}` }
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${'day'}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+          headers: { authorization: `Bearer ${token}` }
         })
-      setLogData(responseData.data.value)
+      setLogData(responseData.data.data)
       setLoading(false)
     } catch (error) {
       console.error('Something wrong' + error)
@@ -73,10 +74,10 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/log?filter=${'week'}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
-          headers: { authorization: `Bearer ${localtoken}` }
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${'week'}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+          headers: { authorization: `Bearer ${token}` }
         })
-      setLogData(responseData.data.value)
+      setLogData(responseData.data.data)
       setLoading(false)
     } catch (error) {
       console.error('Something wrong' + error)
@@ -93,10 +94,10 @@ export default function Fulltable() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
-              headers: { authorization: `Bearer ${localtoken}` }
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+              headers: { authorization: `Bearer ${token}` }
             })
-          setLogData(responseData.data.value)
+          setLogData(responseData.data.data)
         } catch (error) {
           console.error('Something wrong' + error)
         }
@@ -201,7 +202,7 @@ export default function Fulltable() {
       name: t('doors'),
       cell: (items) => (
         <DoorTableContainer>
-          {devData?.door === '1' ?
+          {devData?.log[0]?.door1 ?
             <DeviceCardFooterDoor
               $primary={
                 items.door1
@@ -214,7 +215,7 @@ export default function Fulltable() {
               }
             </DeviceCardFooterDoor>
             :
-            devData?.door === '2' ?
+            devData?.log[0]?.door2 ?
               <>
                 <DeviceCardFooterDoor
                   $primary={
@@ -301,20 +302,21 @@ export default function Fulltable() {
   const convertArrayOfObjectsToExcel = (array: logtype[]) => {
     return new Promise<boolean>((resolve, reject) => {
       if (array.length > 0) {
-        const newArray: datatableLogexport[] = array.map((items, index) => {
+        console.log(array)
+        const newArray = array.map((items, index) => {
           return {
             No: index + 1,
-            DeviceSN: items.device.dev_sn,
-            DeviceName: items.device.dev_name,
-            TemeratureMax: items.device.temp_max,
-            TemeratureMin: items.device.temp_min,
+            DeviceSN: items.device?.devSerial,
+            DeviceName: items.device?.devDetail,
+            TemeratureMax: items.devId,
+            TemeratureMin: items.devId,
             Temperature: items.tempAvg,
             Humidity: items.humidityAvg,
             Door1: items.door1 ? t('open') : t('close'),
             Door2: items.door1 ? t('open') : t('close'),
-            Door3: items.door1? t('open') : t('close'),
-            Connectivity: items.internet ? t('connected') : t('disconnect'),
-            Plug: items.ac === '1' ? t('on') : t('off'),
+            Door3: items.door1 ? t('open') : t('close'),
+            Connectivity: items.internet ? t('disconnect') : t('connected'),
+            Plug: items.ac  ? t('off') : t('on'),
             Battery: items.battery + '%',
             Time: new Date(items.createAt).toLocaleString('th-TH', {
               day: '2-digit',
@@ -395,7 +397,7 @@ export default function Fulltable() {
             <FilterContainer>
               <Form.Control
                 type="datetime-local"
-                min={devData?.installDate.substring(0, 16)}
+                min={devData?.dateInstall.substring(0, 16)}
                 max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
                 value={filterDate.startDate}
                 onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />

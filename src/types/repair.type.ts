@@ -2,8 +2,11 @@ import { devicesType } from "./device.type"
 
 type repairType = {
   repairId: string,
+  repairNo: number,
   devId: string,
   repairInfo: string,
+  repairInfo1: string,
+  repairInfo2: string,
   repairLocation: string,
   ward: string,
   repairDetails: string,

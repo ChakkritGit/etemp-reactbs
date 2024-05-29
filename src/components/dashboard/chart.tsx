@@ -1,5 +1,5 @@
 import { RiFullscreenLine } from 'react-icons/ri'
-import { logtype } from '../../types/user.type'
+import { logtype } from '../../types/log.type' 
 import {
   ChartCardHeah, ChartCardHeahBtn, ChartContainer
 } from '../../style/style'

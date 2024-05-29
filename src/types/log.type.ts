@@ -21,8 +21,7 @@ type logtype = {
   createAt: string,
   updateAt: string,
   // รออัปเดทที่แน่ชัด
-  dev_sn: logtype[],
-  device: devicesType[]
+  device: devicesType
 }
 
 export type { logtype }

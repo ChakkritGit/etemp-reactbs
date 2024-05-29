@@ -142,7 +142,6 @@ export default function Addprobe(addprobe: addprobeProps) {
           timer: 2000,
           showConfirmButton: false,
         })
-        setFormdata({ ...formdata, tempvalue: [0, 0] })
         closemodal()
         dispatch(fetchProbeData(token))
       } catch (error) {

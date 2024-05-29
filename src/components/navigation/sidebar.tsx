@@ -38,7 +38,7 @@ export default function sidebar() {
             }
           })
         const { displayName, userId, userLevel, userPic, userStatus, ward } = response.data.data
-        if (!userStatus) {
+        if (userStatus) {
           localStorage.removeItem("hosimg")
           localStorage.removeItem("userpicture")
           localStorage.removeItem("hosname")

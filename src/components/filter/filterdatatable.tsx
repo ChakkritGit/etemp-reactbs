@@ -1,4 +1,4 @@
-import { MyComponentFilters } from "../../types/user.type"
+import { MyComponentFilters } from "../../types/component.type"
 import { DataTableFilterContainer, SearchButton, SearchFlex, SearchInput } from "../../style/style"
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri"
 

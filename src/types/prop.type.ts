@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from "react"
 import { cardType } from "./component.type"
 import { hospitalsType } from "./hospital.type"
 import { probeType } from "./probe.type"
-import { configType } from "./config.type"
 
 // userProps
 type adduserProp = {

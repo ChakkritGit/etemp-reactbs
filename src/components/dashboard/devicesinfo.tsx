@@ -145,7 +145,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
               <span>{t('min')}: {probe[0]?.tempMin.toFixed(2)}°C {t('max')}: {probe[0]?.tempMax.toFixed(2)}°C</span>
               <span>{t('humidity')}</span>
               <span>{t('min')}: {probe[0]?.humMin.toFixed(2)}% {t('max')}: {probe[0]?.humMax.toFixed(2)}%</span>
-              <span>{devicesData?.config.ip ? devicesData?.config.ip : '- -'}</span>
+              <span>{devicesData?.config?.ip ? devicesData?.config?.ip : '- -'}</span>
             </div>
           </DeviceDetailsBodyInfo>
         </DeviceDetailsBody>

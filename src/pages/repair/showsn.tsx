@@ -7,26 +7,30 @@ import { localtoken } from "../../authen/localdata"
 
 type sntype = {
   setRepairdata: Dispatch<SetStateAction<{
-    repair_info: string,
-    repair_location: string,
-    tel_number: string,
+    repairInfo: string,
+    repairLocation: string,
+    telePhone: string,
     ward: string,
-    dev_id: string,
-    warranty_status: string,
-    repair_details: string,
+    devId: string,
+    warrantyStatus: string,
     comment: string,
-    repair_status: string,
+    repairDetails: string,
+    repairStatus: string,
+    repairInfo1: string,
+    repairInfo2: string
   }>>
   repairData: {
-    repair_info: string,
-    repair_location: string,
-    tel_number: string,
+    repairInfo: string,
+    repairLocation: string,
+    telePhone: string,
     ward: string,
-    dev_id: string,
-    warranty_status: string,
-    repair_details: string,
+    devId: string,
+    warrantyStatus: string,
     comment: string,
-    repair_status: string,
+    repairDetails: string,
+    repairStatus: string,
+    repairInfo1: string,
+    repairInfo2: string
   }
   dev_idkey: string
 }
@@ -37,7 +41,7 @@ export default function Showsn(sntype: sntype) {
   const [selectedval, setSelectedVal] = useState('')
 
   const setDevId = (e: ChangeEvent<HTMLSelectElement>) => {
-    sntype.setRepairdata({ ...sntype.repairData, dev_id: e.target.value })
+    sntype.setRepairdata({ ...sntype.repairData, devId: e.target.value })
     setSelectedVal(e.target.value)
   }
 

@@ -1,29 +1,57 @@
 import { Container, Modal } from "react-bootstrap"
-import { DetailFlex, DetailWarranty, FormBtn, FormFlexBtn, ModalHead, WarrantyBody, WarrantyHead, WarrantyHeadBtn } from "../../style/style";
-import { useRef, useState } from "react"
-import { devicesType } from "../../types/device.type"
+import { DelWarrantyButton, DetailFlex, DetailWarranty, FormBtn, FormFlexBtn, ModalHead, WarrantyBody, WarrantyHead, WarrantyHeadBtn } from "../../style/style";
+import { useEffect, useRef, useState } from "react"
 import Loading from "../../components/loading/loading"
 import { useTranslation } from "react-i18next"
-import { RiCloseLine, RiFileCloseLine, RiInformationLine, RiLoader3Line, RiPrinterLine } from "react-icons/ri"
+import { RiCloseCircleLine, RiCloseLine, RiFileCloseLine, RiInformationLine, RiLoader3Line, RiPrinterLine } from "react-icons/ri"
 import DataTable, { TableColumn } from "react-data-table-component"
 import ReactToPrint from "react-to-print"
 import Printwarranty from "./printwarranty"
 import { useSelector } from "react-redux";
-import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type";
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type";
+import axios, { AxiosError } from "axios";
+import { warrantyType } from "../../types/warranty.type";
+import { responseType } from "../../types/response.type";
+import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib";
+import Swal from "sweetalert2";
 
 export default function Warranty() {
   const { t } = useTranslation()
   const [pagenumber, setpagenumber] = useState(1)
-  const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { devices, devicesLoading } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const devicesArray = devices.filter((items) => items.devSerial.includes(searchQuery) || items.devName.includes(searchQuery))
+  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [show, setshow] = useState(false)
-  const [deviceDetails, setDevicedetails] = useState<devicesType[]>([])
+  const [deviceDetails, setDevicedetails] = useState<warrantyType[]>([])
+  const [warrantyData, setWarrantyData] = useState<warrantyType[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const componentRef = useRef<HTMLDivElement | null>(null)
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true)
+      const response = await axios.get<responseType<warrantyType[]>>(`${import.meta.env.VITE_APP_API}/warranty`, {
+        headers: { authorization: `Bearer ${token}` }
+      })
+      setWarrantyData(response.data.data)
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message)
+      } else {
+        console.log('Unknown Error', error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const devicesArray = warrantyData.filter((items) => items.device.devSerial.includes(searchQuery) || items.devName.includes(searchQuery))
 
   const expiredArray = devicesArray.filter((items) => {
     const today = new Date()
-    const targetDate = new Date(items.LocInstall)
+    const targetDate = new Date(items.device.dateInstall)
     targetDate.setFullYear(targetDate.getFullYear() + 1)
     const timeDifference = targetDate.getTime() - today.getTime()
     const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
@@ -32,15 +60,15 @@ export default function Warranty() {
 
   const onwarrantyArray = devicesArray.filter((items) => {
     const today = new Date()
-    const targetDate = new Date(items.dateInstall)
+    const targetDate = new Date(items.device.dateInstall)
     targetDate.setFullYear(targetDate.getFullYear() + 1)
     const timeDifference = targetDate.getTime() - today.getTime()
     const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
     return daysRemaining >= 0
   })
 
-  const openmodal = (devID: string) => {
-    setDevicedetails(devices.filter((items) => items.devId === devID))
+  const openmodal = (warrId: string) => {
+    setDevicedetails(warrantyData.filter((items) => items.warrId === warrId))
     setshow(true)
   }
 
@@ -48,7 +76,41 @@ export default function Warranty() {
     setshow(false)
   }
 
-  const columns: TableColumn<devicesType>[] = [
+  const deleteWarranty = async (wId: string) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_APP_API}/warranty/${wId}`, {
+        headers: { authorization: `Bearer ${token}` }
+      })
+      Swal.fire({
+        title: t('alert_header_Success'),
+        text: response.data.message,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+      fetchData()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: error.response?.data.message,
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: 'Unknown Error',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      }
+    }
+  }
+
+  const columns: TableColumn<warrantyType>[] = [
     {
       name: t('no'),
       cell: (_, index) => {
@@ -59,13 +121,13 @@ export default function Warranty() {
     },
     {
       name: t('tb_dev_sn'),
-      selector: (items) => items.devSerial,
+      selector: (items) => items.device.devSerial,
       sortable: false,
       center: true,
     },
     {
       name: t('install_date'),
-      selector: (items) => items.dateInstall,
+      selector: (items) => items.device.dateInstall,
       sortable: false,
       center: true,
     },
@@ -73,7 +135,7 @@ export default function Warranty() {
       name: t('warranty_home'),
       cell: ((items) => {
         const today = new Date()
-        const targetDate = new Date(items.dateInstall)
+        const targetDate = new Date(items.device.dateInstall)
         targetDate.setFullYear(targetDate.getFullYear() + 1)
         const timeDifference = targetDate.getTime() - today.getTime()
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
@@ -88,9 +150,28 @@ export default function Warranty() {
       cell: ((items) => {
         return <DetailFlex>
           <DetailWarranty
-            onClick={() => openmodal(items.devId)}>
+            key={items.warrId}
+            onClick={() => openmodal(items.warrId)}>
             <RiInformationLine />
           </DetailWarranty>
+          <DelWarrantyButton onClick={() =>
+            swalWithBootstrapButtons
+              .fire({
+                title: t('deleteuserTitle'),
+                text: t('deleteuserText'),
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: t('deletebtn'),
+                cancelButtonText: t('cancelbtn'),
+                reverseButtons: false,
+              })
+              .then((result) => {
+                if (result.isConfirmed) {
+                  deleteWarranty(items.warrId)
+                }
+              })}>
+            <RiCloseCircleLine />
+          </DelWarrantyButton>
         </DetailFlex>
       }),
       sortable: false,
@@ -107,7 +188,7 @@ export default function Warranty() {
       </WarrantyHead>
       <WarrantyBody>
         {
-          !devicesLoading ?
+          !isLoading ?
             pagenumber === 1 ?
               <>
                 {
@@ -164,6 +245,7 @@ export default function Warranty() {
             <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
         }
       </WarrantyBody>
+
       <Modal scrollable show={show} onHide={closemodal} size="lg">
         <Modal.Header>
           <ModalHead>

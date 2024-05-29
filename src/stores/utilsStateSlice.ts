@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { HomeStatusErrCount, UtilsStateStore } from "../types/redux.type"
-import { jwtToken } from "../types/user.type"
+import { jwtToken } from "../types/component.type" 
 
 const initialState: UtilsStateStore = {
   token: String(localStorage.getItem('token')),

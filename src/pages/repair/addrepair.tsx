@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import {
   AddrepairBtn, Checkboxbsoveride, FormBtn, FormFlexBtn,
   FormTitleFlex, ModalHead
@@ -12,9 +12,11 @@ import { useTranslation } from 'react-i18next'
 import WardDropdown from '../../components/dropdown/wardDropdown'
 import Showsn from './showsn'
 import { repairType } from '../../types/repair.type'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
-import { localtoken } from '../../authen/localdata'
+import { responseType } from '../../types/response.type'
+import { useSelector } from 'react-redux'
+import { DeviceStateStore, UtilsStateStore } from '../../types/redux.type'
 
 type addrepairtype = {
   pagestate: string,
@@ -24,17 +26,21 @@ type addrepairtype = {
 
 export default function Addrepair(addrepair: addrepairtype) {
   const { t } = useTranslation()
+  const { devdata, fetchdata, pagestate } = addrepair
+  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [show, setShow] = useState(false)
   const [repairData, setRepairdata] = useState({
-    repair_info: addrepair.devdata.repairInfo || localStorage.getItem('displayname') as string,
-    repair_location: addrepair.devdata.repairLocation || '',
-    tel_number: addrepair.devdata.telePhone || '',
-    ward: addrepair.devdata.ward || '',
-    dev_id: addrepair.devdata.devId || '',
-    warranty_status: addrepair.devdata.warrantyStatus || '',
-    comment: addrepair.devdata.comment || '',
-    repair_details: addrepair.devdata.repairDetails || '',
-    repair_status: '1'
+    repairInfo: devdata.repairInfo || localStorage.getItem('displayname') as string,
+    repairLocation: devdata.repairLocation || '',
+    telePhone: devdata.telePhone || '',
+    ward: devdata.ward || '',
+    devId: devdata.devId || '',
+    warrantyStatus: devdata.warrantyStatus || '',
+    comment: devdata.comment || '',
+    repairDetails: devdata.repairDetails || '',
+    repairStatus: '1',
+    repairInfo1: devdata.repairInfo1 || '',
+    repairInfo2: devdata.repairInfo2 || ''
   })
 
   const openmodal = () => {
@@ -45,117 +51,105 @@ export default function Addrepair(addrepair: addrepairtype) {
     setShow(false)
   }
 
-  useEffect(() => {
-    console.table(repairData)
-  }, [repairData])
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    await axios
-      .post(`${import.meta.env.VITE_APP_API}/repair`, repairData, {
-        headers: { authorization: `Bearer ${localtoken}` }
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          setShow(false)
-          Swal.fire({
-            title: t('alert_header_Success'),
-            text: response.data.msg,
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-          }).then(() => {
-            addrepair.fetchdata()
-            setRepairdata({
-              repair_info: '',
-              repair_location: '',
-              tel_number: '',
-              ward: '',
-              dev_id: '',
-              warranty_status: '',
-              comment: '',
-              repair_details: '',
-              repair_status: '1'
-            })
-          })
-        } else {
-          Swal.fire({
-            title: t('alert_header_Error'),
-            text: response.data.msg,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        if (error.response.status === 404) {
-          Swal.fire({
-            title: t('alert_header_Error'),
-            text: error.response.msg,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-        }
-      })
-  }
-
-  const handleSubmitEdit = async (e: FormEvent) => {
-    e.preventDefault()
-    await axios
-      .put(`${import.meta.env.VITE_APP_API}/repair/${addrepair.devdata.repairId}`, repairData, {
-        headers: { authorization: `Bearer ${localtoken}` }
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          setShow(false)
-          Swal.fire({
-            title: t('alert_header_Success'),
-            text: response.data.msg,
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-          }).then(() => {
-            addrepair.fetchdata()
-          })
-        } else {
-          Swal.fire({
-            title: t('alert_header_Error'),
-            text: response.data.msg,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        if (error.response.status === 404) {
-          Swal.fire({
-            title: t('alert_header_Error'),
-            text: error.response.msg,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-        }
-      })
-  }
-
   const setValuestate = (value: string) => {
     setRepairdata({ ...repairData, ward: value })
   }
 
   const handleCheckboxChange = (value: string) => {
-    setRepairdata({ ...repairData, warranty_status: value })
+    setRepairdata({ ...repairData, warrantyStatus: value })
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    try {
+      const response = await axios
+        .post<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair`, repairData, {
+          headers: { authorization: `Bearer ${token}` }
+        })
+      setShow(false)
+      Swal.fire({
+        title: t('alert_header_Success'),
+        text: response.data.message,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+      fetchdata()
+      setRepairdata({
+        repairInfo: '',
+        repairLocation: '',
+        telePhone: '',
+        ward: '',
+        devId: '',
+        warrantyStatus: '',
+        comment: '',
+        repairDetails: '',
+        repairStatus: '',
+        repairInfo1: '',
+        repairInfo2: ''
+      })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: error.response?.data.message,
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: 'Uknown Error',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      }
+    }
+  }
+
+  const handleSubmitEdit = async (e: FormEvent) => {
+    e.preventDefault()
+    try {
+      const response = await axios
+        .put<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair/${devdata.repairId}`, repairData, {
+          headers: { authorization: `Bearer ${token}` }
+        })
+      setShow(false)
+      Swal.fire({
+        title: t('alert_header_Success'),
+        text: response.data.message,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+      fetchdata()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: error.response?.data.message,
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: 'Uknown Error',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      }
+    }
   }
 
   return (
     <>
       {
-        addrepair.pagestate === "add" ?
+        pagestate === "add" ?
           <AddrepairBtn onClick={openmodal}>
             {t('repairtitle')}
             <RiAddLine />
@@ -167,17 +161,17 @@ export default function Addrepair(addrepair: addrepairtype) {
       }
 
       <Modal
-        size={addrepair.pagestate === "edit" ? "lg" : 'lg'}
+        size={pagestate === "edit" ? "lg" : 'lg'}
         show={show}
         onHide={closemodal}>
         <Modal.Header>
-          {/* <pre style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
-            {JSON.stringify(repairData)}
+          {/* <pre>
+            {JSON.stringify(repairData, null, 2)}
           </pre> */}
           <ModalHead>
             <strong>
               {
-                addrepair.pagestate === "add" ?
+                pagestate === "add" ?
                   t('repairtitle')
                   :
                   t('edit')
@@ -188,7 +182,7 @@ export default function Addrepair(addrepair: addrepairtype) {
             </button>
           </ModalHead>
         </Modal.Header>
-        <Form onSubmit={addrepair.pagestate === "add" ? handleSubmit : handleSubmitEdit}>
+        <Form onSubmit={pagestate === "add" ? handleSubmit : handleSubmitEdit}>
           <Modal.Body>
             <Row>
               <Col lg={6}>
@@ -199,8 +193,8 @@ export default function Addrepair(addrepair: addrepairtype) {
                     type="text"
                     placeholder=""
                     autoComplete='off'
-                    value={repairData.repair_info}
-                    onChange={(e) => setRepairdata({ ...repairData, repair_info: e.target.value })} />
+                    value={repairData.repairInfo}
+                    onChange={(e) => setRepairdata({ ...repairData, repairInfo: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
                   <Form.Label>{t('address')}</Form.Label>
@@ -208,8 +202,8 @@ export default function Addrepair(addrepair: addrepairtype) {
                     type="text"
                     placeholder=""
                     autoComplete='off'
-                    value={repairData.repair_location}
-                    onChange={(e) => setRepairdata({ ...repairData, repair_location: e.target.value })} />
+                    value={repairData.repairLocation}
+                    onChange={(e) => setRepairdata({ ...repairData, repairLocation: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
                   <Form.Label>{t('telnumber')}</Form.Label>
@@ -217,8 +211,8 @@ export default function Addrepair(addrepair: addrepairtype) {
                     type="tel"
                     placeholder=""
                     autoComplete='off'
-                    value={repairData.tel_number}
-                    onChange={(e) => setRepairdata({ ...repairData, tel_number: e.target.value })} />
+                    value={repairData.telePhone}
+                    onChange={(e) => setRepairdata({ ...repairData, telePhone: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
                   <Form.Label>{t('tab_ward')}</Form.Label>
@@ -236,7 +230,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   <Showsn
                     repairData={repairData}
                     setRepairdata={setRepairdata}
-                    dev_idkey={addrepair.devdata.devId}
+                    dev_idkey={devdata.devId}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
@@ -246,7 +240,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                       label={t('aftersale')}
                       className='int-ch-b'
                       type="checkbox"
-                      checked={repairData.warranty_status === "1"}
+                      checked={repairData.warrantyStatus === "1"}
                       onChange={() => handleCheckboxChange("1")}
                     />
                     <Form.Check
@@ -254,7 +248,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                       label={t('expired')}
                       className='int-ch-b'
                       type="checkbox"
-                      checked={repairData.warranty_status === "2"}
+                      checked={repairData.warrantyStatus === "2"}
                       onChange={() => handleCheckboxChange("2")}
                     />
                     <Form.Check
@@ -262,7 +256,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                       label={t('ma')}
                       className='int-ch-b'
                       type="checkbox"
-                      checked={repairData.warranty_status === "3"}
+                      checked={repairData.warrantyStatus === "3"}
                       onChange={() => handleCheckboxChange("3")}
                     />
                     <Form.Check
@@ -270,12 +264,12 @@ export default function Addrepair(addrepair: addrepairtype) {
                       label={t('etc')}
                       className='int-ch-b'
                       type="checkbox"
-                      checked={repairData.warranty_status === "4"}
+                      checked={repairData.warrantyStatus === "4"}
                       onChange={() => handleCheckboxChange("4")}
                     />
                   </Checkboxbsoveride>
                 </Form.Group>
-                {repairData.warranty_status === "4" ?
+                {repairData.warrantyStatus === "4" ?
                   <Form.Group className="mb-3" >
                     <Form.Label>{t('detailsExpand')}</Form.Label>
                     <Form.Control
@@ -291,18 +285,42 @@ export default function Addrepair(addrepair: addrepairtype) {
                   ""
                 }
               </Col>
-              <Col lg={12}>
-                <FormTitleFlex><RiInformationLine />{t('details')}</FormTitleFlex>
-                <Form.Group className="mb-3" >
-                  <Form.Label>{t('details')}</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    placeholder=""
-                    autoComplete='off'
-                    rows={6}
-                    value={repairData.repair_details}
-                    onChange={(e) => setRepairdata({ ...repairData, repair_details: e.target.value })} />
-                </Form.Group>
+              <Col lg={16}>
+                <Row>
+                  <FormTitleFlex><RiInformationLine />{t('details')}</FormTitleFlex>
+                  <Form.Group className="mb-3 w-100" >
+                    <Form.Label>{t('details')}</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      placeholder=""
+                      autoComplete='off'
+                      rows={6}
+                      value={repairData.repairDetails}
+                      onChange={(e) => setRepairdata({ ...repairData, repairDetails: e.target.value })} />
+                  </Form.Group>
+                  <Col lg={6}>
+                    <Form.Group className="mb-3" >
+                      <Form.Label>{t('สภาพเครื่อง')}</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        placeholder=""
+                        autoComplete='off'
+                        value={repairData.repairInfo1}
+                        onChange={(e) => setRepairdata({ ...repairData, repairInfo1: e.target.value })} />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={6}>
+                    <Form.Group className="mb-3" >
+                      <Form.Label>{t('อุปกรณ์ที่นำมาด้วย')}</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        placeholder=""
+                        autoComplete='off'
+                        value={repairData.repairInfo2}
+                        onChange={(e) => setRepairdata({ ...repairData, repairInfo2: e.target.value })} />
+                    </Form.Group>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Modal.Body>

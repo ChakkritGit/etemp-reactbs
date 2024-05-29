@@ -1,6 +1,6 @@
 import { RiFullscreenLine } from "react-icons/ri"
 import { ChartCardHeah, ChartCardHeahBtn, TableContainer } from "../../style/style"
-import { logtype } from "../../types/user.type"
+import { logtype } from "../../types/log.type"
 import DataTable, { TableColumn } from "react-data-table-component"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"

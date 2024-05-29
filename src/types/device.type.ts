@@ -6,7 +6,7 @@ type devices = {
   devId: string,
   wardId: string,
   devSerial: string,
-  devName: string
+  devName: string,
   devDetail: string,
   devStatus: boolean,
   devSeq: number,
@@ -15,7 +15,6 @@ type devices = {
   locPic: string,
   dateInstall: string,
   firmwareVersion: string,
-  invoice: string,
   createBy: string,
   comment: string,
   backupStatus: string,

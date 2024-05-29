@@ -836,6 +836,32 @@ padding: .5rem;
 }
 `
 
+export const DelWarrantyButton = styled.button<{ $primary?: boolean }> `
+display: flex;
+align-items: center;
+justify-content: center;
+gap: .5rem;
+width: max-content;
+max-width: 165px;
+max-height: 45px;
+border-radius: var(--border-radius-small);
+border: 2px solid var(--warning-primary);
+background-color: unset;
+color: var( --warning-primary);
+font-weight: bold;
+padding: .5rem;
+
+&:hover {
+  background-color: var(--warning-primary);
+  color: var(--white);
+  transition: .3s;
+}
+
+& svg {
+  stroke-width: 1px;
+}
+`
+
 export const CardUserHead = styled.div<{ $primary?: boolean }> `
 display: flex;
 align-items: center;
@@ -3433,13 +3459,15 @@ border: 1px solid black;
 `
 
 export const HDF1 = styled.div<{ $primary?: boolean }>`
-  font-size: 14px;
-  width: 50%;
-  padding: .5rem;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding: .5rem;
+  width: 50%;
+  max-width: 50%;
+  font-size: 14px;
   gap: .5rem;
+  overflow: hidden;
 
   ${props => props.$primary &&
     css`
@@ -3455,11 +3483,20 @@ export const HDF1 = styled.div<{ $primary?: boolean }>`
 export const TUD = styled.span<{ $class?: string }>`
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-underline-offset: 8px;
+  text-underline-offset: 5px;
+
+  ${props => props.$class === 'preLine' &&
+    css`
+  width: 75%;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+`}
 
   ${props => props.$class === 't-n-w-1' &&
     css`
   width: 75%;
+  white-space: pre-line;
+  overflow-wrap: break-word;
   `}
 
   ${props => props.$class === 't-u-d-t-warp' &&
@@ -3471,14 +3508,13 @@ export const TUD = styled.span<{ $class?: string }>`
   }
 `
 
-export const SectionWStatus = styled.span<{ $class?: string }>`
+export const SectionWStatus = styled.div<{ $class?: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding: 1rem .5rem;
+  padding: 1rem .5rem 0 .5rem;
   font-size: 14px;
-  border-bottom: 1px solid black;
   border-top: 1px solid black;
 
   &>label {
@@ -3515,6 +3551,16 @@ export const SectionWStatus = styled.span<{ $class?: string }>`
 &>label>input:checked::before {
   transform: scale(1);
 }
+`
+
+export const OtherDetails = styled.div<{ $primary?: boolean }>`
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  font-size: 14px;
+
+  ${props => props.$primary && css`
+  padding: 1rem .5rem;
+  `}
 `
 
 export const FSF1 = styled.div<{ $t1?: string, $t2?: string }>`
@@ -4166,6 +4212,9 @@ ${props => props.theme.mode === 'dark' &&
 `
 
 export const DetailFlex = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: .5rem;
   padding: .5rem;
 `
 

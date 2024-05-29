@@ -16,7 +16,6 @@ import { RiCloseLine, RiDeleteBin2Line, RiPrinterLine } from "react-icons/ri"
 import Swal from "sweetalert2"
 import ReactToPrint from "react-to-print"
 import PrintComponent from "./printComponent"
-import { localtoken } from "../../authen/localdata"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
@@ -24,7 +23,7 @@ import { responseType } from "../../types/response.type"
 
 export default function Repair() {
   const { t } = useTranslation()
-  const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [repairData, setRepairdata] = useState<repairType[]>([])
   const [repairDataPrint, setRepairdataprint] = useState<repairType[]>([])
   const [deviceData, setDevicedata] = useState<devicesType[]>([])
@@ -39,7 +38,7 @@ export default function Repair() {
     try {
       const response = await axios
         .get<responseType<repairType[]>>(`${import.meta.env.VITE_APP_API}/repair`, {
-          headers: { authorization: `Bearer ${localtoken}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       setRepairdata(response.data.data)
     } catch (error) {
@@ -53,7 +52,7 @@ export default function Repair() {
     try {
       const response = await axios
         .get(`${import.meta.env.VITE_APP_API}/device`, {
-          headers: { authorization: `Bearer ${localtoken}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       setDevicedata(response.data.data)
     } catch (error) {
@@ -69,7 +68,7 @@ export default function Repair() {
     try {
       const response = await axios
         .delete<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair/${reID}`, {
-          headers: { authorization: `Bearer ${localtoken}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       Swal.fire({
         title: t('alert_header_Success'),
@@ -201,7 +200,7 @@ export default function Repair() {
     {
       name: t('print'),
       cell: ((items) => {
-        return <RepairPrintBtn onClick={() => printrepair(items.repairId)}>
+        return <RepairPrintBtn key={items.repairId} onClick={() => printrepair(items.repairId)}>
           <RiPrinterLine />
         </RepairPrintBtn>
       }),
@@ -234,6 +233,7 @@ export default function Repair() {
           pagination
         />
       </ManageRepairBody>
+
       <Modal show={show} size="lg" scrollable onHide={closemodal}>
         <Modal.Header>
           <ModalHead>
@@ -248,7 +248,6 @@ export default function Repair() {
         <Modal.Body>
           <PrintComponent
             data={repairDataPrint}
-            devdata={deviceData}
             componentRef={componentRef}
           />
         </Modal.Body>

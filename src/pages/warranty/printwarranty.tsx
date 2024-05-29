@@ -1,12 +1,12 @@
 import { RefObject } from "react"
-import { devicesType } from "../../types/user.type"
 import { WCD1, WCDC1, WCDC2 } from "../../style/style"
 import Logo from '../../assets/images/Thanes.png'
 import Logofooter from '../../assets/images/ts-logo.png'
 import QRCode from "react-qr-code"
+import { warrantyType } from "../../types/warranty.type"
 
 type warrantytype = {
-  data: devicesType[],
+  data: warrantyType[],
   componentRef: RefObject<HTMLDivElement>
 }
 
@@ -15,20 +15,18 @@ export default function Printwarranty(warrantytype: warrantytype) {
     <>
       {
         warrantytype.data.map((items) => {
-          const formattedDate = new Date(items.installDate).toLocaleDateString('en-GB', {
+          const formattedDate = new Date(items.device.dateInstall).toLocaleDateString('en-GB', {
             day: '2-digit',
             month: '2-digit',
-            year: 'numeric',
+            year: 'numeric'
           })
-          const targetDate = new Date(items.installDate)
-          targetDate.setFullYear(targetDate.getFullYear() + 1)
-          const formattedDate2 = targetDate.toLocaleDateString('en-GB', {
+          const formattedDate2 = new Date(items.expire).toLocaleDateString('en-GB', {
             day: '2-digit',
             month: '2-digit',
-            year: 'numeric',
+            year: 'numeric'
           })
           return (
-            <WCD1 ref={warrantytype.componentRef}>
+            <WCD1 ref={warrantytype.componentRef} key={items.warrId}>
               <WCDC1>
                 <div>
                   <div>
@@ -66,14 +64,14 @@ export default function Printwarranty(warrantytype: warrantytype) {
                         <span>ประเภทสินค้า</span>
                         <span>Product</span>
                       </span>
-                      <span>{'-'}</span>
+                      <span>{items.device.devSerial.substring(0, 3) === "eTP" ? "eTEMP" : "iTEMP"}</span>
                     </div>
                     <div>
                       <span>
                         <span>รุ่น</span>
                         <span>Model</span>
                       </span>
-                      <span>{items.devName}</span>
+                      <span>{items.device.devSerial.substring(0, 8)}</span>
                     </div>
                     <div>
                       <span>
@@ -103,7 +101,7 @@ export default function Printwarranty(warrantytype: warrantytype) {
                         <span>หมายเลขเครื่อง</span>
                         <span>Serial No.</span>
                       </span>
-                      <span>{items.devSerial}</span>
+                      <span>{items.device.devSerial}</span>
                     </div>
                     <div>
                       <span>
@@ -188,7 +186,7 @@ export default function Printwarranty(warrantytype: warrantytype) {
                 <QRCode
                   size={48}
                   style={{ height: "auto", maxWidth: "100%", width: "8%" }}
-                  value={items.devId}
+                  value={items.device.devId}
                   viewBox={`0 0 48 48`}
                   level={'H'}
                 />

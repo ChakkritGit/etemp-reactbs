@@ -2,43 +2,42 @@ import { useTranslation } from "react-i18next"
 import Loading from "../../components/loading/loading"
 import {
   AttentionF, AttentionP, CDF1, CDF2, FSF1, HDF1,
-  OriginalPaper, PrintContainer, PrintContent,
+  OriginalPaper, OtherDetails, PrintContainer, PrintContent,
   PrintHeadDescription, PrintHeadDescriptionOne,
   PrintHeadPage, PrintHeadTitle, RR1, SN1, SN2,
   SSR, SectionDetails, SectionSignature,
   SectionWStatus, TUD
 } from "../../style/style"
 import { repairType } from "../../types/repair.type"
-import { devicesType } from "../../types/device.type"
 import { RiLoader3Line } from "react-icons/ri"
 import { RefObject } from "react"
 
 type printtype = {
   data: repairType[],
-  componentRef: RefObject<HTMLDivElement>,
-  devdata: devicesType[]
+  componentRef: RefObject<HTMLDivElement>
 }
 
 export default function PrintComponent(printtype: printtype) {
   const { t } = useTranslation()
+  const { componentRef, data } = printtype
 
   return (
     <>
       {
-        printtype.data.length > 0 ?
-          printtype.data.map((items, index) => (
-            <PrintContainer key={index} ref={printtype.componentRef}>
+        data.length > 0 ?
+          data.map((items, index) => (
+            <PrintContainer key={index} ref={componentRef}>
               <PrintContent>
                 <PrintHeadPage>
                   <PrintHeadTitle>
                     <span>
                       เล่มที่
-                      <span>{"null"}</span>
+                      <span>{items.repairNo}</span>
                     </span>
                     <span>ใบแจ้งซ่อม</span>
                     <span>
                       เลขที่
-                      <span>{items.repairId}</span>
+                      <span>{items.repairId.substring(0, 4)}...-{items.repairId.substring(30)}</span>
                     </span>
                   </PrintHeadTitle>
                   <PrintHeadDescription>
@@ -59,12 +58,12 @@ export default function PrintComponent(printtype: printtype) {
                       <span>ชื่อลูกค้า <TUD>{items.repairInfo}</TUD></span>
                       <span>ที่อยู่ <TUD $class="t-n-w-1">{items.repairLocation}</TUD></span>
                       <span>โทรศัพท์ <TUD>{items.telePhone}</TUD></span>
-                      <span>สถานที่ติดตั้ง <TUD>{items.ward}</TUD></span>
+                      <span>สถานที่ติดตั้ง <TUD $class="preLine">วอร์ด {items.ward} {data[0]?.device.locInstall}</TUD></span>
                     </HDF1>
                     <HDF1>
-                      <span>สินค้า <TUD>{printtype.devdata.filter((items) => items.devId === printtype.data[0].devId).map((items) => items.devName)}</TUD></span>
-                      <span>Model <TUD>eTEMP</TUD></span>
-                      <span>S/N <TUD>{printtype.devdata.filter((items) => items.devId === printtype.data[0].devId).map((items) => items.devSerial)}</TUD></span>
+                      <span>สินค้า <TUD>{data[0]?.device.devSerial.substring(0, 3) === "eTP" ? "eTEMP" : "iTEMP"}</TUD></span>
+                      <span>Model <TUD>{data[0]?.device.devSerial.substring(0, 8)}</TUD></span>
+                      <span>S/N <TUD>{data[0]?.device.devSerial}</TUD></span>
                     </HDF1>
                   </div>
                   <SectionWStatus>
@@ -100,16 +99,22 @@ export default function PrintComponent(printtype: printtype) {
                         disabled
                       />
                       อื่น ๆ
-                      <TUD $class="t-u-d-t-warp">{items.comment}</TUD>
                     </label>
                   </SectionWStatus>
+                  <OtherDetails $primary={items.warrantyStatus === "4"}>
+                    <TUD $class="t-u-d-t-warp">{items.comment}</TUD>
+                  </OtherDetails>
                   <CDF1>
-                    <span>สภาพเครื่อง ........................................................................................................................................................................</span>
-                    <span>อุปกรณ์ที่นำมาด้วย ..............................................................................................................................................................</span>
-                    <span>รายละเอียด <TUD>{items.repairDetails}</TUD></span>
-                    <span>..........................................................................................................................................................................................</span>
-                    <span>..........................................................................................................................................................................................</span>
-                    <span>..........................................................................................................................................................................................</span>
+                    <span>สภาพเครื่อง {items.repairInfo1 !== '' ? (<TUD>{items.repairInfo1}</TUD>) : " ........................................................................................................................................................................"}</span>
+                    <span>อุปกรณ์ที่นำมาด้วย {items.repairInfo2 !== '' ? (<TUD>{items.repairInfo2}</TUD>) : " .............................................................................................................................................................."}</span>
+                    <span>รายละเอียด {items.repairDetails !== '' ? (<TUD>{items.repairDetails}</TUD>) : " ........................................................................................................................................................................"}</span>
+                    {
+                      items.repairDetails === '' && <>
+                        <span>..........................................................................................................................................................................................</span>
+                        <span>..........................................................................................................................................................................................</span>
+                        <span>..........................................................................................................................................................................................</span>
+                      </>
+                    }
                   </CDF1>
                   <CDF2>
                     <FSF1 $t1="bd-1" $t2="s-f1">

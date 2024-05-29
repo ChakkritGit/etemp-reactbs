@@ -1,4 +1,4 @@
-import { devicesType } from "../../types/user.type"
+import { devicesType } from "../../types/device.type"
 import Chart from "react-apexcharts"
 
 type compareChart = {
@@ -23,7 +23,7 @@ const CompareChartComponent = (compareProps: compareChart) => {
       if (items.log.length > 0) {
         array.push({
           name: items.devSerial,
-          data: items.log.map((items) => items.tempAvg)
+          data: items.log?.map((items) => items.tempAvg)
         })
       }
     })
