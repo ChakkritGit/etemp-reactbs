@@ -1,6 +1,6 @@
 import axios from "axios"
 import { Noticontainer, NotiflexOne, NotiflexTwo } from "../../style/style"
-import { notificationType } from "../../types/notification.type" 
+import { notificationType } from "../../types/notification.type"
 import Loading from "../loading/loading"
 import { RiFileCloseLine } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
@@ -32,13 +32,13 @@ export default function Notificationdata(notilist: notilist) {
   return (
     notilist.data.length > 0 ?
       notilist.data.map((items, index) => (
-        <Noticontainer $primary={items.noti_status === '0'} key={index} onClick={() => setRead(items.noti_id)}>
+        <Noticontainer $primary={items.notiStatus === '0'} key={index} onClick={() => setRead(items.devId)}>
           <NotiflexOne>
-            <strong>{items.noti_detail}</strong>
+            <strong>{items.notiDetail}</strong>
             <span>{items.createAt.substring(11, 16)}</span>
           </NotiflexOne>
           <NotiflexTwo>
-            <span>{items.device.dev_name}</span>
+            <span>{items.device.devName}</span>
           </NotiflexTwo>
         </Noticontainer>
       ))

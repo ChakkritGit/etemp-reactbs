@@ -1,14 +1,14 @@
 type notificationType = {
-  noti_id: string,
-  dev_id: string,
-  noti_detail: string,
-  noti_status: string,
+  notiId: string,
+  devId: string,
+  notiDetail: string,
+  notiStatus: string,
   createAt: string,
   updateAt: string,
   device: {
-    dev_id: string,
-    dev_name: string,
-    dev_sn: string
+    devId: string,
+    devName: string,
+    devSerial: string
   }
 }
 

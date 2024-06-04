@@ -52,7 +52,7 @@ export default function Notification() {
   useEffect(() => {
     let count = 0
     notiData.forEach(items => {
-      if (items.noti_status === '0') {
+      if (items.notiStatus === '0') {
         count += 1
       }
     })
