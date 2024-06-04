@@ -19,12 +19,12 @@ margin: 1rem 0;
   justify-content: center;
   align-items: center;
   width: max-content;
-  height: 50px;
-  max-width: 200px;
-  max-height: 50px;
+  height: 65px;
+  max-width: 300px;
+  max-height: 70px;
   border-radius: var(--border-radius-small);
-  padding: .5rem;
-  border: 2px solid var(--main-color);
+  padding: .7rem 1rem;
+  border: 2px solid ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
   overflow: hidden;
 
   & > span {
@@ -33,9 +33,25 @@ margin: 1rem 0;
   }
 
   & > span > span {
-    color: var(--main-color);
+    color: ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
     font-weight: bold;
-    font-size: 16px;
+    font-size: 28px;
+  }
+}
+
+& > svg:nth-child(3) {
+    display: none;
+  }
+
+@media (max-width: 400px) {
+  flex-direction: column;
+  gap: 1rem;
+
+  & > svg:nth-child(2) {
+    display: none;
+  }
+  & > svg:nth-child(3) {
+    display: block;
   }
 }
 `

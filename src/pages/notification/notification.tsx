@@ -10,7 +10,7 @@ import Notificationdata from "../../components/notification/notificationdata"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
-import toast from "react-hot-toast"
+// import toast from "react-hot-toast"
 
 export default function Notification() {
   const { socketData, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
@@ -62,13 +62,13 @@ export default function Notification() {
   useEffect(() => {
     fetchData()
 
-    if (socketData !== '') {
-      // Toast.fire({
-      //   icon: "warning",
-      //   title: socketData,
-      // })
-      toast.success(socketData)
-    }
+    // if (socketData !== '') {
+    //   // Toast.fire({
+    //   //   icon: "warning",
+    //   //   title: socketData,
+    //   // })
+    //   toast.success(socketData)
+    // }
   }, [socketData])
 
   return (

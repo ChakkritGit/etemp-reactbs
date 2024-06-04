@@ -1,5 +1,5 @@
 import { Modal, Form, Row, Col, InputGroup } from "react-bootstrap"
-import { AddUserButton, FormBtn, FormFlexBtn, ModalHead } from "../../style/style"
+import { AddUserButton, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from "../../style/style"
 import { RiCloseLine, RiEditLine, RiUserAddLine } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
@@ -31,6 +31,7 @@ export default function Adduser(AdduserProp: adduserProp) {
     fileupload: null as File | null,
   })
   const [hosid, setHosid] = useState('')
+  const [userPicture, setUserPicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${userData?.userPic}`)
 
   useEffect(() => {
 
@@ -46,8 +47,14 @@ export default function Adduser(AdduserProp: adduserProp) {
   }
 
   const fileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    let reader = new FileReader()
     const fileInput = e.target
-    if (fileInput.files && fileInput.files.length > 0) {
+    if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
+      reader.readAsDataURL(e.target.files[0])
+      reader.onload = (event) => {
+        let img = event.target?.result
+        setUserPicture(img as string)
+      }
       setform({ ...form, fileupload: fileInput.files[0] as File })
     }
   }
@@ -243,7 +250,7 @@ export default function Adduser(AdduserProp: adduserProp) {
         : <AddUserButton onClick={openmodal} >
           <RiEditLine />
         </AddUserButton>}
-      <Modal show={show} onHide={closemodal}>
+      <Modal size="lg" show={show} onHide={closemodal}>
         <Modal.Header>
           <ModalHead>
             <strong>
@@ -377,11 +384,15 @@ export default function Adduser(AdduserProp: adduserProp) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('field_userpicture')}
-                    <Form.Control
-                      name="field_userpicture"
-                      type='file'
-                      onChange={fileSelect}
-                    />
+                    <ProfileFlex $radius={10}>
+                      <div>
+                        <img src={userPicture ? userPicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
+                        <label htmlFor={'user-file-upload'} >
+                          <RiEditLine />
+                          <input id="user-file-upload" type="file" onChange={fileSelect} />
+                        </label>
+                      </div>
+                    </ProfileFlex>
                   </Form.Label>
                 </InputGroup>
               </Col>

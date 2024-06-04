@@ -5,7 +5,7 @@ import { RiDeleteBin2Line } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
 import Adduser from "../../pages/users/adduser"
 import { swalWithBootstrapButtons } from "../dropdown/sweetalertLib"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { storeDispatchType } from "../../stores/store"
 import { fetchUserData } from "../../stores/userSlice"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import { responseType } from "../../types/response.type"
+import { usersType } from "../../types/user.type"
 
 export default function CardUser(userProp: cardType) {
   const { t } = useTranslation()
@@ -20,35 +22,40 @@ export default function CardUser(userProp: cardType) {
   const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { displayName, keyindex, userId, userLevel, userName, userPic } = userProp
 
-  const deleteUser = (uID: string) => {
+  const deleteUser = async (uID: string) => {
     const url: string = `${import.meta.env.VITE_APP_API}/user/${uID}`
-    axios
-      .delete(url, {
-        headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+    try {
+      const response = await axios
+        .delete<responseType<usersType>>(url, {
+          headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+        })
+      dispatch(fetchUserData(token))
+      Swal.fire({
+        title: t('alert_header_Success'),
+        text: response.data.message,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
       })
-      .then((responseData) => {
-        if (responseData.data.status === 200) {
-          dispatch(fetchUserData(token))
-          Swal.fire({
-            title: t('alert_header_Success'),
-            text: responseData.data.msg,
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-        } else {
-          Swal.fire({
-            title: t('alert_header_Error'),
-            text: responseData.data.msg,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-        }
-      })
-      .catch((error) => {
-        console.error("something wrong to delete user" + error)
-      })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: error.response?.data.message,
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: "Uknown Error",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      }
+    }
   }
 
   return (

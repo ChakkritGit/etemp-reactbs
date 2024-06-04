@@ -819,14 +819,14 @@ gap: .5rem;
 width: 30px;
 max-height: 30px;
 border-radius: var(--border-radius-small);
-border: 2px solid var(--warning-primary);
+border: 2px solid var(--danger-color);
 background-color: unset;
-color: var( --warning-primary);
+color: var(--danger-color);
 font-weight: bold;
 padding: .5rem;
 
 &:hover {
-  background-color: var(--warning-primary);
+  background-color: var(--danger-color);
   color: var(--white);
   transition: .3s;
 }
@@ -1559,7 +1559,7 @@ margin-top: 1rem;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: .5rem;
+  gap: 1rem;
   max-width: 1200px;
 }
 
@@ -3898,7 +3898,7 @@ max-height: calc(100dvh - 160px);
 overflow: scroll;
 `
 
-export const ProfileFlex = styled.div<{ $primary?: boolean }>`
+export const ProfileFlex = styled.div<{ $radius?: number }>`
 display: flex;
 gap: 2rem;
 margin: 1rem 0;
@@ -3921,7 +3921,7 @@ margin: 1rem 0;
   max-width: 150px;
   max-height: 150px;
   aspect-ratio: 1/1;
-  border-radius: 50%;
+  border-radius: ${porps => porps.$radius + '%'};
   border: 3px solid var(--white);
   object-fit: cover;
   overflow: hidden;

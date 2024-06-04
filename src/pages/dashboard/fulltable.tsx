@@ -205,7 +205,7 @@ export default function Fulltable() {
           {devData?.log[0]?.door1 ?
             <DeviceCardFooterDoor
               $primary={
-                items.door1
+                items.door1 === "1"
               }>
               {
                 items.door1 ?
@@ -219,7 +219,7 @@ export default function Fulltable() {
               <>
                 <DeviceCardFooterDoor
                   $primary={
-                    items.door1
+                    items.door1 === "1"
                   }>
                   {
                     items.door1 ?
@@ -230,7 +230,7 @@ export default function Fulltable() {
                 </DeviceCardFooterDoor>
                 <DeviceCardFooterDoor
                   $primary={
-                    items.door2
+                    items.door2 === "1"
                   }>
                   {
                     items.door2 ?
@@ -244,7 +244,7 @@ export default function Fulltable() {
               <>
                 <DeviceCardFooterDoor
                   $primary={
-                    items.door1
+                    items.door1 === "1"
                   }>
                   {
                     items.door1 ?
@@ -255,7 +255,7 @@ export default function Fulltable() {
                 </DeviceCardFooterDoor>
                 <DeviceCardFooterDoor
                   $primary={
-                    items.door2
+                    items.door2 === "1"
                   }>
                   {
                     items.door2 ?
@@ -266,7 +266,7 @@ export default function Fulltable() {
                 </DeviceCardFooterDoor>
                 <DeviceCardFooterDoor
                   $primary={
-                    items.door3
+                    items.door3 === "1"
                   }>
                   {
                     items.door3 ?
@@ -316,7 +316,7 @@ export default function Fulltable() {
             Door2: items.door1 ? t('open') : t('close'),
             Door3: items.door1 ? t('open') : t('close'),
             Connectivity: items.internet ? t('disconnect') : t('connected'),
-            Plug: items.ac  ? t('off') : t('on'),
+            Plug: items.ac ? t('off') : t('on'),
             Battery: items.battery + '%',
             Time: new Date(items.createAt).toLocaleString('th-TH', {
               day: '2-digit',

@@ -132,6 +132,7 @@ export default function Home() {
     }
   }
 
+  // นับจำนวนอุปกรณ์ที่มีปัญหารายวัน
   useEffect(() => {
     let updatedCount = { ...count }
 
@@ -195,7 +196,7 @@ export default function Home() {
     dispatch(setFilterDevice(devices.filter((items) =>
     (items.devSerial?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
       items.devName?.toLowerCase()?.includes(searchQuery.toLowerCase()))
-    ).filter((items) => items.devId === items.log[0]?.devId)))
+    )))
   }, [searchQuery, devices])
 
   const handleRowClicked = (row: devicesType) => {
@@ -226,7 +227,7 @@ export default function Home() {
     // },
     {
       name: t('field_device_name'),
-      selector: (items) => items.devDetail,
+      selector: (items) => items.devDetail ? items.devDetail : 'Name is not assigned',
       sortable: false,
       center: true
     },
@@ -291,9 +292,8 @@ export default function Home() {
           {
             items.probe[0]?.door === 1 ?
               <DeviceCardFooterDoor
-                $primary={
-                  items.log[0]?.door1
-                }>
+                $primary={items.log[0]?.door1 === "1"}
+              >
                 {
                   items.log[0]?.door1 ?
                     <RiDoorOpenLine />
@@ -305,9 +305,8 @@ export default function Home() {
               items.probe[0]?.door === 2 ?
                 <>
                   <DeviceCardFooterDoor
-                    $primary={
-                      items.log[0]?.door1
-                    }>
+                    $primary={items.log[0]?.door1 === "1"}
+                  >
                     {
                       items.log[0]?.door1 ?
                         <RiDoorOpenLine />
@@ -316,9 +315,8 @@ export default function Home() {
                     }
                   </DeviceCardFooterDoor>
                   <DeviceCardFooterDoor
-                    $primary={
-                      items.log[0]?.door2
-                    }>
+                    $primary={items.log[0]?.door2 === "1"}
+                  >
                     {
                       items.log[0]?.door2 ?
                         <RiDoorOpenLine />
@@ -330,9 +328,8 @@ export default function Home() {
                 :
                 <>
                   <DeviceCardFooterDoor
-                    $primary={
-                      items.log[0]?.door1
-                    }>
+                    $primary={items.log[0]?.door1 === "1"}
+                  >
                     {
                       items.log[0]?.door1 ?
                         <RiDoorOpenLine />
@@ -341,9 +338,8 @@ export default function Home() {
                     }
                   </DeviceCardFooterDoor>
                   <DeviceCardFooterDoor
-                    $primary={
-                      items.log[0]?.door2
-                    }>
+                    $primary={items.log[0]?.door2 === "1"}
+                  >
                     {
                       items.log[0]?.door2 ?
                         <RiDoorOpenLine />
@@ -352,9 +348,8 @@ export default function Home() {
                     }
                   </DeviceCardFooterDoor>
                   <DeviceCardFooterDoor
-                    $primary={
-                      items.log[0]?.door3
-                    }>
+                    $primary={items.log[0]?.door3 === "1"}
+                  >
                     {
                       items.log[0]?.door3 ?
                         <RiDoorOpenLine />
@@ -438,19 +433,19 @@ export default function Home() {
     },
     {
       name: 'ProbeType',
-      cell: (items, index) => <span key={index}>{items.probeType}</span>,
+      cell: (items, index) => <span key={index}>{items.probeType ? items.probeType : 'Type is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
       name: 'ProbeName',
-      cell: (items, index) => <span key={index}>{items.probeName}</span>,
+      cell: (items, index) => <span key={index}>{items.probeName ? items.probeName : 'Name is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
       name: 'Temperature',
-      cell: (items, index) => <span key={index}>{devicesFilter[0]?.log.filter((value) => value.probe === items.probeCh).length !== 0 ? devicesFilter[0]?.log.filter((value) => value.probe === items.probeCh).map((items) => items.tempAvg + ' °C') : 'no data found'}</span>,
+      cell: (items, index) => <span key={index}>{devicesFilter[0]?.log.filter((value) => value.probe === items.probeCh).length !== 0 ? devicesFilter[0]?.log.filter((value) => value.probe === items.probeCh).map((items) => items.tempAvg + ' °C')[0] : 'Data not found'}</span>,
       sortable: false,
       center: true
     },
@@ -463,7 +458,7 @@ export default function Home() {
             items.door === 1 ?
               <DeviceCardFooterDoor
                 $primary={
-                  devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1
+                  devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
                 }>
                 {
                   devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 ?
@@ -477,7 +472,7 @@ export default function Home() {
                 <>
                   <DeviceCardFooterDoor
                     $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1
+                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
                     }>
                     {
                       devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 ?
@@ -488,7 +483,7 @@ export default function Home() {
                   </DeviceCardFooterDoor>
                   <DeviceCardFooterDoor
                     $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2
+                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1"
                     }>
                     {
                       devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 ?
@@ -502,7 +497,7 @@ export default function Home() {
                 <>
                   <DeviceCardFooterDoor
                     $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1
+                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
                     }>
                     {
                       devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 ?
@@ -513,7 +508,7 @@ export default function Home() {
                   </DeviceCardFooterDoor>
                   <DeviceCardFooterDoor
                     $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2
+                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1"
                     }>
                     {
                       devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 ?
@@ -524,7 +519,7 @@ export default function Home() {
                   </DeviceCardFooterDoor>
                   <DeviceCardFooterDoor
                     $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door3
+                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door3 === "1"
                     }>
                     {
                       devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door3 ?
@@ -719,7 +714,8 @@ export default function Home() {
                 <div>
                   {
                     devicesFilter.length > 0 ?
-                      devicesFilter.filter((items) => items.devId === items.log[0]?.devId).map((item, index) =>
+                      devicesFilter.map((item, index) =>
+                      // devicesFilter.filter((items) => items.devId === items.log[0]?.devId).map((item, index) =>
                       (<DevicesInfoCard
                         devicesdata={item}
                         keyindex={index}

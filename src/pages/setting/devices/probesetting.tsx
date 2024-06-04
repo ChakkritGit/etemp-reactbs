@@ -62,13 +62,13 @@ export default function Probesetting() {
     },
     {
       name: 'ชื่อโพรบ',
-      cell: (items) => <span>{items.probeName}</span>,
+      cell: (items) => <span>{items.probeName ? items.probeName : 'Name is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
       name: 'ประเภทโพรบ',
-      cell: (items) => <span>{items.probeType}</span>,
+      cell: (items) => <span>{items.probeType ? items.probeType : 'Type is not assigned'}</span>,
       sortable: false,
       center: true
     },

@@ -4,7 +4,7 @@ import {
   RiListSettingsFill, RiListSettingsLine, RiSettings3Fill, RiSettings3Line, RiShieldCheckFill,
   RiShieldCheckLine, RiUser6Fill, RiUser6Line
 } from "react-icons/ri"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
   HospitalName, Li, LineHr,
@@ -20,45 +20,50 @@ import { setCount, setShowAside } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
+import { AboutVersion } from "../../style/components/sidebar"
 
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
   const { expand, token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const location = useLocation()
 
   const reFetchdata = async () => {
     if (tokenDecode.userId !== undefined) {
       try {
         const response = await axios
-          .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, {
-            headers: {
-              authorization: `Bearer ${token}`
-            }
-          })
-        const { displayName, userId, userLevel, userPic, userStatus, ward } = response.data.data
-        if (userStatus) {
-          localStorage.removeItem("hosimg")
-          localStorage.removeItem("userpicture")
-          localStorage.removeItem("hosname")
-          localStorage.removeItem("userlevel")
-          localStorage.removeItem("groupid")
-          localStorage.removeItem("userid")
-          localStorage.removeItem("displayname")
-          localStorage.removeItem("hosid")
-          localStorage.removeItem("token")
-          return navigate("/login")
-        } else {
-          localStorage.setItem("userid", userId)
-          localStorage.setItem("hosid", ward.hosId)
-          localStorage.setItem("displayname", displayName)
-          localStorage.setItem("userpicture", userPic)
-          localStorage.setItem("userlevel", userLevel)
-          localStorage.setItem("hosimg", ward.hospital.hosPic)
-          localStorage.setItem("hosname", ward.hospital.hosName)
-          localStorage.setItem("groupid", ward.hosId)
-        }
+          .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
+        const { displayName, userId, userLevel, userPic, ward } = response.data.data
+        localStorage.setItem("userid", userId)
+        localStorage.setItem("hosid", ward.hosId)
+        localStorage.setItem("displayname", displayName)
+        localStorage.setItem("userpicture", userPic)
+        localStorage.setItem("userlevel", userLevel)
+        localStorage.setItem("hosimg", ward.hospital.hosPic)
+        localStorage.setItem("hosname", ward.hospital.hosName)
+        localStorage.setItem("groupid", ward.hosId)
+        // if (userStatus) {
+        //   localStorage.removeItem("hosimg")
+        //   localStorage.removeItem("userpicture")
+        //   localStorage.removeItem("hosname")
+        //   localStorage.removeItem("userlevel")
+        //   localStorage.removeItem("groupid")
+        //   localStorage.removeItem("userid")
+        //   localStorage.removeItem("displayname")
+        //   localStorage.removeItem("hosid")
+        //   localStorage.removeItem("token")
+        //   return navigate("/login")
+        // } else {
+        //   localStorage.setItem("userid", userId)
+        //   localStorage.setItem("hosid", ward.hosId)
+        //   localStorage.setItem("displayname", displayName)
+        //   localStorage.setItem("userpicture", userPic)
+        //   localStorage.setItem("userlevel", userLevel)
+        //   localStorage.setItem("hosimg", ward.hospital.hosPic)
+        //   localStorage.setItem("hosname", ward.hospital.hosName)
+        //   localStorage.setItem("groupid", ward.hosId)
+        // }
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)
@@ -87,7 +92,7 @@ export default function sidebar() {
     changeFavicon(`${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`)
 
     return () => {
-      changeFavicon('/src/assets/images/Thanes.png')
+      changeFavicon('/Thanes.png')
     }
   }, [location])
 
@@ -260,6 +265,7 @@ export default function sidebar() {
             </Li>
           </Ul>
         </SettingSystem>
+        <AboutVersion $primary={expand}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
       </Sidebar>
     </>
   )

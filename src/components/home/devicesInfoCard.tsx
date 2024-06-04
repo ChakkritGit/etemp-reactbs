@@ -102,7 +102,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               devicesdata.probe[0]?.door === 1 ?
                 <DeviceCardFooterDoor
                   $primary={
-                    devicesdata.log[0]?.door1
+                    devicesdata.log[0]?.door1 === "1"
                   }>
                   {
                     devicesdata.log[0]?.door1 ?
@@ -116,7 +116,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                   <>
                     <DeviceCardFooterDoor
                       $primary={
-                        devicesdata.log[0]?.door1
+                        devicesdata.log[0]?.door1 === "1"
                       }>
                       {
                         devicesdata.log[0]?.door1 ?
@@ -127,7 +127,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                     </DeviceCardFooterDoor>
                     <DeviceCardFooterDoor
                       $primary={
-                        devicesdata.log[0]?.door2
+                        devicesdata.log[0]?.door2 === "1"
                       }>
                       {
                         devicesdata.log[0]?.door2 ?
@@ -141,7 +141,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                   <>
                     <DeviceCardFooterDoor
                       $primary={
-                        devicesdata.log[0]?.door1
+                        devicesdata.log[0]?.door1 === "1"
                       }>
                       {
                         devicesdata.log[0]?.door1 ?
@@ -152,7 +152,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                     </DeviceCardFooterDoor>
                     <DeviceCardFooterDoor
                       $primary={
-                        devicesdata.log[0]?.door2
+                        devicesdata.log[0]?.door2 === "1"
                       }>
                       {
                         devicesdata.log[0]?.door2 ?
@@ -163,7 +163,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                     </DeviceCardFooterDoor>
                     <DeviceCardFooterDoor
                       $primary={
-                        devicesdata.log[0]?.door3
+                        devicesdata.log[0]?.door3 === "1"
                       }>
                       {
                         devicesdata.log[0]?.door3 ?
@@ -232,7 +232,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               </TooltipSpan>
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo $primary={
-              devicesdata.log[0]?.sdCard
+              devicesdata.log[0]?.sdCard === "1"
             }>
               <RiSdCardMiniLine />
               <TooltipSpan>

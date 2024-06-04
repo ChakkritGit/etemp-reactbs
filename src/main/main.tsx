@@ -6,7 +6,7 @@ import { MouseEventHandler, useEffect } from "react"
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import { Button } from "react-bootstrap"
 import { RiMenuFoldLine } from "react-icons/ri"
-import { jwtToken } from "../types/component.type" 
+import { jwtToken } from "../types/component.type"
 import { jwtDecode } from "jwt-decode"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../types/redux.type"
@@ -46,9 +46,12 @@ export default function Main() {
     dispatch(filtersDevices(token))
     dispatch(fetchHospitals(token))
     dispatch(fetchWards(token))
-    dispatch(fetchDevicesData(token))
     dispatch(fetchUserData(token))
     dispatch(fetchProbeData(token))
+  }, [])
+
+  useEffect(() => {
+    dispatch(fetchDevicesData(token))
   }, [socketData])
 
   useEffect(() => {

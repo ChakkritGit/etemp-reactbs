@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { FormBtn, FormFlexBtn, ManageHospitalsAdd, ModalHead } from '../../../style/style'
+import { FormBtn, FormFlexBtn, ManageHospitalsAdd, ModalHead, ProfileFlex } from '../../../style/style'
 import { RiAddLine, RiCloseLine, RiEditLine } from 'react-icons/ri'
 import { useTranslation } from 'react-i18next'
 import { Col, Modal, Row, Form, InputGroup } from 'react-bootstrap'
@@ -27,6 +27,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
     telephone: pagestate !== "add" ? hosdata?.hosTelephone as string : '',
     picture: null as File | null,
   })
+  const [hosPicture, setHosPicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${hosdata?.hosPic}`)
 
   const openmodal = () => {
     setShow(true)
@@ -159,8 +160,14 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
   }
 
   const fileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    let reader = new FileReader()
     const fileInput = e.target
-    if (fileInput.files && fileInput.files.length > 0) {
+    if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
+      reader.readAsDataURL(e.target.files[0])
+      reader.onload = (event) => {
+        let img = event.target?.result
+        setHosPicture(img as string)
+      }
       setFormdata({ ...formdata, picture: fileInput.files[0] as File })
     }
   }
@@ -247,11 +254,15 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('form_label_hospic')}
-                    <Form.Control
-                      name='form_label_hospic'
-                      type='file'
-                      onChange={fileSelect}
-                    />
+                    <ProfileFlex $radius={10}>
+                      <div>
+                        <img src={hosPicture ? hosPicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
+                        <label htmlFor={'user-file-upload'} >
+                          <RiEditLine />
+                          <input id="user-file-upload" type="file" onChange={fileSelect} />
+                        </label>
+                      </div>
+                    </ProfileFlex>
                   </Form.Label>
                 </InputGroup>
               </Col>

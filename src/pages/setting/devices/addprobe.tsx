@@ -180,11 +180,9 @@ export default function Addprobe(addprobe: addprobeProps) {
   const handleHumChange = (_event: Event, newValue: number | number[]) => {
     setFormdata({ ...formdata, humvalue: newValue as number[] })
   }
-
   const handleAdjusttempChange = (_event: Event, newValue: number | number[]) => {
     setFormdata({ ...formdata, adjust_temp: newValue as number })
   }
-
   const handleAdjusthumChange = (_event: Event, newValue: number | number[]) => {
     setFormdata({ ...formdata, adjust_hum: newValue as number })
   }
@@ -496,7 +494,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                         min={-20}
                         max={20}
                         step={.1}
-                        value={formdata.adjust_temp as number}
+                        value={Number(formdata.adjust_temp)}
                         onChange={handleAdjusttempChange}
                         valueLabelDisplay="off" />
                     </FormSliderRange>
@@ -525,7 +523,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                         min={-20}
                         max={20}
                         step={.1}
-                        value={formdata.adjust_hum as number}
+                        value={Number(formdata.adjust_hum)}
                         onChange={handleAdjusthumChange}
                         valueLabelDisplay="off" />
                     </FormSliderRange>

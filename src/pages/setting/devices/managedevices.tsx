@@ -105,7 +105,7 @@ export default function Managedev() {
     },
     {
       name: t('ตำแหน่งติดตั้ง'),
-      cell: (item) => item.locInstall ? item.locInstall : '- -',
+      cell: (item) => item.locInstall || item.locInstall !== null ? item.locInstall : '- -',
       sortable: false,
       center: true,
     },

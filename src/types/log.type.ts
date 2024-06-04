@@ -9,18 +9,17 @@ type logtype = {
   humidityAvg: number,
   sendTime: string,
   ac: string,
-  door1: boolean,
-  door2: boolean,
-  door3: boolean,
-  internet: boolean,
+  door1: string,
+  door2: string,
+  door3: string,
+  internet: string,
   probe: string,
   battery: number,
   ambient: number,
-  sdCard: boolean,
+  sdCard: string,
   eventCounts: string,
   createAt: string,
   updateAt: string,
-  // รออัปเดทที่แน่ชัด
   device: devicesType
 }
 

@@ -1,5 +1,5 @@
 import { AddDevices, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from '../../../style/style'
-import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine } from 'react-icons/ri'
+import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine, RiLoopRightLine } from 'react-icons/ri'
 import { devicesType, managedevices } from '../../../types/device.type'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Col, Modal, Row, Form, InputGroup } from 'react-bootstrap'
@@ -17,6 +17,7 @@ import { responseType } from '../../../types/response.type'
 import { ManageConfigAdd, ModeNetworkFlex } from '../../../style/components/manage.config'
 import { ModalMuteHead } from '../../../style/home.styled'
 import { configType } from '../../../types/config.type'
+import { client } from '../../../services/mqtt'
 
 export default function Adddevform(managedevices: managedevices) {
   const { devdata, pagestate } = managedevices
@@ -33,6 +34,7 @@ export default function Adddevform(managedevices: managedevices) {
     dev_name: pagestate !== "add" ? devdata.devDetail : '',
     dev_sn: pagestate !== "add" ? devdata.devSerial : '',
     location_pic: null as File | null,
+    macAddWiFi: pagestate !== "add" ? devdata.config.macAddWiFi : ''
   })
   const [Mode, setMode] = useState(1)
   const [hosid, setHosid] = useState('')
@@ -75,16 +77,15 @@ export default function Adddevform(managedevices: managedevices) {
     if (formdata.dev_sn !== "") {
       try {
         const response = await axios.post<responseType<devicesType>>(url, {
-          devSerial: formdata.dev_sn
-        }, {
-          headers: {
-            authorization: `Bearer ${token}`
+          devSerial: formdata.dev_sn,
+          config: {
+            macAddWiFi: formdata.macAddWiFi
           }
-        })
+        }, { headers: { authorization: `Bearer ${token}` } })
         setShow(false)
         Swal.fire({
           title: t('alert_header_Success'),
-          text: response.data.message.toString(),
+          text: response.data.message,
           icon: "success",
           timer: 2000,
           showConfirmButton: false,
@@ -99,13 +100,14 @@ export default function Adddevform(managedevices: managedevices) {
           dev_name: '',
           dev_sn: '',
           location_pic: null as File | null,
+          macAddWiFi: ''
         })
         dispatch(fetchDevicesData(token))
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
             title: t('alert_header_Error'),
-            text: error.response?.data.message.toString(),
+            text: error.response?.data.message,
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -319,6 +321,10 @@ export default function Adddevform(managedevices: managedevices) {
     }
   }
 
+  const syncAdjusts = () => {
+    client.publish(`${devdata.devSerial}/adj`, 'on')
+  }
+
   return (
     <div>
       {
@@ -405,6 +411,24 @@ export default function Adddevform(managedevices: managedevices) {
                 </InputGroup>
               </Col>
               {
+                pagestate === "add" &&
+                <Col lg={pagestate === "add" ? 12 : 6}>
+                  <InputGroup className="mb-3">
+                    <Form.Label className="w-100">
+                      {t('devmac')}
+                      <Form.Control
+                        name='form_label_hosname'
+                        spellCheck={false}
+                        autoComplete='off'
+                        type='text'
+                        value={formdata.macAddWiFi}
+                        onChange={(e) => setFormdata({ ...formdata, macAddWiFi: e.target.value })}
+                      />
+                    </Form.Label>
+                  </InputGroup>
+                </Col>
+              }
+              {
                 pagestate === "edit" ?
                   <>
                     <Col lg={6}>
@@ -486,7 +510,7 @@ export default function Adddevform(managedevices: managedevices) {
                       <InputGroup className="mb-3">
                         <Form.Label className="w-auto">
                           {t('device_picture')}
-                          <ProfileFlex>
+                          <ProfileFlex $radius={10}>
                             <div>
                               <img src={devicePicture ? devicePicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
                               <label htmlFor={'user-file-upload'} >
@@ -556,6 +580,9 @@ export default function Adddevform(managedevices: managedevices) {
                     checked={Mode === 2}
                     onChange={() => setMode(2)}
                   />
+                  <button type='button' onClick={syncAdjusts}>
+                    <RiLoopRightLine size={24} />
+                  </button>
                 </ModeNetworkFlex>
               </Col>
               {

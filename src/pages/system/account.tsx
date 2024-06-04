@@ -141,7 +141,7 @@ export default function Account() {
   return (
     <AccountContainer>
       <h3>{t('profile')}</h3>
-      <ProfileFlex>
+      <ProfileFlex $radius={50}>
         <div>
           <img src={userpicture ? userpicture : `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}`} alt="user-picture" />
           <label htmlFor={'user-file-upload'} >

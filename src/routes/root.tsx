@@ -17,13 +17,14 @@ import {
 import { socket } from '../services/websocket'
 import Fullchart from '../pages/dashboard/fullchart'
 import Fulltable from '../pages/dashboard/fulltable'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../stores/store'
 import { setSocketData } from '../stores/utilsStateSlice'
+import { client } from '../services/mqtt'
 
 export default function Root() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -31,30 +32,51 @@ export default function Root() {
   useEffect(() => {
     try {
       socket.on("connect", () => {
-        console.log("Connected to Socket.io server")
-        dispatch(setSocketData("Connected to Socket.io server"))
+        console.log("Connected to Socket server")
+        toast.success("Connected to Socket server")
+        dispatch(setSocketData("Connected to Socket server"))
       })
 
-      socket.on("send_cmd", (response: any) => {
-        console.log("Response from Socket.io:", response)
+      socket.on("receive_message", (response) => {
+        console.log("Response from Socket:", response)
+        toast.success(response)
         dispatch(setSocketData(response))
       })
 
       socket.on("disconnect", (reason) => {
-        console.error("Disconnected from Socket.io server:", reason)
+        console.error("Disconnected from Socket server:", reason)
+        toast.success('Disconnected from Socket server')
         dispatch(setSocketData(reason))
       })
 
       socket.on("error", (error) => {
-        console.error("Socket.io error:", error)
+        console.error("Socket error:", error)
+        toast.error("Socket error:")
         dispatch(setSocketData(error))
       })
     } catch (error) {
-      console.error("Failed to connect to Socket.io server:", error)
+      console.error("Failed to connect to Socket server:", error)
+      toast.error("Failed to connect to Socket server")
       dispatch(setSocketData(error as string))
     }
   }, [])
 
+  useEffect(() => {
+    try {
+      client.on('connect', () => {
+        console.log('Connected to MQTT server')
+        toast.success('Connected to MQTT server')
+      })
+
+      client.on('disconnect', () => {
+        console.log('Disconnected to MQTT server')
+        toast.success('Disconnected to MQTT server')
+      })
+    } catch (error) {
+      console.log("MQTT Error: ", error)
+      toast.error("MQTT Error")
+    }
+  }, [])
 
   return (
     <BrowserRouter>

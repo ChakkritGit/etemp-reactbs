@@ -1,12 +1,12 @@
-import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap"
+import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap"
 import {
   FormBtn, FormFlexBtn, FormSliderRange, LineHr, ModalHead, RangeInputText,
   SliderFlex, SliderLabelFlex, SliderRangeFlex
 } from "../../style/style"
-import { RiArrowLeftSLine, RiArrowRightLine, RiCloseLine, RiSpeakerLine } from "react-icons/ri"
+import { RiArrowDownLine, RiArrowLeftSLine, RiArrowRightLine, RiCloseLine, RiSpeakerLine, RiVolumeMuteLine, RiVolumeUpLine } from "react-icons/ri"
 import { Slider } from "@mui/material"
 import { AdjustRealTimeFlex, ModalMuteHead, OpenSettingBuzzer } from "../../style/home.styled"
-import { Dispatch, FormEvent, SetStateAction, useState } from "react"
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
 import { DeviceStateStore, HomeStatusErrCount, UtilsStateStore } from "../../types/redux.type"
 import { ActionCreatorWithPayload, AsyncThunk } from "@reduxjs/toolkit"
 import { devicesType } from "../../types/device.type"
@@ -15,6 +15,11 @@ import axios, { AxiosError } from "axios"
 import Swal from "sweetalert2"
 import { useTranslation } from "react-i18next"
 import { responseType } from "../../types/response.type"
+import { client } from "../../services/mqtt"
+import { configType } from "../../types/config.type"
+import { ConfigBtn } from "../../style/components/manage.config"
+import { MuteEtemp } from "../../style/components/sound.setting"
+// import toast from "react-hot-toast"
 
 type modalAdjustType = {
   fetchData: AsyncThunk<devicesType[], string, {}>,
@@ -36,15 +41,18 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     adjust_hum: devicesdata.probe[0]?.adjustHum
   })
   const [muteMode, setMuteMode] = useState({
-    choichOne: 'immediately',
-    choichtwo: 'send',
-    choichthree: 'onetime',
-    choichfour: 'on'
+    choichOne: devicesdata.config.notiTime === "0" ? 'immediately' : 'after',
+    choichtwo: devicesdata.config.backToNormal === "0" ? 'donotsend' : 'send',
+    choichthree: devicesdata.config.repeat === "0" ? "onetime" : 'every',
+    choichfour: devicesdata.config.mobileNoti === "1" ? 'on' : 'off'
   })
   const [sendTime, setSendTime] = useState({
-    after: 1,
-    every: 1
+    after: devicesdata.config.notiTime > "0" ? Number(devicesdata.config.notiTime) : 0,
+    every: devicesdata.config.repeat !== "0" ? Number(devicesdata.config.repeat) : 0
   })
+  const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
+  const [selectProbeI, setSelectProbeI] = useState(devicesdata.probe[0]?.probeId)
+  const [muteEtemp, setMuteEtemp] = useState(false)
   const { choichOne, choichfour, choichthree, choichtwo } = muteMode
   const { userLevel } = tokenDecode
 
@@ -65,20 +73,17 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const url: string = `${import.meta.env.VITE_APP_API}/device/${devicesdata.devId}`
+    const url: string = `${import.meta.env.VITE_APP_API}/probe/${selectProbeI}`
+    const bodyData = {
+      tempMin: tempvalue[0],
+      tempMax: tempvalue[1],
+      humMin: humvalue[0],
+      humMax: humvalue[1],
+      adjustTemp: formdata.adjust_temp,
+      adjustHum: formdata.adjust_hum,
+    }
     try {
-      const response = await axios.put<responseType<devicesType>>(url, {
-        temp_min: tempvalue[0],
-        temp_max: tempvalue[1],
-        hum_min: humvalue[0],
-        hum_max: humvalue[1],
-        adjust_temp: formdata.adjust_temp,
-        adjust_hum: formdata.adjust_hum,
-      }, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      })
+      const response = await axios.put<responseType<devicesType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
       setCount({
         probe: 0,
         door: 0,
@@ -98,6 +103,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
         showConfirmButton: false,
       })
       fetchData(token)
+      client.publish(`${devicesdata.devSerial}/adj`, 'on')
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
@@ -121,6 +127,43 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
 
   const handleSubmitNoti = async (e: FormEvent) => {
     e.preventDefault()
+    const url: string = `${import.meta.env.VITE_APP_API}/config/${devicesdata.devId}`
+    const bodyData = {
+      notiTime: muteMode.choichOne === "immediately" ? 0 : sendTime.after,
+      backToNormal: muteMode.choichtwo === "send" ? "1" : "0",
+      repeat: muteMode.choichthree === "onetime" ? "0" : sendTime.every.toString(),
+      mobileNoti: muteMode.choichfour === "on" ? "1" : "0"
+    }
+    try {
+      const response = await axios.put<responseType<configType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
+      Swal.fire({
+        title: t('alert_header_Success'),
+        text: response.data.message,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+      fetchData(token)
+      client.publish(`${devicesdata.devSerial}/adj`, 'on')
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: error.response?.data.message,
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        Swal.fire({
+          title: t('alert_header_Error'),
+          text: 'Unknown Error',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      }
+    }
   }
 
   const closemodal = () => {
@@ -136,6 +179,52 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     setShowSetting(false)
     setShow(true)
   }
+
+  useEffect(() => {
+    if (show) {
+      client.subscribe(`${devicesdata.devSerial}/temp/real`, (err) => {
+        if (err) {
+          console.log("MQTT Suubscribe Error", err)
+        }
+      })
+
+      client.publish(`${devicesdata.devSerial}/temp`, 'on')
+
+      client.on('message', (_topic, message) => {
+        setMqttData(JSON.parse(message.toString()))
+      })
+
+      client.on("error", (err) => {
+        console.log("MQTT Error: ", err)
+        client.end()
+      })
+
+      client.on("reconnect", () => {
+        console.log("MQTT Reconnecting...")
+      })
+    } else {
+      client.publish(`${devicesdata.devSerial}/temp`, 'off')
+    }
+  }, [show])
+
+  const selectProbe = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectProbeI(e.target.value)
+    const newProbeData = devicesdata.probe.filter((items) => items.probeId === e.target.value)
+    setFormdata({ ...formdata, adjust_temp: newProbeData[0]?.adjustTemp, adjust_hum: newProbeData[0]?.adjustHum })
+    setHumvalue([newProbeData[0]?.humMin, newProbeData[0]?.humMax])
+    setTempvalue([newProbeData[0]?.tempMin, newProbeData[0]?.tempMax])
+  }
+
+  const switchMute = () => {
+    setMuteEtemp(!muteEtemp)
+  }
+
+  useEffect(() => {
+    if (muteEtemp) {
+      client.publish(`${devicesdata.devSerial}/mute`, 'on')
+    }
+  }, [muteEtemp])
+
   return (
     <>
       <Modal size="lg" show={show} onHide={closemodal}>
@@ -158,10 +247,10 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               <Form.Label>
                 <span style={{ fontWeight: 'bold' }}>เลือกโพรบ</span>
                 <LineHr />
-                <Form.Select aria-label="Default select example" className="mt-2">
-                  <option selected value="1">โพรบ 1</option>
-                  <option value="2">โพรบ 2</option>
-                  <option value="3">โพรบ 3</option>
+                <Form.Select value={selectProbeI} onChange={selectProbe} className="mt-2">
+                  {devicesdata.probe.map((items) => {
+                    return <option key={items.probeId} value={items.probeId}>{items.probeName ? items.probeName : 'Name is not assigned'}</option>
+                  })}
                 </Form.Select>
               </Form.Label>
             </Row>
@@ -323,21 +412,22 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 </InputGroup>
               </Col>
               <Col lg={12}>
-                <AdjustRealTimeFlex>
+                <AdjustRealTimeFlex $primary={Number((mqttData.temp + formdata.adjust_temp).toFixed(2)) >= tempvalue[1] || Number((mqttData.temp + formdata.adjust_temp).toFixed(2)) <= tempvalue[0]}>
                   <div>
                     <span>อุณหภูมิปัจจุบัน</span>
                     <div>
                       <span>
-                        <span>- -</span> °C
+                        <span>{mqttData.temp.toFixed(2)}</span> °C
                       </span>
                     </div>
                   </div>
                   <RiArrowRightLine size={32} fill="grey" />
+                  <RiArrowDownLine size={32} fill="grey" />
                   <div>
                     <span>อุณหภูมิหลังปรับ</span>
                     <div>
                       <span>
-                        <span>- -</span> °C
+                        <span>{(mqttData.temp + formdata.adjust_temp).toFixed(2)}</span> °C
                       </span>
                     </div>
                   </div>
@@ -348,10 +438,28 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   <span style={{ fontWeight: 'bold' }}>ตั้งค่าเสียง</span>
                   <LineHr />
                 </Form.Label>
-                <OpenSettingBuzzer type="button" onClick={openSetting}>
-                  <RiSpeakerLine size={24} />
-                  <span>Sound and Mute Settings</span>
-                </OpenSettingBuzzer>
+              </Col>
+              <Col lg={6}>
+                <Form.Label className="w-100">
+                  <span>iTEMP</span>
+                  <OpenSettingBuzzer type="button" className="mt-3" onClick={openSetting}>
+                    <RiSpeakerLine size={24} />
+                    <span>Sound and Mute Settings</span>
+                  </OpenSettingBuzzer>
+                </Form.Label>
+              </Col>
+              <Col lg={6}>
+                <Form.Label className="w-100">
+                  <span>eTEMP</span>
+                  {
+                    devicesdata.devSerial.substring(0, 3) === "eTP" &&
+                    <MuteEtemp type="button" className="mt-3" onClick={switchMute} $primary={muteEtemp}>
+                      <div className="icon">
+                        {muteEtemp ? <RiVolumeMuteLine /> : <RiVolumeUpLine />}
+                      </div>
+                    </MuteEtemp>
+                  }
+                </Form.Label>
               </Col>
             </Row>
           </Modal.Body>
@@ -405,7 +513,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                       />
                     </Col>
                     {choichOne === 'after' && <InputGroup className="mb-3 mt-2">
-                      <Button onClick={() => sendTime.after >= 2 && setSendTime({ ...sendTime, after: sendTime.after - 1 })}>-</Button>
+                      <ConfigBtn type="button" onClick={() => sendTime.after >= 2 && setSendTime({ ...sendTime, after: sendTime.after - 1 })}>-</ConfigBtn>
                       <Form.Control
                         type="number"
                         step={1}
@@ -414,7 +522,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         value={sendTime.after}
                         onChange={(e) => setSendTime({ ...sendTime, after: Number(e.target.value) })}
                       />
-                      <Button onClick={() => sendTime.after <= 9 && setSendTime({ ...sendTime, after: sendTime.after + 1 })}>+</Button>
+                      <ConfigBtn type="button" onClick={() => sendTime.after <= 9 && setSendTime({ ...sendTime, after: sendTime.after + 1 })}>+</ConfigBtn>
                     </InputGroup>}
                   </Row>
                 </Row>
@@ -464,7 +572,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         onChange={() => setMuteMode({ ...muteMode, choichthree: 'every' })}
                       />
                       {choichthree === 'every' && <InputGroup className="mb-3 mt-2">
-                        <Button onClick={() => sendTime.every >= 2 && setSendTime({ ...sendTime, every: sendTime.every - 1 })}>-</Button>
+                        <ConfigBtn type="button" onClick={() => sendTime.every >= 2 && setSendTime({ ...sendTime, every: sendTime.every - 1 })}>-</ConfigBtn>
                         <Form.Control
                           type="number"
                           step={1}
@@ -473,7 +581,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                           value={sendTime.every}
                           onChange={(e) => setSendTime({ ...sendTime, every: Number(e.target.value) })}
                         />
-                        <Button onClick={() => sendTime.every <= 9 && setSendTime({ ...sendTime, every: sendTime.every + 1 })}>+</Button>
+                        <ConfigBtn type="button" onClick={() => sendTime.every <= 9 && setSendTime({ ...sendTime, every: sendTime.every + 1 })}>+</ConfigBtn>
                       </InputGroup>}
                     </Col>
                   </Row>

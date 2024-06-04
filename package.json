@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "npm i --force && tsc && vite build --mode production && docker build -t konmek43/etemp . && docker run --name etemp-frontend -d --restart=always --network=proxy konmek43/etemp",
+        "build": "npm i --force && tsc && vite build --mode production && docker build -t thanespgm/etemp-frontend . && docker run --name etemp-frontend -d --restart=always --network=proxy thanespgm/etemp-frontend",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
@@ -24,6 +24,7 @@
         "html2canvas": "^1.4.1",
         "i18next": "^23.11.5",
         "jwt-decode": "^4.0.0",
+        "mqtt": "^5.7.0",
         "react": "^18.2.0",
         "react-apexcharts": "^1.4.1",
         "react-bootstrap": "^2.10.1",
@@ -44,6 +45,7 @@
         "socket.io-client": "^4.7.4",
         "styled-components": "^6.1.11",
         "sweetalert2": "^11.11.0",
+        "uuid": "^9.0.1",
         "vite": "^5.2.11",
         "xlsx": "file:vendor\\xlsx-0.20.2.tgz"
     },
@@ -52,6 +54,7 @@
         "@types/react": "^18.3.2",
         "@types/react-dom": "^18.3.0",
         "@types/react-helmet": "^6.1.11",
+        "@types/uuid": "^9.0.8",
         "@typescript-eslint/eslint-plugin": "^7.10.0",
         "@vitejs/plugin-react": "^4.2.1",
         "eslint": "^9.3.0",
