@@ -42,10 +42,10 @@ export default function Login() {
       document.title = `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
     }
 
-    changeFavicon('/Thanes.png')
+    changeFavicon('Thanes.png')
 
     return () => {
-      changeFavicon('/Thanes.png')
+      changeFavicon('Thanes.png')
     }
   }, [location])
 

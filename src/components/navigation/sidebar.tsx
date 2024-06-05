@@ -92,7 +92,7 @@ export default function sidebar() {
     changeFavicon(`${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`)
 
     return () => {
-      changeFavicon('/Thanes.png')
+      changeFavicon('Thanes.png')
     }
   }, [location])
 

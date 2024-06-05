@@ -159,30 +159,28 @@ export default function Managedev() {
   const filteredItems = devices.filter(item => item.devSerial && item.devSerial.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
-    <>
-      {
-        devices.length > 0 ?
-          <ManageDevicesContainer>
-            <ManageHospitalsHeader className="mb-3 mt-3">
-              <h3>{t('setting_tab_devices')}</h3>
-              <Adddevform
-                pagestate={'add'}
-                devdata={{} as devicesType}
-              />
-            </ManageHospitalsHeader>
-            <ManageDeviceBody>
-              <DataTable
-                responsive={true}
-                columns={columns}
-                data={filteredItems}
-                paginationPerPage={10}
-                pagination
-              />
-            </ManageDeviceBody>
-          </ManageDevicesContainer>
-          :
-          <PageLoading />
-      }
-    </>
+    <ManageDevicesContainer>
+      <ManageHospitalsHeader className="mb-3 mt-3">
+        <h3>{t('setting_tab_devices')}</h3>
+        <Adddevform
+          pagestate={'add'}
+          devdata={{} as devicesType}
+        />
+      </ManageHospitalsHeader>
+      <ManageDeviceBody>
+        {
+          devices.length > 0 ?
+            <DataTable
+              responsive={true}
+              columns={columns}
+              data={filteredItems}
+              paginationPerPage={10}
+              pagination
+            />
+            :
+            <PageLoading />
+        }
+      </ManageDeviceBody>
+    </ManageDevicesContainer>
   )
 }

@@ -3898,7 +3898,7 @@ max-height: calc(100dvh - 160px);
 overflow: scroll;
 `
 
-export const ProfileFlex = styled.div<{ $radius?: number }>`
+export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number }>`
 display: flex;
 gap: 2rem;
 margin: 1rem 0;
@@ -3906,20 +3906,20 @@ margin: 1rem 0;
 &>div {
   display: block;
   position: relative;
-  width: 150px;
-  height: 150px;
-  max-width: 150px;
-  max-height: 150px;
+  width: ${props => props.$dimension + 'px'};
+  height: ${props => props.$dimension + 'px'};
+  max-width: ${props => props.$dimension + 'px'};
+  max-height: ${props => props.$dimension + 'px'};
   aspect-ratio: 150 / 150;
   overflow: hidden;
 }
 
 &>div>img {
   position: absolute;
-  width: 150px;
-  height: 150px;
-  max-width: 150px;
-  max-height: 150px;
+  width: ${props => props.$dimension + 'px'};
+  height: ${props => props.$dimension + 'px'};
+  max-width: ${props => props.$dimension + 'px'};
+  max-height: ${props => props.$dimension + 'px'};
   aspect-ratio: 1/1;
   border-radius: ${porps => porps.$radius + '%'};
   border: 3px solid var(--white);

@@ -10,7 +10,7 @@ const PageLoading = () => {
 
   setInterval(() => {
     setTimeOut(true)
-  }, 15000)
+  }, 8000)
 
   return (
     <>

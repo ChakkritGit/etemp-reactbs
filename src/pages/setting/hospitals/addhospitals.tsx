@@ -185,7 +185,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
             <RiEditLine />
           </ManageHospitalsAdd>
       }
-      <Modal show={show} onHide={closemodal}>
+      <Modal size='lg' show={show} onHide={closemodal}>
         <Modal.Header>
           {/* {JSON.stringify(formdata)} */}
           <ModalHead>
@@ -254,7 +254,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('form_label_hospic')}
-                    <ProfileFlex $radius={10}>
+                    <ProfileFlex $radius={10} $dimension={250}>
                       <div>
                         <img src={hosPicture ? hosPicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
                         <label htmlFor={'user-file-upload'} >

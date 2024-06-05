@@ -1,6 +1,14 @@
 {
+  "manifest_version": 3,
+  "version": "1.0",
   "name": "eTEMP",
   "short_name": "eTEMP",
+  "description": "Webapp tracking temperature and alerts",
+  "author": "Thanes Development Co. Ltd",
+  "start_url": ".",
+  "display": "minimal-ui",
+  "background_color": "#fdfdfd",
+  "theme_color": "#fdfdfd",
   "icons": [
     {
       "src": "128.png",
@@ -33,9 +41,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FFFFFF"
+  ]
 }

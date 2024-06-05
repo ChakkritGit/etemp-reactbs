@@ -1,5 +1,5 @@
 import { AddDevices, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from '../../../style/style'
-import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine, RiLoopRightLine } from 'react-icons/ri'
+import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine } from 'react-icons/ri'
 import { devicesType, managedevices } from '../../../types/device.type'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Col, Modal, Row, Form, InputGroup } from 'react-bootstrap'
@@ -103,6 +103,7 @@ export default function Adddevform(managedevices: managedevices) {
           macAddWiFi: ''
         })
         dispatch(fetchDevicesData(token))
+        client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
@@ -165,6 +166,7 @@ export default function Adddevform(managedevices: managedevices) {
           showConfirmButton: false,
         })
         dispatch(fetchDevicesData(token))
+        client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
@@ -198,7 +200,7 @@ export default function Adddevform(managedevices: managedevices) {
   const handleSubmitDHCP = async (e: FormEvent) => {
     e.preventDefault()
     const { MacAddress, Password, SSID } = netConfig
-    if (SSID !== '' && Password !== '') {
+    if (SSID !== '') {
       try {
         const bodyData = {
           ssid: SSID,
@@ -219,6 +221,7 @@ export default function Adddevform(managedevices: managedevices) {
           showConfirmButton: false,
         })
         dispatch(fetchDevicesData(token))
+        client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
@@ -274,6 +277,7 @@ export default function Adddevform(managedevices: managedevices) {
           showConfirmButton: false,
         })
         dispatch(fetchDevicesData(token))
+        client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
@@ -319,10 +323,6 @@ export default function Adddevform(managedevices: managedevices) {
       }
       setFormdata({ ...formdata, location_pic: fileInput.files[0] as File })
     }
-  }
-
-  const syncAdjusts = () => {
-    client.publish(`${devdata.devSerial}/adj`, 'on')
   }
 
   return (
@@ -510,7 +510,7 @@ export default function Adddevform(managedevices: managedevices) {
                       <InputGroup className="mb-3">
                         <Form.Label className="w-auto">
                           {t('device_picture')}
-                          <ProfileFlex $radius={10}>
+                          <ProfileFlex $radius={10} $dimension={250}>
                             <div>
                               <img src={devicePicture ? devicePicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
                               <label htmlFor={'user-file-upload'} >
@@ -580,9 +580,6 @@ export default function Adddevform(managedevices: managedevices) {
                     checked={Mode === 2}
                     onChange={() => setMode(2)}
                   />
-                  <button type='button' onClick={syncAdjusts}>
-                    <RiLoopRightLine size={24} />
-                  </button>
                 </ModeNetworkFlex>
               </Col>
               {

@@ -31,24 +31,6 @@ export const ModeNetworkFlex = styled.div<{ $primary?: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 1rem;
-
-  & > button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 40px;
-    background-color: transparent;
-    color: var(--main-color);
-    border: 2px solid var(--main-color);
-    border-radius: .5rem;
-
-    &:hover {
-      background-color: var(--main-color);
-      color: var(--white);
-      transition: .3s
-    }
-  }
 `
 
 export const ConfigBtn = styled.button<{ $primary?: boolean }>`
