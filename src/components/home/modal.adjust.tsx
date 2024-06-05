@@ -167,6 +167,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   }
 
   const closemodal = () => {
+    client.publish(`${devicesdata.devSerial}/temp`, 'off')
     setShow(false)
   }
 
@@ -202,8 +203,6 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       client.on("reconnect", () => {
         console.log("MQTT Reconnecting...")
       })
-    } else {
-      client.publish(`${devicesdata.devSerial}/temp`, 'off')
     }
   }, [show])
 

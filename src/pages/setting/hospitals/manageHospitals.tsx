@@ -137,7 +137,8 @@ export default function ManageHospitals() {
     },
     {
       name: t('hos_action'),
-      cell: (item, index) => (
+      cell: (item, index) => 
+        item.hosId !== "HID-DEVELOPMENT" ? (
         <Actiontablehos key={index}>
           <Addhospitals
             pagestate={'edit'}
@@ -170,7 +171,8 @@ export default function ManageHospitals() {
             <RiDeleteBin2Line />
           </DelUserButton>
         </Actiontablehos>
-      ),
+      ):
+      <></>,
       center: true,
       sortable: false,
     },
@@ -193,37 +195,41 @@ export default function ManageHospitals() {
     },
     {
       name: t('hos_action'),
-      cell: (item, index) => (
-        <Actiontablehos key={index}>
-          <Addward
-            pagestate={'edit'}
-            warddata={{
-              group_id: item.wardId,
-              group_name: item.wardName,
-              hospital: item.hospital
-            }}
-            key={item.wardId}
-          />
-          <DelUserButton onClick={() =>
-            swalWithBootstrapButtons
-              .fire({
-                title: t('deleteuserTitle'),
-                text: t('deleteuserText'),
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: t('deletebtn'),
-                cancelButtonText: t('cancelbtn'),
-                reverseButtons: false,
-              })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  deleteward(item.wardId)
-                }
-              })}>
-            <RiDeleteBin2Line />
-          </DelUserButton>
-        </Actiontablehos>
-      ),
+      cell: (item, index) =>
+        item.hosId !== "HID-DEVELOPMENT" ?
+          (
+            <Actiontablehos key={index}>
+              <Addward
+                pagestate={'edit'}
+                warddata={{
+                  group_id: item.wardId,
+                  group_name: item.wardName,
+                  hospital: item.hospital
+                }}
+                key={item.wardId}
+              />
+              <DelUserButton onClick={() =>
+                swalWithBootstrapButtons
+                  .fire({
+                    title: t('deleteuserTitle'),
+                    text: t('deleteuserText'),
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: t('deletebtn'),
+                    cancelButtonText: t('cancelbtn'),
+                    reverseButtons: false,
+                  })
+                  .then((result) => {
+                    if (result.isConfirmed) {
+                      deleteward(item.wardId)
+                    }
+                  })}>
+                <RiDeleteBin2Line />
+              </DelUserButton>
+            </Actiontablehos>
+          )
+          :
+          <></>,
       center: true,
       sortable: false,
     },

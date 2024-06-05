@@ -239,7 +239,7 @@ export default function Home() {
     },
     {
       name: t('tb_install_location'),
-      selector: (items) => items.locInstall ? items.locInstall : '- -',
+      selector: (items) => items.locInstall !== 'null' ? items.locInstall : '- -',
       sortable: false,
       center: true
     },
