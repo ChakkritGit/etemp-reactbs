@@ -245,7 +245,7 @@ export default function Home() {
     },
     {
       name: t('temperature'),
-      selector: (items) => items.log[0]?.tempAvg ? items.log[0].tempAvg.toFixed(2) + ' °C' : 'No data',
+      cell: (items) => <span key={items.devId}>{items.log[0]?.tempAvg ?? 'No data'}</span>,
       sortable: false,
       center: true,
       width: '80px'
@@ -445,7 +445,7 @@ export default function Home() {
     },
     {
       name: 'Temperature',
-      cell: (items, index) => <span key={index}>{devicesFilter[0]?.log.filter((value) => value.probe === items.probeCh).length !== 0 ? devicesFilter[0]?.log.filter((value) => value.probe === items.probeCh).map((items) => items.tempAvg + ' °C')[0] : 'Data not found'}</span>,
+      cell: (items, index) => <span key={index}>{devicesFilter.filter((devItems) => devItems.devId === items.devId)[0]?.log[0]?.tempAvg ? devicesFilter.filter((devItems) => devItems.devId === items.devId)[0]?.log[0]?.tempAvg + ' °C' : 'Data not found'}</span>,
       sortable: false,
       center: true
     },
