@@ -28,7 +28,11 @@ type devices = {
 interface devicesType extends devices {
   log: logtype[],
   probe: probeType[],
-  config: configType
+  config: configType,
+  _count?: {
+    warranty: number,
+    repair: number
+  }
 }
 
 type managedevices = {

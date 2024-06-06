@@ -2,7 +2,7 @@ import { Modal, Form, Row, Col, InputGroup } from "react-bootstrap"
 import { AddUserButton, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from "../../style/style"
 import { RiCloseLine, RiEditLine, RiUserAddLine } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, FormEvent, useState } from "react"
 import { adduserProp } from "../../types/prop.type"
 import HospitalDropdown from "../../components/dropdown/hospitalDropdown"
 import WardDropdown from "../../components/dropdown/wardDropdown"
@@ -32,10 +32,6 @@ export default function Adduser(AdduserProp: adduserProp) {
   })
   const [hosid, setHosid] = useState('')
   const [userPicture, setUserPicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${userData?.userPic}`)
-
-  useEffect(() => {
-
-  }, [show])
 
   const openmodal = () => {
     setShow(true)
@@ -73,26 +69,29 @@ export default function Adduser(AdduserProp: adduserProp) {
 
   const reFetchdata = async () => {
     const url: string = `${import.meta.env.VITE_APP_API}/user/${tokenDecode?.userId}`
-    await axios
-      .get<responseType<usersType>>(url, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      })
-      .then((responseData) => {
-        const { displayName, userId, userLevel, userPic, ward, wardId } = responseData.data.data
-        localStorage.setItem("userid", userId)
-        localStorage.setItem("hosid", ward.hosId)
-        localStorage.setItem("displayname", displayName)
-        localStorage.setItem("userpicture", userPic)
-        localStorage.setItem("userlevel", userLevel)
-        // localStorage.setItem("hosimg", responseData.data.value.ward.hospital.hos_picture)
-        // localStorage.setItem("hosname", responseData.data.value.ward.hospital.hos_name)
-        localStorage.setItem("groupid", wardId)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    try {
+      const response = await axios
+        .get<responseType<usersType>>(url, {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        })
+      const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
+      localStorage.setItem("userid", userId)
+      localStorage.setItem("hosid", ward.hosId)
+      localStorage.setItem("displayname", displayName)
+      localStorage.setItem("userpicture", userPic)
+      localStorage.setItem("userlevel", userLevel)
+      // localStorage.setItem("hosimg", responseData.data.value.ward.hospital.hos_picture)
+      // localStorage.setItem("hosname", responseData.data.value.ward.hospital.hos_name)
+      localStorage.setItem("groupid", wardId)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message)
+      } else {
+        console.log("Uknown Error: ", error)
+      }
+    }
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -276,7 +275,9 @@ export default function Adduser(AdduserProp: adduserProp) {
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
                         {t('field_hospitals')}
-                        <HospitalDropdown setHos_id={setHosid} />
+                        <HospitalDropdown
+                          setHos_id={setHosid}
+                        />
                       </Form.Label>
                     </InputGroup>
                   </Col>
@@ -290,7 +291,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                     <WardDropdown
                       setState_ward={setValuestate}
                       Hosid={pagestate === "add" ? hosid : String(userData?.hosId)}
-                      Group_ID={String(userData?.userId)}
+                      Group_ID={String(userData?.wardId)}
                     />
                   </Form.Label>
                 </InputGroup>

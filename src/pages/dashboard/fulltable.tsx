@@ -302,7 +302,6 @@ export default function Fulltable() {
   const convertArrayOfObjectsToExcel = (array: logtype[]) => {
     return new Promise<boolean>((resolve, reject) => {
       if (array.length > 0) {
-        console.log(array)
         const newArray = array.map((items, index) => {
           return {
             No: index + 1,

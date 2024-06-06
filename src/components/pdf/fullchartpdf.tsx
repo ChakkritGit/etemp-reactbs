@@ -15,7 +15,6 @@ type pdftype = {
 
 export default function Fullchartpdf(pdftype: pdftype) {
   const { chartIMG, datetime, dev_name, dev_sn, hospital, title, ward } = pdftype
-  console.log(chartIMG)
 
   return (
     <Document

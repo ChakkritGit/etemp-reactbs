@@ -75,6 +75,7 @@ export default function Permission() {
               userId={item.userId}
               hosId={item.ward.hosId}
               userStatus={item.userStatus}
+              wardId={item.wardId}
             />
           ))
         }

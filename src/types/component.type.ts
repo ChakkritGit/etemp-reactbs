@@ -9,7 +9,8 @@ interface cardType {
   userLevel: string,
   userPic: string,
   hosId: string,
-  userStatus: boolean
+  userStatus: boolean,
+  wardId: string
 }
 // closeUserComponent
 

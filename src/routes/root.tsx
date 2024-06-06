@@ -37,7 +37,6 @@ export default function Root() {
       })
 
       socket.on("receive_message", (response) => {
-        console.table(response)
         dispatch(setSocketData(response))
       })
 

@@ -76,7 +76,7 @@ export default function Table(tableType: tableType) {
   ]
 
   const openFulltable = () => {
-    localStorage.setItem('devid', data !== undefined ? data[0].devSerial : '')
+    localStorage.setItem('devSerial', data !== undefined ? data[0].devSerial : '')
     navigate('/dashboard/fulltable')
     window.scrollTo(0, 0)
   }
