@@ -37,7 +37,7 @@ export default function Notificationdata(notilist: notilist) {
   return (
     data.length > 0 ?
       data.map((items, index) => (
-        <Noticontainer $primary={!items.notiStatus} key={index} onClick={() => setRead(items.devSerial)}>
+        <Noticontainer $primary={!items.notiStatus} key={index} onClick={() => setRead(items.notiId)}>
           <NotiflexOne>
             <strong>{items.notiDetail}</strong>
             <span>{items.createAt.substring(11, 16)}</span>
