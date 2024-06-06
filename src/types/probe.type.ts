@@ -14,7 +14,7 @@ type probeType = {
   delayTime: string,
   door: number,
   location: string,
-  devId: string,
+  devSerial: string,
   createAt: string,
   updateAt: string,
   device: devicesType

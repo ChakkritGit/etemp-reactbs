@@ -44,6 +44,7 @@ export default {
     field_userpicture: 'Picture',
     field_select_hos: 'Select Hospitals',
     field_select_ward: 'Select Wards',
+    field_select_hospital: 'Select Hospitals',
     field_select_level: 'Select Level',
     field_select_status: 'User Status',
     field_select_status_active: 'Active',

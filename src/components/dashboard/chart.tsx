@@ -1,5 +1,5 @@
 import { RiFullscreenLine } from 'react-icons/ri'
-import { logtype } from '../../types/log.type' 
+import { logtype } from '../../types/log.type'
 import {
   ChartCardHeah, ChartCardHeahBtn, ChartContainer
 } from '../../style/style'
@@ -18,7 +18,7 @@ export default function Chart(chartData: chartData) {
   const navigate = useNavigate()
 
   const openFullchart = () => {
-    localStorage.setItem('devid', chartData.data !== undefined ? chartData.data[0].devId : '')
+    localStorage.setItem('devid', chartData.data !== undefined ? chartData.data[0].devSerial : '')
     navigate('/dashboard/fullchart')
     window.scrollTo(0, 0)
   }

@@ -98,35 +98,43 @@ export default function Account() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (newpassword !== '') {
-      // await axios.put(url, formData, {
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "multipart/form-data",
-      //     authorization: `Bearer ${localtoken}`
-      //   }
-      // })
-      //   .then((response) => {
-      //     if (response.data.status === 200) {
-      //       setShow(false)
-      //       Swal.fire({
-      //         title: t('alert_header_Success'),
-      //         text: response.data.msg,
-      //         icon: "success",
-      //         timer: 2000,
-      //         showConfirmButton: false,
-      //       }).then(() => {
-      //         managedevices.fetchData()
-      //       })
-      //     } else {
-      //       Swal.fire({
-      //         title: t('alert_header_Error'),
-      //         text: response.data.msg,
-      //         icon: "error",
-      //         timer: 2000,
-      //         showConfirmButton: false,
-      //       })
-      //     }
-      //   })
+      try {
+        const response = await axios.patch(`${import.meta.env.VITE_APP_API}/auth/reset/${tokenDecode.userId}`, {
+          password: newpassword
+        }, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${token}`
+          }
+        })
+        setshow(false)
+        Swal.fire({
+          title: t('alert_header_Success'),
+          text: response.data.msg,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+        reFetchdata()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          Swal.fire({
+            title: t('alert_header_Error'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        } else {
+          Swal.fire({
+            title: t('alert_header_Error'),
+            text: 'Uknown Error',
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
+      }
     } else {
       Swal.fire({
         title: t('alert_header_Warning'),

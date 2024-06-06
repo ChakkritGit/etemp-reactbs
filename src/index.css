@@ -131,11 +131,7 @@
 }
 
 .offcanvas.offcanvas-start {
-  border-right: unset !important;
-}
-
-.unset-pd {
-  padding: 0 !important;
+  /* border-right: unset !important; */
 }
 
 /* sweetalert */
@@ -367,10 +363,6 @@ select:focus {
   justify-content: center;
 }
 
-.modal-body {
-  padding: 1.5rem !important;
-}
-
 .form-check {
   display: flex !important;
   align-items: center;
@@ -400,6 +392,6 @@ select:focus {
 }
 
 img {
-  object-fit: cover;
+  object-fit: contain;
   aspect-ratio: 1 / 1;
 }

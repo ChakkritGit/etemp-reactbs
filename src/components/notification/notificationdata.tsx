@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { Noticontainer, NotiflexOne, NotiflexTwo } from "../../style/style"
 import { notificationType } from "../../types/notification.type"
 import Loading from "../loading/loading"
@@ -12,27 +12,32 @@ type notilist = {
 
 export default function Notificationdata(notilist: notilist) {
   const { t } = useTranslation()
+  const { data, funcfetch } = notilist
+
   const setRead = async (notiID: string) => {
-    await axios
-      .patch(`${import.meta.env.VITE_APP_API}/notification/${notiID}`,
-        {
-          noti_status: '1'
-        }, {
-        headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+    try {
+      const response = await axios
+        .patch(`${import.meta.env.VITE_APP_API}/notification/${notiID}`,
+          {
+            notiStatus: true
+          }, {
+          headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+        })
+        console.log(response.data.message)
+      funcfetch()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message)
+      } else {
+        console.log('Unknown Error: ', error)
       }
-      )
-      .then(() => {
-        notilist.funcfetch()
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    }
   }
 
   return (
-    notilist.data.length > 0 ?
-      notilist.data.map((items, index) => (
-        <Noticontainer $primary={items.notiStatus === '0'} key={index} onClick={() => setRead(items.devId)}>
+    data.length > 0 ?
+      data.map((items, index) => (
+        <Noticontainer $primary={!items.notiStatus} key={index} onClick={() => setRead(items.devSerial)}>
           <NotiflexOne>
             <strong>{items.notiDetail}</strong>
             <span>{items.createAt.substring(11, 16)}</span>

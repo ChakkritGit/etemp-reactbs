@@ -86,6 +86,7 @@ export default function Fullchart() {
       console.error('Something wrong' + error)
     }
   }
+
   const Logweek = async () => {
     setPagenumber(2)
     setLogData([])
@@ -112,7 +113,7 @@ export default function Fullchart() {
             .get(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devId=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
-          setLogData(responseData.data.value)
+          setLogData(responseData.data.data)
         } catch (error) {
           console.error('Something wrong' + error)
         }

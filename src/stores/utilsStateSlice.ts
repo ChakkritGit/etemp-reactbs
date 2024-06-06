@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { HomeStatusErrCount, UtilsStateStore } from "../types/redux.type"
-import { jwtToken } from "../types/component.type" 
+import { jwtToken } from "../types/component.type"
 
 const initialState: UtilsStateStore = {
   token: String(localStorage.getItem('token')),
   deviceId: String(localStorage.getItem('devid')),
-  socketData: '',
+  socketData: null,
   searchQuery: '',
   expand: localStorage.getItem('expandaside') === 'true',
   showAside: false,
@@ -32,7 +32,7 @@ const utilsSlice = createSlice({
     setDeviceId: (state, action: PayloadAction<string>) => {
       state.deviceId = action.payload
     },
-    setSocketData: (state, action: PayloadAction<string>) => {
+    setSocketData: (state, action: PayloadAction<unknown>) => {
       state.socketData = action.payload
     },
     setSearchQuery: (state, action: PayloadAction<string>) => {

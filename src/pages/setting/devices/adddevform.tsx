@@ -1,7 +1,7 @@
 import { AddDevices, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from '../../../style/style'
 import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine } from 'react-icons/ri'
 import { devicesType, managedevices } from '../../../types/device.type'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Col, Modal, Row, Form, InputGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import axios, { AxiosError } from 'axios'
@@ -18,6 +18,7 @@ import { ManageConfigAdd, ModeNetworkFlex } from '../../../style/components/mana
 import { ModalMuteHead } from '../../../style/home.styled'
 import { configType } from '../../../types/config.type'
 import { client } from '../../../services/mqtt'
+import { wardsType } from '../../../types/ward.type'
 
 export default function Adddevform(managedevices: managedevices) {
   const { devdata, pagestate } = managedevices
@@ -43,7 +44,7 @@ export default function Adddevform(managedevices: managedevices) {
   const [devicePicture, setDevicePicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${devdata.locPic}`)
   const { config } = devdata
   const [netConfig, setNetConfig] = useState({
-    devId: config?.devId ? config.devId : '',
+    devSerial: config?.devSerial ? config.devSerial : '',
     SSID: config?.ssid ? config.ssid : '',
     Password: config?.ssidPass ? config.ssidPass : '',
     MacAddress: config?.macAddWiFi ? config.macAddWiFi : '',
@@ -52,6 +53,25 @@ export default function Adddevform(managedevices: managedevices) {
     Gateway: config?.getway ? config.getway : '',
     DNS: config?.dns ? config.dns : ''
   })
+
+  const fetchWard = async () => {
+    if (devdata.wardId) {
+      try {
+        const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devdata.wardId}`, { headers: { authorization: `Bearer ${token}` } })
+        setHosid(response.data.data.hospital.hosId)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.log(error.response?.data.message)
+        } else {
+          console.log('Unknown Error: ', error)
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchWard()
+  }, [])
 
   const openmodal = () => {
     setShow(true)
@@ -207,7 +227,7 @@ export default function Adddevform(managedevices: managedevices) {
           ssidPass: Password,
           macAddWiFi: MacAddress,
         }
-        const response = await axios.put<responseType<configType>>(`${import.meta.env.VITE_APP_API}/config/${netConfig.devId}`,
+        const response = await axios.put<responseType<configType>>(`${import.meta.env.VITE_APP_API}/config/${netConfig.devSerial}`,
           bodyData, {
           headers: {
             authorization: `Bearer ${token}`
@@ -263,7 +283,7 @@ export default function Adddevform(managedevices: managedevices) {
           getway: Gateway,
           dns: DNS
         }
-        const response = await axios.put<responseType<configType>>(`${import.meta.env.VITE_APP_API}/config/${netConfig.devId}`,
+        const response = await axios.put<responseType<configType>>(`${import.meta.env.VITE_APP_API}/config/${netConfig.devSerial}`,
           bodyData, {
           headers: {
             authorization: `Bearer ${token}`

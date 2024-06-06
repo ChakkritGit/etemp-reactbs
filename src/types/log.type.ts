@@ -2,7 +2,7 @@ import { devicesType } from "./device.type"
 
 type logtype = {
   logId: string,
-  devId: string,
+  devSerial: string,
   tempValue: number,
   tempAvg: number,
   humidityValue: number,

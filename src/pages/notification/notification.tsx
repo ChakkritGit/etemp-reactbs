@@ -2,7 +2,7 @@ import { RiCloseLine, RiNotification2Line } from "react-icons/ri"
 import { useEffect, useState } from "react"
 import { notificationType } from "../../types/notification.type"
 // import Swal from "sweetalert2"
-import { ModalHead, NotificationBadge, NotificationContainer, NotimodalOverride } from "../../style/style"
+import { ModalHead, NotificationBadge, NotificationContainer } from "../../style/style"
 import { Modal } from "react-bootstrap"
 import axios, { AxiosError } from "axios"
 import CountUp from 'react-countup'
@@ -52,7 +52,7 @@ export default function Notification() {
   useEffect(() => {
     let count = 0
     notiData.forEach(items => {
-      if (items.notiStatus === '0') {
+      if (!items.notiStatus) {
         count += 1
       }
     })
@@ -92,13 +92,11 @@ export default function Notification() {
             </button>
           </ModalHead>
         </Modal.Header>
-        <Modal.Body className="unset-pd">
-          <NotimodalOverride>
-            <Notificationdata
-              data={notiData}
-              funcfetch={fetchData}
-            />
-          </NotimodalOverride>
+        <Modal.Body style={{ padding: 'unset' }}>
+          <Notificationdata
+            data={notiData}
+            funcfetch={fetchData}
+          />
         </Modal.Body>
       </Modal>
     </>

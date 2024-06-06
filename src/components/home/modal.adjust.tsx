@@ -36,7 +36,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   const [tempvalue, setTempvalue] = useState<number[]>([Number(devicesdata.probe[0]?.tempMin), Number(devicesdata.probe[0]?.tempMax)])
   const [humvalue, setHumvalue] = useState<number[]>([Number(devicesdata.probe[0]?.humMin), Number(devicesdata.probe[0]?.humMax)])
   const [showSetting, setShowSetting] = useState(false)
-  const [formdata, setFormdata] = useState({
+  const [formData, setFormData] = useState({
     adjust_temp: devicesdata.probe[0]?.adjustTemp,
     adjust_hum: devicesdata.probe[0]?.adjustHum
   })
@@ -64,11 +64,11 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   }
 
   const handleAdjusttempChange = (_event: Event, newValue: number | number[]) => {
-    setFormdata({ ...formdata, adjust_temp: newValue as number })
+    setFormData({ ...formData, adjust_temp: newValue as number })
   }
 
   const handleAdjusthumChange = (_event: Event, newValue: number | number[]) => {
-    setFormdata({ ...formdata, adjust_hum: newValue as number })
+    setFormData({ ...formData, adjust_hum: newValue as number })
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -79,8 +79,8 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       tempMax: tempvalue[1],
       humMin: humvalue[0],
       humMax: humvalue[1],
-      adjustTemp: formdata.adjust_temp,
-      adjustHum: formdata.adjust_hum,
+      adjustTemp: formData.adjust_temp,
+      adjustHum: formData.adjust_hum,
     }
     try {
       const response = await axios.put<responseType<devicesType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
@@ -209,7 +209,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   const selectProbe = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectProbeI(e.target.value)
     const newProbeData = devicesdata.probe.filter((items) => items.probeId === e.target.value)
-    setFormdata({ ...formdata, adjust_temp: newProbeData[0]?.adjustTemp, adjust_hum: newProbeData[0]?.adjustHum })
+    setFormData({ ...formData, adjust_temp: newProbeData[0]?.adjustTemp, adjust_hum: newProbeData[0]?.adjustHum })
     setHumvalue([newProbeData[0]?.humMin, newProbeData[0]?.humMax])
     setTempvalue([newProbeData[0]?.tempMin, newProbeData[0]?.tempMax])
   }
@@ -220,7 +220,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
 
   useEffect(() => {
     if (muteEtemp) {
-      client.publish(`${devicesdata.devSerial}/mute`, 'on')
+      client.publish(`${devicesdata.devSerial}/mute/short`, 'on')
     }
   }, [muteEtemp])
 
@@ -229,7 +229,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       <Modal size="lg" show={show} onHide={closemodal}>
         <Modal.Header>
           {/* <pre style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
-            {JSON.stringify(formdata)}
+            {JSON.stringify(formData)}
           </pre> */}
           <ModalHead>
             <strong>
@@ -355,8 +355,8 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                           max={20}
                           step={.1}
                           disabled={userLevel === '4'}
-                          value={formdata.adjust_temp}
-                          onChange={(e) => setFormdata({ ...formdata, adjust_temp: Number(e.target.value) })} />
+                          value={formData.adjust_temp}
+                          onChange={(e) => setFormData({ ...formData, adjust_temp: Number(e.target.value) })} />
                         <strong>°C</strong>
                       </div>
                     </SliderLabelFlex>
@@ -370,7 +370,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         max={20}
                         step={.1}
                         disabled={userLevel === '4'}
-                        value={formdata.adjust_temp}
+                        value={formData.adjust_temp}
                         onChange={handleAdjusttempChange}
                         valueLabelDisplay="off" />
                     </FormSliderRange>
@@ -388,8 +388,8 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                           max={20}
                           step={.1}
                           disabled={userLevel === '4'}
-                          value={formdata.adjust_hum}
-                          onChange={(e) => setFormdata({ ...formdata, adjust_hum: Number(e.target.value) })} />
+                          value={formData.adjust_hum}
+                          onChange={(e) => setFormData({ ...formData, adjust_hum: Number(e.target.value) })} />
                         <strong>%</strong>
                       </div>
                     </SliderLabelFlex>
@@ -403,7 +403,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         max={20}
                         step={.1}
                         disabled={userLevel === '4'}
-                        value={formdata.adjust_hum}
+                        value={formData.adjust_hum}
                         onChange={handleAdjusthumChange}
                         valueLabelDisplay="off" />
                     </FormSliderRange>
@@ -411,7 +411,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 </InputGroup>
               </Col>
               <Col lg={12}>
-                <AdjustRealTimeFlex $primary={Number((mqttData.temp + formdata.adjust_temp).toFixed(2)) >= tempvalue[1] || Number((mqttData.temp + formdata.adjust_temp).toFixed(2)) <= tempvalue[0]}>
+                <AdjustRealTimeFlex $primary={Number((mqttData.temp + formData.adjust_temp).toFixed(2)) >= tempvalue[1] || Number((mqttData.temp + formData.adjust_temp).toFixed(2)) <= tempvalue[0]}>
                   <div>
                     <span>อุณหภูมิปัจจุบัน</span>
                     <div>
@@ -426,7 +426,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                     <span>อุณหภูมิหลังปรับ</span>
                     <div>
                       <span>
-                        <span>{(mqttData.temp + formdata.adjust_temp).toFixed(2)}</span> °C
+                        <span>{(mqttData.temp + formData.adjust_temp - devicesdata.probe[0]?.adjustTemp).toFixed(2)}</span> °C
                       </span>
                     </div>
                   </div>

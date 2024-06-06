@@ -137,42 +137,42 @@ export default function ManageHospitals() {
     },
     {
       name: t('hos_action'),
-      cell: (item, index) => 
+      cell: (item, index) =>
         item.hosId !== "HID-DEVELOPMENT" ? (
-        <Actiontablehos key={index}>
-          <Addhospitals
-            pagestate={'edit'}
-            hosdata={
-              {
-                hosId: item.hosId,
-                hosName: item.hosName,
-                hosTelephone: item.hosTelephone,
-                hosAddress: item.hosAddress,
-                hosPic: item.hosPic
-              }}
-            key={item.hosId}
-          />
-          <DelUserButton onClick={() =>
-            swalWithBootstrapButtons
-              .fire({
-                title: t('deleteuserTitle'),
-                text: t('deleteuserText'),
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: t('deletebtn'),
-                cancelButtonText: t('cancelbtn'),
-                reverseButtons: false,
-              })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  deletehospital(item.hosId)
-                }
-              })}>
-            <RiDeleteBin2Line />
-          </DelUserButton>
-        </Actiontablehos>
-      ):
-      <></>,
+          <Actiontablehos key={index}>
+            <Addhospitals
+              pagestate={'edit'}
+              hosdata={
+                {
+                  hosId: item.hosId,
+                  hosName: item.hosName,
+                  hosTelephone: item.hosTelephone,
+                  hosAddress: item.hosAddress,
+                  hosPic: item.hosPic
+                }}
+              key={item.hosId}
+            />
+            <DelUserButton onClick={() =>
+              swalWithBootstrapButtons
+                .fire({
+                  title: t('deleteuserTitle'),
+                  text: t('deleteuserText'),
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: t('deletebtn'),
+                  cancelButtonText: t('cancelbtn'),
+                  reverseButtons: false,
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    deletehospital(item.hosId)
+                  }
+                })}>
+              <RiDeleteBin2Line />
+            </DelUserButton>
+          </Actiontablehos>
+        ) :
+          <></>,
       center: true,
       sortable: false,
     },

@@ -27,7 +27,7 @@ export default function Addprobe(addprobe: addprobeProps) {
     probeName: pagestate !== "add" ? probeData?.probeName : '',
     probeType: pagestate !== "add" ? probeData?.probeType : '',
     probeCh: pagestate !== "add" ? probeData?.probeCh : '',
-    devId: pagestate !== "add" ? probeData?.devId : '',
+    devId: pagestate !== "add" ? probeData?.devSerial : '',
     adjust_temp: pagestate !== "add" ? probeData?.adjustTemp : '',
     adjust_hum: pagestate !== "add" ? probeData?.adjustHum : '',
     delay_time: pagestate !== "add" ? probeData?.delayTime : '',
@@ -265,7 +265,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                       <Form.Label className="w-100">
                         {t('เลือกอุปกรณ์')}
                         <Form.Select onChange={deviceSelected} name="field_select_hos" value={formdata.devId || '0'}>
-                          <option value={'0'} disabled={!probeData?.devId}>
+                          <option value={'0'} disabled={!probeData?.devSerial}>
                             เลือกอุปกรณ์
                           </option>
                           {devices.map((items, index) => {

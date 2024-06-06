@@ -92,7 +92,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
           </DeviceCardHeadStatus>
         </DeviceCardHead>
         <DeviceCardBody>
-          <h5>{devicesdata.devName}</h5>
+          <h5>{devicesdata.devDetail}</h5>
           <span>{devicesdata.devSerial}</span>
           <span>{devicesdata.locInstall ? devicesdata.locInstall : '- -'}</span>
         </DeviceCardBody>

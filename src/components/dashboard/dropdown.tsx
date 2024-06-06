@@ -26,7 +26,7 @@ export default function Dropdown() {
             key={items.devId}
             value={items.devId}
           >
-            {items.devName}
+            {items.devDetail}
           </option>
         )
       })}

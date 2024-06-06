@@ -1,6 +1,6 @@
 type notificationType = {
   notiId: string,
-  devId: string,
+  devSerial: string,
   notiDetail: string,
   notiStatus: string,
   createAt: string,

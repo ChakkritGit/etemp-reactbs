@@ -16,7 +16,7 @@ type configType = {
     backToNormal: string,
     mobileNoti: string,
     repeat: string,
-    devId: string,
+    devSerial: string,
     createAt: string,
     updateAt: string
 }

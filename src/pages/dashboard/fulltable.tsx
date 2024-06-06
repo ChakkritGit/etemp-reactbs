@@ -137,7 +137,7 @@ export default function Fulltable() {
       name: t('no'),
       cell: (item, index) => {
         return <div
-          key={item.devId}>
+          key={item.devSerial}>
           {tableData.length - index}
         </div>
       },
@@ -308,8 +308,8 @@ export default function Fulltable() {
             No: index + 1,
             DeviceSN: items.device?.devSerial,
             DeviceName: items.device?.devDetail,
-            TemeratureMax: items.devId,
-            TemeratureMin: items.devId,
+            TemeratureMax: items.devSerial,
+            TemeratureMin: items.devSerial,
             Temperature: items.tempAvg,
             Humidity: items.humidityAvg,
             Door1: items.door1 ? t('open') : t('close'),

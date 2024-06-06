@@ -94,21 +94,21 @@ export default function Home() {
         tempFilter = devices.filter((items) =>
           items.log[0]?.tempAvg >= 120 || items.log[0]?.tempAvg <= -40 || items.log[0]?.tempAvg === 0
           || items.log[0]?.tempAvg <= items.probe[0]?.tempMin || items.log[0]?.tempAvg >= items.probe[0]?.tempMax
-        ).filter((items) => items.devId === items.log[0]?.devId)
+        ).filter((items) => items.devSerial === items.log[0]?.devSerial)
         break
       case 'door':
         tempFilter = devices.filter((items) =>
           items.log[0]?.door1 || items.log[0]?.door2 || items.log[0]?.door3
-        ).filter((items) => items.devId === items.log[0]?.devId)
+        ).filter((items) => items.devSerial === items.log[0]?.devSerial)
         break
       case 'connect':
-        tempFilter = devices.filter((items) => !items.devStatus).filter((items) => items.devId === items.log[0]?.devId)
+        tempFilter = devices.filter((items) => !items.devStatus).filter((items) => items.devSerial === items.log[0]?.devSerial)
         break
       case 'plug':
-        tempFilter = devices.filter((items) => items.log[0]?.ac === '1').filter((items) => items.devId === items.log[0]?.devId)
+        tempFilter = devices.filter((items) => items.log[0]?.ac === '1').filter((items) => items.devSerial === items.log[0]?.devSerial)
         break
       case 'sd':
-        tempFilter = devices.filter((items) => items.log[0]?.sdCard).filter((items) => items.devId === items.log[0]?.devId)
+        tempFilter = devices.filter((items) => items.log[0]?.sdCard).filter((items) => items.devSerial === items.log[0]?.devSerial)
         break
       case 'adjust':
       case 'repair':
@@ -135,62 +135,61 @@ export default function Home() {
   // นับจำนวนอุปกรณ์ที่มีปัญหารายวัน
   useEffect(() => {
     let updatedCount = { ...count }
-
     devicesFilter.forEach((items) => {
-      if (items.devId === items.log[0]?.devId) {
-        // เงื่อนไขการนับ probe
-        if (
-          items.log[0]?.tempAvg === 0 ||
-          items.log[0]?.tempAvg >= 120 ||
-          items.log[0]?.tempAvg <= -40 ||
-          items.log[0]?.tempAvg <= items.probe[0]?.tempMin ||
-          items.log[0]?.tempAvg >= items.probe[0]?.tempMax) {
-          updatedCount.probe += 1
-        }
+      if (items.devSerial === items.log[0]?.devSerial) {
 
-        // เงื่อนไขการนับ door
-        if (
-          items.log[0]?.door1 ||
-          items.log[0]?.door2 ||
-          items.log[0]?.door3) {
-          updatedCount.door += 1
-        }
+        items.log.forEach((logItems) => {
+          const { tempAvg } = logItems
 
-        // เงื่อนไขการนับ connect
-        if (!items.devStatus) {
-          updatedCount.connect += 1
-        }
+          // เงื่อนไขการนับ probe
+          if (tempAvg === 0 || tempAvg >= 120 || tempAvg <= -40 || tempAvg <= items.probe[0]?.tempMin || tempAvg >= items.probe[0]?.tempMax) {
+            updatedCount.probe += 1
+          }
 
-        // เงื่อนไขการนับ ac
-        if (items.log[0]?.ac === '1') {
-          updatedCount.ac += 1
-        }
+          // เงื่อนไขการนับ door
+          if (
+            items.log[0]?.door1 ||
+            items.log[0]?.door2 ||
+            items.log[0]?.door3) {
+            updatedCount.door += 1
+          }
 
-        // เงื่อนไขการนับ sd
-        if (items.log[0]?.sdCard) {
-          updatedCount.sd += 1
-        }
+          // เงื่อนไขการนับ connect
+          if (!items.devStatus) {
+            updatedCount.connect += 0
+          }
 
-        // เงื่อนไขการนับ repair
-        if (items.createAt !== null) {
-          updatedCount.repair += 1
-        }
+          // เงื่อนไขการนับ ac
+          if (items.log[0]?.ac === '1') {
+            updatedCount.ac += 1
+          }
 
-        // เงื่อนไขการนับ warranty
-        const today = new Date()
-        const targetDate = new Date(items.locInstall)
-        targetDate.setFullYear(targetDate.getFullYear() + 1)
-        const timeDifference = targetDate.getTime() - today.getTime()
-        const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
-        if (daysRemaining < 5) {
-          updatedCount.warranty += 1
-        }
+          // เงื่อนไขการนับ sd
+          if (items.log[0]?.sdCard === '1') {
+            updatedCount.sd += 1
+          }
+
+          // เงื่อนไขการนับ repair
+          if (items.createAt !== null) {
+            updatedCount.repair += 0
+          }
+
+          // เงื่อนไขการนับ warranty
+          const today = new Date()
+          const targetDate = new Date(items.locInstall)
+          targetDate.setFullYear(targetDate.getFullYear() + 1)
+          const timeDifference = targetDate.getTime() - today.getTime()
+          const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
+          if (daysRemaining < 5) {
+            updatedCount.warranty += 1
+          }
+        })
       }
     })
 
     dispatch(setCount(updatedCount))
-  }, [devices])
 
+  }, [devices])
 
   useEffect(() => {
     dispatch(setFilterDevice(devices.filter((items) =>
@@ -200,8 +199,8 @@ export default function Home() {
   }, [searchQuery, devices])
 
   const handleRowClicked = (row: devicesType) => {
-    localStorage.setItem('devid', row.devId)
-    dispatch(setDeviceId(row.devId))
+    localStorage.setItem('devSerial', row.devSerial)
+    dispatch(setDeviceId(row.devSerial))
     navigate('/dashboard')
     window.scrollTo(0, 0)
   }
@@ -245,7 +244,7 @@ export default function Home() {
     },
     {
       name: t('temperature'),
-      cell: (items) => <span key={items.devId}>{items.log[0]?.tempAvg ?? 'No data'}</span>,
+      cell: (items) => <span key={items.devSerial}>{items.log[0]?.tempAvg ?? 'No data'}</span>,
       sortable: false,
       center: true,
       width: '80px'
@@ -373,7 +372,7 @@ export default function Home() {
     },
     {
       name: t('batter'),
-      selector: (items) => items.log[0]?.battery + ' %',
+      selector: (items) => items.log[0]?.battery !== undefined ? items.log[0]?.battery + '%' : '- -',
       sortable: false,
       center: true,
       width: '83px'
@@ -412,7 +411,7 @@ export default function Home() {
       cell: ((items) => {
         return (
           <TableModal
-            key={items.devId}
+            key={items.devSerial}
             deviceData={items}
             fetchData={filtersDevices}
             setCount={setCount}
@@ -445,7 +444,7 @@ export default function Home() {
     },
     {
       name: 'Temperature',
-      cell: (items, index) => <span key={index}>{devicesFilter.filter((devItems) => devItems.devId === items.devId)[0]?.log[0]?.tempAvg ? devicesFilter.filter((devItems) => devItems.devId === items.devId)[0]?.log[0]?.tempAvg + ' °C' : 'Data not found'}</span>,
+      cell: (items, index) => <span key={index}>{devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.tempAvg ? devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.tempAvg + ' °C' : 'Data not found'}</span>,
       sortable: false,
       center: true
     },
@@ -715,11 +714,11 @@ export default function Home() {
                   {
                     devicesFilter.length > 0 ?
                       devicesFilter.map((item, index) =>
-                      // devicesFilter.filter((items) => items.devId === items.log[0]?.devId).map((item, index) =>
+                      // devicesFilter.filter((items) => items.devSerial === items.log[0]?.devSerial).map((item, index) =>
                       (<DevicesInfoCard
                         devicesdata={item}
                         keyindex={index}
-                        key={item.devId}
+                        key={item.devSerial}
                         fetchData={filtersDevices}
                         setCount={setCount}
                       />))

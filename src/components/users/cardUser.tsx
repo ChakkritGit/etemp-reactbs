@@ -67,7 +67,7 @@ export default function CardUser(userProp: cardType) {
       <Card key={keyindex} className="border-0" style={{ backgroundColor: 'unset', border: 'unset' }}>
         <UsercardFlex>
           <Userimage
-            src={!userPic ? 'https://test.thanespgm.com/img/default-pic.png' : `${import.meta.env.VITE_APP_IMG}${userPic}`}
+            src={!userPic ? `${import.meta.env.VITE_APP_IMG}/img/default-pic.png` : `${import.meta.env.VITE_APP_IMG}${userPic}`}
             alt="user-picture" />
           <UserDetails>
             <span>{displayName}</span>

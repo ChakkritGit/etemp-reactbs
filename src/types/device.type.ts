@@ -19,7 +19,7 @@ type devices = {
   comment: string,
   backupStatus: string,
   moveStatus: string,
-  alarn: boolean,
+  alarm: boolean,
   duration: string,
   createAt: string,
   updateAt: string,

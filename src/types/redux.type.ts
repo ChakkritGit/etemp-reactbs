@@ -42,7 +42,7 @@ type HomeStatusErrCount = {
 type UtilsStateStore = {
   token: string,
   deviceId: string,
-  socketData: string,
+  socketData: unknown,
   searchQuery: string,
   expand: boolean,
   showAside: boolean,

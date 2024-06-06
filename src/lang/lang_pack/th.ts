@@ -44,6 +44,7 @@ export default {
     field_userpicture: 'รูปภาพ',
     field_select_hos: 'เลือกโรงพยาบาล',
     field_select_ward: 'เลือกวอร์ด',
+    field_select_hospital: 'เลือกโรงพยาบาล',
     field_select_level: 'เลือกสิทธ์',
     field_select_status: 'สถานะเปิดใช้งาน',
     field_select_status_active: 'เปิดใช้งาน',

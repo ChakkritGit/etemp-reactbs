@@ -190,6 +190,7 @@ export const SideChild = styled.div<{ $primary?: boolean }>`
 export const SideChildOutlet = styled.div<{ $primary?: boolean }>`
 padding: .5rem;
 width: 100%;
+max-width: 100%;
 `
 
 // sidebar
@@ -1560,7 +1561,7 @@ margin-top: 1rem;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  max-width: 1200px;
+  max-width: 1480px;
 }
 
 @media (max-width: 400px) {
@@ -3161,12 +3162,6 @@ export const NotiflexTwo = styled.div<{ $primary?: boolean }>`
 padding: 5px .5rem;
 `
 
-export const NotimodalOverride = styled.div<{ $primary?: boolean }>`
-.modal-body {
-  padding: unset;
-}
-`
-
 export const CustomChart = styled.div`
 width: 100%;
 `
@@ -3923,7 +3918,7 @@ margin: 1rem 0;
   aspect-ratio: 1/1;
   border-radius: ${porps => porps.$radius + '%'};
   border: 3px solid var(--white);
-  object-fit: cover;
+  object-fit: contain;
   overflow: hidden;
 }
 
