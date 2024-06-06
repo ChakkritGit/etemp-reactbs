@@ -28,7 +28,7 @@ import { useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { setCount, setDeviceId, setSearchQuery } from "../../stores/utilsStateSlice"
+import { setCount, setDeviceId, setSerial, setSearchQuery } from "../../stores/utilsStateSlice"
 import { filtersDevices, setFilterDevice } from "../../stores/dataArraySlices"
 import { storeDispatchType } from "../../stores/store"
 import DataTable, { TableColumn } from "react-data-table-component"
@@ -143,7 +143,7 @@ export default function Home() {
 
           // เงื่อนไขการนับ probe
           if (tempAvg === 0 || tempAvg >= 120 || tempAvg <= -40 || tempAvg <= items.probe[0]?.tempMin || tempAvg >= items.probe[0]?.tempMax) {
-            updatedCount.probe += 1
+            updatedCount.probe += 0
           }
 
           // เงื่อนไขการนับ door
@@ -151,7 +151,7 @@ export default function Home() {
             items.log[0]?.door1 ||
             items.log[0]?.door2 ||
             items.log[0]?.door3) {
-            updatedCount.door += 1
+            updatedCount.door += 0
           }
 
           // เงื่อนไขการนับ connect
@@ -199,8 +199,10 @@ export default function Home() {
   }, [searchQuery, devices])
 
   const handleRowClicked = (row: devicesType) => {
+    localStorage.setItem('devid', row.devId)
     localStorage.setItem('devSerial', row.devSerial)
-    dispatch(setDeviceId(row.devSerial))
+    dispatch(setDeviceId(row.devId))
+    dispatch(setSerial(row.devSerial))
     navigate('/dashboard')
     window.scrollTo(0, 0)
   }

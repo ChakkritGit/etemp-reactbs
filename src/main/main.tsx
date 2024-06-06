@@ -56,6 +56,7 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(fetchDevicesLog(deviceId))
+    console.log(deviceId)
   }, [deviceId])
 
   const handleContextMenu: MouseEventHandler<HTMLDivElement> = (_e) => {

@@ -368,7 +368,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         color="error"
                         min={-20}
                         max={20}
-                        step={.1}
+                        step={.01}
                         disabled={userLevel === '4'}
                         value={formData.adjust_temp}
                         onChange={handleAdjusttempChange}
@@ -386,7 +386,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         <RangeInputText type="number"
                           min={-20}
                           max={20}
-                          step={.1}
+                          step={.01}
                           disabled={userLevel === '4'}
                           value={formData.adjust_hum}
                           onChange={(e) => setFormData({ ...formData, adjust_hum: Number(e.target.value) })} />

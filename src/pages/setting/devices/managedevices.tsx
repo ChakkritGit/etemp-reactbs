@@ -81,25 +81,34 @@ export default function Managedev() {
       center: true,
       width: '80px'
     },
+    // {
+    //   name: t('tb_dev_id'),
+    //   cell: (item) => (
+    //     <ManageDevSpanUnsetUserSelect
+    //       key={item.devId}
+    //       onClick={() => {
+    //         navigator.clipboard.writeText(item.devId)
+    //         toast.success(t('copied'))
+    //       }}>
+    //       {item.devId}
+    //     </ManageDevSpanUnsetUserSelect>
+    //   ),
+    //   sortable: false,
+    //   center: true,
+    //   width: '340px'
+    // },
     {
-      name: t('tb_dev_id'),
+      name: t('tb_dev_sn'),
       cell: (item) => (
         <ManageDevSpanUnsetUserSelect
           key={item.devId}
           onClick={() => {
-            navigator.clipboard.writeText(item.devId)
+            navigator.clipboard.writeText(item.devSerial)
             toast.success(t('copied'))
           }}>
-          {item.devId}
+          {item.devSerial}
         </ManageDevSpanUnsetUserSelect>
       ),
-      sortable: false,
-      center: true,
-      width: '340px'
-    },
-    {
-      name: t('tb_dev_sn'),
-      cell: (item) => item.devSerial,
       sortable: false,
       center: true,
     },

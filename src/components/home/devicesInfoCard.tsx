@@ -15,7 +15,7 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
-import { setDeviceId } from "../../stores/utilsStateSlice"
+import { setDeviceId, setSerial } from "../../stores/utilsStateSlice"
 import { ActionCreatorWithPayload, AsyncThunk } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
 import { HomeStatusErrCount } from "../../types/redux.type"
@@ -36,7 +36,10 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
 
-  const openDashboard = (devid: string) => {
+  const openDashboard = (data: {
+    devid: string,
+    devsn: string
+  }) => {
     if (devicesdata.log.length === 0) {
       Swal.fire({
         icon: "warning",
@@ -45,8 +48,10 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
         timer: 1500
       })
     } else {
-      dispatch(setDeviceId(devid))
-      localStorage.setItem('devid', devid)
+      dispatch(setDeviceId(data.devid))
+      dispatch(setSerial(data.devsn))
+      localStorage.setItem('devid', data.devid)
+      localStorage.setItem('devSerial', data.devsn)
       navigate('/dashboard')
       window.scrollTo(0, 0)
       // เมื่อสลับหน้าไปยังแดชบอร์ดให้สกลอไปบนสุด
@@ -70,7 +75,10 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
           </CardHomeFlex>
           <DeviceCardHeadStatus>
             <DeviceCardHeadHandle>
-              <CardDevBtn onClick={() => openDashboard(devicesdata.devId)}>
+              <CardDevBtn onClick={() => openDashboard({
+                devid: devicesdata.devId,
+                devsn: devicesdata.devSerial
+              })}>
                 <RiDashboardLine />
                 <TooltipSpan>
                   {t('dashboard')}

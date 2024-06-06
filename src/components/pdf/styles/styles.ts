@@ -41,6 +41,7 @@ export const StylesPdf = StyleSheet.create({
     fontWeight: 'bold',
   },
   img: {
+    objectFit: 'contain',
     aspectRatio: 80 / 70,
     width: 70,
     height: 80,

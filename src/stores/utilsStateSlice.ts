@@ -5,6 +5,7 @@ import { jwtToken } from "../types/component.type"
 const initialState: UtilsStateStore = {
   token: String(localStorage.getItem('token')),
   deviceId: String(localStorage.getItem('devid')),
+  Serial: String(localStorage.getItem('devSerial')),
   socketData: null,
   searchQuery: '',
   expand: localStorage.getItem('expandaside') === 'true',
@@ -32,6 +33,9 @@ const utilsSlice = createSlice({
     setDeviceId: (state, action: PayloadAction<string>) => {
       state.deviceId = action.payload
     },
+    setSerial: (state, action: PayloadAction<string>) => {
+      state.Serial = action.payload
+    },
     setSocketData: (state, action: PayloadAction<unknown>) => {
       state.socketData = action.payload
     },
@@ -53,6 +57,6 @@ const utilsSlice = createSlice({
   },
 })
 
-export const { setToken, setDeviceId, setSocketData, setSearchQuery, setExpand, setShowAside, setCount, setTokenDecode } = utilsSlice.actions
+export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setCount, setTokenDecode } = utilsSlice.actions
 
 export default utilsSlice.reducer

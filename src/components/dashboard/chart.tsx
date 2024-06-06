@@ -18,7 +18,7 @@ export default function Chart(chartData: chartData) {
   const navigate = useNavigate()
 
   const openFullchart = () => {
-    localStorage.setItem('devid', chartData.data !== undefined ? chartData.data[0].devSerial : '')
+    localStorage.setItem('devSerial', chartData.data !== undefined ? chartData.data[0].devSerial : '')
     navigate('/dashboard/fullchart')
     window.scrollTo(0, 0)
   }

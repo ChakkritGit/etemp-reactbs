@@ -18,7 +18,7 @@ import {
   RiFolderSharedLine, RiImageLine, RiLoader3Line, RiPrinterLine
 } from "react-icons/ri"
 import { useEffect, useRef, useState } from "react"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { logtype } from "../../types/log.type"
 import { devicesType } from "../../types/device.type"
 import Swal from "sweetalert2"
@@ -35,12 +35,14 @@ import Apexchart from "../../components/dashboard/apexchart"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { getDateNow } from "../../constants/constants"
+import { responseType } from "../../types/response.type"
+import { wardsType } from "../../types/ward.type"
 
 export default function Fullchart() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [pageNumber, setPagenumber] = useState(1)
-  const { deviceId, expand, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { Serial, deviceId, expand, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
@@ -60,11 +62,31 @@ export default function Fullchart() {
   const [convertImage, setConvertImage] = useState('')
   const canvasChartRef = useRef<HTMLDivElement | null>(null)
   const tableInfoRef = useRef<HTMLDivElement | null>(null)
+  const [validationData, setValidationData] = useState<wardsType>()
+
+  const fetchWard = async () => {
+    try {
+      const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devData?.wardId}`, { headers: { authorization: `Bearer ${token}` } })
+      setValidationData(response.data.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message)
+      } else {
+        console.log('Uknown Error', error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (devData !== undefined) {
+      fetchWard()
+    }
+  }, [devData])
 
   const fetchData = async () => {
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+        .get(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : localStorage.getItem('deviceId')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
@@ -78,7 +100,7 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/log?filter=day&devId=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+        .get(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -92,7 +114,7 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/log?filter=week&devId=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+        .get(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -100,6 +122,7 @@ export default function Fullchart() {
       console.error('Something wrong' + error)
     }
   }
+
   const Logcustom = async () => {
     const { endDate, startDate } = filterDate
     let startDateNew = new Date(filterDate.startDate)
@@ -110,7 +133,7 @@ export default function Fullchart() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devId=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+            .get(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)
@@ -309,7 +332,7 @@ export default function Fullchart() {
               <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
                 <TableInfoDevice ref={tableInfoRef}>
                   <h4>{localStorage.getItem('hosname')}</h4>
-                  <span>{devData?.devName ? devData?.devName : '--'} | {devData?.devSerial}</span>
+                  <span>{devData?.devDetail ? devData?.devDetail : '--'} | {devData?.devSerial}</span>
                   <span>{devData?.locInstall ? devData?.locInstall : '- -'}</span>
                 </TableInfoDevice>
                 <Apexchart
@@ -346,9 +369,9 @@ export default function Fullchart() {
                     image={Images_one}
                     chartIMG={convertImage}
                     dev_sn={devData.devSerial}
-                    dev_name={devData.devName}
-                    hospital={'devData.ward.group_name'}
-                    ward={'devData?.ward.group_name'}
+                    dev_name={devData.devDetail}
+                    hospital={validationData?.hospital.hosName}
+                    ward={validationData?.wardName}
                     datetime={String(new Date).substring(0, 25)}
                   />
                 </PDFViewer>

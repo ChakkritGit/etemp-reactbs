@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
-import { devicesType } from "../types/device.type" 
+import { devicesType } from "../types/device.type"
 import { LogState, payloadError } from "../types/redux.type"
 import { responseType } from "../types/response.type"
 

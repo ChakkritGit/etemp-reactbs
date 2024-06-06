@@ -130,10 +130,6 @@
   background-color: var(--white) !important;
 }
 
-.offcanvas.offcanvas-start {
-  /* border-right: unset !important; */
-}
-
 /* sweetalert */
 div:where(.swal2-container) div:where(.swal2-actions) {
   gap: 0.5rem;

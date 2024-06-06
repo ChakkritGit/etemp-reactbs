@@ -110,7 +110,7 @@ export default function Account() {
         setshow(false)
         Swal.fire({
           title: t('alert_header_Success'),
-          text: response.data.msg,
+          text: response.data.data,
           icon: "success",
           timer: 2000,
           showConfirmButton: false,

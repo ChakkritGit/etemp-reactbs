@@ -26,7 +26,6 @@ export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
   const { expand, token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
-  // const navigate = useNavigate()
   const location = useLocation()
 
   const reFetchdata = async () => {
@@ -43,27 +42,6 @@ export default function sidebar() {
         localStorage.setItem("hosimg", ward.hospital.hosPic)
         localStorage.setItem("hosname", ward.hospital.hosName)
         localStorage.setItem("groupid", ward.hosId)
-        // if (userStatus) {
-        //   localStorage.removeItem("hosimg")
-        //   localStorage.removeItem("userpicture")
-        //   localStorage.removeItem("hosname")
-        //   localStorage.removeItem("userlevel")
-        //   localStorage.removeItem("groupid")
-        //   localStorage.removeItem("userid")
-        //   localStorage.removeItem("displayname")
-        //   localStorage.removeItem("hosid")
-        //   localStorage.removeItem("token")
-        //   return navigate("/login")
-        // } else {
-        //   localStorage.setItem("userid", userId)
-        //   localStorage.setItem("hosid", ward.hosId)
-        //   localStorage.setItem("displayname", displayName)
-        //   localStorage.setItem("userpicture", userPic)
-        //   localStorage.setItem("userlevel", userLevel)
-        //   localStorage.setItem("hosimg", ward.hospital.hosPic)
-        //   localStorage.setItem("hosname", ward.hospital.hosName)
-        //   localStorage.setItem("groupid", ward.hosId)
-        // }
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)

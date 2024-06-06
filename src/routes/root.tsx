@@ -33,30 +33,25 @@ export default function Root() {
     try {
       socket.on("connect", () => {
         console.log("Connected to Socket server")
-        // toast.success("Connected to Socket server")
         dispatch(setSocketData("Connected to Socket server"))
       })
 
       socket.on("receive_message", (response) => {
-        console.log("Response from Socket:", response)
-        // toast.success(response)
+        console.table(response)
         dispatch(setSocketData(response))
       })
 
       socket.on("disconnect", (reason) => {
         console.error("Disconnected from Socket server:", reason)
-        // toast.success('Disconnected from Socket server')
         dispatch(setSocketData(reason))
       })
 
       socket.on("error", (error) => {
         console.error("Socket error:", error)
-        // toast.error("Socket error:")
         dispatch(setSocketData(error))
       })
     } catch (error) {
       console.error("Failed to connect to Socket server:", error)
-      // toast.error("Failed to connect to Socket server")
       dispatch(setSocketData(error as string))
     }
   }, [])
@@ -65,16 +60,13 @@ export default function Root() {
     try {
       client.on('connect', () => {
         console.log('Connected to MQTT server')
-        // toast.success('Connected to MQTT server')
       })
 
       client.on('disconnect', () => {
         console.log('Disconnected to MQTT server')
-        // toast.success('Disconnected to MQTT server')
       })
     } catch (error) {
       console.log("MQTT Error: ", error)
-      // toast.error("MQTT Error")
     }
   }, [])
 
