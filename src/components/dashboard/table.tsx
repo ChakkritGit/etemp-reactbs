@@ -11,7 +11,7 @@ import { useSelector } from "react-redux"
 type tableType = {
   data: logtype[],
   dev_sn: string,
-  dev_status: boolean
+  devStatus: boolean
 }
 
 export default function Table(tableType: tableType) {
@@ -19,7 +19,7 @@ export default function Table(tableType: tableType) {
   const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [tableData, setTableData] = useState<logtype[]>([])
   const navigate = useNavigate()
-  const { data, dev_sn, dev_status } = tableType
+  const { data, dev_sn } = tableType
 
   useEffect(() => {
     const filtered = data.filter((items) =>
@@ -68,7 +68,7 @@ export default function Table(tableType: tableType) {
     },
     {
       name: t('connect'),
-      cell: () => dev_status ? t('online') : t('offline'),
+      cell: (item) => item.internet === '0' ? t('online') : t('offline'),
       sortable: false,
       center: true,
       width: '100px'

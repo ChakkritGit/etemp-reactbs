@@ -34,7 +34,7 @@ export default function Dashboard() {
                 <Table
                   data={devicesLogs.log.slice(0, 80)}
                   dev_sn={devicesLogs.devSerial}
-                  dev_status={devicesLogs.devStatus}
+                  devStatus={devicesLogs.devStatus}
                 />
               </Dashboardanalys>
             </>

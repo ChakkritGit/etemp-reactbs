@@ -100,10 +100,10 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
-      setLogData(responseData.data.data)
+      setLogData(responseData.data.data.filter((items) => items.devSerial === Serial))
     } catch (error) {
       console.error('Something wrong' + error)
     }
@@ -114,10 +114,10 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
-      setLogData(responseData.data.data)
+      setLogData(responseData.data.data.filter((items) => items.devSerial === Serial))
     } catch (error) {
       console.error('Something wrong' + error)
     }
@@ -133,10 +133,10 @@ export default function Fullchart() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
-          setLogData(responseData.data.data)
+          setLogData(responseData.data.data.filter((items) => items.devSerial === Serial))
         } catch (error) {
           console.error('Something wrong' + error)
         }
