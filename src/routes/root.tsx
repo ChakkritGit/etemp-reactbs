@@ -25,6 +25,7 @@ import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../stores/store'
 import { setSocketData } from '../stores/utilsStateSlice'
 import { client } from '../services/mqtt'
+import Log from '../pages/log/log'
 
 export default function Root() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -91,6 +92,7 @@ export default function Root() {
             <Route path='dashboard/fullchart' element={<Fullchart />} />
             <Route path='dashboard/fulltable' element={<Fulltable />} />
             <Route path='dashboard/fullchart/compare' element={<Comparechart />} />
+            <Route path='updatelog' element={<Log />} />
           </Route>
         </Route>
         <Route path='/login' element={<Islogout />} />

@@ -4,7 +4,7 @@ import {
   RiListSettingsFill, RiListSettingsLine, RiSettings3Fill, RiSettings3Line, RiShieldCheckFill,
   RiShieldCheckLine, RiUser6Fill, RiUser6Line
 } from "react-icons/ri"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
   HospitalName, Li, LineHr,
@@ -27,6 +27,7 @@ export default function sidebar() {
   const { expand, token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
   const location = useLocation()
+  const navigate = useNavigate()
 
   const reFetchdata = async () => {
     if (tokenDecode.userId !== undefined) {
@@ -243,7 +244,7 @@ export default function sidebar() {
             </Li>
           </Ul>
         </SettingSystem>
-        <AboutVersion $primary={expand}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
+        <AboutVersion $primary={expand} onClick={() => navigate('/updatelog')}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
       </Sidebar>
     </>
   )

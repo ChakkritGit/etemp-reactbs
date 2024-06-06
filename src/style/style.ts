@@ -710,6 +710,11 @@ export const NavProfileContainer = styled.div<{ $primary?: boolean }>`
   div>strong {
     font-size: 14px;
   }
+
+  ${props => props.theme.mode === 'dark' &&
+    css`
+color: var(--white);
+`}
 `
 
 export const NavProfileFlex = styled.div<{ $primary?: boolean }>`
