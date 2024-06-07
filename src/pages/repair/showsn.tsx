@@ -3,7 +3,8 @@ import { devicesType } from "../../types/device.type"
 import axios from "axios"
 import { Form } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
-import { localtoken } from "../../authen/localdata"
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 type sntype = {
   setRepairdata: Dispatch<SetStateAction<{
@@ -37,6 +38,7 @@ type sntype = {
 
 export default function Showsn(sntype: sntype) {
   const { t } = useTranslation()
+  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [devData, setDevData] = useState<devicesType[]>([])
   const [selectedval, setSelectedVal] = useState('')
 
@@ -49,7 +51,7 @@ export default function Showsn(sntype: sntype) {
     const url: string = `${import.meta.env.VITE_APP_API}/device`
     axios
       .get(url, {
-        headers: { authorization: `Bearer ${localtoken}` }
+        headers: { authorization: `Bearer ${token}` }
       })
       .then((responseData) => {
         setDevData(responseData.data.data)

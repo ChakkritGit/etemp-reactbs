@@ -132,18 +132,17 @@ export default function Home() {
     }
   }
 
-  // นับจำนวนอุปกรณ์ที่มีปัญหารายวัน
   useEffect(() => {
     let updatedCount = { ...count }
     devicesFilter.forEach((items) => {
       if (items.devSerial === items.log[0]?.devSerial) {
 
-        items.log.forEach((logItems) => {
+        items.log.every((logItems) => {
           const { tempAvg } = logItems
 
           // เงื่อนไขการนับ probe
           if (tempAvg === 0 || tempAvg >= 120 || tempAvg <= -40 || tempAvg <= items.probe[0]?.tempMin || tempAvg >= items.probe[0]?.tempMax) {
-            updatedCount.probe += 0
+            updatedCount.probe += 1
           }
 
           // เงื่อนไขการนับ door
@@ -151,12 +150,12 @@ export default function Home() {
             items.log[0]?.door1 ||
             items.log[0]?.door2 ||
             items.log[0]?.door3) {
-            updatedCount.door += 0
+            updatedCount.door += 1
           }
 
           // เงื่อนไขการนับ connect
-          if (!items.devStatus) {
-            updatedCount.connect += 0
+          if (items.log[0]?.internet === '1') {
+            updatedCount.connect += 1
           }
 
           // เงื่อนไขการนับ ac
@@ -183,13 +182,18 @@ export default function Home() {
           if (daysRemaining < 5) {
             updatedCount.warranty += 1
           }
+
+          return true; // ทำให้ every ดำเนินการต่อไป
         })
+
+        // อาจทำบางอย่างกับ allLogs ถ้าจำเป็น
       }
     })
 
     dispatch(setCount(updatedCount))
 
   }, [devices])
+
 
   useEffect(() => {
     dispatch(setFilterDevice(devices.filter((items) =>

@@ -7,7 +7,6 @@ import Addhospitals from "./addhospitals"
 import { swalWithBootstrapButtons } from "../../../components/dropdown/sweetalertLib"
 import { RiDeleteBin2Line } from "react-icons/ri"
 import Swal from "sweetalert2"
-import { localtoken } from "../../../authen/localdata"
 import { useSelector } from "react-redux"
 import { DataArrayStore, DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { useDispatch } from "react-redux"
@@ -29,7 +28,7 @@ export default function ManageHospitals() {
     try {
       const response = await axios
         .delete<responseType<hospitalsType>>(url, {
-          headers: { authorization: `Bearer ${localtoken}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       dispatch(fetchHospitals(token))
       Swal.fire({
@@ -65,7 +64,7 @@ export default function ManageHospitals() {
     try {
       const response = await axios
         .delete<responseType<wardsType>>(url, {
-          headers: { authorization: `Bearer ${localtoken}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       dispatch(fetchHospitals(token))
       Swal.fire({

@@ -16,11 +16,11 @@ type notilist = {
 export default function Notificationdata(notilist: notilist) {
   const { t } = useTranslation()
   const { data, funcfetch } = notilist
-  const [devData, setDevData] = useState<devicesType>()
+  const [devData, setDevData] = useState<devicesType[]>([])
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${data[0]?.device.devId}`, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
+      const response = await axios.get<responseType<devicesType[]>>(`${import.meta.env.VITE_APP_API}/device`, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } })
       setDevData(response.data.data)
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -66,7 +66,7 @@ export default function Notificationdata(notilist: notilist) {
             <span>{items.createAt.substring(11, 16)}</span>
           </NotiflexOne>
           <NotiflexTwo>
-            <span>{devData?.devDetail}</span>
+            <span>{devData.filter((devItem) => devItem.devId === items.device.devId)[0]?.devDetail}</span>
           </NotiflexTwo>
         </Noticontainer>
       ))

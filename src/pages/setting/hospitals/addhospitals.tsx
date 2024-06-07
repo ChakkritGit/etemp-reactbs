@@ -6,7 +6,6 @@ import { Col, Modal, Row, Form, InputGroup } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import axios, { AxiosError } from 'axios'
 import { addHospitalProp } from '../../../types/prop.type'
-import { localtoken } from '../../../authen/localdata'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../../../stores/store'
 import { useSelector } from 'react-redux'
@@ -53,7 +52,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
           headers: {
             Accept: "application/json",
             "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${localtoken}`
+            authorization: `Bearer ${token}`
           }
         })
         setShow(false)
@@ -117,7 +116,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
           headers: {
             Accept: "application/json",
             "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${localtoken}`
+            authorization: `Bearer ${token}`
           }
         })
         setShow(false)
