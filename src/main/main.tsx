@@ -10,7 +10,7 @@ import { jwtToken } from "../types/component.type"
 import { jwtDecode } from "jwt-decode"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../types/redux.type"
-import { setCount, setShowAside, setTokenDecode } from "../stores/utilsStateSlice"
+import { setShowAside, setTokenDecode } from "../stores/utilsStateSlice"
 import { fetchHospitals, fetchWards, filtersDevices } from "../stores/dataArraySlices"
 import { storeDispatchType } from "../stores/store"
 import { fetchDevicesLog } from "../stores/LogsSlice"
@@ -33,16 +33,6 @@ export default function Main() {
 
   useEffect(() => {
     decodeToken()
-    dispatch(setCount({
-      probe: 0,
-      door: 0,
-      connect: 0,
-      ac: 0,
-      sd: 0,
-      adjust: 0,
-      repair: 0,
-      warranty: 0
-    }))
     dispatch(filtersDevices(token))
     dispatch(fetchHospitals(token))
     dispatch(fetchWards(token))
@@ -55,7 +45,9 @@ export default function Main() {
   }, [socketData])
 
   useEffect(() => {
-    dispatch(fetchDevicesLog(deviceId))
+    if (deviceId !== "null") {
+      dispatch(fetchDevicesLog(deviceId))
+    }
   }, [deviceId])
 
   const handleContextMenu: MouseEventHandler<HTMLDivElement> = (_e) => {

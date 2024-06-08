@@ -28,18 +28,19 @@ import { useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { setCount, setDeviceId, setSerial, setSearchQuery } from "../../stores/utilsStateSlice"
+import { setDeviceId, setSerial, setSearchQuery } from "../../stores/utilsStateSlice"
 import { filtersDevices, setFilterDevice } from "../../stores/dataArraySlices"
 import { storeDispatchType } from "../../stores/store"
 import DataTable, { TableColumn } from "react-data-table-component"
 import TableModal from "../../components/home/table.modal"
 import PageLoading from "../../components/loading/page.loading"
 import { probeType } from "../../types/probe.type"
+import { cardFilter } from "../../types/component.type"
 
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { searchQuery, count } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const devicesFilter = useSelector<DeviceStateStore, devicesType[]>((state) => state.arraySlice.device.devicesFilter)
   const hospitalsData = useSelector<DeviceStateStore, hospitalsType[]>((state) => state.arraySlice.hospital.hospitalsData)
   const wardData = useSelector<DeviceStateStore, wardsType[]>((state) => state.arraySlice.ward.wardData)
@@ -59,6 +60,7 @@ export default function Home() {
   })
   const [showticks, setShowticks] = useState(false)
   const [listAndgrid, setListandgrid] = useState(1)
+  const [cardFilterData, setCardFilterData] = useState<cardFilter[]>([])
 
   const showtk = () => {
     setShowticks(true)
@@ -91,29 +93,28 @@ export default function Home() {
 
     switch (filtertext) {
       case 'probe':
-        tempFilter = devices.filter((items) =>
-          items.log[0]?.tempAvg >= 120 || items.log[0]?.tempAvg <= -40 || items.log[0]?.tempAvg === 0
-          || items.log[0]?.tempAvg <= items.probe[0]?.tempMin || items.log[0]?.tempAvg >= items.probe[0]?.tempMax
-        ).filter((items) => items.devSerial === items.log[0]?.devSerial)
+        tempFilter = devicesFilter.filter((items) =>
+          items.noti.filter((items) => items.notiDetail.split('/')[1] === "OVER" || items.notiDetail.split('/')[1] === "LOWER"))
         break
       case 'door':
-        tempFilter = devices.filter((items) =>
-          items.log[0]?.door1 || items.log[0]?.door2 || items.log[0]?.door3
-        ).filter((items) => items.devSerial === items.log[0]?.devSerial)
+        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1"))
         break
       case 'connect':
-        tempFilter = devices.filter((items) => !items.devStatus).filter((items) => items.devSerial === items.log[0]?.devSerial)
+        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.internet === "1"))
         break
       case 'plug':
-        tempFilter = devices.filter((items) => items.log[0]?.ac === '1').filter((items) => items.devSerial === items.log[0]?.devSerial)
+        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.ac === "1"))
         break
       case 'sd':
-        tempFilter = devices.filter((items) => items.log[0]?.sdCard).filter((items) => items.devSerial === items.log[0]?.devSerial)
+        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.sdCard === "1"))
         break
       case 'adjust':
+        break
       case 'repair':
+        navigate("/repair")
+        break
       case 'warranty':
-        // รออัปเดท
+        navigate("/warranty")
         break
       default:
         break
@@ -127,73 +128,96 @@ export default function Home() {
     }
 
     if (!!active.adjust && !!active.probe && !!active.door && !!active.connect && !!active.plug
-      && !!active.sd && !!active.warranty && !!active.repair) {
+      && !!active.sd && !!active.adjust && !!active.repair && !!active.warranty) {
       dispatch(setFilterDevice(devices))
     }
   }
 
   useEffect(() => {
-    let updatedCount = { ...count }
-    devicesFilter.forEach((items) => {
-      if (items.devSerial === items.log[0]?.devSerial) {
-
-        items.log.every((logItems) => {
-          const { tempAvg } = logItems
-
-          // เงื่อนไขการนับ probe
-          if (tempAvg === 0 || tempAvg >= 120 || tempAvg <= -40 || tempAvg <= items.probe[0]?.tempMin || tempAvg >= items.probe[0]?.tempMax) {
-            updatedCount.probe += 1
-          }
-
-          // เงื่อนไขการนับ door
-          if (
-            items.log[0]?.door1 ||
-            items.log[0]?.door2 ||
-            items.log[0]?.door3) {
-            updatedCount.door += 1
-          }
-
-          // เงื่อนไขการนับ connect
-          if (items.log[0]?.internet === '1') {
-            updatedCount.connect += 1
-          }
-
-          // เงื่อนไขการนับ ac
-          if (items.log[0]?.ac === '1') {
-            updatedCount.ac += 1
-          }
-
-          // เงื่อนไขการนับ sd
-          if (items.log[0]?.sdCard === '1') {
-            updatedCount.sd += 1
-          }
-
-          // เงื่อนไขการนับ repair
-          if (items.createAt !== null) {
-            updatedCount.repair += 0
-          }
-
-          // เงื่อนไขการนับ warranty
-          const today = new Date()
-          const targetDate = new Date(items.locInstall)
-          targetDate.setFullYear(targetDate.getFullYear() + 1)
-          const timeDifference = targetDate.getTime() - today.getTime()
-          const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
-          if (daysRemaining < 5) {
-            updatedCount.warranty += 1
-          }
-
-          return true; // ทำให้ every ดำเนินการต่อไป
-        })
-
-        // อาจทำบางอย่างกับ allLogs ถ้าจำเป็น
+    const CardFilterData = [
+      {
+        id: 1,
+        title: 'probe',
+        count: devicesFilter.map((devItems) => devItems.noti).flat().filter((items) => items.notiDetail.split('/')[1] === "OVER" || items.notiDetail.split('/')[1] === "LOWER").length,
+        times: t('times'),
+        svg: <RiTempColdLine />,
+        cardname: 'probe',
+        switchcase: Switchcase,
+        active: active.probe
+      },
+      {
+        id: 2,
+        title: 'doors',
+        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1").length,
+        times: t('times'),
+        svg: <RiDoorClosedLine />,
+        cardname: 'door',
+        switchcase: Switchcase,
+        active: active.door
+      },
+      {
+        id: 3,
+        title: 'connect',
+        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.internet === "1").length,
+        times: t('times'),
+        svg: <RiSignalWifi1Line />,
+        cardname: 'connect',
+        switchcase: Switchcase,
+        active: active.connect
+      },
+      {
+        id: 4,
+        title: 'plug',
+        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.ac === "1").length,
+        times: t('times'),
+        svg: <RiPlugLine />,
+        cardname: 'plug',
+        switchcase: Switchcase,
+        active: active.plug
+      },
+      {
+        id: 5,
+        title: 'sdcard',
+        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.sdCard === "1").length,
+        times: t('times'),
+        svg: <RiSdCardMiniLine />,
+        cardname: 'sd',
+        switchcase: Switchcase,
+        active: active.sd
+      },
+      {
+        id: 6,
+        title: 'adjust',
+        count: 0,
+        times: t('times'),
+        svg: <RiListSettingsLine />,
+        cardname: 'adjust',
+        switchcase: Switchcase,
+        active: active.adjust
+      },
+      {
+        id: 7,
+        title: 'repair_home',
+        count: Number(devicesFilter.map((devItems) => devItems._count?.repair).flat().reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)),
+        times: t('times'),
+        svg: <RiFolderSettingsLine />,
+        cardname: 'repair',
+        switchcase: Switchcase,
+        active: active.repair
+      },
+      {
+        id: 8,
+        title: 'warranty_home',
+        count: Number(devicesFilter.map((devItems) => devItems._count?.warranty).flat().reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)),
+        times: t('times'),
+        svg: <RiShieldCheckLine />,
+        cardname: 'warranty',
+        switchcase: Switchcase,
+        active: active.warranty
       }
-    })
-
-    dispatch(setCount(updatedCount))
-
-  }, [devices])
-
+    ]
+    setCardFilterData(CardFilterData)
+  }, [devicesFilter, t])
 
   useEffect(() => {
     dispatch(setFilterDevice(devices.filter((items) =>
@@ -420,7 +444,6 @@ export default function Home() {
             key={items.devSerial}
             deviceData={items}
             fetchData={filtersDevices}
-            setCount={setCount}
           />
         )
       }),
@@ -573,78 +596,20 @@ export default function Home() {
           </h5>
         </DevHomeHeadTile>
         <DevHomeSecctionOne>
-          <DevicesCard
-            title={t('probe')}
-            count={count.probe}
-            times={'Time'}
-            svg={<RiTempColdLine />}
-            cardname={'probe'}
-            switchcase={Switchcase}
-            active={active.probe}
-          />
-          <DevicesCard
-            title={t('doors')}
-            count={count.door}
-            times={'Time'}
-            svg={<RiDoorClosedLine />}
-            cardname={'door'}
-            switchcase={Switchcase}
-            active={active.door}
-          />
-          <DevicesCard
-            title={t('connect')}
-            count={count.connect}
-            times={'Time'}
-            svg={<RiSignalWifi1Line />}
-            cardname={'connect'}
-            switchcase={Switchcase}
-            active={active.connect}
-          />
-          <DevicesCard
-            title={t('plug')}
-            count={count.ac}
-            times={'Time'}
-            svg={<RiPlugLine />}
-            cardname={'plug'}
-            switchcase={Switchcase}
-            active={active.plug}
-          />
-          <DevicesCard
-            title={t('sdcard')}
-            count={count.sd}
-            times={'Time'}
-            svg={<RiSdCardMiniLine />}
-            cardname={'sd'}
-            switchcase={Switchcase}
-            active={active.sd}
-          />
-          <DevicesCard
-            title={t('adjust')}
-            count={0}
-            times={'Time'}
-            svg={<RiListSettingsLine />}
-            cardname={'adjust'}
-            switchcase={Switchcase}
-            active={active.adjust}
-          />
-          <DevicesCard
-            title={t('repair_home')}
-            count={count.repair}
-            times={'Time'}
-            svg={<RiFolderSettingsLine />}
-            cardname={'repair'}
-            switchcase={Switchcase}
-            active={active.repair}
-          />
-          <DevicesCard
-            title={t('warranty_home')}
-            count={count.warranty}
-            times={'Time'}
-            svg={<RiShieldCheckLine />}
-            cardname={'warranty'}
-            switchcase={Switchcase}
-            active={active.warranty}
-          />
+          {
+            cardFilterData.map((items) => (
+              <DevicesCard
+                key={items.id}
+                title={items.title}
+                count={items.count}
+                times={items.times}
+                svg={items.svg}
+                cardname={items.cardname}
+                switchcase={items.switchcase}
+                active={items.active}
+              />
+            ))
+          }
         </DevHomeSecctionOne>
         <AboutBox>
           <h5>{t('allinfobox')}</h5>
@@ -720,13 +685,11 @@ export default function Home() {
                   {
                     devicesFilter.length > 0 ?
                       devicesFilter.map((item, index) =>
-                      // devicesFilter.filter((items) => items.devSerial === items.log[0]?.devSerial).map((item, index) =>
                       (<DevicesInfoCard
                         devicesdata={item}
                         keyindex={index}
                         key={item.devSerial}
                         fetchData={filtersDevices}
-                        setCount={setCount}
                       />))
                       :
                       <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />

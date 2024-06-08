@@ -16,7 +16,7 @@ import { userlevel } from "../../authen/authentFunc"
 import axios, { AxiosError } from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { setCount, setShowAside } from "../../stores/utilsStateSlice"
+import { setShowAside } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
@@ -77,16 +77,6 @@ export default function sidebar() {
 
   const resetAsideandCardcount = () => {
     dispatch(setShowAside(false))
-    location.pathname !== '/' && dispatch(setCount({
-      probe: 0,
-      door: 0,
-      connect: 0,
-      ac: 0,
-      sd: 0,
-      adjust: 0,
-      repair: 0,
-      warranty: 0
-    }))
   }
 
   return (

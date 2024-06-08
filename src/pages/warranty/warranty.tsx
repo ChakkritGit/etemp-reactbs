@@ -36,9 +36,9 @@ export default function Warranty() {
     } catch (error) {
       setIsLoading(false)
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message)
+        console.error(error.response?.data.message)
       } else {
-        console.log('Unknown Error', error)
+        console.error('Unknown Error', error)
       }
     }
   }

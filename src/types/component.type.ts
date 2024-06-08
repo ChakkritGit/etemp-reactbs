@@ -64,4 +64,15 @@ type jwtToken = {
 }
 // jwtTokenComponent
 
-export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken }
+type cardFilter = {
+  id: number,
+  title: string,
+  count: number,
+  times: string,
+  svg: JSX.Element,
+  cardname: string,
+  switchcase: (filtertext: string, cardactive: boolean) => void,
+  active: boolean
+}
+
+export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter }

@@ -87,9 +87,9 @@ export default function Adduser(AdduserProp: adduserProp) {
       localStorage.setItem("groupid", wardId)
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message)
+        console.error(error.response?.data.message)
       } else {
-        console.log("Uknown Error: ", error)
+        console.error("Uknown Error: ", error)
       }
     }
   }

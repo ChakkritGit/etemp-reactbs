@@ -33,7 +33,6 @@ export default function Root() {
   useEffect(() => {
     try {
       socket.on("connect", () => {
-        console.log("Connected to Socket server")
         dispatch(setSocketData("Connected to Socket server"))
       })
 
@@ -59,14 +58,12 @@ export default function Root() {
   useEffect(() => {
     try {
       client.on('connect', () => {
-        console.log('Connected to MQTT server')
       })
 
       client.on('disconnect', () => {
-        console.log('Disconnected to MQTT server')
       })
     } catch (error) {
-      console.log("MQTT Error: ", error)
+      console.error("MQTT Error: ", error)
     }
   }, [])
 

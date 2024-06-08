@@ -1,5 +1,6 @@
 import { configType } from "./config.type"
 import { logtype } from "./log.type"
+import { notificationType } from "./notification.type"
 import { probeType } from "./probe.type"
 
 type devices = {
@@ -29,6 +30,7 @@ interface devicesType extends devices {
   log: logtype[],
   probe: probeType[],
   config: configType,
+  noti: notificationType[],
   _count?: {
     warranty: number,
     repair: number

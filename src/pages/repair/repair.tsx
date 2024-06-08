@@ -8,7 +8,6 @@ import Addrepair from "./addrepair"
 import { useEffect, useRef, useState } from "react"
 import axios, { AxiosError } from "axios"
 import { repairType } from "../../types/repair.type"
-import { devicesType } from "../../types/device.type"
 import DataTable, { TableColumn } from "react-data-table-component"
 import { useTranslation } from "react-i18next"
 import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib"
@@ -20,13 +19,11 @@ import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 
-
 export default function Repair() {
   const { t } = useTranslation()
   const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [repairData, setRepairdata] = useState<repairType[]>([])
   const [repairDataPrint, setRepairdataprint] = useState<repairType[]>([])
-  const [deviceData, setDevicedata] = useState<devicesType[]>([])
   const [show, setshow] = useState(false)
   const componentRef = useRef<HTMLDivElement | null>(null)
 
@@ -41,20 +38,6 @@ export default function Repair() {
           headers: { authorization: `Bearer ${token}` }
         })
       setRepairdata(response.data.data)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
-      } else {
-        console.error('Unknown Error', error)
-      }
-    }
-
-    try {
-      const response = await axios
-        .get(`${import.meta.env.VITE_APP_API}/device`, {
-          headers: { authorization: `Bearer ${token}` }
-        })
-      setDevicedata(response.data.data)
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
@@ -120,9 +103,9 @@ export default function Repair() {
     },
     {
       name: t('tb_dev_sn'),
-      cell: ((items) => {
-        return deviceData.filter((item) => item.devId === items.devId).map((items) => items.devSerial)
-      })
+      selector: (items) => items.device.devSerial,
+      sortable: false,
+      center: true
     },
     {
       name: t('field_displayname'),

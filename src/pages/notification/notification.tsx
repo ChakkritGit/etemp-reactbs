@@ -1,11 +1,11 @@
 import { RiCloseLine, RiNotification2Line } from "react-icons/ri"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { notificationType } from "../../types/notification.type"
 // import Swal from "sweetalert2"
 import { ModalHead, NotificationBadge, NotificationContainer } from "../../style/style"
 import { Modal } from "react-bootstrap"
 import axios, { AxiosError } from "axios"
-import CountUp from 'react-countup'
+import { CountUp } from "countup.js"
 import Notificationdata from "../../components/notification/notificationdata"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
@@ -17,6 +17,7 @@ export default function Notification() {
   const [number, setNumber] = useState(0)
   const [show, setShow] = useState(false)
   const [notiData, setNotidata] = useState<notificationType[]>([])
+  const countupRef = useRef(null)
 
   const openModal = () => {
     setShow(true)
@@ -35,9 +36,9 @@ export default function Notification() {
       setNotidata(responseData.data.data)
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message)
+        console.error(error.response?.data.message)
       } else {
-        console.log('Unknown Error: ', error)
+        console.error('Unknown Error: ', error)
       }
     }
   }
@@ -71,14 +72,19 @@ export default function Notification() {
     // }
   }, [socketData])
 
+  useEffect(() => {
+    if (countupRef.current) {
+      const numAnim = new CountUp(countupRef.current, number)
+      numAnim.start()
+    }
+  }, [number])
+
   return (
     <>
       <NotificationContainer $primary={number > 0} onClick={openModal}>
         <RiNotification2Line />
         <NotificationBadge $primary={number > 100}>
-          <CountUp
-            delay={3}
-            end={number} />
+            <span ref={countupRef}></span>
         </NotificationBadge>
       </NotificationContainer>
       <Modal scrollable size="lg" show={show} onHide={closeModal}>

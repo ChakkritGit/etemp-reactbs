@@ -111,6 +111,7 @@ export default {
     batter: 'แบตเตอร์รี่',
     tempofday: 'ช่วงอุณหภูมิทั้งวัน',
     probeanddoor: 'จำนวนโพรบและประตู',
+    times: 'ครั้ง',
 
     // dashboard chart
     charttitle: 'กราฟ',

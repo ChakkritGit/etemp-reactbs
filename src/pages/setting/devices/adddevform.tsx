@@ -61,9 +61,9 @@ export default function Adddevform(managedevices: managedevices) {
         setHosid(response.data.data.hospital.hosId)
       } catch (error) {
         if (error instanceof AxiosError) {
-          console.log(error.response?.data.message)
+          console.error(error.response?.data.message)
         } else {
-          console.log('Unknown Error: ', error)
+          console.error('Unknown Error: ', error)
         }
       }
     }

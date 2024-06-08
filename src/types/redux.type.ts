@@ -28,17 +28,6 @@ type LogState = {
   logError: string
 }
 
-type HomeStatusErrCount = {
-  probe: number,
-  door: number,
-  connect: number,
-  ac: number,
-  sd: number,
-  adjust: number,
-  repair: number,
-  warranty: number
-}
-
 type UtilsStateStore = {
   token: string,
   deviceId: string,
@@ -47,7 +36,6 @@ type UtilsStateStore = {
   searchQuery: string,
   expand: boolean,
   showAside: boolean,
-  count: HomeStatusErrCount,
   tokenDecode: jwtToken
 }
 
@@ -85,7 +73,7 @@ type ProbeState = {
 }
 
 export type {
-  DeviceState, LogState, DataArrayStore, HomeStatusErrCount,
+  DeviceState, LogState, DataArrayStore,
   UtilsStateStore, DeviceStateStore, ArrayStore, payloadError, UserState,
   ProbeState
 }

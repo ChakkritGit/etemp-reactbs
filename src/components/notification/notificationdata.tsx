@@ -24,29 +24,28 @@ export default function Notificationdata(notilist: notilist) {
       setDevData(response.data.data)
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message)
+        console.error(error.response?.data.message)
       } else {
-        console.log("Uknown Error: ", error)
+        console.error("Uknown Error: ", error)
       }
     }
   }
 
   const setRead = async (notiID: string) => {
     try {
-      const response = await axios
+      await axios
         .patch(`${import.meta.env.VITE_APP_API}/notification/${notiID}`,
           {
             notiStatus: true
           }, {
           headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
         })
-      console.log(response.data.message)
       funcfetch()
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message)
+        console.error(error.response?.data.message)
       } else {
-        console.log('Unknown Error: ', error)
+        console.error('Unknown Error: ', error)
       }
     }
   }
@@ -60,7 +59,7 @@ export default function Notificationdata(notilist: notilist) {
   return (
     data.length > 0 ?
       data.map((items, index) => (
-        <Noticontainer $primary={!items.notiStatus} key={index} onClick={() => setRead(items.notiId)}>
+        <Noticontainer $primary={!items.notiStatus} key={index} onClick={() => !items.notiStatus && setRead(items.notiId)}>
           <NotiflexOne>
             <strong>{items.notiDetail}</strong>
             <span>{items.createAt.substring(11, 16)}</span>

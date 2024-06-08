@@ -7,8 +7,8 @@ import { RiArrowDownLine, RiArrowLeftSLine, RiArrowRightLine, RiCloseLine, RiSpe
 import { Slider } from "@mui/material"
 import { AdjustRealTimeFlex, ModalMuteHead, OpenSettingBuzzer } from "../../style/home.styled"
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
-import { DeviceStateStore, HomeStatusErrCount, UtilsStateStore } from "../../types/redux.type"
-import { ActionCreatorWithPayload, AsyncThunk } from "@reduxjs/toolkit"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import { AsyncThunk } from "@reduxjs/toolkit"
 import { devicesType } from "../../types/device.type"
 import { useSelector } from "react-redux"
 import axios, { AxiosError } from "axios"
@@ -23,14 +23,13 @@ import { MuteEtemp } from "../../style/components/sound.setting"
 
 type modalAdjustType = {
   fetchData: AsyncThunk<devicesType[], string, {}>,
-  setCount: ActionCreatorWithPayload<HomeStatusErrCount, "utils/setCount">,
   devicesdata: devicesType,
   setShow: Dispatch<SetStateAction<boolean>>,
   show: boolean
 }
 
 const ModalAdjust = (modalProps: modalAdjustType) => {
-  const { fetchData, setCount, devicesdata, show, setShow } = modalProps
+  const { fetchData, devicesdata, show, setShow } = modalProps
   const { t } = useTranslation()
   const { token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [tempvalue, setTempvalue] = useState<number[]>([Number(devicesdata.probe[0]?.tempMin), Number(devicesdata.probe[0]?.tempMax)])
@@ -84,16 +83,6 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     }
     try {
       const response = await axios.put<responseType<devicesType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
-      setCount({
-        probe: 0,
-        door: 0,
-        connect: 0,
-        ac: 0,
-        sd: 0,
-        adjust: 0,
-        repair: 0,
-        warranty: 0
-      })
       // setShow(false)
       Swal.fire({
         title: t('alert_header_Success'),
@@ -127,9 +116,9 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
 
   const handleSubmitNoti = async (e: FormEvent) => {
     e.preventDefault()
-    const url: string = `${import.meta.env.VITE_APP_API}/config/${devicesdata.devId}`
+    const url: string = `${import.meta.env.VITE_APP_API}/config/${devicesdata.devSerial}`
     const bodyData = {
-      notiTime: muteMode.choichOne === "immediately" ? 0 : sendTime.after,
+      notiTime: muteMode.choichOne === "immediately" ? "0" : sendTime.after.toString(),
       backToNormal: muteMode.choichtwo === "send" ? "1" : "0",
       repeat: muteMode.choichthree === "onetime" ? "0" : sendTime.every.toString(),
       mobileNoti: muteMode.choichfour === "on" ? "1" : "0"
@@ -185,7 +174,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     if (show) {
       client.subscribe(`${devicesdata.devSerial}/temp/real`, (err) => {
         if (err) {
-          console.log("MQTT Suubscribe Error", err)
+          console.error("MQTT Suubscribe Error", err)
         }
       })
 
@@ -196,12 +185,12 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       })
 
       client.on("error", (err) => {
-        console.log("MQTT Error: ", err)
+        console.error("MQTT Error: ", err)
         client.end()
       })
 
       client.on("reconnect", () => {
-        console.log("MQTT Reconnecting...")
+        console.error("MQTT Reconnecting...")
       })
     }
   }, [show])

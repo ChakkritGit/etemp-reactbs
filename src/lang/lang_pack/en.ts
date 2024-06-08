@@ -111,6 +111,7 @@ export default {
     batter: 'Battery',
     tempofday: 'Temp of day',
     probeanddoor: 'Probe And Door',
+    times: 'Times',
 
     // dashboard chart
     charttitle: 'Chart',

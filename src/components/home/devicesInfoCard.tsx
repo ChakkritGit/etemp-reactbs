@@ -16,9 +16,8 @@ import { useTranslation } from "react-i18next"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 import { setDeviceId, setSerial } from "../../stores/utilsStateSlice"
-import { ActionCreatorWithPayload, AsyncThunk } from "@reduxjs/toolkit"
+import { AsyncThunk } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
-import { HomeStatusErrCount } from "../../types/redux.type"
 import { storeDispatchType } from "../../stores/store"
 import ModalAdjust from "./modal.adjust"
 
@@ -26,11 +25,10 @@ type DevicesInfoCard = {
   devicesdata: devicesType,
   keyindex: number,
   fetchData: AsyncThunk<devicesType[], string, object>,
-  setCount: ActionCreatorWithPayload<HomeStatusErrCount, "utils/setCount">
 }
 
 export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
-  const { devicesdata, fetchData, setCount } = DevicesInfoCard
+  const { devicesdata, fetchData } = DevicesInfoCard
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [show, setShow] = useState(false)
@@ -258,7 +256,6 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
       </DeviceCard>
       <ModalAdjust
         fetchData={fetchData}
-        setCount={setCount}
         devicesdata={devicesdata}
         show={show}
         setShow={setShow}

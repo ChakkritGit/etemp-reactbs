@@ -35,7 +35,7 @@ export default function Fulltable() {
   const [devData, setDevData] = useState<devicesType>()
   const [loading, setLoading] = useState(false)
   const [tableData, setTableData] = useState<logtype[]>([])
-  const { searchQuery, deviceId, expand, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, deviceId, expand, token, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
@@ -59,7 +59,7 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${'day'}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -74,7 +74,7 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${'week'}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -94,7 +94,7 @@ export default function Fulltable() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&dev_id=${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)

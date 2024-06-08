@@ -14,7 +14,7 @@ const Apexchart = (chart: chartType) => {
   const { temp_max, temp_min } = devicesData
 
   const timeLabels = () => {
-    return chartData.map((items) => items.createAt)
+    return chartData.map((items) => items.sendTime)
   }
 
   const doorOpen = () => {
