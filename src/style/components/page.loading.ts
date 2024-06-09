@@ -4,7 +4,7 @@ export const PageLoadContainer = styled.div<{ $primary?: boolean }>`
 display: flex;
 justify-content: center;
 align-items: center;
-height: 100dvh;
+height: 100%;
 width: 100%;
 
 &>div>div>svg {

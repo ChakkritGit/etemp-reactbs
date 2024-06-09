@@ -43,7 +43,7 @@ margin: 1rem 0;
     display: none;
   }
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   flex-direction: column;
   gap: 1rem;
 

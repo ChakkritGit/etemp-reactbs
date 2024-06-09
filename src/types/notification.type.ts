@@ -8,7 +8,8 @@ type notificationType = {
   device: {
     devId: string,
     devName: string,
-    devSerial: string
+    devSerial: string,
+    devDetail: string
   }
 }
 

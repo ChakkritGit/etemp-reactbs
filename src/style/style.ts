@@ -123,7 +123,7 @@ height: 53px;
     font-size: 24px;
   }
 
-  @media (min-width: 412px) {
+  @media (min-width: 430px) {
     display: none;
   }
 }
@@ -158,7 +158,7 @@ ${props => props.$primary &&
   flex-direction: column;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   flex-direction: column;
 }
 `
@@ -175,7 +175,7 @@ ${props => props.$primary &&
   padding: 0;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   display: none;
 }
 `
@@ -222,7 +222,7 @@ ${props => props.theme.mode === 'dark' &&
   }
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   height: calc(100dvh - 53px);
 }
 `
@@ -308,7 +308,7 @@ display: flex;
 justify-content: right;
 align-items: center;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   display: none;
 }
 `
@@ -324,7 +324,7 @@ ${props => props.$primary &&
 width: 100%;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   ${props => props.$maxheight &&
     css`
 flex-direction: row;
@@ -461,7 +461,7 @@ min-height: 55px;
 border-bottom: .5px solid var(--soft-grey);
 box-shadow: 0px 15px 10px -15px rgba(0, 0, 0, .05);
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   padding: 0 .8rem;
 }
 
@@ -526,7 +526,7 @@ align-items: center;
 max-width: 300px;
 overflow: hidden;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   display: none;
   }
 `
@@ -612,7 +612,7 @@ export const GlobalsearchMBIcon = styled.div<{ $primary?: boolean }> `
   display: none;
   cursor: pointer;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -630,7 +630,7 @@ display: flex;
 align-items: center;
 gap: .8rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   &>div:nth-child(2),
   &>div:nth-child(3),
   &>button:nth-child(4) {
@@ -683,7 +683,7 @@ export const NavProfileContainer = styled.div<{ $primary?: boolean }>`
     font-size: 24px;
   }
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
   & span {
     display: none;
   }
@@ -900,7 +900,7 @@ gap: 1rem;
 flex-wrap: wrap;
 padding: 1rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   width: 100%;
 & div {
   width: 100%;
@@ -1022,7 +1022,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
     flex-direction: column;
     align-items: unset;
     gap: .5rem;
@@ -1538,7 +1538,7 @@ align-items: center;
 gap: 1rem;
 z-index: 99;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   gap: .5rem;
 }
 
@@ -1582,7 +1582,7 @@ margin-top: 1rem;
   max-width: 1480px;
 }
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   & > div {
     justify-content: center;
   }
@@ -1659,7 +1659,7 @@ margin: 1rem 0;
 height: 45px;
 padding: 0 .5rem 0 0;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   height: max-content;
   flex-direction: column;
   align-items: unset;
@@ -1688,7 +1688,7 @@ ${props => props.theme.mode === 'dark' &&
     background-color: var(--main-last-color);
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   max-width: 300px;
   width: 270px;
 }
@@ -2027,7 +2027,7 @@ display: flex;
 align-items: center;
 gap: .8rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   justify-content: space-between;
 }
 `
@@ -2066,7 +2066,7 @@ opacity: .3;
 
 // Dashboard
 export const DashboardFlex = styled.div<{ $primary?: boolean }>`
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   overflow: hidden;
 }`
 
@@ -2079,7 +2079,7 @@ max-width: 1110px;
 border-radius: .8rem;
 overflow: hidden;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   img {
     max-width: 330px;
   }
@@ -2096,7 +2096,7 @@ width: 375px;
 transition: .3s;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   width: 335px;
 }
 
@@ -2117,7 +2117,7 @@ flex-wrap: wrap;
 gap: 1rem;
 margin-top: 1rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   justify-content: center;
 }
 `
@@ -2240,7 +2240,7 @@ max-width: 900px;
 flex-wrap: wrap;
 gap: .5rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   justify-content: center;
   width: 100%;
   max-width: unset;
@@ -2266,7 +2266,7 @@ ${props => props.theme.mode === 'dark' &&
     background-color: var(--main-last-color);
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   width: 48%;
   height: 130px;
 }
@@ -2331,7 +2331,7 @@ ${props => props.$primary &&
 margin-top: .7rem;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   font-size: 18px;
 }
 `
@@ -2351,7 +2351,7 @@ gap: 1rem;
 margin-top: 1rem;
 width: 100%;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   flex-direction: column;
   align-items: center;
 }
@@ -2372,7 +2372,7 @@ export const ChartContainer = styled.div<{ $primary?: boolean }>`
     background-color: var(--main-last-color);
 `}
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
   width: 100%;
   max-width: unset;
 }
@@ -2531,7 +2531,7 @@ export const TableContainer = styled.div<{ $primary?: boolean }>`
     }
 `}
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
     width: 100%;
     max-width: unset;
 }
@@ -2732,7 +2732,7 @@ display: flex;
 align-items: center;
 gap: .5rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   flex-direction: column;
   align-items: start;
 }
@@ -2761,7 +2761,7 @@ ${props => props.$primary &&
   width: 100%;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   &>div>div>svg {
   width: max-content;
 }
@@ -2773,7 +2773,7 @@ export const ExportandAuditFlex = styled.div`
   align-items: center;
   gap: .5rem;
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
     flex-direction: column;
     align-items: end;
 }
@@ -3837,7 +3837,7 @@ width: 200px;
 transition: .3s;
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   width: unset;
 }
 `
@@ -3879,7 +3879,7 @@ ${props => props.$logout &&
   }
 `}
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   span {
     display: none;
   }
@@ -3890,7 +3890,7 @@ export const SettingRightContainer = styled.div<{ $primary?: boolean }>`
 width: calc(100% - 250px);
 padding: .5rem;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   width: calc(100% - 90px);
 }
 `
@@ -3970,7 +3970,7 @@ margin: 1rem 0;
   display: none;
 }
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   flex-direction: column;
   align-items: center;
   height: 275px;
@@ -4046,7 +4046,7 @@ export const ColorPalette = styled.div<{ $primary?: boolean }>`
   width: 100%;
   margin: 1rem 0 0 .5rem;
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
   gap: .5rem;
 }
 `
@@ -4056,7 +4056,7 @@ export const ButtonColorChang = styled.button<{ $color?: string }>`
   height: 80px;
   border-radius: var(--border-radius-big);
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
     width: 50px;
     height: 50px;
     border-radius: var(--border-radius-small);
@@ -4067,7 +4067,7 @@ export const ButtonColorChang = styled.button<{ $color?: string }>`
     border-radius: 50%;
     color: var(--white);
 
-  @media (max-width: 412px) {
+  @media (max-width: 430px) {
     font-size: 32px;
   }
 }
@@ -4481,7 +4481,7 @@ align-items: center;
 height: calc(100dvh - 80px);
 width: 100%;
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   flex-direction: column;
   height: unset;
   margin-top: 1rem;
@@ -4515,7 +4515,7 @@ iframe {
   border-radius: var(--border-radius-big);
 }
 
-@media (max-width: 412px) {
+@media (max-width: 430px) {
   width: unset;
 
   iframe {

@@ -17,7 +17,7 @@ import {
 import { socket } from '../services/websocket'
 import Fullchart from '../pages/dashboard/fullchart'
 import Fulltable from '../pages/dashboard/fulltable'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import { useEffect } from 'react'
@@ -26,8 +26,10 @@ import { storeDispatchType } from '../stores/store'
 import { setSocketData } from '../stores/utilsStateSlice'
 import { client } from '../services/mqtt'
 import Log from '../pages/log/log'
+import { socketResponseType } from '../types/component.type'
+import { RiErrorWarningLine } from 'react-icons/ri'
 
-export default function Root() {
+export default function RoutesComponent() {
   const dispatch = useDispatch<storeDispatchType>()
 
   useEffect(() => {
@@ -36,7 +38,15 @@ export default function Root() {
         dispatch(setSocketData("Connected to Socket server"))
       })
 
-      socket.on("receive_message", (response) => {
+      socket.on("receive_message", (response: socketResponseType) => {
+        toast((_t) => (
+          `${response.device} \n ${response.message} \n ${response.time}`
+        ),
+          {
+            icon: <RiErrorWarningLine size={24} fill='#FFC300' />,
+            duration: 6000
+          }
+        )
         dispatch(setSocketData(response))
       })
 

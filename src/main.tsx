@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Root from './routes/root'
+import RoutesComponent from './routes/routes'
 import { StyleSheetManager } from 'styled-components'
 import isPropValid from "@emotion/is-prop-valid"
 import { I18nextProvider } from 'react-i18next'
@@ -25,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <ColorProvider>
               <GlobalStyles />
               <GlobalColors />
-              <Root />
+              <RoutesComponent />
             </ColorProvider>
           </ThemeProviders>
         </ThemeProvider>

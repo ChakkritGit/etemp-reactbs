@@ -36,6 +36,7 @@ import TableModal from "../../components/home/table.modal"
 import PageLoading from "../../components/loading/page.loading"
 import { probeType } from "../../types/probe.type"
 import { cardFilter } from "../../types/component.type"
+import { resetActive } from "../../constants/constants"
 
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -69,24 +70,17 @@ export default function Home() {
     setShowticks(false)
   }
 
-  const Switchcase = (filtertext: string, cardactive: boolean) => {
+  const showToolTip = () => {
     if (localStorage.getItem('cardticks') === null) {
       localStorage.setItem('cardticks', '')
       showtk()
     } else {
       setShowticks(false)
     }
+  }
 
-    const resetActive = {
-      probe: false,
-      door: false,
-      connect: false,
-      plug: false,
-      sd: false,
-      adjust: false,
-      repair: false,
-      warranty: false
-    }
+  const Switchcase = (filtertext: string, cardactive: boolean) => {
+    showToolTip()
 
     let tempFilter: devicesType[] = []
     dispatch(setSearchQuery(''))
@@ -138,7 +132,7 @@ export default function Home() {
       {
         id: 1,
         title: 'probe',
-        count: devicesFilter.map((devItems) => devItems.noti).flat().filter((items) => items.notiDetail.split('/')[1] === "OVER" || items.notiDetail.split('/')[1] === "LOWER").length,
+        count: devicesFilter.map((devItems) => devItems.noti).flat().length,
         times: t('times'),
         svg: <RiTempColdLine />,
         cardname: 'probe',
@@ -589,117 +583,119 @@ export default function Home() {
       <Helmet>
         <meta name="description" content="page show all etemp box detect temperature realtime and nofi when temperture higher then limit This project is using the production build of React and supported redux, product copyright Thanes Development Co. Ltd." />
       </Helmet>
-      <HomeContainerFlex>
-        <DevHomeHeadTile>
-          <h5>
-            {t('allstatus')}
-          </h5>
-        </DevHomeHeadTile>
-        <DevHomeSecctionOne>
-          {
-            cardFilterData.map((items) => (
-              <DevicesCard
-                key={items.id}
-                title={items.title}
-                count={items.count}
-                times={items.times}
-                svg={items.svg}
-                cardname={items.cardname}
-                switchcase={items.switchcase}
-                active={items.active}
-              />
-            ))
-          }
-        </DevHomeSecctionOne>
-        <AboutBox>
-          <h5>{t('allinfobox')}</h5>
-          <DeviceInfoflex>
-            {
-              !filterdata &&
-              <DeviceInfoSpan onClick={() => setFilterdata(true)}>
-                {t('device_filter')}
-                <RiFilter3Line />
-              </DeviceInfoSpan>
-            }
-            <FilterHomeHOSWARD>
+      {
+        devices.length > 0 ?
+          <HomeContainerFlex>
+            <DevHomeHeadTile>
+              <h5>
+                {t('allstatus')}
+              </h5>
+            </DevHomeHeadTile>
+            <DevHomeSecctionOne>
               {
-                filterdata &&
-                <DevHomeHead>
-                  <motion.div
-                    variants={itemsFilter}
-                    initial="hidden"
-                    animate="visible"
-                  >
-                    <Select options={hospitalsData.map((items) => {
-                      return {
-                        value: items.hosId,
-                        label: items.hosName
-                      }
-                    })}
-                      onChange={(e) => getHospital(e?.value)}
-                      autoFocus={false}
-                    />
-                    <Select options={wardName.map((items) => {
-                      return {
-                        value: items.wardId,
-                        label: items.wardName
-                      }
-                    })}
-                      onChange={(e) => getWard(e?.value)}
-                      autoFocus={false}
-                    />
-                  </motion.div>
-                  <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>
-                    <RiCloseLine />
-                  </DeviceInfoSpanClose>
-                </DevHomeHead>
+                cardFilterData.map((items) => (
+                  <DevicesCard
+                    key={items.id}
+                    title={items.title}
+                    count={items.count}
+                    times={items.times}
+                    svg={items.svg}
+                    cardname={items.cardname}
+                    switchcase={items.switchcase}
+                    active={items.active}
+                  />
+                ))
               }
-            </FilterHomeHOSWARD>
-            <DeviceListFlex>
-              <ListBtn $primary={listAndgrid === 1} onClick={() => setListandgrid(1)}><RiListUnordered /></ListBtn>
-              <ListBtn $primary={listAndgrid === 2} onClick={() => setListandgrid(2)}><RiLayoutGridLine /></ListBtn>
-            </DeviceListFlex>
-          </DeviceInfoflex>
-        </AboutBox>
-        {
-          devices.length > 0 ?
-            listAndgrid === 1 ?
-              <DatatableHome>
-                <DataTable
-                  responsive={true}
-                  columns={columns}
-                  data={devicesFilter}
-                  paginationRowsPerPageOptions={[10, 20, 40, 60, 80, 100]}
-                  paginationPerPage={10}
-                  onRowClicked={handleRowClicked}
-                  expandableRowsComponent={ExpandedComponent}
-                  pagination
-                  dense
-                  expandableRows
-                  pointerOnHover
-                />
-              </DatatableHome>
-              :
-              <DevHomeDetails $primary={devicesFilter.length <= 5 && devicesFilter.length !== 0}>
-                <div>
+            </DevHomeSecctionOne>
+            <AboutBox>
+              <h5>{t('allinfobox')}</h5>
+              <DeviceInfoflex>
+                {
+                  !filterdata &&
+                  <DeviceInfoSpan onClick={() => setFilterdata(true)}>
+                    {t('device_filter')}
+                    <RiFilter3Line />
+                  </DeviceInfoSpan>
+                }
+                <FilterHomeHOSWARD>
                   {
-                    devicesFilter.length > 0 ?
-                      devicesFilter.map((item, index) =>
-                      (<DevicesInfoCard
-                        devicesdata={item}
-                        keyindex={index}
-                        key={item.devSerial}
-                        fetchData={filtersDevices}
-                      />))
-                      :
-                      <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                    filterdata &&
+                    <DevHomeHead>
+                      <motion.div
+                        variants={itemsFilter}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        <Select options={hospitalsData.map((items) => {
+                          return {
+                            value: items.hosId,
+                            label: items.hosName
+                          }
+                        })}
+                          onChange={(e) => getHospital(e?.value)}
+                          autoFocus={false}
+                        />
+                        <Select options={wardName.map((items) => {
+                          return {
+                            value: items.wardId,
+                            label: items.wardName
+                          }
+                        })}
+                          onChange={(e) => getWard(e?.value)}
+                          autoFocus={false}
+                        />
+                      </motion.div>
+                      <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>
+                        <RiCloseLine />
+                      </DeviceInfoSpanClose>
+                    </DevHomeHead>
                   }
-                </div>
-              </DevHomeDetails>
-            :
-            <PageLoading />
-        }
-      </HomeContainerFlex>
+                </FilterHomeHOSWARD>
+                <DeviceListFlex>
+                  <ListBtn $primary={listAndgrid === 1} onClick={() => setListandgrid(1)}><RiListUnordered /></ListBtn>
+                  <ListBtn $primary={listAndgrid === 2} onClick={() => setListandgrid(2)}><RiLayoutGridLine /></ListBtn>
+                </DeviceListFlex>
+              </DeviceInfoflex>
+            </AboutBox>
+            {
+              listAndgrid === 1 ?
+                <DatatableHome>
+                  <DataTable
+                    responsive={true}
+                    columns={columns}
+                    data={devicesFilter}
+                    paginationRowsPerPageOptions={[10, 20, 40, 60, 80, 100]}
+                    paginationPerPage={10}
+                    onRowClicked={handleRowClicked}
+                    expandableRowsComponent={ExpandedComponent}
+                    pagination
+                    dense
+                    expandableRows
+                    pointerOnHover
+                  />
+                </DatatableHome>
+                :
+                <DevHomeDetails $primary={devicesFilter.length <= 5 && devicesFilter.length !== 0}>
+                  <div>
+                    {
+                      devicesFilter.length > 0 ?
+                        devicesFilter.map((item, index) =>
+                        (<DevicesInfoCard
+                          devicesdata={item}
+                          keyindex={index}
+                          key={item.devSerial}
+                          fetchData={filtersDevices}
+                        />))
+                        :
+                        <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                    }
+                  </div>
+                </DevHomeDetails>
+            }
+          </HomeContainerFlex>
+          :
+          <PageLoading />
+      }
 
       <Modal show={showticks} onHide={isshowtk}>
         <Modal.Header closeButton>

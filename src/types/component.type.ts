@@ -75,4 +75,10 @@ type cardFilter = {
   active: boolean
 }
 
-export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter }
+type socketResponseType = {
+  device: string,
+  message: string,
+  time: string
+}
+
+export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter, socketResponseType }
