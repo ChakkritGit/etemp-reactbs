@@ -37,6 +37,7 @@ import PageLoading from "../../components/loading/page.loading"
 import { probeType } from "../../types/probe.type"
 import { cardFilter } from "../../types/component.type"
 import { resetActive } from "../../constants/constants"
+import { logtype } from "../../types/log.type"
 
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -87,20 +88,29 @@ export default function Home() {
 
     switch (filtertext) {
       case 'probe':
-        tempFilter = devicesFilter.filter((items) =>
-          items.noti.filter((items) => items.notiDetail.split('/')[1] === "OVER" || items.notiDetail.split('/')[1] === "LOWER"))
+        tempFilter = devices.filter((devItems) => devItems.noti.length > 0)
         break
       case 'door':
-        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1"))
+        tempFilter = devices.filter(device =>
+          device.log.some(logItem =>
+            logItem.door1 === "1" || logItem.door2 === "1" || logItem.door3 === "1"
+          ) && device.log.some(logItem => logItem.devSerial === device.devSerial)
+        )
         break
       case 'connect':
-        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.internet === "1"))
+        tempFilter = devices.filter(device =>
+          device.log.some(logItem => logItem.internet === "1")
+        )
         break
       case 'plug':
-        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.ac === "1"))
+        tempFilter = devices.filter(device =>
+          device.log.some(logItem => logItem.ac === "1")
+        )
         break
       case 'sd':
-        tempFilter = devicesFilter.filter((items) => items.log.filter((items) => items.sdCard === "1"))
+        tempFilter = devices.filter(device =>
+          device.log.some(logItem => logItem.sdCard === "1")
+        )
         break
       case 'adjust':
         break
@@ -128,12 +138,23 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const getCount = <K extends keyof devicesType>(key: K, condition: (items: logtype) => boolean): number =>
+      devicesFilter
+        .flatMap(devItems => Array.isArray(devItems[key]) ? devItems[key] as (logtype)[] : [])
+        .filter((items): items is logtype => 'devSerial' in items && typeof items === 'object' && condition(items))
+        .length
+
+    const getSum = (key: keyof NonNullable<devicesType['_count']>): number =>
+      devicesFilter
+        .map((devItems) => devItems._count?.[key] ?? 0) // Use 0 as the default value if undefined
+        .reduce((acc, val) => acc + val, 0)
+
     const CardFilterData = [
       {
         id: 1,
-        title: 'probe',
-        count: devicesFilter.map((devItems) => devItems.noti).flat().length,
-        times: t('times'),
+        title: t('countProbe'),
+        count: getCount('noti', () => true),
+        times: t('countNormalUnit'),
         svg: <RiTempColdLine />,
         cardname: 'probe',
         switchcase: Switchcase,
@@ -141,9 +162,9 @@ export default function Home() {
       },
       {
         id: 2,
-        title: 'doors',
-        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1").length,
-        times: t('times'),
+        title: t('countDoor'),
+        count: getCount('log', (items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1"),
+        times: t('countNormalUnit'),
         svg: <RiDoorClosedLine />,
         cardname: 'door',
         switchcase: Switchcase,
@@ -151,9 +172,9 @@ export default function Home() {
       },
       {
         id: 3,
-        title: 'connect',
-        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.internet === "1").length,
-        times: t('times'),
+        title: t('countConnect'),
+        count: getCount('log', (items) => items.internet === "1"),
+        times: t('countNormalUnit'),
         svg: <RiSignalWifi1Line />,
         cardname: 'connect',
         switchcase: Switchcase,
@@ -161,9 +182,9 @@ export default function Home() {
       },
       {
         id: 4,
-        title: 'plug',
-        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.ac === "1").length,
-        times: t('times'),
+        title: t('countPlug'),
+        count: getCount('log', (items) => items.ac === "1"),
+        times: t('countNormalUnit'),
         svg: <RiPlugLine />,
         cardname: 'plug',
         switchcase: Switchcase,
@@ -171,9 +192,9 @@ export default function Home() {
       },
       {
         id: 5,
-        title: 'sdcard',
-        count: devicesFilter.map((devItems) => devItems.log).flat().filter((items) => items.sdCard === "1").length,
-        times: t('times'),
+        title: t('countSdCard'),
+        count: getCount('log', (items) => items.sdCard === "1"),
+        times: t('countNormalUnit'),
         svg: <RiSdCardMiniLine />,
         cardname: 'sd',
         switchcase: Switchcase,
@@ -181,9 +202,9 @@ export default function Home() {
       },
       {
         id: 6,
-        title: 'adjust',
+        title: t('countAdjust'),
         count: 0,
-        times: t('times'),
+        times: t('countNormalUnit'),
         svg: <RiListSettingsLine />,
         cardname: 'adjust',
         switchcase: Switchcase,
@@ -191,9 +212,9 @@ export default function Home() {
       },
       {
         id: 7,
-        title: 'repair_home',
-        count: Number(devicesFilter.map((devItems) => devItems._count?.repair).flat().reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)),
-        times: t('times'),
+        title: t('countRepair'),
+        count: getSum('repair'),
+        times: t('countDeviceUnit'),
         svg: <RiFolderSettingsLine />,
         cardname: 'repair',
         switchcase: Switchcase,
@@ -201,15 +222,16 @@ export default function Home() {
       },
       {
         id: 8,
-        title: 'warranty_home',
-        count: Number(devicesFilter.map((devItems) => devItems._count?.warranty).flat().reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0)),
-        times: t('times'),
+        title: t('countWarranty'),
+        count: getSum('warranty'),
+        times: t('countDeviceUnit'),
         svg: <RiShieldCheckLine />,
         cardname: 'warranty',
         switchcase: Switchcase,
         active: active.warranty
       }
     ]
+
     setCardFilterData(CardFilterData)
   }, [devicesFilter, t])
 
@@ -239,77 +261,59 @@ export default function Home() {
   }
 
   const columns: TableColumn<devicesType>[] = [
-    // {
-    //   name: t('no'),
-    //   cell: (_, index) => {
-    //     return <div>{index + 1}</div>
-    //   },
-    //   sortable: false,
-    //   center: true,
-    //   width: '60px'
-    // },
     {
-      name: t('field_device_name'),
+      name: t('deviceNameTb'),
       selector: (items) => items.devDetail ? items.devDetail : 'Name is not assigned',
       sortable: false,
       center: true
     },
     {
-      name: t('tb_dev_sn'),
+      name: t('deviceSerialTb'),
       cell: (items) => <span title={items.devSerial}>...{items.devSerial.substring(17)}</span>,
       sortable: false,
       center: true
     },
     {
-      name: t('tb_install_location'),
+      name: t('deviceLocationTb'),
       selector: (items) => items.locInstall !== 'null' ? items.locInstall : '- -',
       sortable: false,
       center: true
     },
     {
-      name: t('temperature'),
-      cell: (items) => <span key={items.devSerial}>{items.log[0]?.tempAvg ?? 'No data'}</span>,
-      sortable: false,
-      center: true,
-      width: '80px'
-    },
-    {
-      name: t('humidity'),
-      selector: (items) => items.log[0]?.humidityAvg ? items.log[0].humidityAvg.toFixed(2) + ' %' : 'No data',
+      name: t('deviceTempTb'),
+      cell: (items) => <span key={items.devSerial}>{items.log[0]?.tempAvg.toFixed(2) + '°C' ?? 'No data'}</span>,
       sortable: false,
       center: true,
       width: '85px'
     },
     {
-      name: t('probe'),
-      cell: ((items) => (
-        <DeviceCardFooterInfo
+      name: t('deviceHumiTb'),
+      selector: (items) => items.log[0]?.humidityAvg ? items.log[0].humidityAvg.toFixed(2) + '%' : 'No data',
+      sortable: false,
+      center: true,
+      width: '85px'
+    },
+    {
+      name: t('deviceProbeTb'),
+      cell: ((items) => {
+        const temp = items.log.filter((logItems) => logItems.devSerial === items.devSerial)
+        const probe = items.probe.filter((logItems) => logItems.devSerial === items.devSerial)
+        return <DeviceCardFooterInfo
           $size
-          $primary={
-            items.log[0]?.tempAvg >= 125 ||
-            items.log[0]?.tempAvg === 0 ||
-            items.log[0]?.tempAvg <= -40 ||
-            items.log[0]?.tempAvg >= items.probe[0]?.tempMax ||
-            items.log[0]?.tempAvg <= items.probe[0]?.tempMin
-          }>
-          {
-            items.log[0]?.tempAvg >= 125 ||
-              items.log[0]?.tempAvg === 0 ||
-              items.log[0]?.tempAvg <= -40 ||
-              items.log[0]?.tempAvg >= items.probe[0]?.tempMax ||
-              items.log[0]?.tempAvg <= items.probe[0]?.tempMin ?
-              <RiErrorWarningLine />
-              :
-              <RiTempColdLine />
+          $primary={temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ? true : false}>
+          {temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ? true : false ?
+            <RiErrorWarningLine />
+            :
+            <RiTempColdLine />
           }
         </DeviceCardFooterInfo>
-      )),
+      }),
       sortable: false,
       center: true,
       width: '80px'
     },
     {
-      name: t('doors'),
+      name: t('deviceDoorTb'),
       cell: ((items) => (
         <DeviceCardFooterDoorFlex $primary>
           {
@@ -388,28 +392,28 @@ export default function Home() {
       center: true
     },
     {
-      name: t('connect'),
+      name: t('deviceConnectTb'),
       selector: (items) => ((Number(new Date()) - Number(new Date(items.log[0]?.sendTime))) / 1000) > 10 * 60 ? 'offline' : 'online',
       sortable: false,
       center: true,
       width: '90px'
     },
     {
-      name: t('batter'),
+      name: t('deviceBatteryTb'),
       selector: (items) => items.log[0]?.battery !== undefined ? items.log[0]?.battery + '%' : '- -',
       sortable: false,
       center: true,
       width: '83px'
     },
     {
-      name: t('plug'),
+      name: t('devicePlugTb'),
       selector: (items) => items.log[0]?.ac === '0' ? 'active' : 'Inactive',
       sortable: false,
       center: true,
       width: '70px'
     },
     {
-      name: t('warranty_home'),
+      name: t('deviceWarrantyTb'),
       cell: ((items) => {
         const today = new Date()
         const targetDate = new Date(items.dateInstall)
@@ -422,16 +426,7 @@ export default function Home() {
       center: true
     },
     {
-      name: t('repair_home'),
-      cell: ((_items) => {
-        return <span>- -</span>
-      }),
-      sortable: false,
-      center: true,
-      width: '9px'
-    },
-    {
-      name: t('hos_action'),
+      name: t('deviceActionTb'),
       cell: ((items) => {
         return (
           <TableModal
@@ -448,31 +443,55 @@ export default function Home() {
 
   const subDeviceColumns: TableColumn<probeType>[] = [
     {
-      name: 'Channel',
+      name: t('probeChannelSubTb'),
       cell: (items, index) => <span key={index}>{items.probeCh}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'ProbeType',
-      cell: (items, index) => <span key={index}>{items.probeType ? items.probeType : 'Type is not assigned'}</span>,
-      sortable: false,
-      center: true
-    },
-    {
-      name: 'ProbeName',
+      name: t('probeNameSubTb'),
       cell: (items, index) => <span key={index}>{items.probeName ? items.probeName : 'Name is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'Temperature',
-      cell: (items, index) => <span key={index}>{devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.tempAvg ? devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.tempAvg + ' °C' : 'Data not found'}</span>,
+      name: t('probeTypeSubTb'),
+      cell: (items, index) => <span key={index}>{items.probeType ? items.probeType : 'Type is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
-      name: t('doors'),
+      name: t('probeTempSubTb'),
+      cell: (items, index) => <span key={index}>{devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.tempAvg ? devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.tempAvg.toFixed(2) + '°C' : 'Data not found'}</span>,
+      sortable: false,
+      center: true
+    },
+    {
+      name: t('probeHumiSubTb'),
+      cell: (items, index) => <span key={index}>{devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.humidityAvg ? devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)[0]?.humidityAvg.toFixed(2) + '%' : 'Data not found'}</span>,
+      sortable: false,
+      center: true
+    },
+    {
+      name: t('deviceProbeTb'),
+      cell: ((items) => {
+        const temp = devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.filter((logItems) => logItems.probe === items.probeCh)
+        return <DeviceCardFooterInfo
+          $size
+          $primary={temp[0]?.tempAvg >= items.tempMax || temp[0]?.tempAvg <= items.tempMin ? true : false}>
+          {temp[0]?.tempAvg >= items.tempMax || temp[0]?.tempAvg <= items.tempMin ?
+            <RiErrorWarningLine />
+            :
+            <RiTempColdLine />
+          }
+        </DeviceCardFooterInfo>
+      }),
+      sortable: false,
+      center: true,
+      width: '80px'
+    },
+    {
+      name: t('probeDoorSubTb'),
       cell: ((items) =>
       (
         <DeviceCardFooterDoorFlex $primary>
@@ -588,7 +607,7 @@ export default function Home() {
           <HomeContainerFlex>
             <DevHomeHeadTile>
               <h5>
-                {t('allstatus')}
+                {t('showAllBox')}
               </h5>
             </DevHomeHeadTile>
             <DevHomeSecctionOne>

@@ -75,7 +75,7 @@ export default function Login() {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -84,7 +84,7 @@ export default function Login() {
           setIsloading(false)
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -95,8 +95,8 @@ export default function Login() {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -115,11 +115,11 @@ export default function Login() {
             <Form onSubmit={submitForm}>
               <h3
                 className="mb-3 text-center"
-              >{t('login_header')}</h3>
+              >{t('loginHeader')}</h3>
               <InputGroup className="mb-3">
                 <FloatingLabel
                   controlId="floatingInputUsername"
-                  label={t('login_username')}
+                  label={t('loginUsername')}
                   className="mb-2"
                 >
                   <Form.Control
@@ -137,7 +137,7 @@ export default function Login() {
               <InputGroup className="mb-3">
                 <FloatingLabel
                   controlId="floatingInputPassword"
-                  label={t('login_password')}
+                  label={t('loginPassword')}
                   className="mb-2"
                 >
                   <Form.Control
@@ -158,7 +158,7 @@ export default function Login() {
                 disabled={isloading}
               >{isloading ? <div className='login-button-load-flex'>
                 <RiLoader3Line />
-                {t('login_button_loading')}</div> : t('login_button')}
+                {t('loginButtonLoading')}</div> : t('loginButton')}
               </Button>
             </Form>
           </Card>

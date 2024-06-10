@@ -27,7 +27,7 @@ import { setSocketData } from '../stores/utilsStateSlice'
 import { client } from '../services/mqtt'
 import Log from '../pages/log/log'
 import { socketResponseType } from '../types/component.type'
-import { RiErrorWarningLine } from 'react-icons/ri'
+import { RiAlarmWarningFill } from 'react-icons/ri'
 
 export default function RoutesComponent() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -40,10 +40,18 @@ export default function RoutesComponent() {
 
       socket.on("receive_message", (response: socketResponseType) => {
         toast((_t) => (
-          `${response.device} \n ${response.message} \n ${response.time}`
+          `${response.device} \n ${response.message} \n ${new Date(response.time).toLocaleString('th-TH', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'UTC'
+          })}`
         ),
           {
-            icon: <RiErrorWarningLine size={24} fill='#FFC300' />,
+            icon: <RiAlarmWarningFill size={24} fill='var(--danger-color)' />,
             duration: 6000
           }
         )
@@ -67,11 +75,8 @@ export default function RoutesComponent() {
 
   useEffect(() => {
     try {
-      client.on('connect', () => {
-      })
-
-      client.on('disconnect', () => {
-      })
+      client.on('connect', () => { })
+      client.on('disconnect', () => { })
     } catch (error) {
       console.error("MQTT Error: ", error)
     }

@@ -4,6 +4,10 @@ export default function Log() {
   return (
     <div className="p-2">
       <h2>Update Logs</h2>
+      <LogSpan className="mt-3 mw-50"><b>Version 1.0-J10</b> <span>10/06/67</span></LogSpan>
+      <ul className="mt-2">
+        <li>Add a notification that floats to the bottom right corner.</li>
+      </ul>
       <LogSpan className="mt-3 mw-50"><b>Version 1.0-J8</b> <span>08/06/67</span></LogSpan>
       <ul className="mt-2">
         <li>Fixed an issue with box activity counting.</li>

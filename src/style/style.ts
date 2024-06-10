@@ -246,6 +246,7 @@ export const SidebarLogo = styled.img<{ $primary?: boolean }>`
   max-width: 100px;
   max-height: 100px;
   margin-bottom: .5rem;
+  background-color: var(--white);
   border-radius: var(--border-radius-small);
   transition: .3s;
   overflow: hidden;

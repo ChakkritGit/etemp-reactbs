@@ -4,9 +4,6 @@ import { notificationType } from "../../types/notification.type"
 import Loading from "../loading/loading"
 import { RiFileCloseLine } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
-import { useEffect, useState } from "react"
-import { devicesType } from "../../types/device.type"
-import { responseType } from "../../types/response.type"
 
 type notilist = {
   data: notificationType[],
