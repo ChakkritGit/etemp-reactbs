@@ -4636,7 +4636,7 @@ export const TabConnect = styled.div<{ $primary?: boolean }>`
   color: var(--white);
   opacity: ${props => props.$primary ? 0 : 1};
   position: fixed;
-  top: 0;
+  bottom: 0;
   z-index: 999999;
   transition: .5s;
 `
