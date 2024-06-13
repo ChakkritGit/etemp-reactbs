@@ -42,8 +42,8 @@ export default function WardDropdown(DwardProp: dropDownWardProp) {
   }, [Hosid])
 
   return (
-    <Form.Select onChange={setWardId} name="field_select_ward" value={selectedval} disabled={Hosid !== "" ? false : true} >
-      <option key={Group_ID} value={'default'}>{t('field_select_ward')}</option>
+    <Form.Select onChange={setWardId} name="fieldSelectWard" value={selectedval} disabled={Hosid !== "" ? false : true} >
+      <option key={Group_ID} value={'default'}>{t('selectWard')}</option>
       {
         wardData.map((item, index) => {
           if (item.wardId === Group_ID) {

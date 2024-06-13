@@ -15,7 +15,8 @@ export default defineConfig({
       filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectManifest: {
-        swDest: 'dist/sw.js'
+        swDest: 'dist/sw.js',
+        maximumFileSizeToCacheInBytes: 100 * 1024 * 1024 // 100MB
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
@@ -53,7 +54,7 @@ export default defineConfig({
     })
   ],
   build: {
-    chunkSizeWarningLimit: 5000, // Unit is in KB
+    chunkSizeWarningLimit: 100000, // Unit is in KB
   },
   server: {
     port: 12345,

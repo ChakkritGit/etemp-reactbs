@@ -125,8 +125,9 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
 }
 
 .container>nav>ol>li:nth-child(2),
-.container>nav>ol>li:nth-child(3)>p {
-  color: var(--white) !important;
+.container>nav>ol>li:nth-child(3)>p,
+.container>nav>ol>li:nth-child(4) {
+  color: var(--grey) !important;
 }
 
 .offcanvas {
@@ -193,6 +194,10 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
 
 .form-select:disabled {
   background-color: var(--main-seccond-color);
+}
+
+.compare-text {
+  color: white;
 }
 `
       :

@@ -11,10 +11,10 @@ export default function Adddevices() {
       defaultActiveKey="hospital"
       className="mb-3"
     >
-      <Tab eventKey="hospital" title={t('setting_devices')}>
+      <Tab eventKey="hospital" title={t('subTabDevice')}>
         <Managedev />
       </Tab>
-      <Tab eventKey="probe" title={t('probe')}>
+      <Tab eventKey="probe" title={t('sunTabProbe')}>
         <Probesetting />
       </Tab>
     </Tabs>

@@ -102,11 +102,11 @@ export default function sidebar() {
                   <RiHome3Line />
               }
               <SpanAside $primary={expand}>
-                {t('show_all_etemp')}
+                {t('sideShowAllBox')}
               </SpanAside>
             </Link>
             <TooltipSpan $primary={expand}>
-              {t('show_all_etemp')}
+              {t('sideShowAllBox')}
             </TooltipSpan>
           </Li>
           <Li $primary={expand}>
@@ -118,11 +118,11 @@ export default function sidebar() {
                   <RiDashboardLine />
               }
               <SpanAside $primary={expand}>
-                {t('dashboard')}
+                {t('sideDashboard')}
               </SpanAside>
             </Link>
             <TooltipSpan $primary={expand}>
-              {t('dashboard')}
+              {t('sideDashboard')}
             </TooltipSpan>
           </Li>
           {
@@ -137,27 +137,27 @@ export default function sidebar() {
                         <RiUser6Line />
                     }
                     <SpanAside $primary={expand}>
-                      {t('permission')}
+                      {t('sidePermission')}
                     </SpanAside>
                   </Link>
                   <TooltipSpan $primary={expand}>
-                    {t('permission')}
+                    {t('sidePermission')}
                   </TooltipSpan>
                 </Li>
                 <Li $primary={expand}>
-                  <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+                  <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
                     {
-                      location.pathname === "/management" ?
+                      location.pathname === "/management" || location.pathname === "/management/logadjust" ?
                         <RiListSettingsFill />
                         :
                         <RiListSettingsLine />
                     }
                     <SpanAside $primary={expand}>
-                      {t('setting')}
+                      {t('sideManage')}
                     </SpanAside>
                   </Link>
                   <TooltipSpan $primary={expand}>
-                    {t('setting')}
+                    {t('sideManage')}
                   </TooltipSpan>
                 </Li> </>
               :
@@ -173,11 +173,11 @@ export default function sidebar() {
                   <RiShieldCheckLine />
               }
               <SpanAside $primary={expand}>
-                {t('warranty')}
+                {t('sideWarranty')}
               </SpanAside>
             </Link>
             <TooltipSpan $primary={expand}>
-              {t('warranty')}
+              {t('sideWarranty')}
             </TooltipSpan>
           </Li>
           <Li $primary={expand}>
@@ -189,11 +189,11 @@ export default function sidebar() {
                   <RiFileSettingsLine />
               }
               <SpanAside $primary={expand}>
-                {t('repair')}
+                {t('sideRepair')}
               </SpanAside>
             </Link>
             <TooltipSpan $primary={expand}>
-              {t('repair')}
+              {t('sideRepair')}
             </TooltipSpan>
           </Li>
         </Ul>
@@ -209,11 +209,11 @@ export default function sidebar() {
                     <RiContactsBook2Line />
                 }
                 <SpanAside $primary={expand}>
-                  {t('contact')}
+                  {t('sideContact')}
                 </SpanAside>
               </Link>
               <TooltipSpan $primary={expand}>
-                {t('contact')}
+                {t('sideContact')}
               </TooltipSpan>
             </Li>
             <Li $primary={expand}>
@@ -225,16 +225,16 @@ export default function sidebar() {
                     <RiSettings3Line />
                 }
                 <SpanAside $primary={expand}>
-                  {t('systemsetting')}
+                  {t('sideSetting')}
                 </SpanAside>
               </Link>
               <TooltipSpan $primary={expand}>
-                {t('systemsetting')}
+                {t('sideSetting')}
               </TooltipSpan>
             </Li>
           </Ul>
         </SettingSystem>
-        <AboutVersion $primary={expand} onClick={() => navigate('/updatelog')}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
+        <AboutVersion $primary={expand} onClick={() => navigate('/changeLog')}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
       </Sidebar>
     </>
   )

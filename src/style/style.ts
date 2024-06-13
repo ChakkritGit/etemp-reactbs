@@ -1232,6 +1232,41 @@ ${props => props.theme.mode === 'dark' &&
 `}
 `
 
+export const ManageHistoryBody = styled.div<{ $primary?: boolean }>`
+&>div>div>div>div,&>div>div>div {
+  background-color: transparent;
+}
+
+&>div>div>div>div>div,
+&>div>nav {
+  background-color: var(--bg-grey);
+}
+${props => props.theme.mode === 'dark' &&
+    css`
+    &>div>div>div>div:nth-child(2)>div {
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+  }
+
+&>div>div>div>div>div,
+&>div>nav {
+  background-color: var(--main-seccond-color);
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+
+  &>div>button {
+    color: var(--white) !important;
+    fill: var(--white) !important;
+  }
+
+  &>div>button:disabled {
+    cursor: unset;
+    color: rgba(255, 255, 255, .30) !important;
+    fill: rgba(255, 255, 255, .30) !important;
+  }
+}
+`}
+`
+
 export const ManageDeviceBody = styled.div<{ $primary?: boolean }>`
 &>div>div>div>div,&>div>div>div {
   background-color: transparent;
@@ -3152,11 +3187,11 @@ border-color: var(--main-last-color);
   }
 `
 
-export const Noticontainer = styled.div<{ $primary?: boolean }>`
+export const Noticontainer = styled.div<{ $primary?: boolean, $readed?: boolean }>`
 display: flex;
 flex-direction: column;
 border-bottom: 1px solid var(--soft-grey);
-cursor: pointer;
+cursor: ${props => props.$readed ? 'unset' : 'pointer'};
 
 ${props => props.$primary &&
     css`

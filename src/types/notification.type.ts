@@ -2,7 +2,7 @@ type notificationType = {
   notiId: string,
   devSerial: string,
   notiDetail: string,
-  notiStatus: string,
+  notiStatus: boolean,
   createAt: string,
   updateAt: string,
   device: {

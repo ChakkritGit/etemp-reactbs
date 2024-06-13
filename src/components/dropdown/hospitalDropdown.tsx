@@ -18,8 +18,8 @@ export default function HospitalDropdown(hosprop: dropDownHospitalProp) {
   }
 
   return (
-    <Form.Select onChange={setHosId} name="field_select_hospital" value={selectedval}>
-      <option key={Hosid} value={'defualt'}>{t('field_select_hospital')}</option>
+    <Form.Select onChange={setHosId} name="fieldSelectHospital" value={selectedval}>
+      <option key={Hosid} value={'defualt'}>{t('selectHospital')}</option>
       {
         hospitalsData.map((item, index) => {
           if (item.hosId === Hosid) {

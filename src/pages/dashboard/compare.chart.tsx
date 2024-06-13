@@ -95,15 +95,15 @@ const Comparechart = () => {
           <RiDashboardFill fontSize={20} />
         </Link>
         <Link to={'/dashboard/fullchart'}>
-          {t('charttitle')}
+          {t('pageChart')}
         </Link>
-        <Typography color="text.primary">{t('compare_chart')}</Typography>
+        <Typography className="compare-text">{t('chartCompare')}</Typography>
       </Breadcrumbs>
       <FullchartHead>
         <FullchartHeadLeft>
-          <FullchartHeadBtn $primary={pageNumber === 1} onClick={() => { }}>{t('tab_day')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 2} onClick={() => { }}>{t('tab_week')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('tab_custom')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 1} onClick={() => { }}>{t('chartDay')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 2} onClick={() => { }}>{t('chartWeek')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
         </FullchartHeadLeft>
         <ExportandAuditFlex>
           <Dropdown>
@@ -145,7 +145,7 @@ const Comparechart = () => {
             type="datetime-local"
             value={filterDate.endDate}
             onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
-          <FilterSearchBtn onClick={() => { }}>{t('btn_search')}</FilterSearchBtn>
+          <FilterSearchBtn onClick={() => { }}>{t('searchButton')}</FilterSearchBtn>
         </FilterContainer>}
       <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
         <TableInfoDevice ref={tableInfoRef}>

@@ -62,7 +62,7 @@ export default function Fulltable() {
         .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
-      setLogData(responseData.data.data)
+      setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
     } catch (error) {
       console.error('Something wrong' + error)
@@ -77,7 +77,7 @@ export default function Fulltable() {
         .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
-      setLogData(responseData.data.data)
+      setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
     } catch (error) {
       console.error('Something wrong' + error)
@@ -97,14 +97,14 @@ export default function Fulltable() {
             .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
-          setLogData(responseData.data.data)
+          setLogData(responseData.data.data.map((items) => items).reverse())
         } catch (error) {
           console.error('Something wrong' + error)
         }
       } else {
         Swal.fire({
-          title: t('alert_header_Warning'),
-          text: 'ช่วงเวลาที่เลือกห่างกันมากกว่า 30 วัน',
+          title: t('alertHeaderWarning'),
+          text: t('CustomMessageLogData'),
           icon: "warning",
           timer: 3000,
           showConfirmButton: false,
@@ -112,7 +112,7 @@ export default function Fulltable() {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
+        title: t('alertHeaderWarning'),
         text: t('complete_field'),
         icon: "warning",
         timer: 2000,
@@ -134,7 +134,7 @@ export default function Fulltable() {
 
   const columns: TableColumn<logtype>[] = [
     {
-      name: t('no'),
+      name: t('deviceNoTb'),
       cell: (item, index) => {
         return <div
           key={item.devSerial}>
@@ -146,7 +146,7 @@ export default function Fulltable() {
       width: '65px'
     },
     {
-      name: t('วันที่'),
+      name: t('deviceDate'),
       cell: (items) => new Date(items.createAt).toLocaleString('th-TH', {
         day: '2-digit',
         month: '2-digit',
@@ -158,7 +158,7 @@ export default function Fulltable() {
       width: '90px'
     },
     {
-      name: t('time'),
+      name: t('deviceTime'),
       cell: (items) => new Date(items.createAt).toLocaleString('th-TH', {
         hour: '2-digit',
         minute: '2-digit',
@@ -169,37 +169,37 @@ export default function Fulltable() {
       width: '70px'
     },
     {
-      name: t('temperature'),
+      name: t('deviceTempTb'),
       selector: (items) => items.tempAvg + ' °C',
       sortable: false,
       center: true
     },
     {
-      name: t('Humidity'),
+      name: t('deviceHumiTb'),
       selector: (items) => items.humidityAvg + ' %',
       sortable: false,
       center: true
     },
     {
-      name: t('sdcard'),
-      cell: (items) => !items.sdCard ? <span>{t('off')}</span> : <span>{t('on')}</span>,
+      name: t('deviceSdCard'),
+      cell: (items) => items.sdCard === "1" ? <span>{t('stateProblem')}</span> : <span>{t('stateNormal')}</span>,
       sortable: false,
       center: true
     },
     {
-      name: t('probe'),
+      name: t('deviceProbeTb'),
       cell: (items) => {
         if (items.tempAvg === 0 || items.tempAvg >= 120 || items.tempAvg <= -40) {
-          return <span>{t('unavailable')}</span>
+          return <span>{t('stateProblem')}</span>
         } else {
-          return <span>{t('available')}</span>
+          return <span>{t('stateNormal')}</span>
         }
       },
       sortable: false,
       center: true
     },
     {
-      name: t('doors'),
+      name: t('deviceDoorTb'),
       cell: (items) => (
         <DoorTableContainer>
           {devData?.log[0]?.door1 ?
@@ -208,7 +208,7 @@ export default function Fulltable() {
                 items.door1 === "1"
               }>
               {
-                items.door1 ?
+                items.door1 === "1" ?
                   <RiDoorOpenLine />
                   :
                   <RiDoorClosedLine />
@@ -222,7 +222,7 @@ export default function Fulltable() {
                     items.door1 === "1"
                   }>
                   {
-                    items.door1 ?
+                    items.door1 === "1" ?
                       <RiDoorOpenLine />
                       :
                       <RiDoorClosedLine />
@@ -233,7 +233,7 @@ export default function Fulltable() {
                     items.door2 === "1"
                   }>
                   {
-                    items.door2 ?
+                    items.door2 === "1" ?
                       <RiDoorOpenLine />
                       :
                       <RiDoorClosedLine />
@@ -247,7 +247,7 @@ export default function Fulltable() {
                     items.door1 === "1"
                   }>
                   {
-                    items.door1 ?
+                    items.door1 === "1" ?
                       <RiDoorOpenLine />
                       :
                       <RiDoorClosedLine />
@@ -258,7 +258,7 @@ export default function Fulltable() {
                     items.door2 === "1"
                   }>
                   {
-                    items.door2 ?
+                    items.door2 === "1" ?
                       <RiDoorOpenLine />
                       :
                       <RiDoorClosedLine />
@@ -269,7 +269,7 @@ export default function Fulltable() {
                     items.door3 === "1"
                   }>
                   {
-                    items.door3 ?
+                    items.door3 === "1" ?
                       <RiDoorOpenLine />
                       :
                       <RiDoorClosedLine />
@@ -281,18 +281,14 @@ export default function Fulltable() {
       sortable: false,
       center: true
     },
-    // {
-    //   name: 'connect',
-    //   cell: devData.dev
-    // }
     {
-      name: t('plug'),
-      cell: (items) => items.ac === '0' ? <span>{t('on')}</span> : <span>{t('off')}</span>,
+      name: t('devicePlugTb'),
+      cell: (items) => items.ac === '0' ? <span>{t('stateNormal')}</span> : <span>{t('stateProblem')}</span>,
       sortable: false,
       center: true
     },
     {
-      name: t('batter'),
+      name: t('deviceBatteryTb'),
       cell: (items) => items.battery + '%',
       sortable: false,
       center: true
@@ -311,11 +307,11 @@ export default function Fulltable() {
             TemeratureMin: items.devSerial,
             Temperature: items.tempAvg,
             Humidity: items.humidityAvg,
-            Door1: items.door1 ? t('open') : t('close'),
-            Door2: items.door1 ? t('open') : t('close'),
-            Door3: items.door1 ? t('open') : t('close'),
-            Connectivity: items.internet ? t('disconnect') : t('connected'),
-            Plug: items.ac ? t('off') : t('on'),
+            Door1: items.door1 === "1" ? t('stateOn') : t('stateOff'),
+            Door2: items.door2 === "1" ? t('stateOn') : t('stateOff'),
+            Door3: items.door3 === "1" ? t('stateOn') : t('stateOff'),
+            Connectivity: items.internet ? t('stateDisconnect') : t('stateConnect'),
+            Plug: items.ac ? t('stateProblem') : t('stateNormal'),
             Battery: items.battery + '%',
             Time: new Date(items.createAt).toLocaleString('th-TH', {
               day: '2-digit',
@@ -353,19 +349,19 @@ export default function Fulltable() {
         <Link to={'/dashboard'}>
           <RiDashboardFill fontSize={20} />
         </Link>
-        <Typography color="text.primary">{t('tabletitle')}</Typography>
+        <Typography color="text.primary">{t('pageTable')}</Typography>
       </Breadcrumbs>
       <FulltableHead>
         <FulltableHeadLeft>
-          <FulltableHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('tab_day')}</FulltableHeadBtn>
-          <FulltableHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('tab_week')}</FulltableHeadBtn>
-          <FulltableHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('tab_custom')}</FulltableHeadBtn>
+          <FulltableHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FulltableHeadBtn>
+          <FulltableHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FulltableHeadBtn>
+          <FulltableHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FulltableHeadBtn>
         </FulltableHeadLeft>
         <Dropdown>
           <Dropdown.Toggle variant="0" className="border-0 p-0">
             <FulltableHeadBtn>
               <RiFolderSharedLine />
-              {t('export')}
+              {t('exportFile')}
             </FulltableHeadBtn>
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -406,7 +402,7 @@ export default function Fulltable() {
                 max={getDateNow()}
                 value={filterDate.endDate}
                 onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
-              <FilterSearchBtn onClick={Logcustom}>Search</FilterSearchBtn>
+              <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
             </FilterContainer>
           }{
             loading ?

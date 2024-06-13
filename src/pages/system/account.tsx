@@ -109,7 +109,7 @@ export default function Account() {
         })
         setshow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.data,
           icon: "success",
           timer: 2000,
@@ -119,7 +119,7 @@ export default function Account() {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -127,7 +127,7 @@ export default function Account() {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Uknown Error',
             icon: "error",
             timer: 2000,
@@ -137,8 +137,8 @@ export default function Account() {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -148,7 +148,7 @@ export default function Account() {
 
   return (
     <AccountContainer>
-      <h3>{t('profile')}</h3>
+      <h3>{t('titleProfile')}</h3>
       <ProfileFlex $radius={50} $dimension={150}>
         <div>
           <img src={userpicture ? userpicture : `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}`} alt="user-picture" />
@@ -163,11 +163,11 @@ export default function Account() {
         </div>
       </ProfileFlex>
       <LineHr />
-      <h3>{t('security')}</h3>
+      <h3>{t('titleSecurity')}</h3>
       <SecurityFlex>
-        <span>{t('password')}</span>
+        <span>{t('titlePassword')}</span>
         <SecurityPasswordBtn onClick={openmodal}>
-          {t('change')}
+          {t('changPassword')}
         </SecurityPasswordBtn>
       </SecurityFlex>
 
@@ -175,7 +175,7 @@ export default function Account() {
         <Modal.Header>
           <ModalHead>
             <strong>
-              {t('password')}
+              {t('titlePassword')}
             </strong>
             <button onClick={closemodal}>
               <RiCloseLine />
@@ -188,7 +188,7 @@ export default function Account() {
               <Col lg={12}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    รหัสผ่านใหม่
+                    {t('newPassword')}
                     <Form.Control
                       spellCheck={false}
                       autoComplete='off'
@@ -203,18 +203,18 @@ export default function Account() {
                   <span>
                     {
                       newpassword.length === 0 ?
-                        'ต่ำมาก'
+                        t('passLower')
                         :
                         newpassword.length < 4 ?
-                          'ต่ำ'
+                          t('passLow')
                           :
                           newpassword.length < 8 ?
-                            'ปานกลาง'
+                            t('passNormal')
                             :
                             newpassword.length < 12 ?
-                              'ดี'
+                              t('passGood')
                               :
-                              'ดีมาก'
+                              t('passExcellent')
                     }
                   </span>
                 </PasswordChangeFlex>
@@ -222,7 +222,7 @@ export default function Account() {
                   <Checkboxbsoveride>
                     <Form.Check
                       inline
-                      label={'แสดงรหัสผ่าน'}
+                      label={t('showPass')}
                       type="checkbox"
                       checked={showpassword}
                       onChange={() => setShowpassword(!showpassword)}

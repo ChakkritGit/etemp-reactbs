@@ -113,6 +113,7 @@ export default function Home() {
         )
         break
       case 'adjust':
+        navigate("/management/logadjust")
         break
       case 'repair':
         navigate("/repair")
@@ -211,16 +212,6 @@ export default function Home() {
         active: active.adjust
       },
       {
-        id: 7,
-        title: t('countRepair'),
-        count: getSum('repair'),
-        times: t('countDeviceUnit'),
-        svg: <RiFolderSettingsLine />,
-        cardname: 'repair',
-        switchcase: Switchcase,
-        active: active.repair
-      },
-      {
         id: 8,
         title: t('countWarranty'),
         count: getSum('warranty'),
@@ -229,6 +220,16 @@ export default function Home() {
         cardname: 'warranty',
         switchcase: Switchcase,
         active: active.warranty
+      },
+      {
+        id: 7,
+        title: t('countRepair'),
+        count: getSum('repair'),
+        times: t('countDeviceUnit'),
+        svg: <RiFolderSettingsLine />,
+        cardname: 'repair',
+        switchcase: Switchcase,
+        active: active.repair
       }
     ]
 
@@ -281,7 +282,7 @@ export default function Home() {
     },
     {
       name: t('deviceTempTb'),
-      cell: (items) => <span key={items.devSerial}>{items.log[0]?.tempAvg.toFixed(2) + '°C' ?? 'No data'}</span>,
+      cell: (items) => <span key={items.devSerial}>{items.log[0]?.tempAvg ? items.log[0]?.tempAvg.toFixed(2) + '°C' : 'No data'}</span>,
       sortable: false,
       center: true,
       width: '85px'
@@ -314,86 +315,84 @@ export default function Home() {
     },
     {
       name: t('deviceDoorTb'),
-      cell: ((items) => (
-        <DeviceCardFooterDoorFlex $primary>
-          {
-            items.probe[0]?.door === 1 ?
-              <DeviceCardFooterDoor
-                $primary={items.log[0]?.door1 === "1"}
-              >
-                {
-                  items.log[0]?.door1 ?
-                    <RiDoorOpenLine />
-                    :
-                    <RiDoorClosedLine />
-                }
-              </DeviceCardFooterDoor>
+      cell: ((items) => (<DeviceCardFooterDoorFlex key={items.devId} $primary>
+        {
+          items.probe[0]?.door === 1 ?
+            <DeviceCardFooterDoor
+              $primary={items.log[0]?.door1 === "1"}
+            >
+              {
+                items.log[0]?.door1 === "1" ?
+                  <RiDoorOpenLine />
+                  :
+                  <RiDoorClosedLine />
+              }
+            </DeviceCardFooterDoor>
+            :
+            items.probe[0]?.door === 2 ?
+              <>
+                <DeviceCardFooterDoor
+                  $primary={items.log[0]?.door1 === "1"}
+                >
+                  {
+                    items.log[0]?.door1 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                <DeviceCardFooterDoor
+                  $primary={items.log[0]?.door2 === "1"}
+                >
+                  {
+                    items.log[0]?.door2 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+              </>
               :
-              items.probe[0]?.door === 2 ?
-                <>
-                  <DeviceCardFooterDoor
-                    $primary={items.log[0]?.door1 === "1"}
-                  >
-                    {
-                      items.log[0]?.door1 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                  <DeviceCardFooterDoor
-                    $primary={items.log[0]?.door2 === "1"}
-                  >
-                    {
-                      items.log[0]?.door2 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                </>
-                :
-                <>
-                  <DeviceCardFooterDoor
-                    $primary={items.log[0]?.door1 === "1"}
-                  >
-                    {
-                      items.log[0]?.door1 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                  <DeviceCardFooterDoor
-                    $primary={items.log[0]?.door2 === "1"}
-                  >
-                    {
-                      items.log[0]?.door2 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                  <DeviceCardFooterDoor
-                    $primary={items.log[0]?.door3 === "1"}
-                  >
-                    {
-                      items.log[0]?.door3 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                </>
-          }
-        </DeviceCardFooterDoorFlex>
-      )),
+              <>
+                <DeviceCardFooterDoor
+                  $primary={items.log[0]?.door1 === "1"}
+                >
+                  {
+                    items.log[0]?.door1 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                <DeviceCardFooterDoor
+                  $primary={items.log[0]?.door2 === "1"}
+                >
+                  {
+                    items.log[0]?.door2 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                <DeviceCardFooterDoor
+                  $primary={items.log[0]?.door3 === "1"}
+                >
+                  {
+                    items.log[0]?.door3 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+              </>
+        }
+      </DeviceCardFooterDoorFlex>)),
       sortable: false,
       center: true
     },
     {
       name: t('deviceConnectTb'),
-      selector: (items) => ((Number(new Date()) - Number(new Date(items.log[0]?.sendTime))) / 1000) > 10 * 60 ? 'offline' : 'online',
+      selector: (items) => ((Number(new Date()) - Number(new Date(items.log[0]?.sendTime))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline'),
       sortable: false,
       center: true,
       width: '90px'
@@ -407,7 +406,7 @@ export default function Home() {
     },
     {
       name: t('devicePlugTb'),
-      selector: (items) => items.log[0]?.ac === '0' ? 'active' : 'Inactive',
+      selector: (items) => items.log[0]?.ac === '1' ? t('stateProblem') : t('stateNormal'),
       sortable: false,
       center: true,
       width: '70px'
@@ -420,7 +419,7 @@ export default function Home() {
         targetDate.setFullYear(targetDate.getFullYear() + 1)
         const timeDifference = targetDate.getTime() - today.getTime()
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
-        return <span>{daysRemaining} วัน</span>
+        return <span>{daysRemaining} {t('stateDateDay')}</span>
       }),
       sortable: false,
       center: true
@@ -493,85 +492,84 @@ export default function Home() {
     {
       name: t('probeDoorSubTb'),
       cell: ((items) =>
-      (
-        <DeviceCardFooterDoorFlex $primary>
-          {
-            items.door === 1 ?
-              <DeviceCardFooterDoor
-                $primary={
-                  devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
-                }>
-                {
-                  devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 ?
-                    <RiDoorOpenLine />
-                    :
-                    <RiDoorClosedLine />
-                }
-              </DeviceCardFooterDoor>
+      (<DeviceCardFooterDoorFlex $primary>
+        {
+          items.door === 1 ?
+            <DeviceCardFooterDoor
+              $primary={
+                devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
+              }>
+              {
+                devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1" ?
+                  <RiDoorOpenLine />
+                  :
+                  <RiDoorClosedLine />
+              }
+            </DeviceCardFooterDoor>
+            :
+            items.door === 2 ?
+              <>
+                <DeviceCardFooterDoor
+                  $primary={
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
+                  }>
+                  {
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                <DeviceCardFooterDoor
+                  $primary={
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1"
+                  }>
+                  {
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+              </>
               :
-              items.door === 2 ?
-                <>
-                  <DeviceCardFooterDoor
-                    $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
-                    }>
-                    {
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                  <DeviceCardFooterDoor
-                    $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1"
-                    }>
-                    {
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                </>
-                :
-                <>
-                  <DeviceCardFooterDoor
-                    $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
-                    }>
-                    {
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door1 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                  <DeviceCardFooterDoor
-                    $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1"
-                    }>
-                    {
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door2 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                  <DeviceCardFooterDoor
-                    $primary={
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door3 === "1"
-                    }>
-                    {
-                      devicesFilter[0]?.log.find((value) => value.probe === items.probeCh)?.door3 ?
-                        <RiDoorOpenLine />
-                        :
-                        <RiDoorClosedLine />
-                    }
-                  </DeviceCardFooterDoor>
-                </>
-          }
-        </DeviceCardFooterDoorFlex>
+              <>
+                <DeviceCardFooterDoor
+                  $primary={
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1"
+                  }>
+                  {
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door1 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                <DeviceCardFooterDoor
+                  $primary={
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1"
+                  }>
+                  {
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door2 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                <DeviceCardFooterDoor
+                  $primary={
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door3 === "1"
+                  }>
+                  {
+                    devicesFilter.filter((devItems) => devItems.devSerial === items.devSerial)[0]?.log.find((value) => value.probe === items.probeCh)?.door3 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+              </>
+        }
+      </DeviceCardFooterDoorFlex>
       )),
       sortable: false,
       center: true
@@ -627,12 +625,12 @@ export default function Home() {
               }
             </DevHomeSecctionOne>
             <AboutBox>
-              <h5>{t('allinfobox')}</h5>
+              <h5>{t('detailAllBox')}</h5>
               <DeviceInfoflex>
                 {
                   !filterdata &&
                   <DeviceInfoSpan onClick={() => setFilterdata(true)}>
-                    {t('device_filter')}
+                    {t('deviceFilter')}
                     <RiFilter3Line />
                   </DeviceInfoSpan>
                 }

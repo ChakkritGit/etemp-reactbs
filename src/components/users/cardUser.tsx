@@ -31,7 +31,7 @@ export default function CardUser(userProp: cardType) {
         })
       dispatch(fetchUserData(token))
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -40,7 +40,7 @@ export default function CardUser(userProp: cardType) {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -48,7 +48,7 @@ export default function CardUser(userProp: cardType) {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: "Uknown Error",
           icon: "error",
           timer: 2000,
@@ -83,11 +83,11 @@ export default function CardUser(userProp: cardType) {
               swalWithBootstrapButtons
                 .fire({
                   title: t('deleteuserTitle'),
-                  text: t('deleteuserText'),
+                  text: t('notReverseText'),
                   icon: "warning",
                   showCancelButton: true,
-                  confirmButtonText: t('deletebtn'),
-                  cancelButtonText: t('cancelbtn'),
+                  confirmButtonText: t('confirmButton'),
+                  cancelButtonText: t('cancelButton'),
                   reverseButtons: false,
                 })
                 .then((result) => {

@@ -142,8 +142,8 @@ export default function Fullchart() {
         }
       } else {
         Swal.fire({
-          title: t('alert_header_Warning'),
-          text: 'ช่วงเวลาที่เลือกห่างกันมากกว่า 30 วัน',
+          title: t('alertHeaderWarning'),
+          text: t('CustomMessageLogData'),
           icon: "warning",
           timer: 3000,
           showConfirmButton: false,
@@ -151,8 +151,8 @@ export default function Fullchart() {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -243,15 +243,15 @@ export default function Fullchart() {
         <Link to={'/dashboard'}>
           <RiDashboardFill fontSize={20} />
         </Link>
-        <Typography color="text.primary">{t('charttitle')}</Typography>
+        <Typography color="text.primary">{t('pageChart')}</Typography>
       </Breadcrumbs>
       <FullchartHead>
         <FullchartHeadLeft>
-          <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('tab_day')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('tab_week')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('tab_custom')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
           <span>|</span>
-          <FullchartHeadBtn onClick={() => navigate('compare')}>{t('compare_chart')}</FullchartHeadBtn>
+          <FullchartHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullchartHeadBtn>
         </FullchartHeadLeft>
         <ExportandAuditFlex>
           <AuditGraphBtn disabled onClick={() => {
@@ -284,7 +284,7 @@ export default function Fullchart() {
             <Dropdown.Toggle variant="0" className="border-0 p-0">
               <FullchartHeadExport>
                 <RiFolderSharedLine />
-                {t('export')}
+                {t('exportFile')}
               </FullchartHeadExport>
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -325,7 +325,7 @@ export default function Fullchart() {
                 max={getDateNow()}
                 value={filterDate.endDate}
                 onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
-              <FilterSearchBtn onClick={Logcustom}>{t('btn_search')}</FilterSearchBtn>
+              <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
             </FilterContainer>}
           {
             logData.length > 0 ?

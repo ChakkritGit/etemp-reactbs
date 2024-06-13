@@ -12,12 +12,9 @@ export default function Hospitals() {
       defaultActiveKey="hospital"
       className="mb-3"
     >
-      <Tab eventKey="hospital" title={t('tab_hospital')}>
+      <Tab eventKey="hospital" title={t('subTabHosandWard')}>
         <ManageHospitals />
       </Tab>
-      {/* <Tab eventKey="ward" title={t('tab_ward')}>
-        <ManageWard />
-      </Tab> */}
     </Tabs>
   )
 }

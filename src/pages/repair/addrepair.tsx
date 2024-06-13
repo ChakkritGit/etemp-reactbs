@@ -61,88 +61,114 @@ export default function Addrepair(addrepair: addrepairtype) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    try {
-      const response = await axios
-        .post<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair`, repairData, {
-          headers: { authorization: `Bearer ${token}` }
+    const { comment, devId, repairDetails, repairInfo, repairInfo1, repairInfo2, repairLocation, repairStatus, telePhone, ward, warrantyStatus } = repairData
+    if (repairInfo !== '' && repairLocation !== '' && telePhone !== '' && ward !== '' && devId !== '' && warrantyStatus !== '' && comment !== ''
+      && repairDetails !== '' && repairStatus !== '' && repairInfo1 !== '' && repairInfo2 !== ''
+    ) {
+      try {
+        const response = await axios
+          .post<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair`, repairData, {
+            headers: { authorization: `Bearer ${token}` }
+          })
+        setShow(false)
+        Swal.fire({
+          title: t('alertHeaderSuccess'),
+          text: response.data.message,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
         })
-      setShow(false)
+        fetchdata()
+        setRepairdata({
+          repairInfo: '',
+          repairLocation: '',
+          telePhone: '',
+          ward: '',
+          devId: '',
+          warrantyStatus: '',
+          comment: '',
+          repairDetails: '',
+          repairStatus: '',
+          repairInfo1: '',
+          repairInfo2: ''
+        })
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: 'Uknown Error',
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
+      }
+    } else {
       Swal.fire({
-        title: t('alert_header_Success'),
-        text: response.data.message,
-        icon: "success",
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
+        icon: "warning",
         timer: 2000,
         showConfirmButton: false,
       })
-      fetchdata()
-      setRepairdata({
-        repairInfo: '',
-        repairLocation: '',
-        telePhone: '',
-        ward: '',
-        devId: '',
-        warrantyStatus: '',
-        comment: '',
-        repairDetails: '',
-        repairStatus: '',
-        repairInfo1: '',
-        repairInfo2: ''
-      })
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alert_header_Error'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
-      } else {
-        Swal.fire({
-          title: t('alert_header_Error'),
-          text: 'Uknown Error',
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
-      }
     }
   }
 
   const handleSubmitEdit = async (e: FormEvent) => {
     e.preventDefault()
-    try {
-      const response = await axios
-        .put<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair/${devdata.repairId}`, repairData, {
-          headers: { authorization: `Bearer ${token}` }
+    const { comment, devId, repairDetails, repairInfo, repairInfo1, repairInfo2, repairLocation, repairStatus, telePhone, ward, warrantyStatus } = repairData
+    if (repairInfo !== '' && repairLocation !== '' && telePhone !== '' && ward !== '' && devId !== '' && warrantyStatus !== '' && comment !== ''
+      && repairDetails !== '' && repairStatus !== '' && repairInfo1 !== '' && repairInfo2 !== ''
+    ) {
+      try {
+        const response = await axios
+          .put<responseType<repairType>>(`${import.meta.env.VITE_APP_API}/repair/${devdata.repairId}`, repairData, {
+            headers: { authorization: `Bearer ${token}` }
+          })
+        setShow(false)
+        Swal.fire({
+          title: t('alertHeaderSuccess'),
+          text: response.data.message,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
         })
-      setShow(false)
+        fetchdata()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: 'Uknown Error',
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
+      }
+    } else {
       Swal.fire({
-        title: t('alert_header_Success'),
-        text: response.data.message,
-        icon: "success",
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
+        icon: "warning",
         timer: 2000,
         showConfirmButton: false,
       })
-      fetchdata()
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alert_header_Error'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
-      } else {
-        Swal.fire({
-          title: t('alert_header_Error'),
-          text: 'Uknown Error',
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
-      }
     }
   }
 
@@ -151,7 +177,7 @@ export default function Addrepair(addrepair: addrepairtype) {
       {
         pagestate === "add" ?
           <AddrepairBtn onClick={openmodal}>
-            {t('repairtitle')}
+            {t('addRepair')}
             <RiAddLine />
           </AddrepairBtn>
           :
@@ -172,9 +198,9 @@ export default function Addrepair(addrepair: addrepairtype) {
             <strong>
               {
                 pagestate === "add" ?
-                  t('repairtitle')
+                  t('addRepair')
                   :
-                  t('edit')
+                  t('editRepair')
               }
             </strong>
             <button onClick={closemodal}>
@@ -186,9 +212,9 @@ export default function Addrepair(addrepair: addrepairtype) {
           <Modal.Body>
             <Row>
               <Col lg={6}>
-                <FormTitleFlex><RiUser3Line />{t('sectionpersonal')}</FormTitleFlex>
+                <FormTitleFlex><RiUser3Line />{t('sectionPersonal')}</FormTitleFlex>
                 <Form.Group className="mb-3" >
-                  <Form.Label>{t('field_displayname')}</Form.Label>
+                  <Form.Label>{t('hisUsername')}</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -197,7 +223,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                     onChange={(e) => setRepairdata({ ...repairData, repairInfo: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                  <Form.Label>{t('address')}</Form.Label>
+                  <Form.Label>{t('hosAddress')}</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -206,7 +232,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                     onChange={(e) => setRepairdata({ ...repairData, repairLocation: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                  <Form.Label>{t('telnumber')}</Form.Label>
+                  <Form.Label>{t('hosTel')}</Form.Label>
                   <Form.Control
                     type="tel"
                     placeholder=""
@@ -215,7 +241,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                     onChange={(e) => setRepairdata({ ...repairData, telePhone: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                  <Form.Label>{t('tab_ward')}</Form.Label>
+                  <Form.Label>{t('Ward')}</Form.Label>
                   <WardDropdown
                     setState_ward={setValuestate}
                     Hosid={localStorage.getItem('hosid') as string}
@@ -224,9 +250,9 @@ export default function Addrepair(addrepair: addrepairtype) {
                 </Form.Group>
               </Col>
               <Col lg={6}>
-                <FormTitleFlex><RiDropboxLine />{t('sectionproduct')}</FormTitleFlex>
+                <FormTitleFlex><RiDropboxLine />{t('sectionProduct')}</FormTitleFlex>
                 <Form.Group className="mb-3" >
-                  <Form.Label>{t('tb_dev_sn')}</Form.Label>
+                  <Form.Label>{t('deviceSerialTb')}</Form.Label>
                   <Showsn
                     repairData={repairData}
                     setRepairdata={setRepairdata}
@@ -237,15 +263,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   <Checkboxbsoveride>
                     <Form.Check
                       inline
-                      label={t('aftersale')}
-                      className='int-ch-b'
-                      type="checkbox"
-                      checked={repairData.warrantyStatus === "1"}
-                      onChange={() => handleCheckboxChange("1")}
-                    />
-                    <Form.Check
-                      inline
-                      label={t('expired')}
+                      label={t('tabWarrantyExpired')}
                       className='int-ch-b'
                       type="checkbox"
                       checked={repairData.warrantyStatus === "2"}
@@ -253,7 +271,15 @@ export default function Addrepair(addrepair: addrepairtype) {
                     />
                     <Form.Check
                       inline
-                      label={t('ma')}
+                      label={t('tabWarrantyaftersale')}
+                      className='int-ch-b'
+                      type="checkbox"
+                      checked={repairData.warrantyStatus === "1"}
+                      onChange={() => handleCheckboxChange("1")}
+                    />
+                    <Form.Check
+                      inline
+                      label={t('warrantyMa')}
                       className='int-ch-b'
                       type="checkbox"
                       checked={repairData.warrantyStatus === "3"}
@@ -261,7 +287,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                     />
                     <Form.Check
                       inline
-                      label={t('etc')}
+                      label={t('warrantyEtc')}
                       className='int-ch-b'
                       type="checkbox"
                       checked={repairData.warrantyStatus === "4"}
@@ -271,7 +297,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                 </Form.Group>
                 {repairData.warrantyStatus === "4" ?
                   <Form.Group className="mb-3" >
-                    <Form.Label>{t('detailsExpand')}</Form.Label>
+                    <Form.Label>{t('hisDetail')}</Form.Label>
                     <Form.Control
                       as="textarea"
                       placeholder=""
@@ -287,9 +313,9 @@ export default function Addrepair(addrepair: addrepairtype) {
               </Col>
               <Col lg={16}>
                 <Row>
-                  <FormTitleFlex><RiInformationLine />{t('details')}</FormTitleFlex>
+                  <FormTitleFlex><RiInformationLine />{t('deviceDetail')}</FormTitleFlex>
                   <Form.Group className="mb-3 w-100" >
-                    <Form.Label>{t('details')}</Form.Label>
+                    <Form.Label>{t('hisDetail')}</Form.Label>
                     <Form.Control
                       as="textarea"
                       placeholder=""
@@ -300,7 +326,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   </Form.Group>
                   <Col lg={6}>
                     <Form.Group className="mb-3" >
-                      <Form.Label>{t('สภาพเครื่อง')}</Form.Label>
+                      <Form.Label>{t('deiveCondition')}</Form.Label>
                       <Form.Control
                         as="textarea"
                         placeholder=""
@@ -311,7 +337,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   </Col>
                   <Col lg={6}>
                     <Form.Group className="mb-3" >
-                      <Form.Label>{t('อุปกรณ์ที่นำมาด้วย')}</Form.Label>
+                      <Form.Label>{t('deviceRepairInfo')}</Form.Label>
                       <Form.Control
                         as="textarea"
                         placeholder=""
@@ -327,7 +353,7 @@ export default function Addrepair(addrepair: addrepairtype) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('saveButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

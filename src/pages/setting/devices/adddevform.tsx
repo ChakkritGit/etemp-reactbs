@@ -104,7 +104,7 @@ export default function Adddevform(managedevices: managedevices) {
         }, { headers: { authorization: `Bearer ${token}` } })
         setShow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -127,7 +127,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -135,7 +135,7 @@ export default function Adddevform(managedevices: managedevices) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: "Unknown Error",
             icon: "error",
             timer: 2000,
@@ -145,8 +145,8 @@ export default function Adddevform(managedevices: managedevices) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -179,7 +179,7 @@ export default function Adddevform(managedevices: managedevices) {
         })
         setShow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -190,7 +190,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -198,7 +198,7 @@ export default function Adddevform(managedevices: managedevices) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -208,8 +208,8 @@ export default function Adddevform(managedevices: managedevices) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -234,7 +234,7 @@ export default function Adddevform(managedevices: managedevices) {
           }
         })
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -245,7 +245,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -253,7 +253,7 @@ export default function Adddevform(managedevices: managedevices) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -263,8 +263,8 @@ export default function Adddevform(managedevices: managedevices) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -290,7 +290,7 @@ export default function Adddevform(managedevices: managedevices) {
           }
         })
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -301,7 +301,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -309,7 +309,7 @@ export default function Adddevform(managedevices: managedevices) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -319,8 +319,8 @@ export default function Adddevform(managedevices: managedevices) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -350,7 +350,7 @@ export default function Adddevform(managedevices: managedevices) {
       {
         pagestate === "add" ?
           <AddDevices onClick={openmodal}>
-            {t('setting_tab_devices_add_btn')}
+            {t('addDeviceButton')}
             <RiAddLine />
           </AddDevices>
           :
@@ -370,9 +370,9 @@ export default function Adddevform(managedevices: managedevices) {
             <strong>
               {
                 pagestate === "add" ?
-                  t('tab_add_dev')
+                  t('addDeviceButton')
                   :
-                  t('tab_edit_dev')
+                  t('editDeviceButton')
               }
             </strong>
             <button onClick={closemodal}>
@@ -389,7 +389,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('field_select_hos')}
+                          {t('Hospitals')}
                           <HospitalDropdown
                             setHos_id={setHosid}
                             Hosid={hosid}
@@ -401,7 +401,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('field_select_ward')}
+                          {t('Ward')}
                           <WardDropdown
                             setState_ward={setValuestate}
                             Hosid={hosid}
@@ -418,7 +418,7 @@ export default function Adddevform(managedevices: managedevices) {
               <Col lg={pagestate === "edit" ? 6 : 12}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('tb_dev_sn')}
+                    {t('deviceSerialTb')}
                     <Form.Control
                       name='form_label_hosname'
                       spellCheck={false}
@@ -435,7 +435,7 @@ export default function Adddevform(managedevices: managedevices) {
                 <Col lg={pagestate === "add" ? 12 : 6}>
                   <InputGroup className="mb-3">
                     <Form.Label className="w-100">
-                      {t('devmac')}
+                      {t('deviceMacAddress')}
                       <Form.Control
                         name='form_label_hosname'
                         spellCheck={false}
@@ -454,7 +454,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('field_device_name')}
+                          {t('deviceNameTb')}
                           <Form.Control
                             name='form_label_hosname'
                             spellCheck={false}
@@ -469,7 +469,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('รายละเอียดอุปกรณ์')}
+                          {t('deviceDetail')}
                           <Form.Control
                             name='form_label_hosname'
                             spellCheck={false}
@@ -484,7 +484,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('ลำดับแสดง')}
+                          {t('deviceSeq')}
                           <Form.Control
                             name='form_label_hosname'
                             spellCheck={false}
@@ -499,7 +499,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('โซน')}
+                          {t('deviceZone')}
                           <Form.Control
                             name='form_label_hosname'
                             spellCheck={false}
@@ -514,7 +514,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('ตำแหน่งติดตั้ง')}
+                          {t('deviceLocationTb')}
                           <Form.Control
                             name='form_label_hosname'
                             spellCheck={false}
@@ -529,7 +529,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-auto">
-                          {t('device_picture')}
+                          {t('devicePicture')}
                           <ProfileFlex $radius={10} $dimension={250}>
                             <div>
                               <img src={devicePicture ? devicePicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
@@ -545,7 +545,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('ตั้งค่าเน็ตเวิร์ค')}
+                          {t('deviceNetwork')}
                           <ManageConfigAdd type='button' onClick={openmodalConfig} className="mt-3">
                             {t('แก้ไขคอนฟิก')}
                             <RiListSettingsLine />
@@ -562,7 +562,7 @@ export default function Adddevform(managedevices: managedevices) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('submitButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>
@@ -577,7 +577,7 @@ export default function Adddevform(managedevices: managedevices) {
                 <RiArrowLeftSLine />
               </button>
               <strong>
-                {t('แก้ไขคอนฟิก')}
+                {t('deviceNetwork')}
               </strong>
             </ModalMuteHead>
             {/* <pre>{JSON.stringify(netConfig, null, 2)}</pre> */}
@@ -707,7 +707,7 @@ export default function Adddevform(managedevices: managedevices) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('submitButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

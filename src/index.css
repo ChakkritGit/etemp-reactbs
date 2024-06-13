@@ -267,6 +267,10 @@ input[type="range"]::-moz-range-thumb {
   background: var(--blue-black);
 }
 
+.compare-text {
+  color: black;
+}
+
 ol>li>a {
   color: var(--grey);
   text-decoration: unset;

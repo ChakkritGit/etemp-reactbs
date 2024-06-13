@@ -39,13 +39,13 @@ export default function Navprofile() {
             <NavProfile src={localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem("userpicture")}` : 'https://test.thanespgm.com/img/default-pic.png'} alt="profile" />
             <div style={{ display: 'flex', flexDirection: 'column', width: '100px', maxWidth: '100px' }}>
               <span style={{ display: 'block', width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{localStorage.getItem("displayname")}</span>
-              <strong style={{ width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{localStorage.getItem("userlevel") === "1" ? t('user_lvtag_sup') : localStorage.getItem("userlevel") === "2" ? t('user_lvtag_ser') : localStorage.getItem("userlevel") === "3" ? t('user_lvtag_ad') : t('user_lvtag_us')}</strong>
+              <strong style={{ width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{localStorage.getItem("userlevel") === "1" ? t('levelSuper') : localStorage.getItem("userlevel") === "2" ? t('levelService') : localStorage.getItem("userlevel") === "3" ? t('levelAdmin') : t('levelUser')}</strong>
             </div>
           </NavProfileContainer>
           <LineHr />
           <NavLogout onClick={() => logOut(true)}>
             <RiLogoutBoxRLine />
-            {t('logout')}
+            {t('tabLogout')}
           </NavLogout>
         </NavbarProfileDropdown>
       </Dropdown.Menu>

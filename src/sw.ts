@@ -13,47 +13,124 @@ self.skipWaiting()
 
 // cache images
 const imageRoute = new Route(
-  ({ request, sameOrigin }) => {
-    return sameOrigin && request.destination === 'image'
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/img`)
   },
-  new CacheFirst({
-    cacheName: 'images'
+  new NetworkFirst({
+    cacheName: 'images',
   })
 )
 
 registerRoute(imageRoute)
 
+// cache fonts
+const fontRoute = new Route(
+  ({ request }) => {
+    return request.destination === 'font'
+  },
+  new CacheFirst({
+    cacheName: 'fonts',
+  })
+)
+
+registerRoute(fontRoute)
+
 // cache api calls with token
 const fetchDeviceRoute = new Route(
-  ({ request }) => request.url === `${import.meta.env.VITE_APP_API}/device`,
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/device`)
+  },
+
   new NetworkFirst({
-    cacheName: 'api/fetch-device',
-    fetchOptions: {
-      credentials: 'same-origin',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // ใช้ token ของคุณที่นี่
-      },
-    },
-    plugins: [
-      {
-        fetchDidSucceed: async ({ request, response }) => {
-          // Clone the response to ensure it's safe to use for caching.
-          const clonedResponse = response.clone()
-          // Check if the response was successful (status code 2xx)
-          if (response.status >= 200 && response.status < 300) {
-            // Open the cache and put the cloned response into it.
-            const cache = await caches.open('api/fetch-device')
-            await cache.put(request, clonedResponse)
-          }
-          // Return the original response.
-          return response
-        },
-      },
-    ],
+    cacheName: 'api/fetchDevice',
   })
 )
 
 registerRoute(fetchDeviceRoute)
+
+const fetchHospitalRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/hospital`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchHospital',
+  })
+)
+
+registerRoute(fetchHospitalRoute)
+
+const fetchWardRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/ward`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchWard',
+  })
+)
+
+registerRoute(fetchWardRoute)
+
+const fetchProbeRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/probe`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchProbe',
+  })
+)
+
+registerRoute(fetchProbeRoute)
+
+const fetchUserRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/user`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchUser',
+  })
+)
+
+registerRoute(fetchUserRoute)
+
+const fetchNotificationRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/notification`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchNotification',
+  })
+)
+
+registerRoute(fetchNotificationRoute)
+
+const fetchWarrantyRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/warranty`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchWarranty',
+  })
+)
+
+registerRoute(fetchWarrantyRoute)
+
+const fetchRepairRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/repair`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchRepair',
+  })
+)
+
+registerRoute(fetchRepairRoute)
 
 // cache navigations
 const navigationRoute = new NavigationRoute(
@@ -74,13 +151,8 @@ const adjjustDeviceSubmit = new Route(
   ({ request }) => {
     return request.url === `${import.meta.env.VITE_APP_API}/device`
   },
+
   new NetworkOnly({
-    fetchOptions: {
-      credentials: 'same-origin',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // ใช้ token ของคุณที่นี่
-      },
-    },
     plugins: [bgSyncPlugin]
   }),
   "PUT"
@@ -92,13 +164,8 @@ const addDeviceSubmit = new Route(
   ({ request }) => {
     return request.url === `${import.meta.env.VITE_APP_API}/device`
   },
+
   new NetworkOnly({
-    fetchOptions: {
-      credentials: 'same-origin',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // ใช้ token ของคุณที่นี่
-      },
-    },
     plugins: [bgSyncPlugin]
   }),
   "POST"
@@ -110,13 +177,8 @@ const addProbeSubmit = new Route(
   ({ request }) => {
     return request.url === `${import.meta.env.VITE_APP_API}/probe`
   },
+
   new NetworkOnly({
-    fetchOptions: {
-      credentials: 'same-origin',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // ใช้ token ของคุณที่นี่
-      },
-    },
     plugins: [bgSyncPlugin]
   }),
   "POST"
@@ -128,13 +190,8 @@ const editProbeSubmit = new Route(
   ({ request }) => {
     return request.url === `${import.meta.env.VITE_APP_API}/probe`
   },
+
   new NetworkOnly({
-    fetchOptions: {
-      credentials: 'same-origin',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // ใช้ token ของคุณที่นี่
-      },
-    },
     plugins: [bgSyncPlugin]
   }),
   "PUT"
@@ -146,13 +203,8 @@ const deleteProbeSubmit = new Route(
   ({ request }) => {
     return request.url === `${import.meta.env.VITE_APP_API}/probe`
   },
+
   new NetworkOnly({
-    fetchOptions: {
-      credentials: 'same-origin',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // ใช้ token ของคุณที่นี่
-      },
-    },
     plugins: [bgSyncPlugin]
   }),
   "DELETE"
@@ -160,10 +212,10 @@ const deleteProbeSubmit = new Route(
 
 registerRoute(deleteProbeSubmit)
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim())
-})
-
 self.addEventListener('install', () => {
   self.skipWaiting()
+})
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim())
 })

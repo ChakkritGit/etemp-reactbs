@@ -26,7 +26,7 @@ export default function Probesetting() {
       })
       dispatch(fetchProbeData(token))
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -35,7 +35,7 @@ export default function Probesetting() {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -43,7 +43,7 @@ export default function Probesetting() {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -55,43 +55,43 @@ export default function Probesetting() {
 
   const columns: TableColumn<probeType>[] = [
     {
-      name: 'ลำดับ',
+      name: t('noNumber'),
       cell: (_, index) => <span>{index + 1}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'ชื่อโพรบ',
+      name: t('probeName'),
       cell: (items) => <span>{items.probeName ? items.probeName : 'Name is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'ประเภทโพรบ',
+      name: t('probeType'),
       cell: (items) => <span>{items.probeType ? items.probeType : 'Type is not assigned'}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'ช่อง',
+      name: t('probeChanel'),
       cell: (items) => <span>{items.probeCh}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'ตำแหน่ง',
+      name: t('probeLocation'),
       cell: (items) => <span>{items.location ? items.location : '- -'}</span>,
       sortable: false,
       center: true
     },
     {
-      name: 'ไอดีอุปกรณ์',
+      name: t('deviceSerialTb'),
       cell: (items) => <span>{items.device.devSerial}</span>,
       sortable: false,
       center: true
     },
     {
-      name: t('hos_action'),
+      name: t('action'),
       cell: (items, index) => (
         <Actiontableprobe key={index}>
           <Addprobe
@@ -102,12 +102,12 @@ export default function Probesetting() {
           <DelProbeButton onClick={() =>
             swalWithBootstrapButtons
               .fire({
-                title: t('deleteuserTitle'),
-                text: t('deleteuserText'),
+                title: t('deleteProbe'),
+                text: t('deleteProbeText'),
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: t('deletebtn'),
-                cancelButtonText: t('cancelbtn'),
+                confirmButtonText: t('confirmButton'),
+                cancelButtonText: t('cancelButton'),
                 reverseButtons: false,
               })
               .then((result) => {
@@ -130,7 +130,7 @@ export default function Probesetting() {
   return (
     <ManageProbeContainer>
       <ManageProbeHeader className="mb-3">
-        <h3>{t('จัดการโพรบ')}</h3>
+        <h3>{t('titleManageProbe')}</h3>
         <Addprobe
           pagestate={'add'}
         />

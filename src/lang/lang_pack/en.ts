@@ -10,6 +10,8 @@ export default {
 
     // home
     showAllBox: 'Event of Day',
+    detailAllBox: 'All Device Details',
+    deviceFilter: 'Filters',
 
     // card count
     countProbe: 'Temperatures',
@@ -24,6 +26,8 @@ export default {
     countDeviceUnit: 'Devices',
 
     // home table
+    deviceNoTb: 'No',
+    deviceDate: 'Date',
     deviceNameTb: 'Device Name',
     deviceSerialTb: 'Device Serial',
     deviceLocationTb: 'Device Location',
@@ -43,35 +47,259 @@ export default {
     probeHumiSubTb: 'Humidity',
     probeProbeSubTb: 'Probe Status',
     probeDoorSubTb: 'Doors',
+    selectProbe: 'Select Probe',
+    nameNotRegister: 'Name is not assigned',
+    adjustMents: 'adjustment',
+    tempMin: 'Temperature Min',
+    tempMax: 'Temperature Max',
+    humiMin: 'Humidity Min',
+    humiMax: 'Humidity Max',
+    adjustTemp: 'Temperature compensation',
+    adjustHumi: 'Humidity compensation',
+    currentTemp: 'Temperature before adjust',
+    adjustAfterTemp: 'Temperature after adjust',
+    muteSetting: 'Mute Settings',
+    notificationSettings: 'Notification Settings',
+    adjustButtonSubmit: 'Save',
 
+    // notification setting itemp
+    choiceOne: '1. Sending message for the first time.',
+    choiceTwo: '2. Sending message when the temperature returned to normal level.',
+    choiceThree: '3. Repetition of message.',
+    choiceFour: '4. Notification to the app.',
+    messageimmediately: 'Immediately',
+    messageAfter: 'After (Minutes)',
+    messageSend: 'Send',
+    messageDonotSend: 'Do not Send',
+    messageOneTime: 'One Time',
+    messageEvery: 'Every (Minutes)',
+    messageOn: 'On',
+    messageOff: 'Off',
+    notificationButtonSubmit: 'บันทึก',
 
+    // device cards
+    deviceOnline: 'Online',
+    deviceOffline: 'Offline',
+    deviceDoor: 'Doors',
+    deviceTemp: 'Temperature',
+    deviceHumi: 'Humidity',
+    deviceTime: 'Time',
+    deviceProbe: 'Probe',
+    devicePlug: 'Plug',
+    deviceSdCard: 'SdCard',
+    deviceBattery: 'Battery',
 
+    // device tool tip
+    deviceToolDashboard: 'Dashboard',
+    deviceToolAdjust: 'Adjust',
 
+    // dashboard
+    temperatureName: 'Temperature',
+    humidityName: 'Humidity',
+    minValueUnit: 'Min',
+    maxValueUnit: 'Max',
+    dashProbe: 'Probe',
+    dashConnect: 'Connectivity',
+    dashDoor: 'Doors',
+    dashPlug: 'Plug',
+    dashBattery: 'Battery',
+    dashTempofDay: 'Temp of Day',
+    dashSdCard: 'SdCard',
+    dashProbeandDoor: 'Probe & Doors',
+    dashWarranty: 'Warranties',
+    dashRepair: 'Repairs',
+    pageChart: 'Chart',
+    pageTable: 'Table',
 
+    // full chart
+    chartDay: 'Day',
+    chartWeek: 'Week',
+    chartCustom: 'Custom',
+    chartCompare: 'Compare',
 
+    // user
+    addUserButton: 'Add User',
+    editUserButton: 'Edit User',
 
+    levelSuper: 'Super',
+    levelService: 'Service',
+    levelAdmin: 'Admin',
+    levelUser: 'User',
 
+    userActive: 'Active',
+    userInactive: 'Inactive',
 
+    // user form
+    userHospitals: 'Hospitals',
+    userWard: 'Ward',
+    userNameForm: 'Username',
+    userpassword: 'Password',
+    userDisplayName: 'Name',
+    userRole: 'Role Level',
+    userPicture: 'Picture',
+    userStatus: 'User Status',
 
+    // manage
+    tabManageDevice: 'Manage Devices',
+    tabManageHospitals: 'Manage Hospitals',
+    tabAdjustHistory: 'Adjust Logs',
+    subTabDevice: 'Devices',
+    sunTabProbe: 'Probe',
+    subTabHosandWard: 'Hospital and Ward',
+    titleManageDevices: 'Manage Devices',
+    titleManageProbe: 'Manage Probe',
+    titleManageHosandWard: 'Manage Hospital and Ward',
+    titleRepair: 'Manage Repairs',
+    addDeviceButton: 'Add Device',
+    editDeviceButton: 'Edit Device',
+    deviceMacAddress: 'Mac Address',
 
+    // probe
+    probeName: 'Probe Name',
+    probeType: 'Probe Type',
+    probeChanel: 'Probe Chanel',
+    probeLocation: 'Probe Location',
+    addProbe: 'Add Probe',
+    editProbe: 'Edit Probe',
 
+    // probe select
+    probe5Minute: '5 Minute',
+    probe15Minute: '15 Minute',
+    probe30Minute: '30 Minute',
+    probe1Hour: '1 Hour',
+    probe2Hour: '2 Hour',
+    probe4Hour: '4 Hour',
+    probeDoor1: '1 Door',
+    probeDoor2: '2 Door',
+    probeDoor3: '3 Door',
+    probeChanel1: 'Chanel 1',
+    probeChanel2: 'Chanel 2',
+    probeChanel3: 'Chanel 3',
+    probeChanel4: 'Chanel 4',
 
+    // hos and ward
+    hosPicture: 'Picture',
+    hosName: 'Hospital Name',
+    hosAddress: 'Address',
+    hosTel: 'Tel Number',
+    wardName: 'Ward Name',
+    addHos: 'Add Hospital',
+    addWard: 'Add Ward',
+    editHos: 'Edit Hospital',
+    editWard: 'Edit Ward',
 
+    // history
+    hisDetail: 'Detail',
+    hisUsername: 'User',
 
+    // warranty
+    tabWarrantyExpired: 'Expired',
+    tabWarrantyaftersale: 'In Warranty',
+    tabWarrantyall: 'All',
+    warrantyMa: 'MA',
+    warrantyEtc: 'Other',
 
+    // repair
+    addRepair: 'Add Repair',
+    editRepair: 'Edit Repair',
+    sectionPersonal: 'Personal Info',
+    sectionProduct: 'Product Info',
+    deiveCondition: 'Device Condition',
+    deviceRepairInfo: 'Returned Equipment',
 
+    // contact
+    contactUs: 'Contact Us',
+    contactInfo1: '61/34 Soi Amornphan 4 (Vibhavadi 42), Chatuchak District, Vibhavadi Rangsit Road, Bangkok 10900 Bangkok, Province Bangkok 10900',
 
+    // system
+    tabAccount: 'Account',
+    tabDisplay: 'Display',
+    tabLanguage: 'Language',
+    tabLogout: 'Logout',
+    titleProfile: 'Profile',
+    titleSecurity: 'Security',
+    titlePassword: 'Password',
+    changPassword: 'Change',
+    newPassword: 'New Password',
+    passLower: 'Lower',
+    passLow: 'Low',
+    passNormal: 'Normal',
+    passGood: 'Good',
+    passExcellent: 'Excellent',
+    showPass: 'Show Password',
+    chooseColor: 'Choose Colors',
+    defualtColor: 'Defualt',
+    p1Color: 'Preset 1',
+    p2Color: 'Preset 2',
+    p3Color: 'Preset 3',
+    p4Color: 'Preset 4',
+    mode: 'Mode',
+    appearanceMode: 'Appearance dark mode',
+    screen: 'Screen',
+    fullScreen: 'Full Screen Mode',
+    changeLanguage: 'Change Language',
 
+    // notification
+    titleNotification: 'Notification',
+    notRead: 'Unread',
+    Readed: 'Readed',
+    notificationAll: 'All',
 
+    // devices
+    deviceDetail: 'Device Detail',
+    deviceSeq: 'Device Sequence',
+    deviceZone: 'Location Zone',
+    devicePicture: 'Device Picture',
+    deviceNetwork: 'Network Settings',
 
+    // sidebar
+    sideShowAllBox: 'Show all eTEMP',
+    sideDashboard: 'Dashboard',
+    sidePermission: 'Manage Users',
+    sideManage: 'Manage',
+    sideWarranty: 'Warranties',
+    sideRepair: 'Repairs',
+    sideContact: 'Contact us',
+    sideSetting: 'Settings',
 
+    // Button
+    saveButton: 'Save',
+    confirmButton: 'Confirm',
+    cancelButton: 'Cancel',
+    submitButton: 'Save',
 
+    // dropdown
+    selectDeviceDrop: 'Select Devices',
+    selectRole: 'Select Role Level',
+    selectStatus: 'Select User Status',
+    selectWard: 'Select Ward',
+    selectHospital: 'Select Hospital',
+    selectDelay: 'Select Delay Time',
+    selectDoor: 'Select Door',
+    selectChanel: 'Select Chanel',
 
-
-
-
-
-
+    // utis
+    stateOn: 'On',
+    stateOff: 'Off',
+    stateConnect: 'Connected',
+    stateDisconnect: 'Disconnected',
+    stateNormal: 'Normal',
+    stateProblem: 'Problem',
+    stateDateDay: 'Days',
+    exportFile: 'Export',
+    searchButton: 'Search',
+    copyToClip: 'Copied',
+    copyToClipFaile: 'Failed to copy',
+    noNumber: 'No',
+    status: 'Status',
+    action: 'Action',
+    Hospitals: 'Hospital',
+    Ward: 'Ward',
+    Delay: 'Delay Time',
+    Door: 'Number of door',
+    nodata: 'Data not found',
+    loading: 'Loading...',
+    searchItemsNav: 'Search',
 
     // sweetalert
     alertHeaderWarning: 'Warning',
@@ -79,221 +307,13 @@ export default {
     alertHeaderSuccess: 'Success',
     completeField: 'Please complete this field!',
     deleteuserTitle: 'Do you want to delete a user?',
-    deleteuserText: 'You will not be able to reverse this',
-    deleteButton: 'Delete',
-    cancelButton: 'Cancel',
+    notReverseText: 'You will not be able to reverse this',
+    CustomMessageLogData: 'The selected time periods are more than 30 days apart.',
+    deactivateDevice: 'Do you want to deactivate a device?',
+    deactivateDeviceText: 'If you deactivated it, the device will stop working immediately!',
+    deleteProbe: 'Do you want to delete probe?',
+    deleteProbeText: 'You will not be able to reverse probe settings!',
+    deleteWarranty: 'Do you want to warranty probe?',
+    deleteWarrantyText: 'You will not be able to reverse warranty detail!',
   },
 }
-
-
-// // en.ts
-// export default {
-//   translation: {
-//     // sidebar
-//     show_all_etemp: 'Show all eTEMP',
-//     dashboard: 'Dashboard',
-//     setting: 'Manage',
-//     permission: 'Permission',
-//     warranty: 'Warranty',
-//     repair: 'Repair',
-//     contact: 'Contact',
-//     systemsetting: 'System Setting',
-//     // permission
-//     permissionTitle: 'Users management',
-//     permissionBtnadd: 'Add User',
-//     permissionBtnedit: 'Edit User',
-//     permissionBtndel: 'Delete user',
-//     user_lvtag_sup: 'Super',
-//     user_lvtag_ser: 'Service',
-//     user_lvtag_ad: 'Admin',
-//     user_lvtag_us: 'User',
-//     // form add user
-//     field_hospitals: 'Hospitals',
-//     field_ward: 'Wards',
-//     field_username: 'Username',
-//     field_userpassword: 'Password',
-//     field_displayname: 'Name',
-//     field_userlevel: 'User Level',
-//     field_userpicture: 'Picture',
-//     field_select_hos: 'Select Hospitals',
-//     field_select_ward: 'Select Wards',
-//     field_select_hospital: 'Select Hospitals',
-//     field_select_level: 'Select Level',
-//     field_select_status: 'User Status',
-//     field_select_status_active: 'Active',
-//     field_select_status_inactive: 'Inactive',
-//     form_btn_save: 'Save',
-//     form_btn_close: 'Close',
-//     // setting
-//     setting_devices: 'Devices',
-//     setting_tab_devices: 'Manage Devices',
-//     setting_tab_hospitals: 'Manage Hospitals',
-//     setting_tab_generate: 'Generate ID',
-//     tab_hospital: 'Hospital and Ward',
-//     tab_ward: 'Ward',
-//     // tab hospitals
-//     add_hospitals_btn: 'Add Hospitals',
-//     form_label_hosname: 'Hospital Name',
-//     form_label_hosaddress: 'Address',
-//     form_label_hostel: 'Telephone',
-//     form_label_hospic: 'Picture',
-//     hos_no: 'No',
-//     hos_pic: 'Picture',
-//     hos_name: 'Hospital name',
-//     hos_address: 'Hospital Address',
-//     hos_tel: 'Telephone',
-//     hos_action: 'Action',
-//     // tab Ward
-//     add_wards_btn: 'Manage Wards',
-//     add_ward_btn: 'Add Ward',
-//     form_ward_name: 'Ward Name',
-//     // tab add dev
-//     tab_adjust: 'Adjustment',
-//     tab_add_dev: 'Add Devices',
-//     tab_edit_dev: 'Edit Devices',
-//     tb_dev_id: 'Devices ID',
-//     tb_dev_sn: 'Devices SN',
-//     tb_dev_status: 'Devices Status',
-//     setting_tab_devices_add_btn: 'Add Device',
-//     field_device_name: 'Device Name',
-//     tb_install_location: 'Install Location',
-//     // temperature
-//     device_temp_min: 'Temperature Min',
-//     device_temp_max: 'Temperature Max',
-//     device_hum_min: 'Humidity Min',
-//     device_hum_max: 'Humidity Max',
-//     device_adjust_temp: 'Temperature Adjustment',
-//     device_adjust_hum: 'Humidity Adjustment',
-//     device_delay_time: 'Frequency of recorded',
-//     device_probe: 'Number of probe',
-//     device_door: 'Number of door',
-//     device_picture: 'Picture of eTEMP',
-
-//     // Home
-//     allstatus: 'Event of Day',
-//     allinfobox: 'All Device Details',
-//     // home -> card
-//     probe: 'Probe',
-//     doors: 'Doors',
-//     connect: 'Connectivity',
-//     plug: 'Plug',
-//     sdcard: 'SD Card',
-//     adjust: 'Adjustment',
-//     repair_home: 'Repair',
-//     warranty_home: 'Warranty left',
-//     batter: 'Battery',
-//     tempofday: 'Temp of day',
-//     probeanddoor: 'Probe And Door',
-//     times: 'Times',
-
-//     // dashboard chart
-//     charttitle: 'Chart',
-//     ChartDoorText: 'Door',
-//     ChartTempText: 'Temperature',
-//     ChartHumText: 'Humidity',
-//     ChartDoorStateOpen: '      Open',
-//     ChartDoorStateClose: '     Close',
-//     optimizegraph: 'Optimize Graph',
-//     // dashboard table
-//     tabletitle: 'Table',
-//     no: 'No',
-//     time: 'Time',
-//     ward_no: 'No',
-//     ward_name: 'Ward Name',
-
-//     // repair
-//     repairtitle: 'Repair',
-//     details: 'Details',
-//     address: 'Address',
-//     telnumber: 'Tel',
-//     print: 'Print',
-//     edit: 'Edit',
-//     sectionpersonal: 'Personal Information',
-//     sectionproduct: 'Product Information',
-//     detailsExpand: 'Expand Details',
-
-//     // Warranty
-//     aftersale: 'Afrersale',
-//     expired: 'Expired',
-//     ma: 'MA',
-//     etc: 'Other',
-
-//     // nabvar
-//     search_items_nav: 'Search on current page',
-
-//     // modal head
-//     modal_edit_hos: 'Edit Hospital',
-//     modal_edit_ward: 'Edit Ward',
-
-//     // temp and hum
-//     temperature: 'Temperature',
-//     humidity: 'Humidity',
-//     tempmin: 'Temperature Min',
-//     tempmax: 'Temperature Max',
-//     hummin: 'Humidity Min',
-//     hummax: 'Humidity Max',
-//     adjusttemp: 'Adjust Temperature',
-//     adjusthum: 'Adjust Humidity',
-//     min: 'Min',
-//     max: 'Max',
-
-//     // filter
-//     device_filter: 'Filter',
-//     settings: 'Settings',
-//     // date
-//     tab_day: 'Day',
-//     tab_week: 'Week',
-//     tab_custom: 'Custom',
-//     install_date: 'Install Date',
-//     compare_chart: 'Compare Chart',
-//     // navbar
-//     logout: 'Sign Out',
-//     online: 'Online',
-//     offline: 'Offline',
-//     connected: 'Connected',
-//     disconnect: 'Disconnected',
-//     open: 'Open',
-//     close: 'Close',
-//     on: 'Activate',
-//     off: 'Inactivate',
-//     day: 'Day',
-//     zoom: 'Zoom',
-//     drang: 'Drang',
-//     unavailable: 'Defective',
-//     available: 'Normal',
-
-//     // action
-//     export: 'Export',
-//     btn_search: 'Search',
-//     allitem: 'All',
-//     copied: 'Copied',
-
-//     // contact
-//     contactus: 'Contact Us',
-
-//     // system
-//     default: 'Default',
-//     preset: 'Preset',
-//     systemcolor: 'System color',
-//     choosecolor: 'Colors',
-//     appearance: 'Mode',
-//     accountsetting: 'Account',
-//     profile: 'Profile',
-//     language: 'Language',
-//     security: 'Security',
-//     password: 'Password setting',
-//     change: 'Change',
-//     darkmodesetting: 'Appearance dark mode',
-
-//     // load
-//     nodata: 'No data!',
-//     loading: 'Loading...',
-
-//     // onError page 404
-//     titleerror: 'Oops!',
-//     descerror: 'Sorry, an unexpected error has occurred.',
-//     btnerror: 'Go back',
-//     titleNotAccess: 'Access Denied',
-//     descriptionNotAccess: `You don't have permission to access this page!`
-//   },
-// }

@@ -54,7 +54,7 @@ export default function Repair() {
           headers: { authorization: `Bearer ${token}` }
         })
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -64,7 +64,7 @@ export default function Repair() {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -72,7 +72,7 @@ export default function Repair() {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -94,7 +94,7 @@ export default function Repair() {
 
   const columns: TableColumn<repairType>[] = [
     {
-      name: t('ward_no'),
+      name: t('noNumber'),
       cell: (_, index) => {
         return <div>{index + 1}</div>
       },
@@ -102,46 +102,46 @@ export default function Repair() {
       center: true,
     },
     {
-      name: t('tb_dev_sn'),
+      name: t('deviceSerialTb'),
       selector: (items) => items.device.devSerial,
       sortable: false,
       center: true
     },
     {
-      name: t('field_displayname'),
+      name: t('hisUsername'),
       selector: (item) => item.repairInfo,
       sortable: false,
       center: true
     },
     {
-      name: t('details'),
+      name: t('hisDetail'),
       selector: (item) => item.repairDetails,
       sortable: false,
       center: true
     },
     {
-      name: t('address'),
+      name: t('hosAddress'),
       selector: (item) => item.repairLocation,
       sortable: false,
       center: true
     },
     {
-      name: t('telnumber'),
+      name: t('hosTel'),
       selector: (item) => item.telePhone,
       sortable: false,
       center: true
     },
     {
-      name: t('warranty'),
+      name: t('dashWarranty'),
       cell: ((item) => {
         if (item.warrantyStatus === '1') {
-          return <span>{t('aftersale')}</span>
+          return <span>{t('tabWarrantyaftersale')}</span>
         } else if (item.warrantyStatus === '2') {
-          return <span>{t('expired')}</span>
+          return <span>{t('tabWarrantyExpired')}</span>
         } else if (item.warrantyStatus === '3') {
-          return <span>{t('ma')}</span>
+          return <span>{t('warrantyMa')}</span>
         } else {
-          return <span>{t('etc')}</span>
+          return <span>{t('warrantyEtc')}</span>
         }
         return <></>
       }),
@@ -149,7 +149,7 @@ export default function Repair() {
       center: true
     },
     {
-      name: t('hos_action'),
+      name: t('action'),
       cell: ((item, index) => (
         <Actiontabledev key={index}>
           <Addrepair
@@ -198,7 +198,7 @@ export default function Repair() {
     <Container fluid>
       <RepairContainer>
         <RepairHeader className="mb-3 mt-3">
-          <h3>{t('repairtitle')}</h3>
+          <h3>{t('titleRepair')}</h3>
           <Addrepair
             pagestate='add'
             fetchdata={fetchData}

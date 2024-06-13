@@ -79,18 +79,18 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               })}>
                 <RiDashboardLine />
                 <TooltipSpan>
-                  {t('dashboard')}
+                  {t('deviceToolDashboard')}
                 </TooltipSpan>
               </CardDevBtn>
               <CardDevBtn onClick={openmodal}>
                 <RiSettings3Line />
                 <TooltipSpan>
-                  {t('tab_adjust')}
+                  {t('deviceToolAdjust')}
                 </TooltipSpan>
               </CardDevBtn>
             </DeviceCardHeadHandle>
             <DeviceStateNetwork $primary={devicesdata.log[0]?.internet === "1"}>
-              {devicesdata.log[0]?.internet === "1" ? t('offline') : t('online')}
+              {devicesdata.log[0]?.internet === "1" ? t('deviceOffline') : t('deviceOnline')}
             </DeviceStateNetwork>
             {/* <DeviceStateNetwork $primary={devicesdata.dev_status !== '1'}>
               {devicesdata.dev_status === '1' ? t('online') : t('offline')}
@@ -111,7 +111,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                     devicesdata.log[0]?.door1 === "1"
                   }>
                   {
-                    devicesdata.log[0]?.door1 ?
+                    devicesdata.log[0]?.door1 === "1" ?
                       <RiDoorOpenLine />
                       :
                       <RiDoorClosedLine />
@@ -125,7 +125,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                         devicesdata.log[0]?.door1 === "1"
                       }>
                       {
-                        devicesdata.log[0]?.door1 ?
+                        devicesdata.log[0]?.door1 === "1" ?
                           <RiDoorOpenLine />
                           :
                           <RiDoorClosedLine />
@@ -136,7 +136,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                         devicesdata.log[0]?.door2 === "1"
                       }>
                       {
-                        devicesdata.log[0]?.door2 ?
+                        devicesdata.log[0]?.door2 === "1" ?
                           <RiDoorOpenLine />
                           :
                           <RiDoorClosedLine />
@@ -150,7 +150,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                         devicesdata.log[0]?.door1 === "1"
                       }>
                       {
-                        devicesdata.log[0]?.door1 ?
+                        devicesdata.log[0]?.door1 === "1" ?
                           <RiDoorOpenLine />
                           :
                           <RiDoorClosedLine />
@@ -161,7 +161,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                         devicesdata.log[0]?.door2 === "1"
                       }>
                       {
-                        devicesdata.log[0]?.door2 ?
+                        devicesdata.log[0]?.door2 === "1" ?
                           <RiDoorOpenLine />
                           :
                           <RiDoorClosedLine />
@@ -172,7 +172,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                         devicesdata.log[0]?.door3 === "1"
                       }>
                       {
-                        devicesdata.log[0]?.door3 ?
+                        devicesdata.log[0]?.door3 === "1" ?
                           <RiDoorOpenLine />
                           :
                           <RiDoorClosedLine />
@@ -181,7 +181,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                   </>
             }
             <TooltipSpan>
-              {t('doors')}
+              {t('deviceDoor')}
             </TooltipSpan>
           </DeviceCardFooterDoorFlex>
           <DeviceCardFooterTemp>
@@ -189,36 +189,30 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               {devicesdata.log[0]?.tempAvg.toFixed(2) || '- -'}
               <sub>°C</sub>
               <TooltipSpan>
-                {t('ChartTempText')}
+                {t('deviceTemp')}
               </TooltipSpan>
             </DeviceCardFooterTempT>
             <DeviceCardFooterTempT>
               {devicesdata.log[0]?.humidityAvg.toFixed(2) || '- -'}
               <sub>%</sub>
               <TooltipSpan>
-                {t('ChartHumText')}
+                {t('deviceHumi')}
               </TooltipSpan>
             </DeviceCardFooterTempT>
             <DeviceCardFooterTempT>
               {devicesdata.log[0]?.createAt.substring(11, 16) || '- -'}
               <TooltipSpan>
-                {t('time')}
+                {t('deviceTime')}
               </TooltipSpan>
             </DeviceCardFooterTempT>
           </DeviceCardFooterTemp>
           <DeviceCardFooterI>
             <DeviceCardFooterInfo
               $primary={
-                devicesdata.log[0]?.tempAvg >= 125 ||
-                devicesdata.log[0]?.tempAvg === 0 ||
-                devicesdata.log[0]?.tempAvg <= -40 ||
                 devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
                 devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin
               }>
               {
-                devicesdata.log[0]?.tempAvg >= 125 ||
-                  devicesdata.log[0]?.tempAvg === 0 ||
-                  devicesdata.log[0]?.tempAvg <= -40 ||
                   devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
                   devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin ?
                   <RiErrorWarningLine />
@@ -226,7 +220,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                   <RiTempColdLine />
               }
               <TooltipSpan>
-                {t('probe')}
+                {t('deviceProbe')}
               </TooltipSpan>
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo $primary={
@@ -234,7 +228,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
             }>
               <RiPlugLine />
               <TooltipSpan>
-                {t('plug')}
+                {t('devicePlug')}
               </TooltipSpan>
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo $primary={
@@ -242,13 +236,13 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
             }>
               <RiSdCardMiniLine />
               <TooltipSpan>
-                {t('sdcard')}
+                {t('deviceSdCard')}
               </TooltipSpan>
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo>
               {devicesdata.log[0]?.battery !== undefined && devicesdata.log[0]?.battery + '%' || '- -'}
               <TooltipSpan>
-                {t('batter')}
+                {t('deviceBattery')}
               </TooltipSpan>
             </DeviceCardFooterInfo>
           </DeviceCardFooterI>

@@ -75,65 +75,6 @@ const Apexchart = (chart: chartType) => {
     }
   ]
 
-  // const doorOptions: ApexCharts.ApexOptions = {
-  //   chart: {
-  //     id: 'door',
-  //     group: 'charts',
-  //     type: 'line',
-  //     stacked: false,
-  //     zoom: {
-  //       type: 'x',
-  //       enabled: true,
-  //       autoScaleYaxis: true
-  //     },
-  //     toolbar: {
-  //       show: true,
-  //       autoSelected: 'selection',
-  //       tools: {
-  //         download: false,
-  //         selection: false
-  //       }
-  //     }
-  //   },
-  //   tooltip: {
-  //     theme: 'apexcharts-tooltip',
-  //     x: {
-  //       format: 'dd-MMM-yy HH:mm'
-  //     },
-  //     style: {
-  //       fontSize: '14px'
-  //     }
-  //   },
-  //   dataLabels: {
-  //     enabled: false,
-  //   },
-  //   markers: {
-  //     size: 0,
-  //   },
-  //   stroke: {
-  //     curve: 'stepline',
-  //     width: [1.5]
-  //   },
-  //   colors: ["rgba(235, 152, 78, 1)"],
-  //   xaxis: {
-  //     type: "datetime",
-  //     categories: timeLabels(),
-  //     labels: {
-  //       show: false
-  //     }
-  //   },
-  //   yaxis: [
-  //     {
-  //       min: 0,
-  //       max: 1,
-  //       stepSize: 1,
-  //       labels: {
-  //         minWidth: 30
-  //       }
-  //     }
-  //   ]
-  // }
-
   const options: ApexCharts.ApexOptions = {
     chart: {
       // id: 'temp',
@@ -265,20 +206,12 @@ const Apexchart = (chart: chartType) => {
   }
 
   return (
-    <>
-      {/* <Chart
-        options={doorOptions}
-        series={doorSeries}
-        height={chart.doorHeight}
-        width={chart.doorWidth}
-      /> */}
-      <Chart
-        options={options}
-        series={series}
-        height={chart.tempHeight}
-        width={chart.tempWidth}
-      />
-    </>
+    <Chart
+      options={options}
+      series={series}
+      height={chart.tempHeight}
+      width={chart.tempWidth}
+    />
   )
 }
 

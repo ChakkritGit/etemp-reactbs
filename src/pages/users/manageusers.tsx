@@ -48,7 +48,7 @@ export default function Permission() {
   return (
     <Container fluid>
       <CardUserHead>
-        <h3>{t('permissionTitle')}</h3>
+        <h3>{t('sidePermission')}</h3>
         <Adduser pagestate={"add"} />
       </CardUserHead>
       <PaginitionContainer>

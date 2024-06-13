@@ -82,8 +82,6 @@ export default function Adduser(AdduserProp: adduserProp) {
       localStorage.setItem("displayname", displayName)
       localStorage.setItem("userpicture", userPic)
       localStorage.setItem("userlevel", userLevel)
-      // localStorage.setItem("hosimg", responseData.data.value.ward.hospital.hos_picture)
-      // localStorage.setItem("hosname", responseData.data.value.ward.hospital.hos_name)
       localStorage.setItem("groupid", wardId)
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -118,7 +116,7 @@ export default function Adduser(AdduserProp: adduserProp) {
         setShow(false)
         setHosid('')
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.msg,
           icon: "success",
           timer: 2000,
@@ -138,7 +136,7 @@ export default function Adduser(AdduserProp: adduserProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -146,7 +144,7 @@ export default function Adduser(AdduserProp: adduserProp) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -156,8 +154,8 @@ export default function Adduser(AdduserProp: adduserProp) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -189,7 +187,7 @@ export default function Adduser(AdduserProp: adduserProp) {
         setShow(false)
         setHosid('')
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -200,7 +198,7 @@ export default function Adduser(AdduserProp: adduserProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -208,7 +206,7 @@ export default function Adduser(AdduserProp: adduserProp) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -218,7 +216,7 @@ export default function Adduser(AdduserProp: adduserProp) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
+        title: t('alertHeaderWarning'),
         text: t('complete_field'),
         icon: "warning",
         timer: 2000,
@@ -228,22 +226,22 @@ export default function Adduser(AdduserProp: adduserProp) {
   }
 
   const userlevel = [
-    { value: '1', name: t('user_lvtag_sup') },
-    { value: '2', name: t('user_lvtag_ser') },
-    { value: '3', name: t('user_lvtag_ad') },
-    { value: '4', name: t('user_lvtag_us') },
+    { value: '1', name: t('levelSuper') },
+    { value: '2', name: t('levelService') },
+    { value: '3', name: t('levelAdmin') },
+    { value: '4', name: t('levelUser') },
   ]
 
   const userstatus = [
-    { value: true, name: t('field_select_status_active') },
-    { value: false, name: t('field_select_status_inactive') }
+    { value: true, name: t('userActive') },
+    { value: false, name: t('userInactive') }
   ]
 
   return (
     <>
       {pagestate === "add" ?
         <AddUserButton onClick={openmodal} style={{ width: 'max-content', height: '45px' }}>
-          {t('permissionBtnadd')}
+          {t('addUserButton')}
           <RiUserAddLine />
         </AddUserButton>
         : <AddUserButton onClick={openmodal} >
@@ -255,9 +253,9 @@ export default function Adduser(AdduserProp: adduserProp) {
             <strong>
               {
                 pagestate === "add" ?
-                  t('permissionBtnadd')
+                  t('addUserButton')
                   :
-                  t('permissionBtnedit')
+                  t('editUserButton')
               }
             </strong>
             {/* <pre>{JSON.stringify(form, null, 2)}</pre> */}
@@ -274,7 +272,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                   <Col lg={6}>
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
-                        {t('field_hospitals')}
+                        {t('userHospitals')}
                         <HospitalDropdown
                           setHos_id={setHosid}
                         />
@@ -287,7 +285,7 @@ export default function Adduser(AdduserProp: adduserProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('field_ward')}
+                    {t('userWard')}
                     <WardDropdown
                       setState_ward={setValuestate}
                       Hosid={pagestate === "add" ? hosid : String(userData?.hosId)}
@@ -299,9 +297,9 @@ export default function Adduser(AdduserProp: adduserProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('field_username')}
+                    {t('userNameForm')}
                     <Form.Control
-                      name="field_username"
+                      name="fieldUsername"
                       autoComplete='off'
                       type='text'
                       value={form.user_name}
@@ -315,9 +313,9 @@ export default function Adduser(AdduserProp: adduserProp) {
                   <Col lg={6}>
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
-                        {t('field_userpassword')}
+                        {t('userpassword')}
                         <Form.Control
-                          name="field_userpassword"
+                          name="fieldUserpassword"
                           autoComplete='off'
                           type='password'
                           value={form.user_password}
@@ -332,9 +330,9 @@ export default function Adduser(AdduserProp: adduserProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('field_displayname')}
+                    {t('userDisplayName')}
                     <Form.Control
-                      name="field_displayname"
+                      name="fieldDisplayname"
                       autoComplete='off'
                       type='text'
                       value={form.display_name}
@@ -346,8 +344,8 @@ export default function Adduser(AdduserProp: adduserProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('field_userlevel')}
-                    <Form.Select onChange={setLevel} name="field_userlevel" value={form.user_level}>
+                    {t('userRole')}
+                    <Form.Select onChange={setLevel} name="fieldUserLevel" value={form.user_level}>
                       {
                         userlevel.map((item, index) => {
                           const optionKey = `option_${index}`
@@ -355,7 +353,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                             return (
                               <React.Fragment key={optionKey}>
                                 <option key={`${optionKey}_select`} selected value={''}>
-                                  {t('field_select_level')}
+                                  {t('selectRole')}
                                 </option>
                                 <option key={optionKey} value={item.value}>
                                   {item.name}
@@ -384,7 +382,7 @@ export default function Adduser(AdduserProp: adduserProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('field_userpicture')}
+                    {t('userPicture')}
                     <ProfileFlex $radius={10} $dimension={250}>
                       <div>
                         <img src={userPicture ? userPicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
@@ -402,7 +400,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                   <Col lg={6}>
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
-                        {t('field_select_status')}
+                        {t('userStatus')}
                         <Form.Select onChange={setStatus} name="field_status" value={form.user_status}>
                           {
                             userstatus.map((item, index) => {
@@ -411,7 +409,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                                 return (
                                   <React.Fragment key={optionKey}>
                                     <option key={`${optionKey}_select`} selected value={''}>
-                                      {t('field_select_level')}
+                                      {t('selectStatus')}
                                     </option>
                                     <option key={optionKey} value={item.value === false ? 1 : 0}>
                                       {item.name}
@@ -445,7 +443,7 @@ export default function Adduser(AdduserProp: adduserProp) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('saveButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

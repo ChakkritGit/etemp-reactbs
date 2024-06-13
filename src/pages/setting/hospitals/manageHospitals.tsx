@@ -1,27 +1,28 @@
 import { Actiontablehos, DelUserButton, HosTableImage, ManageHospitalsBody, ManageHospitalsContainer, ManageHospitalsHeader, SubWardColumnFlex } from "../../../style/style"
 import { useTranslation } from "react-i18next"
 import { hospitalsType } from "../../../types/hospital.type"
-import axios, { AxiosError } from "axios"
-import DataTable, { TableColumn } from "react-data-table-component"
-import Addhospitals from "./addhospitals"
 import { swalWithBootstrapButtons } from "../../../components/dropdown/sweetalertLib"
 import { RiDeleteBin2Line } from "react-icons/ri"
-import Swal from "sweetalert2"
 import { useSelector } from "react-redux"
 import { DataArrayStore, DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { useDispatch } from "react-redux"
 import { storeDispatchType } from "../../../stores/store"
 import { fetchHospitals } from "../../../stores/dataArraySlices"
 import { wardsType } from "../../../types/ward.type"
-import Addward from "./addward"
 import { responseType } from "../../../types/response.type"
+import axios, { AxiosError } from "axios"
+import DataTable, { TableColumn } from "react-data-table-component"
+import Addhospitals from "./addhospitals"
+import Swal from "sweetalert2"
+import Addward from "./addward"
 
 export default function ManageHospitals() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { hospital } = useSelector<DeviceStateStore, DataArrayStore>((state) => state.arraySlice)
   const { hospitalsData } = hospital
+  const { userLevel } = tokenDecode
 
   const deletehospital = async (hID: string) => {
     const url: string = `${import.meta.env.VITE_APP_API}/hospital/${hID}`
@@ -32,7 +33,7 @@ export default function ManageHospitals() {
         })
       dispatch(fetchHospitals(token))
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -41,7 +42,7 @@ export default function ManageHospitals() {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -49,7 +50,7 @@ export default function ManageHospitals() {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -68,7 +69,7 @@ export default function ManageHospitals() {
         })
       dispatch(fetchHospitals(token))
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -77,7 +78,7 @@ export default function ManageHospitals() {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -85,7 +86,7 @@ export default function ManageHospitals() {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -97,7 +98,7 @@ export default function ManageHospitals() {
 
   const columns: TableColumn<hospitalsType>[] = [
     {
-      name: t('hos_no'),
+      name: t('noNumber'),
       cell: (_, index) => {
         return <div>{index + 1}</div>
       },
@@ -105,7 +106,7 @@ export default function ManageHospitals() {
       center: true,
     },
     {
-      name: t('hos_pic'),
+      name: t('hosPicture'),
       cell: (item) => (
         <div>
           <HosTableImage
@@ -117,25 +118,25 @@ export default function ManageHospitals() {
       sortable: false,
     },
     {
-      name: t('hos_name'),
+      name: t('hosName'),
       cell: (item) => item.hosName,
       center: true,
       sortable: false,
     },
     {
-      name: t('hos_address'),
+      name: t('hosAddress'),
       cell: (item) => item.hosAddress,
       center: true,
       sortable: false,
     },
     {
-      name: t('hos_tel'),
+      name: t('hosTel'),
       cell: (item) => item.hosTelephone,
       center: true,
       sortable: false,
     },
     {
-      name: t('hos_action'),
+      name: t('action'),
       cell: (item, index) =>
         item.hosId !== "HID-DEVELOPMENT" ? (
           <Actiontablehos key={index}>
@@ -179,7 +180,7 @@ export default function ManageHospitals() {
 
   const subWardColumns: TableColumn<wardsType>[] = [
     {
-      name: t('ward_no'),
+      name: t('noNumber'),
       cell: (_, index) => {
         return <div>{index + 1}</div>
       },
@@ -187,13 +188,13 @@ export default function ManageHospitals() {
       center: true,
     },
     {
-      name: t('ward_name'),
+      name: t('wardName'),
       cell: (item) => item.wardName,
       center: true,
       sortable: false,
     },
     {
-      name: t('hos_action'),
+      name: t('action'),
       cell: (item, index) =>
         item.hosId !== "HID-DEVELOPMENT" ?
           (
@@ -252,11 +253,14 @@ export default function ManageHospitals() {
   return (
     <ManageHospitalsContainer>
       <ManageHospitalsHeader className="mb-3">
-        <h3>{t('setting_tab_hospitals')}</h3>
+        <h3>{t('titleManageHosandWard')}</h3>
         <div>
-          <Addhospitals
-            pagestate={'add'}
-          />
+          {
+            userLevel !== "3" &&
+            <Addhospitals
+              pagestate={'add'}
+            />
+          }
           <Addward
             pagestate={'add'}
           />

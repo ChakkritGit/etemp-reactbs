@@ -30,48 +30,42 @@ export default function Table(tableType: tableType) {
 
   const columns: TableColumn<logtype>[] = [
     {
-      name: t('no'),
+      name: t('deviceNoTb'),
       cell: (_, index) => {
         return <div>{tableData.length - index}</div>
       },
       sortable: false,
-      center: true,
-      width: '60px'
+      center: true
     },
     {
-      name: t('tb_dev_sn'),
+      name: t('deviceSerialTb'),
       cell: () => <span title={dev_sn}>...{dev_sn.substring(17)}</span>,
       sortable: false,
-      center: true,
-      width: '100px'
+      center: true
     },
     {
-      name: t('time'),
+      name: t('deviceTime'),
       cell: (item) => item.createAt.substring(11, 16),
       sortable: false,
-      center: false,
-      width: '90px'
+      center: false
     },
     {
-      name: t('temperature'),
+      name: t('probeTempSubTb'),
       cell: (item) => item.tempAvg.toFixed(2) + '°C',
       sortable: false,
-      center: false,
-      width: '90px'
+      center: false
     },
     {
-      name: t('humidity'),
+      name: t('probeHumiSubTb'),
       cell: (item) => item.humidityAvg.toFixed(2) + '%',
       sortable: false,
-      center: false,
-      width: '90px'
+      center: false
     },
     {
-      name: t('connect'),
-      cell: (item) => item.internet === '0' ? t('online') : t('offline'),
+      name: t('deviceConnectTb'),
+      cell: (item) => item.internet === '0' ? t('deviceOnline') : t('deviceOffline'),
       sortable: false,
-      center: true,
-      width: '100px'
+      center: true
     },
   ]
 
@@ -84,7 +78,7 @@ export default function Table(tableType: tableType) {
   return (
     <TableContainer>
       <ChartCardHeah>
-        <span>{t('tabletitle')}</span>
+        <span>{t('pageTable')}</span>
         <ChartCardHeahBtn onClick={openFulltable}>
           <RiFullscreenLine />
         </ChartCardHeahBtn>

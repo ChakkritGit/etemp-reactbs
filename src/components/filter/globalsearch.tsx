@@ -41,7 +41,7 @@ export default function Globalsearch() {
           type="text"
           value={searchQuery}
           onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-          placeholder={t('search_items_nav')}
+          placeholder={t('searchItemsNav')}
           ref={searchRef} />
         <SearhIcon>
           <RiSearchLine />
@@ -67,7 +67,7 @@ export default function Globalsearch() {
             type="text"
             value={searchQuery}
             onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-            placeholder={t('search_items_nav')} />
+            placeholder={t('searchItemsNav')} />
           <RiSearchLine />
           {
             searchQuery ?

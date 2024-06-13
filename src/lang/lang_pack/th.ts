@@ -10,6 +10,8 @@ export default {
 
     // home
     showAllBox: 'รวมสถานะประจำวัน',
+    detailAllBox: 'ข้อมูลกล่องทั้งหมด',
+    deviceFilter: 'กรอง',
 
     // card count
     countProbe: 'อุหณภูมิ',
@@ -24,6 +26,8 @@ export default {
     countDeviceUnit: 'เครื่อง',
 
     // home table
+    deviceNoTb: 'ลำดับ',
+    deviceDate: 'วันที่',
     deviceNameTb: 'ชื่ออุปกรณ์',
     deviceSerialTb: 'ซีเรียล',
     deviceLocationTb: 'ตำแหน่งติดตั้ง',
@@ -43,34 +47,259 @@ export default {
     probeHumiSubTb: 'ความชื้น',
     probeProbeSubTb: 'สถานะโพรบ',
     probeDoorSubTb: 'ประตู',
+    selectProbe: 'เลือกโพรบ',
+    nameNotRegister: 'โพรบยังไม่ถูกตั้งชื่อ',
+    adjustMents: 'ปรับค่า',
+    tempMin: 'อุณหภูมิต่ำสุด',
+    tempMax: 'อุณหภูมิสูงสุด',
+    humiMin: 'ความชื้นต่ำสุด',
+    humiMax: 'ความชื้นสูงสุด',
+    adjustTemp: 'ปรับชดเชยอุณหภูมิ',
+    adjustHumi: 'ปรับชดเชยความชื้น',
+    currentTemp: 'อุณหภูมิก่อนปรับชดเชย',
+    adjustAfterTemp: 'อุณหภูมิหลังปรับชดเชย',
+    muteSetting: 'ตั้งค่าเสียง',
+    notificationSettings: 'ตั้งค่าการแจ้งเตือน',
+    adjustButtonSubmit: 'บันทึก',
 
+    // notification setting itemp
+    choiceOne: '1. ส่งข้อความครั้งแรก',
+    choiceTwo: '2. ส่งข้อความเมื่ออุณหภูมิกลับสู่ระดับปกติ',
+    choiceThree: '3. ส่งข้อความซ้ำ',
+    choiceFour: '4. การแจ้งเตือนไปยังแอป',
+    messageimmediately: 'ส่งทันที',
+    messageAfter: 'ส่งหลังจาก (นาที)',
+    messageSend: 'ส่ง',
+    messageDonotSend: 'ไม่ต้องส่ง',
+    messageOneTime: 'ครั้งเดียว',
+    messageEvery: 'ส่งทุก ๆ (นาที)',
+    messageOn: 'เปิด',
+    messageOff: 'ปิด',
+    notificationButtonSubmit: 'บันทึก',
 
+    // device cards
+    deviceOnline: 'ออนไลน์',
+    deviceOffline: 'ออฟไลน์',
+    deviceDoor: 'ประตู',
+    deviceTemp: 'อุณหภูมิ',
+    deviceHumi: 'ความชื้น',
+    deviceTime: 'เวลา',
+    deviceProbe: 'โพรบ',
+    devicePlug: 'ปลั๊ก',
+    deviceSdCard: 'เอสดรการ์ด',
+    deviceBattery: 'แบตเตอรี่',
 
+    // device tool tip
+    deviceToolDashboard: 'แดชบอร์ด',
+    deviceToolAdjust: 'ปรับค่า',
 
+    // dashboard
+    temperatureName: 'อุณหภูมิ',
+    humidityName: 'ความชื้น',
+    minValueUnit: 'ต่ำ',
+    maxValueUnit: 'สูง',
+    dashProbe: 'โพรบ',
+    dashConnect: 'การเชื่อมต่อ',
+    dashDoor: 'ประตู',
+    dashPlug: 'ปลั๊ก',
+    dashBattery: 'แบตเตอรี่',
+    dashTempofDay: 'ช่วงอุณหภูมิทั้งวัน',
+    dashSdCard: 'เอสดีการ์ฺด',
+    dashProbeandDoor: 'โพรบและประตู',
+    dashWarranty: 'การรับประกัน',
+    dashRepair: 'แจ้งซ่อม',
+    pageChart: 'กราฟ',
+    pageTable: 'ตาราง',
 
+    // full chart
+    chartDay: 'วัน',
+    chartWeek: 'สัปดาห์',
+    chartCustom: 'กำหนดเอง',
+    chartCompare: 'เปรียบเทียบ',
 
+    // user
+    addUserButton: 'เพิ่มผู้ใช้',
+    editUserButton: 'แก้ผู้ใช้',
 
+    levelSuper: 'ซุปเปอร์',
+    levelService: 'เซอร์วิส',
+    levelAdmin: 'แอดมิน',
+    levelUser: 'ยูสเซอร์',
 
+    userActive: 'ใช้งาน',
+    userInactive: 'ปิดการใช้งาน',
 
+    // user form
+    userHospitals: 'โรงพยาบาบาล',
+    userWard: 'วอร์ด',
+    userNameForm: 'ชื่อผู้ใช้',
+    userpassword: 'รหัสผ่าน',
+    userDisplayName: 'ชื่อ',
+    userRole: 'สิทธิ์',
+    userPicture: 'รูปภาพ',
+    userStatus: 'สถานะผู้ใช้',
 
+    // manage
+    tabManageDevice: 'จัดการอุปกรณ์',
+    tabManageHospitals: 'จัดการโรงพยาบาล',
+    tabAdjustHistory: 'ประวัติการปรับค่าอุปกรณ์',
+    subTabDevice: 'อุปกรณ์',
+    sunTabProbe: 'โพรบ',
+    subTabHosandWard: 'โรงพยาบาลและวอร์ด',
+    titleManageDevices: 'จัดการอุปกรณ์',
+    titleManageProbe: 'จัดการโพรบ',
+    titleManageHosandWard: 'จัดการโรงพยาบาลและวอร์ด',
+    titleRepair: 'จัดการแจ้งซ่อม',
+    addDeviceButton: 'เพิ่มอุปกรณ์',
+    editDeviceButton: 'แก้ไขอุปกรณ์',
+    deviceMacAddress: 'Mac Address',
 
+    // probe
+    probeName: 'ชื่อโพรบ',
+    probeType: 'ประเภทโพรบ',
+    probeChanel: 'ช่องต่อโพรบ',
+    probeLocation: 'ตำแหน่งติดตั้ง',
+    addProbe: 'เพิ่มโพรบ',
+    editProbe: 'แก้ไขโพรบ',
 
+    // probe select
+    probe5Minute: '5 นาที',
+    probe15Minute: '15 นาที',
+    probe30Minute: '30 นาที',
+    probe1Hour: '1 ชั่วโมง',
+    probe2Hour: '2 ชั่วโมง',
+    probe4Hour: '4 ชั่วโมง',
+    probeDoor1: '1 ประตู',
+    probeDoor2: '2 ประตู',
+    probeDoor3: '3 ประตู',
+    probeChanel1: 'ชานแนล 1',
+    probeChanel2: 'ชานแนล 2',
+    probeChanel3: 'ชานแนล 3',
+    probeChanel4: 'ชานแนล 4',
 
+    // hos and ward
+    hosPicture: 'รูปภาพ',
+    hosName: 'ชื่อโรงพยาบาล',
+    hosAddress: 'ที่อยู่',
+    hosTel: 'เบอร์โทร',
+    wardName: 'ชื่อวอร์ด',
+    addHos: 'เพิ่มโรงพยาบาล',
+    addWard: 'เพิ่มวอร์ด',
+    editHos: 'แก้โรงพยาบาล',
+    editWard: 'แก้ไขวอร์ด',
 
+    // history
+    hisDetail: 'รายละเอียด',
+    hisUsername: 'ผู้ใช้งาน',
 
+    // warranty
+    tabWarrantyExpired: 'หมดประกัน',
+    tabWarrantyaftersale: 'อยู่ในประกัน',
+    tabWarrantyall: 'ทั้งหมด',
+    warrantyMa: 'MA',
+    warrantyEtc: 'อื่น ๆ',
 
+    // repair
+    addRepair: 'แจ้งซ่อม',
+    editRepair: 'แก้ไขแจ้งซ่อม',
+    sectionPersonal: 'ข้อมูลผู้แจ้ง',
+    sectionProduct: 'ข้อมูลสินค้า',
+    deiveCondition: 'สภาพเครื่อง',
+    deviceRepairInfo: 'อุปกรณ์ที่นำมาด้วย',
 
+    // contact
+    contactUs: 'ติดต่อเรา',
+    contactInfo1: '61/34 ซอยอมรพันธ์ 4( วิภาวดี42) เขตจตุจักร ถนนวิภาวดีรังสิต กรุงเทพ 10900 Bangkok, จังหวัด กรุงเทพมหานคร 10900',
 
+    // system
+    tabAccount: 'บัญชี',
+    tabDisplay: 'การแสดงผล',
+    tabLanguage: 'ภาษา',
+    tabLogout: 'ออกจากระบบ',
+    titleProfile: 'โปรไฟล์',
+    titleSecurity: 'ความปลอดภัย',
+    titlePassword: 'รหัสผ่าน',
+    changPassword: 'เปลี่ยน',
+    newPassword: 'รหัสผ่านใหม่',
+    passLower: 'ต่ำมาก',
+    passLow: 'ต่ำ',
+    passNormal: 'ปานกลาง',
+    passGood: 'ดี',
+    passExcellent: 'ดีมาก',
+    showPass: 'แสดงรหัสผ่าน',
+    chooseColor: 'เลือกสี',
+    defualtColor: 'ค่าเริ่มต้น',
+    p1Color: 'พรีเซ็ต 1',
+    p2Color: 'พรีเซ็ต 2',
+    p3Color: 'พรีเซ็ต 3',
+    p4Color: 'พรีเซ็ต 4',
+    mode: 'โหมด',
+    appearanceMode: 'โหมดแสดงผลสีเข้ม',
+    screen: 'หน้าจอ',
+    fullScreen: 'โหมดเต็มหน้าจอ',
+    changeLanguage: 'เปลี่ยนภาษา',
 
+    // notification
+    titleNotification: 'การแจ้งเตือน',
+    notRead: 'ยังไม่อ่าน',
+    Readed: 'อ่านแล้ว',
+    notificationAll: 'ทั้งหมด',
 
+    // devices
+    deviceDetail: 'รายละเอียดอุปกรณ์',
+    deviceSeq: 'ลำดับอุปกรณ์',
+    deviceZone: 'โซนติดตั้ง',
+    devicePicture: 'รูปอุปกรณ์',
+    deviceNetwork: 'ตั้งค่าเน็ตเวิร์ค',
 
+    // sidebar
+    sideShowAllBox: 'แสดงกล่องทั้งหมด',
+    sideDashboard: 'แดชบอร์ด',
+    sidePermission: 'จัดการผู้ใช้',
+    sideManage: 'จัดการ',
+    sideWarranty: 'การรับประกัน',
+    sideRepair: 'แจ้งซ่อม',
+    sideContact: 'ติดต่อเรา',
+    sideSetting: 'การตั้งค่า',
 
+    // Button
+    saveButton: 'บันทึก',
+    confirmButton: 'ตกลง',
+    cancelButton: 'ยกเลิก',
+    submitButton: 'บันทึก',
 
+    // dropdown
+    selectDeviceDrop: 'เลือกอุปกรณ์',
+    selectRole: 'เลือกระดับสิทธิ์',
+    selectStatus: 'เลือกสถานะ',
+    selectWard: 'เลือกวอร์ด',
+    selectHospital: 'เลือกโรงพยาบาล',
+    selectDelay: 'เลือกดีเลย์ไทม์',
+    selectDoor: 'เลือกจำนวนประตู',
+    selectChanel: 'เลือกช่องโพรบ',
 
-
-
-
-
+    // utis
+    stateOn: 'เปิด',
+    stateOff: 'ปิด',
+    stateConnect: 'เชื่อมต่อแล้ว',
+    stateDisconnect: 'ขาดการเชื่อมต่อ',
+    stateNormal: 'ปกติ',
+    stateProblem: 'มีปัญหา',
+    stateDateDay: 'วัน',
+    exportFile: 'ส่งออกไฟล์',
+    searchButton: 'ค้นหา',
+    copyToClip: 'คัดลอกแล้ว',
+    copyToClipFaile: 'คัดลอกล้มเหลว',
+    noNumber: 'ลำดับ',
+    status: 'สถานะ',
+    action: 'แอคชั่น',
+    Hospitals: 'โรงพยาบาบาล',
+    Ward: 'วอร์ด',
+    Delay: 'ดีเลย์ไทม์',
+    Door: 'จำนวนประตู',
+    nodata: 'ไม่พบข้อมูล',
+    loading: 'กำลังโหลด...',
+    searchItemsNav: 'ค้นหา',
 
     // sweetalert
     alertHeaderWarning: 'คำเตือน',
@@ -78,221 +307,13 @@ export default {
     alertHeaderSuccess: 'สำเร็จ',
     completeField: 'โปรดป้อนข้อมูลให้ครบ',
     deleteuserTitle: 'คุณต้องการลบผู้ใช้หรือไม่',
-    deleteuserText: 'คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้',
-    deleteButton: 'ลบ',
-    cancelButton: 'ยกเลิก',
+    notReverseText: 'คุณจะไม่สามารถย้อนกลับสิ่งนี้ได้',
+    CustomMessage: 'ช่วงเวลาที่เลือกห่างกันมากกว่า 30 วัน',
+    deactivateDevice: 'คุณต้องการปิดการใช้งานหรือไม่',
+    deactivateDeviceText: 'หากคุณปิดการใช้งานอุปกรณ์จะหยุดทำงานทันที',
+    deleteProbe: 'คุณต้องการลบโพรบหรือไม่',
+    deleteProbeText: 'คุณจะไม่สามารถกู้คืนการตั้งค่าโพรบได้',
+    deleteWarranty: 'คุณต้องการลบประกันหรือไม่',
+    deleteWarrantyText: 'คุณจะไม่สามารถกู้คืนข้อมูลการรับประกันได้',
   },
 }
-
-
-// // th.ts
-// export default {
-//   translation: {
-//     // sidebar
-//     show_all_etemp: 'แสดงกล่องทั้งหมด',
-//     dashboard: 'แดชบอร์ด',
-//     setting: 'จัดการ',
-//     permission: 'สิทธ์การเข้าถึง',
-//     warranty: 'การรับประกัน',
-//     repair: 'แจ้งซ่อม',
-//     contact: 'ติดต่อ',
-//     systemsetting: 'ตั้งค่าระบบ',
-//     // permission
-//     permissionTitle: 'จัดการผู้ใช้',
-//     permissionBtnadd: 'เพิ่มผู้ใช้',
-//     permissionBtnedit: 'แก้ไขผู้ใช้',
-//     permissionBtndel: 'ลบผู้ใช้',
-//     user_lvtag_sup: 'ซุปเปอร์',
-//     user_lvtag_ser: 'เซอร์วิซ',
-//     user_lvtag_ad: 'แอดมิน',
-//     user_lvtag_us: 'ยูสเซอร์',
-//     // form add user
-//     field_hospitals: 'โรงพยาบาล',
-//     field_ward: 'วอร์ด',
-//     field_username: 'ชื่อผู้ใช้',
-//     field_userpassword: 'รหัสผ่าน',
-//     field_displayname: 'ชื่อ',
-//     field_userlevel: 'สิทธ์',
-//     field_userpicture: 'รูปภาพ',
-//     field_select_hos: 'เลือกโรงพยาบาล',
-//     field_select_ward: 'เลือกวอร์ด',
-//     field_select_hospital: 'เลือกโรงพยาบาล',
-//     field_select_level: 'เลือกสิทธ์',
-//     field_select_status: 'สถานะเปิดใช้งาน',
-//     field_select_status_active: 'เปิดใช้งาน',
-//     field_select_status_inactive: 'ปิดใช้งาน',
-//     form_btn_save: 'บันทึก',
-//     form_btn_close: 'ปิด',
-//     // setting
-//     setting_devices: 'อุปกรณ์',
-//     setting_tab_devices: 'จัดการอุปกรณ์',
-//     setting_tab_hospitals: 'จัดการโรงพยาบาล',
-//     setting_tab_generate: 'สร้างไอดี',
-//     tab_hospital: 'โรงพยาบาล และ วอร์ด',
-//     tab_ward: 'วอร์ด',
-//     // tab hospitals
-//     add_hospitals_btn: 'เพิ่มโรงพยาบาล',
-//     form_label_hosname: 'ชื่อโรงพยาบาล',
-//     form_label_hosaddress: 'ที่อยู่',
-//     form_label_hostel: 'เบอร์ติดต่อ',
-//     form_label_hospic: 'รูปภาพ',
-//     hos_no: 'ลำดับ',
-//     hos_pic: 'รูปภาพ',
-//     hos_name: 'ชื่อโรงพยาบาล',
-//     hos_address: 'ที่อยู่',
-//     hos_tel: 'เบอร์ติดต่อ',
-//     hos_action: 'แอคชั่น',
-//     // tab Ward
-//     add_wards_btn: 'จัดการวอร์ด',
-//     add_ward_btn: 'เพิ่มวอร์ด',
-//     form_ward_name: 'ชื่อวอร์ด',
-//     // tab add dev
-//     tab_adjust: 'ปรับค่า',
-//     tab_add_dev: 'เพิ่มอุปกรณ์',
-//     tab_edit_dev: 'แก้ไขอุปกรณ์',
-//     tb_dev_id: 'ไอดี',
-//     tb_dev_sn: 'ซีเรียล',
-//     tb_dev_status: 'สถานะ',
-//     setting_tab_devices_add_btn: 'เพิ่มอุปกรณ์',
-//     field_device_name: 'ชื่ออุปกรณ์',
-//     tb_install_location: 'ตำแหน่งติดตั้ง',
-//     // temperature
-//     device_temp_min: 'อุณหภูมิต่ำสุด',
-//     device_temp_max: 'อุณหภูมิสูงสุด',
-//     device_hum_min: 'ความชื้นต่ำสุด',
-//     device_hum_max: 'ความชื้นสูงสุด',
-//     device_adjust_temp: 'ปรับค่าชดเชยอุณหภูมิ',
-//     device_adjust_hum: 'ปรับค่าชดเชยความชื้น',
-//     device_delay_time: 'ความถี่ในการบันทึกข้อมูล',
-//     device_probe: 'จำนวนโพรบ',
-//     device_door: 'จำนวนประตู',
-//     device_picture: 'รูปภาพกล่อง',
-
-//     // Home
-//     allstatus: 'รวมสถานะประจำวัน',
-//     allinfobox: 'ข้อมูลกล่องทั้งหมด',
-//     // home -> card
-//     probe: 'โพรบ',
-//     doors: 'ประตู',
-//     connect: 'การเชื่อมต่อ',
-//     plug: 'ปลั๊ก',
-//     sdcard: 'เอสดีการ์ด',
-//     adjust: 'การปรับแต่ง',
-//     repair_home: 'การแจ้งซ่อม',
-//     warranty_home: 'ประกันหมดอายุ',
-//     batter: 'แบตเตอร์รี่',
-//     tempofday: 'ช่วงอุณหภูมิทั้งวัน',
-//     probeanddoor: 'จำนวนโพรบและประตู',
-//     times: 'ครั้ง',
-
-//     // dashboard chart
-//     charttitle: 'กราฟ',
-//     ChartDoorText: 'ประตู',
-//     ChartTempText: 'อุณหภูมิ',
-//     ChartHumText: 'ความชื้น',
-//     ChartDoorStateOpen: '          เปิด',
-//     ChartDoorStateClose: '         ปิด',
-//     optimizegraph: 'ปรับกราฟให้เหมาะสม',
-//     // dashboard table
-//     tabletitle: 'ตาราง',
-//     no: 'ลำดับ',
-//     time: 'เวลา',
-//     ward_no: 'ลำดับ',
-//     ward_name: 'ชื่อวอร์ด',
-
-//     // repair
-//     repairtitle: 'แจ้งซ่อม',
-//     details: 'รายละเอียด',
-//     address: 'ที่อยู่',
-//     telnumber: 'โทร',
-//     print: 'พิมพ์',
-//     edit: 'แก้ไข',
-//     sectionpersonal: 'ข้อมูลส่วนตัว',
-//     sectionproduct: 'ข้อมูลสินค้า',
-//     detailsExpand: 'อธิบายรายละเอียด',
-
-//     // Warranty
-//     aftersale: 'อยู่ในประกัน',
-//     expired: 'หมดประกัน',
-//     ma: 'ต่อประกัน',
-//     etc: 'อื่น ๆ',
-
-//     // nabvar
-//     search_items_nav: 'ค้นหาในหน้าปัจจุบัน',
-
-//     // modal head
-//     modal_edit_hos: 'แก้ไขโรงพยาบาล',
-//     modal_edit_ward: 'แก้ไขวอร์ด',
-
-//     // temp and hum
-//     temperature: 'อุณหภูมิ',
-//     humidity: 'ความชื้น',
-//     tempmin: 'อุณหภูมิต่ำสุด',
-//     tempmax: 'อุณหภูมิสูงสุด',
-//     hummin: 'ความชื้นต่ำสุด',
-//     hummax: 'ความชื้นสูงสุด',
-//     adjusttemp: 'ปรับอุณหภูมิชดเชย',
-//     adjusthum: 'ปรับความชื้นชดเชย',
-//     min: 'ต่ำสุด',
-//     max: 'สูงสุด',
-
-//     // filter
-//     device_filter: 'กรอง',
-//     settings: 'การตั้งค่า',
-//     // date
-//     tab_day: 'วัน',
-//     tab_week: 'สัปดาห์',
-//     tab_custom: 'กำหนดเอง',
-//     install_date: 'วันที่ติดตั้ง',
-//     compare_chart: 'เปรียบเทียบกราฟ',
-//     // navbar
-//     logout: 'ออกจากระบบ',
-//     online: 'ออนไลน์',
-//     offline: 'ออฟไลน์',
-//     connected: 'เชื่อมต่อ',
-//     disconnect: 'ขาดการเชื่อมต่อ',
-//     open: 'เปิด',
-//     close: 'ปิด',
-//     on: 'ใช้งาน',
-//     off: 'ไม่ใช้งาน',
-//     day: 'วัน',
-//     zoom: 'ซูม',
-//     drang: 'ลาก',
-//     unavailable: 'เสีย',
-//     available: 'ปกติ',
-
-//     // action
-//     export: 'ส่งออก',
-//     btn_search: 'ค้นหา',
-//     allitem: 'ทั้งหมด',
-//     copied: 'คัดลอกแล้ว',
-
-//     // contact
-//     contactus: 'ติดต่อเรา',
-
-//     // system
-//     default: 'ค่าเริ่มต้น',
-//     preset: 'พรีเซ็ต',
-//     systemcolor: 'สีของระบบ',
-//     choosecolor: 'สี',
-//     appearance: 'โหมด',
-//     accountsetting: 'บัญชี',
-//     profile: 'โปรไฟล์',
-//     language: 'ภาษา',
-//     security: 'ความปลอดภัย',
-//     password: 'ตั้งค่ารหัสผ่าน',
-//     change: 'เปลี่ยน',
-//     darkmodesetting: 'โหมดแสดงผลสีเข้ม',
-
-//     // load
-//     nodata: 'ยังไม่มีข้อมูล!',
-//     loading: 'กำลังโหลด...',
-
-//     // onError page 404
-//     titleerror: 'อุ้ย!',
-//     descerror: 'ขออภัย, เกิดข้อผิดพลาดที่ไม่คาดคิด',
-//     btnerror: 'กลับไป',
-//     titleNotAccess: 'ปฏิเสธการเข้าถึง',
-//     descriptionNotAccess: 'คุณไม่มีสิทธิ์เข้าถึงหน้านี้'
-//   },
-// }

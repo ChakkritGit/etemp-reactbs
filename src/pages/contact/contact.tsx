@@ -9,9 +9,9 @@ export default function Contact() {
       <ContactContainer>
         <ContactFlexOne>
           <ContactInfo>
-            <h2>{t('contactus')}</h2>
+            <h2>{t('contactUs')}</h2>
             <p>
-              61/34 ซอยอมรพันธ์ 4( วิภาวดี42) เขตจตุจักร ถนนวิภาวดีรังสิต กรุงเทพ 10900 Bangkok, จังหวัด กรุงเทพมหานคร 10900
+              {t('contactInfo1')}
               <br />
               Phone: 02-791-4500
               <br />

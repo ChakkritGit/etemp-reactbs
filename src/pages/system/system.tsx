@@ -36,30 +36,30 @@ export default function System() {
 
   return (
     <Container fluid>
-      <H3mt>{t('settings')}</H3mt>
+      <H3mt>{t('sideSetting')}</H3mt>
       <SettingSystemContainer>
         <SettingLeftContainer $primary={expand}>
           <div>
             <ListMenu $primary={pagenumber === 1} onClick={() => setPagenumber(1)}>
               <RiUser6Line />
-              <span>{t('accountsetting')}</span>
+              <span>{t('tabAccount')}</span>
             </ListMenu>
             <ListMenu $primary={pagenumber === 2} onClick={() => setPagenumber(2)}>
               <RiPaletteLine />
               <span>
-                {t('systemcolor')}
+                {t('tabDisplay')}
               </span>
             </ListMenu>
             <ListMenu $primary={pagenumber === 3} onClick={() => setPagenumber(3)}>
               <RiTranslate2 />
               <span>
-                {t('language')}
+                {t('tabLanguage')}
               </span>
             </ListMenu>
           </div>
           <ListMenu $logout onClick={() => logOut(true)}>
             <RiLogoutBoxRLine />
-            <span>{t('logout')}</span>
+            <span>{t('tabLogout')}</span>
           </ListMenu>
         </SettingLeftContainer>
         <LineHeightSystem />
@@ -76,9 +76,9 @@ export default function System() {
                 </div>
                 :
                 <div>
-                  <h3>Language</h3>
+                  <h3>{t('tabLanguage')}</h3>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1rem' }}>
-                    <span>Language</span>
+                    <span>{t('changeLanguage')}</span>
                     <LangguageSelector />
                   </div>
                 </div>

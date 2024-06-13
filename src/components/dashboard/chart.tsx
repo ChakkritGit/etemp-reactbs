@@ -26,7 +26,7 @@ export default function Chart(chartData: chartData) {
   return (
     <ChartContainer>
       <ChartCardHeah>
-        <span>{t('charttitle')}</span>
+        <span>{t('pageChart')}</span>
         <ChartCardHeahBtn onClick={openFullchart}>
           <RiFullscreenLine />
         </ChartCardHeahBtn>

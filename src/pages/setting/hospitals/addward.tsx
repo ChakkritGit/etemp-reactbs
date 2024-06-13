@@ -49,7 +49,7 @@ export default function Addward(addwardprop: addWardProp) {
         })
         setShow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -62,7 +62,7 @@ export default function Addward(addwardprop: addWardProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -70,7 +70,7 @@ export default function Addward(addwardprop: addWardProp) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -81,7 +81,7 @@ export default function Addward(addwardprop: addWardProp) {
     } else {
       Swal.fire({
         title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -104,7 +104,7 @@ export default function Addward(addwardprop: addWardProp) {
         })
         setShow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -114,7 +114,7 @@ export default function Addward(addwardprop: addWardProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -122,7 +122,7 @@ export default function Addward(addwardprop: addWardProp) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -133,7 +133,7 @@ export default function Addward(addwardprop: addWardProp) {
     } else {
       Swal.fire({
         title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -146,7 +146,7 @@ export default function Addward(addwardprop: addWardProp) {
       {
         pagestate === 'add' ?
           <ManageWardAdd onClick={openmodal}>
-            {t('add_ward_btn')}
+            {t('addWard')}
             <RiAddLine />
           </ManageWardAdd>
           :
@@ -161,9 +161,9 @@ export default function Addward(addwardprop: addWardProp) {
             <strong>
               {
                 pagestate === "add" ?
-                  t('add_ward_btn')
+                  t('addWard')
                   :
-                  t('modal_edit_ward')
+                  t('editWard')
               }
             </strong>
             <button onClick={closemodal}>
@@ -179,7 +179,7 @@ export default function Addward(addwardprop: addWardProp) {
                   <Col lg={6}>
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
-                        {t('field_hospitals')}
+                        {t('userHospitals')}
                         <HospitalDropdown setHos_id={setHosid} />
                       </Form.Label>
                     </InputGroup>
@@ -190,7 +190,7 @@ export default function Addward(addwardprop: addWardProp) {
               <Col lg={pagestate === 'edit' ? 12 : 6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('form_ward_name')}
+                    {t('wardName')}
                     <Form.Control
                       name="form_ward_name"
                       spellCheck={false}
@@ -207,7 +207,7 @@ export default function Addward(addwardprop: addWardProp) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('saveButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

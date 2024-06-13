@@ -57,7 +57,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
         })
         setShow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -73,7 +73,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -81,7 +81,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -91,8 +91,8 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -121,7 +121,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
         })
         setShow(false)
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -131,7 +131,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -139,7 +139,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -150,7 +150,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
     } else {
       Swal.fire({
         title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -176,7 +176,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
       {
         pagestate == 'add' ?
           <ManageHospitalsAdd onClick={openmodal}>
-            {t('add_hospitals_btn')}
+            {t('addHos')}
             <RiAddLine />
           </ManageHospitalsAdd>
           :
@@ -191,9 +191,9 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
             <strong>
               {
                 pagestate === "add" ?
-                  t('add_hospitals_btn')
+                  t('addHos')
                   :
-                  t('modal_edit_hos')
+                  t('editHos')
               }
             </strong>
             <button onClick={closemodal}>
@@ -207,7 +207,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('form_label_hosname')}
+                    {t('hosName')}
                     <Form.Control
                       name='form_label_hosname'
                       spellCheck={false}
@@ -222,7 +222,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('form_label_hosaddress')}
+                    {t('hosAddress')}
                     <Form.Control
                       name='form_label_hosaddress'
                       spellCheck={false}
@@ -237,7 +237,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('form_label_hostel')}
+                    {t('hosTel')}
                     <Form.Control
                       name='form_label_hostel'
                       spellCheck={false}
@@ -252,7 +252,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('form_label_hospic')}
+                    {t('hosPicture')}
                     <ProfileFlex $radius={10} $dimension={250}>
                       <div>
                         <img src={hosPicture ? hosPicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
@@ -270,7 +270,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('saveButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

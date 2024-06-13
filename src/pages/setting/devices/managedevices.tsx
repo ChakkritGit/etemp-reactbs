@@ -73,7 +73,7 @@ export default function Managedev() {
 
   const columns: TableColumn<devicesType>[] = [
     {
-      name: t('ward_no'),
+      name: t('noNumber'),
       cell: (_, index) => {
         return <div>{index + 1}</div>
       },
@@ -81,30 +81,19 @@ export default function Managedev() {
       center: true,
       width: '80px'
     },
-    // {
-    //   name: t('tb_dev_id'),
-    //   cell: (item) => (
-    //     <ManageDevSpanUnsetUserSelect
-    //       key={item.devId}
-    //       onClick={() => {
-    //         navigator.clipboard.writeText(item.devId)
-    //         toast.success(t('copied'))
-    //       }}>
-    //       {item.devId}
-    //     </ManageDevSpanUnsetUserSelect>
-    //   ),
-    //   sortable: false,
-    //   center: true,
-    //   width: '340px'
-    // },
     {
-      name: t('tb_dev_sn'),
+      name: t('deviceSerialTb'),
       cell: (item) => (
         <ManageDevSpanUnsetUserSelect
           key={item.devId}
           onClick={() => {
-            navigator.clipboard.writeText(item.devSerial)
-            toast.success(t('copied'))
+            try {
+              navigator.clipboard.writeText(item.devSerial)
+              toast.success(t('copyToClip'))
+            } catch (error) {
+              console.error('Failed to copy: ', error)
+              toast.error(t('copyToClipFaile'))
+            }
           }}>
           {item.devSerial}
         </ManageDevSpanUnsetUserSelect>
@@ -113,13 +102,13 @@ export default function Managedev() {
       center: true,
     },
     {
-      name: t('ตำแหน่งติดตั้ง'),
+      name: t('deviceLocationTb'),
       cell: (item) => item.locInstall || item.locInstall !== null ? item.locInstall : '- -',
       sortable: false,
       center: true,
     },
     {
-      name: t('tb_dev_status'),
+      name: t('status'),
       cell: (item) => {
         if (!item.devStatus) {
           return <span>ยังไม่ติดตั้ง</span>
@@ -131,7 +120,7 @@ export default function Managedev() {
       center: true,
     },
     {
-      name: t('hos_action'),
+      name: t('action'),
       cell: ((item, index) => (
         <Actiontabledev key={index}>
           <Adddevform
@@ -142,12 +131,12 @@ export default function Managedev() {
           <DelUserButton onClick={() =>
             swalWithBootstrapButtons
               .fire({
-                title: t('deleteuserTitle'),
-                text: t('deleteuserText'),
+                title: t('deactivateDevice'),
+                text: t('deactivateDeviceText'),
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: t('deletebtn'),
-                cancelButtonText: t('cancelbtn'),
+                confirmButtonText: t('confirmButton'),
+                cancelButtonText: t('cancelButton'),
                 reverseButtons: false,
               })
               .then((result) => {
@@ -170,7 +159,7 @@ export default function Managedev() {
   return (
     <ManageDevicesContainer>
       <ManageHospitalsHeader className="mb-3 mt-3">
-        <h3>{t('setting_tab_devices')}</h3>
+        <h3>{t('titleManageDevices')}</h3>
         <Adddevform
           pagestate={'add'}
           devdata={{} as devicesType}

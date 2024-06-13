@@ -14,7 +14,7 @@ export default function Color() {
   return (
     <ChooseColorsContainer>
       <h3>
-        {t('choosecolor')}
+        {t('chooseColor')}
       </h3>
       <ColorPalette>
         <ColorListFlex>
@@ -23,7 +23,7 @@ export default function Color() {
               color.colors === 1 && <RiCheckLine />
             }
           </ButtonColorChang>
-          <span>{t('default')}</span>
+          <span>{t('defualtColor')}</span>
         </ColorListFlex>
         <ColorListFlex>
           <ButtonColorChang $color="palette2" onClick={() => toggleColor({ ...color, colors: 2 })}>
@@ -31,7 +31,7 @@ export default function Color() {
               color.colors === 2 && <RiCheckLine />
             }
           </ButtonColorChang>
-          <span>{t('preset')} 1</span>
+          <span>{t('p1Color')}</span>
         </ColorListFlex>
         <ColorListFlex>
           <ButtonColorChang $color="palette3" onClick={() => toggleColor({ ...color, colors: 3 })}>
@@ -39,7 +39,7 @@ export default function Color() {
               color.colors === 3 && <RiCheckLine />
             }
           </ButtonColorChang>
-          <span>{t('preset')} 2</span>
+          <span>{t('p2Color')}</span>
         </ColorListFlex>
         <ColorListFlex>
           <ButtonColorChang $color="palette4" onClick={() => toggleColor({ ...color, colors: 4 })}>
@@ -47,7 +47,7 @@ export default function Color() {
               color.colors === 4 && <RiCheckLine />
             }
           </ButtonColorChang>
-          <span>{t('preset')} 3</span>
+          <span>{t('p3Color')}</span>
         </ColorListFlex>
         <ColorListFlex>
           <ButtonColorChang $color="palette5" onClick={() => toggleColor({ ...color, colors: 5 })}>
@@ -55,18 +55,18 @@ export default function Color() {
               color.colors === 5 && <RiCheckLine />
             }
           </ButtonColorChang>
-          <span>{t('preset')} 4</span>
+          <span>{t('p4Color')}</span>
         </ColorListFlex>
       </ColorPalette>
       <LineHr />
-      <H3mt>{t('appearance')}</H3mt>
+      <H3mt>{t('mode')}</H3mt>
       <SwitchMode>
-        <span>{t('darkmodesetting')}</span><ToggleButton />
+        <span>{t('appearanceMode')}</span><ToggleButton />
       </SwitchMode>
       <LineHr />
-      <H3mt>Full Screen</H3mt>
+      <H3mt>{t('screen')}</H3mt>
       <SwitchMode>
-        <span>Full Screen Mode</span>
+        <span>{t('fullScreen')}</span>
         <FullscreenBtn onClick={() => {
           const element = document.documentElement;
           if (!document.fullscreenElement) {

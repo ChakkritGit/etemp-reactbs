@@ -85,7 +85,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       const response = await axios.put<responseType<devicesType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
       // setShow(false)
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -96,7 +96,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -104,7 +104,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -126,7 +126,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     try {
       const response = await axios.put<responseType<configType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -137,7 +137,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -145,7 +145,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -233,18 +233,18 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
           <Modal.Body className="p-4">
             <Row>
               <Form.Label>
-                <span style={{ fontWeight: 'bold' }}>เลือกโพรบ</span>
+                <span style={{ fontWeight: 'bold' }}>{t('selectProbe')}</span>
                 <LineHr />
                 <Form.Select value={selectProbeI} onChange={selectProbe} className="mt-2">
                   {devicesdata.probe.map((items) => {
-                    return <option key={items.probeId} value={items.probeId}>{items.probeName ? items.probeName : 'Name is not assigned'}</option>
+                    return <option key={items.probeId} value={items.probeId}>{items.probeName ? items.probeName : t('nameNotRegister')}</option>
                   })}
                 </Form.Select>
               </Form.Label>
             </Row>
             <Row className="mt-3">
               <Form.Label className="w-100 form-label">
-                <span style={{ fontWeight: 'bold' }}>ปรับค่า</span>
+                <span style={{ fontWeight: 'bold' }}>{t('adjustMents')}</span>
                 <LineHr />
               </Form.Label>
               <Col lg={12}>
@@ -252,7 +252,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   <Form.Label className="w-100">
                     <SliderFlex>
                       <SliderLabelFlex>
-                        <span>{t('tempmin')}</span>
+                        <span>{t('tempMin')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={-40}
@@ -264,7 +264,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         </div>
                       </SliderLabelFlex>
                       <SliderLabelFlex>
-                        <span>{t('tempmax')}</span>
+                        <span>{t('tempMax')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={tempvalue[0]}
@@ -295,7 +295,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   <Form.Label className="w-100">
                     <SliderFlex>
                       <SliderLabelFlex>
-                        <span>{t('hummin')}</span>
+                        <span>{t('humiMin')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={0}
@@ -307,7 +307,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                         </div>
                       </SliderLabelFlex>
                       <SliderLabelFlex>
-                        <span>{t('hummax')}</span>
+                        <span>{t('humiMax')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={humvalue[0]}
@@ -337,7 +337,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderLabelFlex>
-                      <span>{t('adjusttemp')}</span>
+                      <span>{t('adjustTemp')}</span>
                       <div>
                         <RangeInputText type="number"
                           min={-20}
@@ -370,7 +370,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderLabelFlex>
-                      <span>{t('adjusthum')}</span>
+                      <span>{t('adjustHumi')}</span>
                       <div>
                         <RangeInputText type="number"
                           min={-20}
@@ -402,7 +402,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               <Col lg={12}>
                 <AdjustRealTimeFlex $primary={Number((mqttData.temp + formData.adjust_temp).toFixed(2)) >= tempvalue[1] || Number((mqttData.temp + formData.adjust_temp).toFixed(2)) <= tempvalue[0]}>
                   <div>
-                    <span>อุณหภูมิปัจจุบัน</span>
+                    <span>{t('currentTemp')}</span>
                     <div>
                       <span>
                         <span>{mqttData.temp.toFixed(2)}</span> °C
@@ -412,7 +412,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   <RiArrowRightLine size={32} fill="grey" />
                   <RiArrowDownLine size={32} fill="grey" />
                   <div>
-                    <span>อุณหภูมิหลังปรับ</span>
+                    <span>{t('adjustAfterTemp')}</span>
                     <div>
                       <span>
                         <span>{(mqttData.temp + formData.adjust_temp - devicesdata.probe[0]?.adjustTemp).toFixed(2)}</span> °C
@@ -423,7 +423,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               </Col>
               <Col lg={12}>
                 <Form.Label className="w-100">
-                  <span style={{ fontWeight: 'bold' }}>ตั้งค่าเสียง</span>
+                  <span style={{ fontWeight: 'bold' }}>{t('muteSetting')}</span>
                   <LineHr />
                 </Form.Label>
               </Col>
@@ -432,7 +432,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   <span>iTEMP</span>
                   <OpenSettingBuzzer type="button" className="mt-3" onClick={openSetting}>
                     <RiSpeakerLine size={24} />
-                    <span>Sound and Mute Settings</span>
+                    <span>{t('notificationSettings')}</span>
                   </OpenSettingBuzzer>
                 </Form.Label>
               </Col>
@@ -454,7 +454,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('adjustButtonSubmit')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>
@@ -469,7 +469,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 <RiArrowLeftSLine />
               </button>
               <span>
-                Sound and Mute Settings
+                {t('notificationSettings')}
               </span>
             </ModalMuteHead>
             {/* <pre>{JSON.stringify(muteMode, null, 2)}</pre> */}
@@ -481,21 +481,21 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               <Col lg={6}>
                 <Row>
                   <Row>
-                    <span>1.Sending message for the first time.</span>
+                    <span>{t('choiceOne')}</span>
                   </Row>
                   <Row>
                     <Col className="mt-2">
                       <Form.Check
                         type='radio'
                         id='MessageImmediately'
-                        label='Immediately'
+                        label={t('messageimmediately')}
                         checked={choichOne === 'immediately'}
                         onChange={() => setMuteMode({ ...muteMode, choichOne: 'immediately' })}
                       />
                       <Form.Check
                         type='radio'
                         id='MessageAfter'
-                        label='After'
+                        label={t('messageAfter')}
                         checked={choichOne === 'after'}
                         onChange={() => setMuteMode({ ...muteMode, choichOne: 'after' })}
                       />
@@ -516,21 +516,21 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 </Row>
                 <Row className="mt-3">
                   <Row>
-                    <span>2.Sending message when the temperature returned to normal level.</span>
+                    <span>{t('choiceTwo')}</span>
                   </Row>
                   <Row>
                     <Col className="mt-2">
                       <Form.Check
                         type='radio'
                         id='MessageSend'
-                        label='Send'
+                        label={t('messageSend')}
                         checked={choichtwo === 'send'}
                         onChange={() => setMuteMode({ ...muteMode, choichtwo: 'send' })}
                       />
                       <Form.Check
                         type='radio'
                         id='MessageDoNotSend'
-                        label='Do not Send'
+                        label={t('messageDonotSend')}
                         checked={choichtwo === 'donotsend'}
                         onChange={() => setMuteMode({ ...muteMode, choichtwo: 'donotsend' })}
                       />
@@ -541,21 +541,21 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               <Col lg={6}>
                 <Row className="mt-lg-0 mt-3">
                   <Row>
-                    <span>3.Repetition of message.</span>
+                    <span>{t('choiceThree')}</span>
                   </Row>
                   <Row>
                     <Col className="mt-2">
                       <Form.Check
                         type='radio'
                         id='MessageOneTime'
-                        label='One Time'
+                        label={t('messageOneTime')}
                         checked={choichthree === 'onetime'}
                         onChange={() => setMuteMode({ ...muteMode, choichthree: 'onetime' })}
                       />
                       <Form.Check
                         type='radio'
                         id='MessageEvery'
-                        label='Every'
+                        label={t('messageEvery')}
                         checked={choichthree === 'every'}
                         onChange={() => setMuteMode({ ...muteMode, choichthree: 'every' })}
                       />
@@ -576,21 +576,21 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 </Row>
                 <Row className="mt-3">
                   <Row>
-                    <span>4.Notification to the app.</span>
+                    <span>{t('choiceFour')}</span>
                   </Row>
                   <Row>
                     <Col className="mt-2">
                       <Form.Check
                         type='radio'
                         id='MessageOn'
-                        label='On'
+                        label={t('messageOn')}
                         checked={choichfour === 'on'}
                         onChange={() => setMuteMode({ ...muteMode, choichfour: 'on' })}
                       />
                       <Form.Check
                         type='radio'
                         id='MessageOff'
-                        label='Off'
+                        label={t('messageOff')}
                         checked={choichfour === 'off'}
                         onChange={() => setMuteMode({ ...muteMode, choichfour: 'off' })}
                       />
@@ -604,7 +604,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('notificationButtonSubmit')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

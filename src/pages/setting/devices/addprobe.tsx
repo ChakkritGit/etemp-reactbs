@@ -72,7 +72,7 @@ export default function Addprobe(addprobe: addprobeProps) {
           }
         })
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -84,7 +84,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -92,7 +92,7 @@ export default function Addprobe(addprobe: addprobeProps) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -102,8 +102,8 @@ export default function Addprobe(addprobe: addprobeProps) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -137,7 +137,7 @@ export default function Addprobe(addprobe: addprobeProps) {
           }
         })
         Swal.fire({
-          title: t('alert_header_Success'),
+          title: t('alertHeaderSuccess'),
           text: response.data.message,
           icon: "success",
           timer: 2000,
@@ -149,7 +149,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       } catch (error) {
         if (error instanceof AxiosError) {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: error.response?.data.message,
             icon: "error",
             timer: 2000,
@@ -157,7 +157,7 @@ export default function Addprobe(addprobe: addprobeProps) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: 'Unknown Error',
             icon: "error",
             timer: 2000,
@@ -167,8 +167,8 @@ export default function Addprobe(addprobe: addprobeProps) {
       }
     } else {
       Swal.fire({
-        title: t('alert_header_Warning'),
-        text: t('complete_field'),
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
         icon: "warning",
         timer: 2000,
         showConfirmButton: false,
@@ -203,26 +203,25 @@ export default function Addprobe(addprobe: addprobeProps) {
   }
 
   const delayTimeArray = [
-    { value: '5', name: '5 นาที' },
-    { value: '15', name: '15 นาที' },
-    { value: '30', name: '30 นาที' },
-    { value: '60', name: '1 ชั่วโมง' },
-    { value: '120', name: '2 ชั่วโมง' },
-    { value: '240', name: '4 ชั่วโมง' },
+    { value: '5', name: t('probe5Minute') },
+    { value: '15', name: t('probe15Minute') },
+    { value: '30', name: t('probe30Minute') },
+    { value: '60', name: t('probe1Hour') },
+    { value: '120', name: t('probe2Hour') },
+    { value: '240', name: t('probe4Hour') },
   ]
 
   const doorArray = [
-    { value: '1', name: '1 ประตู' },
-    { value: '2', name: '2 ประตู' },
-    { value: '3', name: '3 ประตู' },
+    { value: '1', name: t('probeDoor1') },
+    { value: '2', name: t('probeDoor2') },
+    { value: '3', name: t('probeDoor3') },
   ]
 
   const channelArray = [
-    { value: '1', name: '1' },
-    { value: '2', name: '2' },
-    { value: '3', name: '3 ' },
-    { value: '4', name: '4 ' },
-    { value: '5', name: '5 ' },
+    { value: '1', name: t('probeChanel1') },
+    { value: '2', name: t('probeChanel2') },
+    { value: '3', name: t('probeChanel3') },
+    { value: '4', name: t('probeChanel4') },
   ]
 
   return (
@@ -230,7 +229,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       {
         pagestate == 'add' ?
           <ManageProbeAdd onClick={openmodal}>
-            {t('เพิ่มโพรบ')}
+            {t('addProbe')}
             <RiAddLine />
           </ManageProbeAdd>
           :
@@ -244,9 +243,9 @@ export default function Addprobe(addprobe: addprobeProps) {
             <strong>
               {
                 pagestate === "add" ?
-                  t('เพิ่มโพรบ')
+                  t('addProbe')
                   :
-                  t('แก้ไขโพรบ')
+                  t('editProbe')
               }
             </strong>
             {/* <pre>{JSON.stringify(formdata, null, 2)}</pre> */}
@@ -263,10 +262,10 @@ export default function Addprobe(addprobe: addprobeProps) {
                   <Col lg={12}>
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
-                        {t('เลือกอุปกรณ์')}
+                        {t('selectDeviceDrop')}
                         <Form.Select onChange={deviceSelected} name="field_select_hos" value={formdata.devId || '0'}>
                           <option value={'0'} disabled={!probeData?.devSerial}>
-                            เลือกอุปกรณ์
+                            {t('selectDeviceDrop')}
                           </option>
                           {devices.map((items, index) => {
                             const optionKey = `option_${index}`
@@ -286,7 +285,7 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('ชื่อโพรบ')}
+                    {t('probeName')}
                     <Form.Control
                       name='form_label_hosaddress'
                       spellCheck={false}
@@ -301,7 +300,7 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('ประเภทโพรบ')}
+                    {t('probeType')}
                     <Form.Control
                       name='form_label_hosaddress'
                       spellCheck={false}
@@ -316,7 +315,7 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={12}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('ตำแหน่งติดตั้งโพรบ')}
+                    {t('probeLocation')}
                     <Form.Control
                       name='form_label_hosaddress'
                       spellCheck={false}
@@ -331,10 +330,10 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={4}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('device_delay_time')}
+                    {t('Delay')}
                     <Form.Select onChange={delayTime} name="field_select_hos" value={formdata.delay_time || '0'}>
                       <option value={'0'} disabled={!probeData?.delayTime}>
-                        เลือกดีเลย์
+                        {t('selectDelay')}
                       </option>
                       {delayTimeArray.map((item, index) => {
                         const optionKey = `option_${index}`
@@ -351,10 +350,10 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={4}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('device_door')}
+                    {t('Door')}
                     <Form.Select onChange={doorSelected} name="field_select_hos" value={formdata.door || '0'}>
                       <option value={'0'} disabled={!probeData?.door}>
-                        เลือกประตู
+                        {t('selectDoor')}
                       </option>
                       {doorArray.map((item, index) => {
                         const optionKey = `option_${index}`
@@ -371,10 +370,10 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={4}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('ช่องโพรบ')}
+                    {t('probeChanel')}
                     <Form.Select onChange={channelSelected} name="field_select_hos" value={formdata.probeCh || '0'}>
                       <option value={'0'} disabled={!probeData?.probeCh}>
-                        เลือกแชนแนล
+                        {t('selectChanel')}
                       </option>
                       {channelArray.map((item, index) => {
                         const optionKey = `option_${index}`
@@ -393,7 +392,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                   <Form.Label className="w-100">
                     <SliderFlex>
                       <SliderLabelFlex>
-                        <span>temp min</span>
+                        <span>{t('tempMin')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={-40}
@@ -405,7 +404,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                         </div>
                       </SliderLabelFlex>
                       <SliderLabelFlex>
-                        <span>temp max</span>
+                        <span>{t('tempMax')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={formdata.tempvalue[0]}
@@ -436,7 +435,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                   <Form.Label className="w-100">
                     <SliderFlex>
                       <SliderLabelFlex>
-                        <span>hum min</span>
+                        <span>{t('humiMin')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={0}
@@ -448,7 +447,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                         </div>
                       </SliderLabelFlex>
                       <SliderLabelFlex>
-                        <span>hum max</span>
+                        <span>{t('humiMax')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={formdata.humvalue[0]}
@@ -478,7 +477,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderLabelFlex>
-                      <span>{t('device_adjust_temp')}</span>
+                      <span>{t('adjustTemp')}</span>
                       <div>
                         <RangeInputText type="number"
                           min={-20}
@@ -507,7 +506,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderLabelFlex>
-                      <span>{t('device_adjust_hum')}</span>
+                      <span>{t('adjustHumi')}</span>
                       <div>
                         <RangeInputText type="number"
                           min={-20}
@@ -537,7 +536,7 @@ export default function Addprobe(addprobe: addprobeProps) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('saveButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>

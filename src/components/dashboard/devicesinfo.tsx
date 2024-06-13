@@ -93,7 +93,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           //
           setShow(false)
           Swal.fire({
-            title: t('alert_header_Success'),
+            title: t('alertHeaderSuccess'),
             text: response.data.msg,
             icon: "success",
             timer: 2000,
@@ -103,7 +103,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           })
         } else {
           Swal.fire({
-            title: t('alert_header_Error'),
+            title: t('alertHeaderError'),
             text: response.data.msg,
             icon: "error",
             timer: 2000,
@@ -128,23 +128,23 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           <CardDevBtn onClick={openmodal}>
             <RiSettings3Line />
             <TooltipSpan>
-              {t('tab_adjust')}
+              {t('deviceToolAdjust')}
             </TooltipSpan>
           </CardDevBtn>
         </DeviceDetailsHead>
         <DeviceDetailsBody>
           <DeviceDetailsBodyimg
             onClick={openPicmodal}
-            src={devicesData?.locPic ? `${import.meta.env.VITE_APP_IMG}${devicesData?.locPic}` : 'https://test.thanespgm.com/img/default-pic.png'}
+            src={devicesData?.locPic ? `${import.meta.env.VITE_APP_IMG}${devicesData?.locPic}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`}
             alt="device_pic"
             loading="lazy" />
           <DeviceDetailsBodyInfo>
             <div>
               <span>{devicesData?.locInstall ? devicesData?.locInstall : '- -'}</span>
-              <span>{t('temperature')}</span>
-              <span>{t('min')}: {probe[0]?.tempMin.toFixed(2)}°C {t('max')}: {probe[0]?.tempMax.toFixed(2)}°C</span>
-              <span>{t('humidity')}</span>
-              <span>{t('min')}: {probe[0]?.humMin.toFixed(2)}% {t('max')}: {probe[0]?.humMax.toFixed(2)}%</span>
+              <span>{t('temperatureName')}</span>
+              <span>{t('minValueUnit')}: {probe[0]?.tempMin.toFixed(2)}°C {t('maxValueUnit')}: {probe[0]?.tempMax.toFixed(2)}°C</span>
+              <span>{t('humidityName')}</span>
+              <span>{t('minValueUnit')}: {probe[0]?.humMin.toFixed(2)}% {t('maxValueUnit')}: {probe[0]?.humMax.toFixed(2)}%</span>
               <span>{devicesData?.config?.ip ? devicesData?.config?.ip : '- -'}</span>
             </div>
           </DeviceDetailsBodyInfo>
@@ -152,7 +152,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
       </DashboardDevicesDetails>
       <DevicesBodyStatus>
         <CardstatusSpecial
-          title={t('probe')}
+          title={t('dashProbe')}
           svg={<RiTempColdLine />}
           valuesone={'T: ' + devicesData?.log[0]?.tempAvg.toFixed(2)}
           valuestwo={'H: ' + devicesData?.log[0]?.humidityAvg.toFixed(2)}
@@ -162,8 +162,8 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           alerttwo={Number(devicesData?.log[0]?.humidityAvg.toFixed(2)) === 0 || Number(devicesData?.log[0]?.humidityAvg.toFixed(2)) >= probe[0]?.humMax || Number(Number(devicesData?.log[0]?.humidityAvg.toFixed(2))) <= probe[0]?.humMin}
         />
         <CardstatusNomal
-          title={t('connect')}
-          valuestext={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 ? t('disconnect') : t('connected')}
+          title={t('dashConnect')}
+          valuestext={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 ? t('stateDisconnect') : t('stateConnect')}
           svg={<RiSignalWifi1Line />}
           alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60}
         />
@@ -174,11 +174,11 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           alertone={devicesData?.dev_status === '0'}
         /> */}
         <CardstatusNomal
-          title={t('doors')}
+          title={t('dashDoor')}
           valuestext={
             !devicesData?.log[0]?.door1 ||
               !devicesData?.log[0]?.door2 ||
-              !devicesData?.log[0]?.door3 ? t('open') : t('close')}
+              !devicesData?.log[0]?.door3 ? t('stateOn') : t('stateOff')}
           svg={<RiDoorClosedLine />}
           alertone={
             !devicesData?.log[0]?.door1 ||
@@ -187,15 +187,15 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           }
         />
         <CardstatusNomal
-          title={t('plug')}
+          title={t('dashPlug')}
           valuestext={
-            devicesData?.log[0]?.ac !== '1' ? t('on') : t('off')
+            devicesData?.log[0]?.ac !== '1' ? t('stateNormal') : t('stateProblem')
           }
           svg={<RiPlugLine />}
           alertone={devicesData?.log[0]?.ac === '1'}
         />
         <CardstatusNomal
-          title={t('batter')}
+          title={t('dashBattery')}
           valuestext={
             devicesData?.log[0]?.battery + '%'
           }
@@ -203,7 +203,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           alertone={devicesData?.log[0]?.battery === 0}
         />
         <CardstatusSpecial
-          title={t('tempofday')}
+          title={t('dashTempofDay')}
           svg={<RiTempColdLine />}
           valuesone={'↑ ' + Number(Math.max(...(devicesData !== undefined ? devicesData?.log.map((items) => items.tempAvg) : [0]))).toFixed(2)}
           valuestwo={'↓ ' + Number(Math.min(...(devicesData !== undefined ? devicesData?.log.map((items) => items.tempAvg) : [0]))).toFixed(2)}
@@ -211,31 +211,31 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           pipetwo={'°C'}
         />
         <CardstatusNomal
-          title={t('sdcard')}
+          title={t('dashSdCard')}
           valuestext={
-            devicesData?.log[0]?.sdCard ? t('on') : t('off')
+            devicesData?.log[0]?.sdCard ? t('stateNormal') : t('stateProblem')
           }
           svg={<RiSdCardMiniLine />}
           alertone={!devicesData?.log[0]?.sdCard}
         />
         <CardstatusSpecial
-          title={t('probeanddoor')}
+          title={t('dashProbeandDoor')}
           svg={<RiTempColdLine />}
           valuesone={Number(devicesData?.probe.length)}
           valuestwo={Number(devicesData?.probe[0]?.door)}
           pipetwo={''}
         />
         <CardstatusSpecial
-          title={t('warranty_home')}
+          title={t('dashWarranty')}
           svg={<RiShieldCheckLine />}
           valuesone={
-            Math.ceil((new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24))
+            Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24))
           }
-          valuestwo={t('day')}
-          alertone={Math.ceil((new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
+          valuestwo={t('stateDateDay')}
+          alertone={Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
         />
         <CardstatusNomal
-          title={t('repair_home')}
+          title={t('dashRepair')}
           valuestext={
             '- -'
           }
@@ -265,7 +265,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                   <Form.Label className="w-100">
                     <SliderFlex>
                       <SliderLabelFlex>
-                        <span>{t('tempmin')}</span>
+                        <span>{t('tempMin')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={-40}
@@ -277,7 +277,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                         </div>
                       </SliderLabelFlex>
                       <SliderLabelFlex>
-                        <span>{t('tempmax')}</span>
+                        <span>{t('tempMax')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={tempvalue[0]}
@@ -308,7 +308,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                   <Form.Label className="w-100">
                     <SliderFlex>
                       <SliderLabelFlex>
-                        <span>{t('hummin')}</span>
+                        <span>{t('humiMin')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={0}
@@ -320,7 +320,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                         </div>
                       </SliderLabelFlex>
                       <SliderLabelFlex>
-                        <span>{t('hummax')}</span>
+                        <span>{t('humiMax')}</span>
                         <div>
                           <RangeInputText type="number"
                             min={humvalue[0]}
@@ -350,7 +350,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderLabelFlex>
-                      <span>{t('adjusttemp')}</span>
+                      <span>{t('adjustTemp')}</span>
                       <div>
                         <RangeInputText type="number"
                           min={-20}
@@ -383,7 +383,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderLabelFlex>
-                      <span>{t('adjusthum')}</span>
+                      <span>{t('adjustHumi')}</span>
                       <div>
                         <RangeInputText type="number"
                           min={-20}
@@ -442,7 +442,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           <Modal.Body>
             <ExpandPicture>
               <img
-                src={devicesData?.locPic ? `${import.meta.env.VITE_APP_IMG}${devicesData?.locPic}` : 'https://test.thanespgm.com/img/default-pic.png'}
+                src={devicesData?.locPic ? `${import.meta.env.VITE_APP_IMG}${devicesData?.locPic}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`}
                 alt="device_pic" />
             </ExpandPicture>
           </Modal.Body>

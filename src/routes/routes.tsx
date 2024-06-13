@@ -35,7 +35,6 @@ export default function RoutesComponent() {
   useEffect(() => {
     try {
       socket.on("connect", () => {
-        dispatch(setSocketData("Connected to Socket server"))
       })
 
       socket.on("receive_message", (response: socketResponseType) => {
@@ -60,16 +59,13 @@ export default function RoutesComponent() {
 
       socket.on("disconnect", (reason) => {
         console.error("Disconnected from Socket server:", reason)
-        dispatch(setSocketData(reason))
       })
 
       socket.on("error", (error) => {
         console.error("Socket error:", error)
-        dispatch(setSocketData(error))
       })
     } catch (error) {
       console.error("Failed to connect to Socket server:", error)
-      dispatch(setSocketData(error as string))
     }
   }, [])
 
@@ -96,6 +92,7 @@ export default function RoutesComponent() {
             <Route element={<Hidesetting />}>
               <Route path='permission' element={<Permission />} />
               <Route path='management' element={<Setting />} />
+              <Route path='management/:id' element={<Setting />} />
             </Route>
             <Route path='warranty' element={<Warranty />} />
             <Route path='repair' element={<Repair />} />
@@ -104,7 +101,7 @@ export default function RoutesComponent() {
             <Route path='dashboard/fullchart' element={<Fullchart />} />
             <Route path='dashboard/fulltable' element={<Fulltable />} />
             <Route path='dashboard/fullchart/compare' element={<Comparechart />} />
-            <Route path='updatelog' element={<Log />} />
+            <Route path='changeLog' element={<Log />} />
           </Route>
         </Route>
         <Route path='/login' element={<Islogout />} />

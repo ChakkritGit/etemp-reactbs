@@ -82,7 +82,7 @@ export default function Warranty() {
         headers: { authorization: `Bearer ${token}` }
       })
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -92,7 +92,7 @@ export default function Warranty() {
     } catch (error) {
       if (error instanceof AxiosError) {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: error.response?.data.message,
           icon: "error",
           timer: 2000,
@@ -100,7 +100,7 @@ export default function Warranty() {
         })
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
+          title: t('alertHeaderError'),
           text: 'Unknown Error',
           icon: "error",
           timer: 2000,
@@ -112,7 +112,7 @@ export default function Warranty() {
 
   const columns: TableColumn<warrantyType>[] = [
     {
-      name: t('no'),
+      name: t('noNumber'),
       cell: (_, index) => {
         return <div>{index + 1}</div>
       },
@@ -120,19 +120,19 @@ export default function Warranty() {
       center: true,
     },
     {
-      name: t('tb_dev_sn'),
+      name: t('deviceSerialTb'),
       selector: (items) => items.device.devSerial,
       sortable: false,
       center: true,
     },
     {
-      name: t('install_date'),
+      name: t('deviceDate'),
       selector: (items) => items.device.dateInstall,
       sortable: false,
       center: true,
     },
     {
-      name: t('warranty_home'),
+      name: t('deviceWarrantyTb'),
       cell: ((items) => {
         const today = new Date()
         const targetDate = new Date(items.device.dateInstall)
@@ -146,7 +146,7 @@ export default function Warranty() {
       center: true,
     },
     {
-      name: t('hos_action'),
+      name: t('action'),
       cell: ((items) => {
         return <DetailFlex>
           <DetailWarranty
@@ -157,12 +157,12 @@ export default function Warranty() {
           <DelWarrantyButton onClick={() =>
             swalWithBootstrapButtons
               .fire({
-                title: t('deleteuserTitle'),
-                text: t('deleteuserText'),
+                title: t('deleteWarranty'),
+                text: t('deleteWarrantyText'),
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: t('deletebtn'),
-                cancelButtonText: t('cancelbtn'),
+                confirmButtonText: t('confirmButton'),
+                cancelButtonText: t('cancelButton'),
                 reverseButtons: false,
               })
               .then((result) => {
@@ -182,9 +182,9 @@ export default function Warranty() {
   return (
     <Container fluid>
       <WarrantyHead>
-        <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('expired')}</WarrantyHeadBtn>
-        <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('aftersale')}</WarrantyHeadBtn>
-        <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('allitem')}</WarrantyHeadBtn>
+        <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('tabWarrantyExpired')}</WarrantyHeadBtn>
+        <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
+        <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
       </WarrantyHead>
       <WarrantyBody>
         {
