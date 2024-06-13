@@ -238,7 +238,6 @@ export default {
     screen: 'หน้าจอ',
     fullScreen: 'โหมดเต็มหน้าจอ',
     changeLanguage: 'เปลี่ยนภาษา',
-    installApp: 'ติดตั้งแอพ',
 
     // notification
     titleNotification: 'การแจ้งเตือน',

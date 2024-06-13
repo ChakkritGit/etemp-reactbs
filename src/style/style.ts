@@ -3922,52 +3922,6 @@ ${props => props.$logout &&
 }
 `
 
-export const ListMenuButton = styled.button<{ $primary?: boolean, $logout?: boolean }>`
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  padding: 5px .5rem;
-  border-radius: .5rem;
-  border: unset;
-  background-color: unset;
-  cursor: pointer;
-
-  &:hover {
-  background-color: var(--main-color);
-  color: var(--white);
-  transition: .3s;
-  }
-
-  ${props => props.$primary &&
-    css`
-    background-color: var(--main-color);
-    color: var(--white);
-  `}
-
-span {
-  font-size: 18px;
-}
-svg {
-  font-size: 24px;
-}
-
-${props => props.$logout &&
-    css`
-  color: red;
-
-  &:hover {
-    background-color: var(--danger-color);
-    color: var(--white);
-  }
-`}
-
-@media (max-width: 430px) {
-  span {
-    display: none;
-  }
-}
-`
-
 export const SettingRightContainer = styled.div<{ $primary?: boolean }>`
 width: calc(100% - 250px);
 padding: .5rem;
@@ -4670,4 +4624,19 @@ justify-content: center;
 align-items: center;
 width: 100%;
 }
+`
+
+export const TabConnect = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: ${props => props.$primary ? '0px' : '30px'};
+  background-color: ${props => props.$primary ? 'var(--main-color)' : 'var(--danger-color)'};
+  color: var(--white);
+  opacity: ${props => props.$primary ? 0 : 1};
+  position: fixed;
+  top: 0;
+  z-index: 999999;
+  transition: .5s;
 `

@@ -1,11 +1,11 @@
 import { Container } from "react-bootstrap"
 import {
-  H3mt, LineHeightSystem, ListMenu, ListMenuButton, SettingLeftContainer,
+  H3mt, LineHeightSystem, ListMenu, SettingLeftContainer,
   SettingRightContainer, SettingSystemContainer
 } from "../../style/style"
 import { useTranslation } from "react-i18next"
-import { RiApps2AddLine, RiLogoutBoxRLine, RiPaletteLine, RiTranslate2, RiUser6Line } from "react-icons/ri"
-import { useEffect, useRef, useState } from "react"
+import { RiLogoutBoxRLine, RiPaletteLine, RiTranslate2, RiUser6Line } from "react-icons/ri"
+import { useState } from "react"
 import Color from "./display"
 import { useNavigate } from "react-router-dom"
 import Account from "./account"
@@ -18,8 +18,6 @@ export default function System() {
   const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [pagenumber, setPagenumber] = useState(1)
   const navigate = useNavigate()
-  let deferredPrompt: any
-  const installRef = useRef<HTMLButtonElement>(null)
 
   const logOut = (action: boolean) => {
     if (action === true) {
@@ -35,42 +33,6 @@ export default function System() {
       return navigate("/login")
     }
   }
-
-  const installApp = () => {
-    // Show the prompt
-    deferredPrompt.prompt()
-    if (installRef.current) {
-      installRef.current.disabled = true
-    }
-    // Wait for the user to respond to the prompt
-    deferredPrompt.userChoice.then((choiceResult: any) => {
-      if (choiceResult.outcome === "accepted") {
-        if (installRef.current) {
-          installRef.current.hidden = true
-        }
-      } else {
-        console.error("PWA setup rejected")
-      }
-      if (installRef.current) {
-        installRef.current.disabled = false
-      }
-      deferredPrompt = null
-    })
-  }
-
-  useEffect(() => {
-    window.addEventListener("beforeinstallprompt", e => {
-      // Prevent Chrome 76 and earlier from automatically showing a prompt
-      e.preventDefault()
-      // Stash the event so it can be triggered later.
-      deferredPrompt = e
-      // Show the install button
-      if (installRef.current) {
-        installRef.current.hidden = false
-        installRef.current.addEventListener("click", installApp)
-      }
-    })
-  }, [installRef])
 
   return (
     <Container fluid>
@@ -94,12 +56,6 @@ export default function System() {
                 {t('tabLanguage')}
               </span>
             </ListMenu>
-            <ListMenuButton ref={installRef}>
-              <RiApps2AddLine />
-              <span>
-                {t('installApp')}
-              </span>
-            </ListMenuButton>
           </div>
           <ListMenu $logout onClick={() => logOut(true)}>
             <RiLogoutBoxRLine />

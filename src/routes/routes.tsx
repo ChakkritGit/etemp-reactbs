@@ -20,7 +20,7 @@ import Fulltable from '../pages/dashboard/fulltable'
 import toast, { Toaster } from 'react-hot-toast'
 import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../stores/store'
 import { setSocketData } from '../stores/utilsStateSlice'
@@ -28,45 +28,47 @@ import { client } from '../services/mqtt'
 import Log from '../pages/log/log'
 import { socketResponseType } from '../types/component.type'
 import { RiAlarmWarningFill } from 'react-icons/ri'
+import { TabConnect } from '../style/style'
+import { useTranslation } from 'react-i18next'
 
 export default function RoutesComponent() {
+  const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
+  const [status, setStatus] = useState(true)
 
   useEffect(() => {
-    try {
-      socket.on("connect", () => {
-      })
+    socket.on("connect", () => {
+      setStatus(true)
+    })
 
-      socket.on("receive_message", (response: socketResponseType) => {
-        toast((_t) => (
-          `${response.device} \n ${response.message} \n ${new Date(response.time).toLocaleString('th-TH', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZone: 'UTC'
-          })}`
-        ),
-          {
-            icon: <RiAlarmWarningFill size={24} fill='var(--danger-color)' />,
-            duration: 6000
-          }
-        )
-        dispatch(setSocketData(response))
-      })
+    socket.on("receive_message", (response: socketResponseType) => {
+      toast((_t) => (
+        `${response.device} \n ${response.message} \n ${new Date(response.time).toLocaleString('th-TH', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'UTC'
+        })}`
+      ),
+        {
+          icon: <RiAlarmWarningFill size={24} fill='var(--danger-color)' />,
+          duration: 6000
+        }
+      )
+      dispatch(setSocketData(response))
+    })
 
-      socket.on("disconnect", (reason) => {
-        console.error("Disconnected from Socket server:", reason)
-      })
+    socket.on("disconnect", (reason) => {
+      setStatus(false)
+      console.error("Disconnected from Socket server:", reason)
+    })
 
-      socket.on("error", (error) => {
-        console.error("Socket error:", error)
-      })
-    } catch (error) {
-      console.error("Failed to connect to Socket server:", error)
-    }
+    socket.on("error", (error) => {
+      console.error("Socket error:", error)
+    })
   }, [])
 
   useEffect(() => {
@@ -84,6 +86,7 @@ export default function RoutesComponent() {
         position="bottom-right"
         reverseOrder={false}
       />
+      <TabConnect $primary={status}>{status ? t('stateConnect') : t('stateDisconnect')}</TabConnect>
       <Routes>
         <Route element={<AuthRoute />}>
           <Route path='/' element={<Main />}>
