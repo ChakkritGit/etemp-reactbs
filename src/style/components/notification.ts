@@ -5,7 +5,9 @@ export const NotiHead = styled.div<{ $primary?: boolean }>`
   align-items: center;
   gap: .5rem;
   padding: 1rem .5rem;
-  background-color: var(--main-last-color);
+  background-color: ${(propss) => (propss.theme.mode === 'dark' ? 'var(--main-last-rgba)' : 'var(--main-white-rgba)')};
+  backdrop-filter: ${(propss) => (propss.theme.mode === 'dark' ? 'blur(35px)' : 'blur(20px)')};
+  -webkit-backdrop-filter: ${(propss) => (propss.theme.mode === 'dark' ? 'blur(35px)' : 'blur(20px)')};
   position: sticky;
   top: 0;
 `

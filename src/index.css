@@ -72,6 +72,7 @@
   --border-dark-color: #555555;
   --hover-dark-color: #444444;
   --main-last-rgba: rgba(53, 53, 53, 0.4);
+  --main-white-rgba: rgba(255, 255, 255, 0.5);
 
   /* border */
   --border-radius-small: 0.55rem;
