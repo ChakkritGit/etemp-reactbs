@@ -238,6 +238,7 @@ export default {
     screen: 'Screen',
     fullScreen: 'Full Screen Mode',
     changeLanguage: 'Change Language',
+    installApp: 'Install App',
 
     // notification
     titleNotification: 'Notification',
