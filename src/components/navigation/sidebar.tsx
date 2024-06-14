@@ -60,7 +60,7 @@ export default function sidebar() {
   useEffect(() => {
     const changeFavicon = (href: string) => {
       const link: HTMLLinkElement = document.querySelector("link[rel*='icon']") || document.createElement('link')
-      link.type = 'image/jpg'
+      link.type = 'image/png'
       link.rel = 'icon'
       link.href = href
 
@@ -71,7 +71,7 @@ export default function sidebar() {
     changeFavicon(`${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`)
 
     return () => {
-      changeFavicon('Thanes.png')
+      changeFavicon('logo.png')
     }
   }, [location])
 
@@ -80,162 +80,160 @@ export default function sidebar() {
   }
 
   return (
-    <>
-      <Sidebar $primary={expand}>
-        <Link to="/" onClick={resetAsideandCardcount} className="d-flex flex-column align-items-center mb-3 mb-md-0 link-dark text-decoration-none">
-          <SidebarLogo
-            $primary={expand}
-            src={localStorage.getItem('hosimg') !== 'null' ?
-              `${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`
-              :
-              `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
-          <HospitalName $primary={expand}>{localStorage.getItem('hosname')}</HospitalName>
-        </Link>
-        <LineHr />
-        <Ul $primary={expand} $maxheight className="nav nav-pills">
-          <Li $primary={expand}>
-            <Link to="/" onClick={resetAsideandCardcount} className={location.pathname === "/" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"} aria-current="page">
-              {
-                location.pathname === "/" ?
-                  <RiHome3Fill />
-                  :
-                  <RiHome3Line />
-              }
-              <SpanAside $primary={expand}>
-                {t('sideShowAllBox')}
-              </SpanAside>
-            </Link>
-            <TooltipSpan $primary={expand}>
+    <Sidebar $primary={expand}>
+      <Link to="/" onClick={resetAsideandCardcount} className="d-flex flex-column align-items-center mb-3 mb-md-0 link-dark text-decoration-none">
+        <SidebarLogo
+          $primary={expand}
+          src={localStorage.getItem('hosimg') !== 'null' ?
+            `${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`
+            :
+            `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
+        <HospitalName $primary={expand}>{localStorage.getItem('hosname')}</HospitalName>
+      </Link>
+      <LineHr />
+      <Ul $primary={expand} $maxheight className="nav nav-pills">
+        <Li $primary={expand}>
+          <Link to="/" onClick={resetAsideandCardcount} className={location.pathname === "/" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"} aria-current="page">
+            {
+              location.pathname === "/" ?
+                <RiHome3Fill />
+                :
+                <RiHome3Line />
+            }
+            <SpanAside $primary={expand}>
               {t('sideShowAllBox')}
-            </TooltipSpan>
-          </Li>
-          <Li $primary={expand}>
-            <Link to="/dashboard" onClick={resetAsideandCardcount} className={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-              {
-                location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ?
-                  <RiDashboardFill />
-                  :
-                  <RiDashboardLine />
-              }
-              <SpanAside $primary={expand}>
-                {t('sideDashboard')}
-              </SpanAside>
-            </Link>
-            <TooltipSpan $primary={expand}>
+            </SpanAside>
+          </Link>
+          <TooltipSpan $primary={expand}>
+            {t('sideShowAllBox')}
+          </TooltipSpan>
+        </Li>
+        <Li $primary={expand}>
+          <Link to="/dashboard" onClick={resetAsideandCardcount} className={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+            {
+              location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ?
+                <RiDashboardFill />
+                :
+                <RiDashboardLine />
+            }
+            <SpanAside $primary={expand}>
               {t('sideDashboard')}
-            </TooltipSpan>
-          </Li>
-          {
-            userlevel() !== '4' ?
-              <>
-                <Li $primary={expand}>
-                  <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-                    {
-                      location.pathname === "/permission" ?
-                        <RiUser6Fill />
-                        :
-                        <RiUser6Line />
-                    }
-                    <SpanAside $primary={expand}>
-                      {t('sidePermission')}
-                    </SpanAside>
-                  </Link>
-                  <TooltipSpan $primary={expand}>
+            </SpanAside>
+          </Link>
+          <TooltipSpan $primary={expand}>
+            {t('sideDashboard')}
+          </TooltipSpan>
+        </Li>
+        {
+          userlevel() !== '4' ?
+            <>
+              <Li $primary={expand}>
+                <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+                  {
+                    location.pathname === "/permission" ?
+                      <RiUser6Fill />
+                      :
+                      <RiUser6Line />
+                  }
+                  <SpanAside $primary={expand}>
                     {t('sidePermission')}
-                  </TooltipSpan>
-                </Li>
-                <Li $primary={expand}>
-                  <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-                    {
-                      location.pathname === "/management" || location.pathname === "/management/logadjust" ?
-                        <RiListSettingsFill />
-                        :
-                        <RiListSettingsLine />
-                    }
-                    <SpanAside $primary={expand}>
-                      {t('sideManage')}
-                    </SpanAside>
-                  </Link>
-                  <TooltipSpan $primary={expand}>
+                  </SpanAside>
+                </Link>
+                <TooltipSpan $primary={expand}>
+                  {t('sidePermission')}
+                </TooltipSpan>
+              </Li>
+              <Li $primary={expand}>
+                <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+                  {
+                    location.pathname === "/management" || location.pathname === "/management/logadjust" ?
+                      <RiListSettingsFill />
+                      :
+                      <RiListSettingsLine />
+                  }
+                  <SpanAside $primary={expand}>
                     {t('sideManage')}
-                  </TooltipSpan>
-                </Li> </>
-              :
-              <></>
-          }
-          <LineHr />
+                  </SpanAside>
+                </Link>
+                <TooltipSpan $primary={expand}>
+                  {t('sideManage')}
+                </TooltipSpan>
+              </Li> </>
+            :
+            <></>
+        }
+        <LineHr />
+        <Li $primary={expand}>
+          <Link to="/warranty" onClick={resetAsideandCardcount} className={location.pathname === "/warranty" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+            {
+              location.pathname === "/warranty" ?
+                <RiShieldCheckFill />
+                :
+                <RiShieldCheckLine />
+            }
+            <SpanAside $primary={expand}>
+              {t('sideWarranty')}
+            </SpanAside>
+          </Link>
+          <TooltipSpan $primary={expand}>
+            {t('sideWarranty')}
+          </TooltipSpan>
+        </Li>
+        <Li $primary={expand}>
+          <Link to="/repair" onClick={resetAsideandCardcount} className={location.pathname === "/repair" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+            {
+              location.pathname === "/repair" ?
+                <RiFileSettingsFill />
+                :
+                <RiFileSettingsLine />
+            }
+            <SpanAside $primary={expand}>
+              {t('sideRepair')}
+            </SpanAside>
+          </Link>
+          <TooltipSpan $primary={expand}>
+            {t('sideRepair')}
+          </TooltipSpan>
+        </Li>
+      </Ul>
+      <LineHr />
+      <SettingSystem >
+        <Ul className="nav nav-pills">
           <Li $primary={expand}>
-            <Link to="/warranty" onClick={resetAsideandCardcount} className={location.pathname === "/warranty" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+            <Link to="/contact" onClick={resetAsideandCardcount} className={location.pathname === "/contact" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
               {
-                location.pathname === "/warranty" ?
-                  <RiShieldCheckFill />
+                location.pathname === "/contact" ?
+                  <RiContactsBook2Fill />
                   :
-                  <RiShieldCheckLine />
+                  <RiContactsBook2Line />
               }
               <SpanAside $primary={expand}>
-                {t('sideWarranty')}
+                {t('sideContact')}
               </SpanAside>
             </Link>
             <TooltipSpan $primary={expand}>
-              {t('sideWarranty')}
+              {t('sideContact')}
             </TooltipSpan>
           </Li>
           <Li $primary={expand}>
-            <Link to="/repair" onClick={resetAsideandCardcount} className={location.pathname === "/repair" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+            <Link to="/setting" onClick={resetAsideandCardcount} className={location.pathname === "/setting" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
               {
-                location.pathname === "/repair" ?
-                  <RiFileSettingsFill />
+                location.pathname === "/setting" ?
+                  <RiSettings3Fill />
                   :
-                  <RiFileSettingsLine />
+                  <RiSettings3Line />
               }
               <SpanAside $primary={expand}>
-                {t('sideRepair')}
+                {t('sideSetting')}
               </SpanAside>
             </Link>
             <TooltipSpan $primary={expand}>
-              {t('sideRepair')}
+              {t('sideSetting')}
             </TooltipSpan>
           </Li>
         </Ul>
-        <LineHr />
-        <SettingSystem >
-          <Ul className="nav nav-pills">
-            <Li $primary={expand}>
-              <Link to="/contact" onClick={resetAsideandCardcount} className={location.pathname === "/contact" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-                {
-                  location.pathname === "/contact" ?
-                    <RiContactsBook2Fill />
-                    :
-                    <RiContactsBook2Line />
-                }
-                <SpanAside $primary={expand}>
-                  {t('sideContact')}
-                </SpanAside>
-              </Link>
-              <TooltipSpan $primary={expand}>
-                {t('sideContact')}
-              </TooltipSpan>
-            </Li>
-            <Li $primary={expand}>
-              <Link to="/setting" onClick={resetAsideandCardcount} className={location.pathname === "/setting" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-                {
-                  location.pathname === "/setting" ?
-                    <RiSettings3Fill />
-                    :
-                    <RiSettings3Line />
-                }
-                <SpanAside $primary={expand}>
-                  {t('sideSetting')}
-                </SpanAside>
-              </Link>
-              <TooltipSpan $primary={expand}>
-                {t('sideSetting')}
-              </TooltipSpan>
-            </Li>
-          </Ul>
-        </SettingSystem>
-        <AboutVersion $primary={expand} onClick={() => navigate('/changeLog')}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
-      </Sidebar>
-    </>
+      </SettingSystem>
+      <AboutVersion $primary={expand} onClick={() => navigate('/changeLog')}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
+    </Sidebar>
   )
 }
