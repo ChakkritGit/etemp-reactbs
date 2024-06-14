@@ -20,7 +20,7 @@ export default function Noti() {
       <h3>{t('titleNotification')}</h3>
       <NotificationSoundFlex>
         <span>{t('notificationSound')}</span>
-        <NotificationSoundButton onClick={switchOption} $primary={soundMode}>
+        <NotificationSoundButton onClick={switchOption} $primary={!soundMode}>
           <div className="icon">
             {soundMode ? t('stateOff') : t('stateOn')}
           </div>
