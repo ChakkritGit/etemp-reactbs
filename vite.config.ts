@@ -60,7 +60,10 @@ export default defineConfig({
     port: 12345,
     strictPort: true,
     host: true,
+    cors: true,
     fs: {
+      strict: true,
+      cachedChecks: true,
       deny: [
         '.env', '.env.*', '*.{crt,pem}', 'custom.secret'
       ]

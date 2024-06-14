@@ -729,6 +729,7 @@ export const NavProfile = styled.img<{ $primary?: boolean }>`
   border-radius: 50%;
   padding: 1px;
   box-sizing: border-box;
+  object-fit: cover;
 `
 
 export const LangSwitch = styled.div<{ $primary?: boolean }>`
@@ -972,6 +973,7 @@ height: 60px;
 border-radius: var(--border-radius-small);
 box-shadow: 0 0 5px 2px rgba(0, 0, 0, .05);
 background-color: var(--white);
+object-fit: cover;
 `
 
 export const UserDetails = styled.div<{ $primary?: boolean }> `
@@ -3947,7 +3949,7 @@ max-height: calc(100dvh - 160px);
 overflow: scroll;
 `
 
-export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number }>`
+export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number, $imageFit?: boolean }>`
 display: flex;
 gap: 2rem;
 margin: 1rem 0;
@@ -3972,7 +3974,7 @@ margin: 1rem 0;
   aspect-ratio: 1/1;
   border-radius: ${porps => porps.$radius + '%'};
   border: 3px solid var(--white);
-  object-fit: contain;
+  object-fit: ${props => props.$imageFit ? 'cover' : 'contain'};
   overflow: hidden;
 }
 
@@ -4638,5 +4640,12 @@ export const TabConnect = styled.div<{ $primary?: boolean }>`
   position: fixed;
   bottom: 0;
   z-index: 999999;
-  transition: .5s;
+  transition: ease-in .5s;
+
+  @media (max-width: 430px) {
+  align-items: start;
+  height: ${props => props.$primary ? '0px' : '70px'};
+  padding: 10px 0 0 0;
+  z-index: 980;
+}
 `

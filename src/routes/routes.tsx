@@ -86,7 +86,6 @@ export default function RoutesComponent() {
         position="bottom-right"
         reverseOrder={false}
       />
-      <TabConnect $primary={status}>{status ? t('stateConnect') : t('stateDisconnect')}</TabConnect>
       <Routes>
         <Route element={<AuthRoute />}>
           <Route path='/' element={<Main />}>
@@ -110,6 +109,7 @@ export default function RoutesComponent() {
         <Route path='/login' element={<Islogout />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
+      <TabConnect $primary={status}>{status ? t('stateConnect') : t('stateDisconnect')}</TabConnect>
     </BrowserRouter>
   )
 }

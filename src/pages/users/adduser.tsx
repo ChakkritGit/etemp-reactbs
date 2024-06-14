@@ -383,7 +383,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('userPicture')}
-                    <ProfileFlex $radius={10} $dimension={250}>
+                    <ProfileFlex $radius={10} $dimension={250} $imageFit>
                       <div>
                         <img src={userPicture ? userPicture : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="down-picture" />
                         <label htmlFor={'user-file-upload'} >

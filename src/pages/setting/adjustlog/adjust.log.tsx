@@ -69,6 +69,7 @@ export default function AdjustLog() {
 
   return (
     <ManageHistoryBody>
+      <h3 className="my-3">{t('tabAdjustHistory')}</h3>
       <DataTable
         columns={columns}
         data={filteredItems}

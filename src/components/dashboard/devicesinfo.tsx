@@ -417,7 +417,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('form_btn_save')}
+                {t('saveButton')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>
