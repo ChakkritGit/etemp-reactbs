@@ -26,7 +26,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
     telephone: pagestate !== "add" ? hosdata?.hosTelephone as string : '',
     picture: null as File | null,
   })
-  const [hosPicture, setHosPicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${hosdata?.hosPic}`)
+  const [hosPicture, setHosPicture] = useState<string>(hosdata?.hosPic ? `${import.meta.env.VITE_APP_IMG}${hosdata?.hosPic}` : '')
 
   const openmodal = () => {
     setShow(true)

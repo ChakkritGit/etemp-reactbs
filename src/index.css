@@ -394,6 +394,8 @@ select:focus {
 }
 
 img {
+  text-align: center;
+  color: var(--main-seccond-color);
   object-fit: contain;
   aspect-ratio: 1 / 1;
 }

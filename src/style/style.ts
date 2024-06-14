@@ -722,6 +722,7 @@ export const NavProfileFlex = styled.div<{ $primary?: boolean }>`
 `
 
 export const NavProfile = styled.img<{ $primary?: boolean }>`
+  background-color: var(--white);
   max-width: 32px;
   max-height: 32px;
   width: 32px;
@@ -3971,10 +3972,11 @@ margin: 1rem 0;
   height: ${props => props.$dimension + 'px'};
   max-width: ${props => props.$dimension + 'px'};
   max-height: ${props => props.$dimension + 'px'};
-  aspect-ratio: 1/1;
   border-radius: ${porps => porps.$radius + '%'};
-  border: 3px solid var(--white);
+  background-color: var(--white);
   object-fit: ${props => props.$imageFit ? 'cover' : 'contain'};
+  aspect-ratio: 1/1;
+  border: 3px solid var(--white);
   overflow: hidden;
 }
 

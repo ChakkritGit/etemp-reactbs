@@ -151,7 +151,7 @@ export default function Account() {
       <h3>{t('titleProfile')}</h3>
       <ProfileFlex $radius={50} $dimension={150} $imageFit>
         <div>
-          <img src={userpicture ? userpicture : `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}`} alt="user-picture" />
+          <img src={userpicture ? userpicture : localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
           <label htmlFor={'user-file-upload'} >
             <RiEditLine />
             <input id="user-file-upload" type="file" onChange={handleChang} />

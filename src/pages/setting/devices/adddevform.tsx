@@ -41,7 +41,7 @@ export default function Adddevform(managedevices: managedevices) {
   const [hosid, setHosid] = useState('')
   const dispatch = useDispatch<storeDispatchType>()
   const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const [devicePicture, setDevicePicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${devdata.locPic}`)
+  const [devicePicture, setDevicePicture] = useState<string>(devdata.locPic ? `${import.meta.env.VITE_APP_IMG}${devdata.locPic}` : '')
   const { config } = devdata
   const [netConfig, setNetConfig] = useState({
     devSerial: config?.devSerial ? config.devSerial : '',

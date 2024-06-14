@@ -31,7 +31,7 @@ export default function Adduser(AdduserProp: adduserProp) {
     fileupload: null as File | null,
   })
   const [hosid, setHosid] = useState('')
-  const [userPicture, setUserPicture] = useState<string>(`${import.meta.env.VITE_APP_IMG}${userData?.userPic}`)
+  const [userPicture, setUserPicture] = useState<string>(userData?.userPic ? `${import.meta.env.VITE_APP_IMG}${userData?.userPic}` : '')
 
   const openmodal = () => {
     setShow(true)

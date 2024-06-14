@@ -82,6 +82,7 @@ export default function RoutesComponent() {
 
   return (
     <BrowserRouter>
+    {/* <button onClick={() => socket.emit("send_message", {device: 'test', message: 'test', time: '14/06/2024'})}>send</button> */}
       <Routes>
         <Route element={<AuthRoute />}>
           <Route path='/' element={<Main />}>
