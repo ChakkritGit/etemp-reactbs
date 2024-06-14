@@ -178,7 +178,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
             loading="lazy" />
           <DeviceDetailsBodyInfo>
             <div>
-              <span>{devicesData?.locInstall ? devicesData?.locInstall : '- -'}</span>
+              <span title={devicesData?.locInstall ? devicesData?.locInstall : '- -'}>{devicesData?.locInstall ? devicesData?.locInstall : '- -'}</span>
               <span>{t('temperatureName')}</span>
               <span>{t('minValueUnit')}: {probe[0]?.tempMin.toFixed(2)}°C {t('maxValueUnit')}: {probe[0]?.tempMax.toFixed(2)}°C</span>
               <span>{t('humidityName')}</span>

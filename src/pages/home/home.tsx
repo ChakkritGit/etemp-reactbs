@@ -276,7 +276,7 @@ export default function Home() {
     },
     {
       name: t('deviceLocationTb'),
-      selector: (items) => items.locInstall !== 'null' ? items.locInstall : '- -',
+      cell: (items) => <span title={items.locInstall !== 'null' ? items.locInstall : '- -'}>{items.locInstall !== 'null' ? items.locInstall : '- -'}</span>,
       sortable: false,
       center: true
     },

@@ -23,6 +23,17 @@ const imageRoute = new Route(
 
 registerRoute(imageRoute)
 
+const imageHeaderRoute = new Route(
+  ({ request, sameOrigin }) => {
+    return sameOrigin && request.destination === 'image'
+  },
+  new CacheFirst({
+    cacheName: 'images',
+  })
+)
+
+registerRoute(imageHeaderRoute)
+
 // cache fonts
 const fontRoute = new Route(
   ({ request }) => {

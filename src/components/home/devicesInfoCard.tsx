@@ -100,7 +100,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
         <DeviceCardBody>
           <h5>{devicesdata.devDetail}</h5>
           <span>{devicesdata.devSerial}</span>
-          <span>{devicesdata.locInstall ? devicesdata.locInstall : '- -'}</span>
+          <span title={devicesdata.locInstall ? devicesdata.locInstall : '- -'}>{devicesdata.locInstall ? devicesdata.locInstall : '- -'}</span>
         </DeviceCardBody>
         <DeviceCardFooter>
           <DeviceCardFooterDoorFlex>
