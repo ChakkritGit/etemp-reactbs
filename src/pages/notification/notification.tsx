@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next"
 export default function Notification() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, token, soundMode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [number, setNumber] = useState(0)
   const [show, setShow] = useState(false)
   const [notiData, setNotidata] = useState<notificationType[]>([])
@@ -61,8 +61,10 @@ export default function Notification() {
 
   useEffect(() => {
     fetchData()
-    if (socketData) {
+    if (socketData && !soundMode) {
       notiSound.play()
+      dispatch(setSocketData(null))
+    } else {
       dispatch(setSocketData(null))
     }
   }, [socketData])

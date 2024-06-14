@@ -36,7 +36,8 @@ type UtilsStateStore = {
   searchQuery: string,
   expand: boolean,
   showAside: boolean,
-  tokenDecode: jwtToken
+  tokenDecode: jwtToken,
+  soundMode: boolean
 }
 
 type DeviceStateStore = {

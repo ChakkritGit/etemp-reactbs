@@ -1,7 +1,7 @@
 {
   "name": "etemp-reactts-web",
   "private": true,
-  "version": "1.0.1-June-b13",
+  "version": "1.0.1-June-b14",
   "type": "module",
   "scripts": {
     "dev": "vite",

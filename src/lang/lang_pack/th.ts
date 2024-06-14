@@ -244,6 +244,7 @@ export default {
     notRead: 'ยังไม่อ่าน',
     Readed: 'อ่านแล้ว',
     notificationAll: 'ทั้งหมด',
+    notificationSound: 'เสียงการแจ้งเตือน',
 
     // devices
     deviceDetail: 'รายละเอียดอุปกรณ์',

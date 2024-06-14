@@ -4,6 +4,13 @@ export default function Log() {
   return (
     <div className="p-2">
       <h2>Change Log</h2>
+      <LogSpan className="mt-3 mw-50"><b>Version 1.0-J14</b> <span>14/06/67</span></LogSpan>
+      <ul className="mt-2">
+        <li>Fixed image layout object-fit contain and cover.</li>
+        <li>Fixed service worker cache memory (PWA).</li>
+        <li>Added translation coverage.</li>
+        <li>Added notification sound setting.</li>
+      </ul>
       <LogSpan className="mt-3 mw-50"><b>Version 1.0-J13</b> <span>13/06/67</span></LogSpan>
       <ul className="mt-2">
         <li>Added filtering of the list of problematic devices throughout the day when clicking on a card.</li>

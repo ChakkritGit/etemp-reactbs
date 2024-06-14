@@ -39,3 +39,45 @@ export const NotiHeadBtn = styled.button<{ $primary?: boolean }>`
     color: var(--white);
   `}
 `
+
+export const NotificationSoundFlex = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+`
+
+export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
+  position: relative;
+  width: 65px;
+  height: 40px;
+  background-color: ${(propss) => (propss.$primary ? 'var(--main-color)' : '#ddd')};
+  border: 1px solid ${(propss) => (propss.$primary ? 'var(--main-color)' : '#ccc')};
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+
+  .icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: ${(propss) => (propss.$primary ? 'var(--white)' : 'var(--white)')};
+    transition: transform 0.3s ease;
+    transform: ${(propss) =>
+    propss.$primary ? 'translateX(25.5px)' : 'translateX(3.5px)'};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${(propss) => (propss.$primary ? 'var(--main-last-color)' : 'var(--main-last-color)')};
+    transition: .3s;
+  }
+
+  &:hover {
+  border-color: var(--main-color);
+  transition: .3s;
+}
+`

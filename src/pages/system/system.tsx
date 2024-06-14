@@ -4,14 +4,15 @@ import {
   SettingRightContainer, SettingSystemContainer
 } from "../../style/style"
 import { useTranslation } from "react-i18next"
-import { RiLogoutBoxRLine, RiPaletteLine, RiTranslate2, RiUser6Line } from "react-icons/ri"
+import { RiAlarmWarningLine, RiLogoutBoxRLine, RiPaletteLine, RiTranslate2, RiUser6Line } from "react-icons/ri"
 import { useState } from "react"
 import Color from "./display"
 import { useNavigate } from "react-router-dom"
 import Account from "./account"
-import LangguageSelector from "../../components/lang/LangguageSelector"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import Lang from "./lang"
+import Noti from "./noti"
 
 export default function System() {
   const { t } = useTranslation()
@@ -56,6 +57,12 @@ export default function System() {
                 {t('tabLanguage')}
               </span>
             </ListMenu>
+            <ListMenu $primary={pagenumber === 4} onClick={() => setPagenumber(4)}>
+              <RiAlarmWarningLine />
+              <span>
+                {t('titleNotification')}
+              </span>
+            </ListMenu>
           </div>
           <ListMenu $logout onClick={() => logOut(true)}>
             <RiLogoutBoxRLine />
@@ -75,13 +82,10 @@ export default function System() {
                   <Color />
                 </div>
                 :
-                <div>
-                  <h3>{t('tabLanguage')}</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1rem' }}>
-                    <span>{t('changeLanguage')}</span>
-                    <LangguageSelector />
-                  </div>
-                </div>
+                pagenumber === 3 ?
+                  <Lang />
+                  :
+                  <Noti />
           }
         </SettingRightContainer>
       </SettingSystemContainer>

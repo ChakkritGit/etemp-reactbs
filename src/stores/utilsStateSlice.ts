@@ -10,7 +10,8 @@ const initialState: UtilsStateStore = {
   searchQuery: '',
   expand: localStorage.getItem('expandaside') === 'true',
   showAside: false,
-  tokenDecode: {} as jwtToken
+  tokenDecode: {} as jwtToken,
+  soundMode: localStorage.getItem('soundMode') === 'true'
 }
 
 const utilsSlice = createSlice({
@@ -41,9 +42,12 @@ const utilsSlice = createSlice({
     setTokenDecode: (state, action: PayloadAction<jwtToken>) => {
       state.tokenDecode = action.payload
     },
+    setSoundMode: (state, action: PayloadAction<boolean>) => {
+      state.soundMode = action.payload
+    },
   },
 })
 
-export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode } = utilsSlice.actions
+export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode, setSoundMode } = utilsSlice.actions
 
 export default utilsSlice.reducer

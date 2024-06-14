@@ -1,4 +1,6 @@
 import {
+  RiArrowDownLine,
+  RiArrowRightLine,
   RiCloseLine, RiDoorClosedLine, RiFolderSettingsLine,
   RiPlugLine, RiSdCardMiniLine, RiSettings3Line, RiShieldCheckLine,
   RiSignalWifi1Line, RiTempColdLine
@@ -13,15 +15,19 @@ import {
 } from "../../style/style"
 import { devicesType } from "../../types/device.type"
 import { CardstatusNomal, CardstatusSpecial } from "./cardstatus"
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap"
 import { Slider } from "@mui/material"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { useTranslation } from "react-i18next"
 import Swal from "sweetalert2"
 import { userlevel } from "../../authen/authentFunc"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import { AdjustRealTimeFlex } from "../../style/home.styled"
+import { client } from "../../services/mqtt"
+import { responseType } from "../../types/response.type"
+import { probeType } from "../../types/probe.type"
 
 type devicesinfo = {
   devicesData: devicesType,
@@ -41,6 +47,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
   })
   const [tempvalue, setTempvalue] = useState<number[]>([probe[0]?.tempMin, probe[0]?.tempMax])
   const [humvalue, setHumvalue] = useState<number[]>([probe[0]?.humMin, probe[0]?.humMax])
+  const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
 
   const handleTempChange = (_event: Event, newValue: number | number[]) => {
     setTempvalue(newValue as number[])
@@ -62,6 +69,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
   }
 
   const closemodal = () => {
+    client.publish(`${devicesData.devSerial}/temp`, 'off')
     setShow(false)
   }
 
@@ -76,42 +84,72 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const url: string = `${import.meta.env.VITE_APP_API}/device/${devicesData?.devId}`
-    await axios.put(url, {
-      temp_min: tempvalue[0],
-      temp_max: tempvalue[1],
-      hum_min: humvalue[0],
-      hum_max: humvalue[1],
-      adjust_temp: formdata.adjust_temp,
-      adjust_hum: formdata.adjust_hum,
-    }, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-      .then((response) => {
-        if (response.data.status === 200) {
-          //
-          setShow(false)
-          Swal.fire({
-            title: t('alertHeaderSuccess'),
-            text: response.data.msg,
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-          }).then(() => {
-            //func
-          })
-        } else {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: response.data.msg,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+    try {
+      const response = await axios.put<responseType<probeType>>(url, {
+        temp_min: tempvalue[0],
+        temp_max: tempvalue[1],
+        hum_min: humvalue[0],
+        hum_max: humvalue[1],
+        adjust_temp: formdata.adjust_temp,
+        adjust_hum: formdata.adjust_hum,
+      }, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
         }
       })
+      setShow(false)
+      Swal.fire({
+        title: t('alertHeaderSuccess'),
+        text: response.data.message,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        Swal.fire({
+          title: t('alertHeaderError'),
+          text: error.response?.data.message,
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        Swal.fire({
+          title: t('alertHeaderError'),
+          text: 'Uknown Error',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      }
+    }
   }
+
+  useEffect(() => {
+    if (show) {
+      client.subscribe(`${devicesData.devSerial}/temp/real`, (err) => {
+        if (err) {
+          console.error("MQTT Suubscribe Error", err)
+        }
+      })
+
+      client.publish(`${devicesData.devSerial}/temp`, 'on')
+
+      client.on('message', (_topic, message) => {
+        setMqttData(JSON.parse(message.toString()))
+      })
+
+      client.on("error", (err) => {
+        console.error("MQTT Error: ", err)
+        client.end()
+      })
+
+      client.on("reconnect", () => {
+        console.error("MQTT Reconnecting...")
+      })
+    }
+  }, [show])
 
   return (
     <DashboardDevicesInfo>
@@ -411,6 +449,28 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </FormSliderRange>
                   </Form.Label>
                 </InputGroup>
+              </Col>
+              <Col lg={12}>
+                <AdjustRealTimeFlex $primary={Number((mqttData.temp + formdata.adjust_temp).toFixed(2)) >= tempvalue[1] || Number((mqttData.temp + formdata.adjust_temp).toFixed(2)) <= tempvalue[0]}>
+                  <div>
+                    <span>{t('currentTemp')}</span>
+                    <div>
+                      <span>
+                        <span>{mqttData.temp.toFixed(2)}</span> °C
+                      </span>
+                    </div>
+                  </div>
+                  <RiArrowRightLine size={32} fill="grey" />
+                  <RiArrowDownLine size={32} fill="grey" />
+                  <div>
+                    <span>{t('adjustAfterTemp')}</span>
+                    <div>
+                      <span>
+                        <span>{(mqttData.temp + formdata.adjust_temp - devicesData.probe[0]?.adjustTemp).toFixed(2)}</span> °C
+                      </span>
+                    </div>
+                  </div>
+                </AdjustRealTimeFlex>
               </Col>
             </Row>
           </Modal.Body>
