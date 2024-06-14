@@ -49,8 +49,8 @@ export const NotificationSoundFlex = styled.div<{ $primary?: boolean }>`
 
 export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
   position: relative;
-  width: 65px;
-  height: 40px;
+  width: 60px;
+  height: 35px;
   background-color: ${(propss) => (propss.$primary ? 'var(--main-color)' : '#ddd')};
   border: 1px solid ${(propss) => (propss.$primary ? 'var(--main-color)' : '#ccc')};
   border-radius: 20px;
@@ -62,8 +62,9 @@ export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
   overflow: hidden;
 
   .icon {
-    width: 35px;
-    height: 35px;
+    font-size: 14px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: ${(propss) => (propss.$primary ? 'var(--white)' : 'var(--white)')};
     transition: transform 0.3s ease;

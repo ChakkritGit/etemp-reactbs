@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { ManageProbeAdd } from "../../../style/components/manage.probe";
 import { addprobeProps } from "../../../types/prop.type";
-import { RiAddLine, RiCloseLine, RiEditLine } from "react-icons/ri";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiCloseLine, RiEditLine } from "react-icons/ri";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { FormBtn, FormFlexBtn, FormSliderRange, ModalHead, RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex } from "../../../style/style";
 import { Slider } from "@mui/material";
@@ -15,6 +15,7 @@ import { probeType } from "../../../types/probe.type";
 import { storeDispatchType } from "../../../stores/store";
 import { fetchProbeData } from "../../../stores/probeSlice";
 import { client } from "../../../services/mqtt";
+import { AdjustRealTimeFlex } from "../../../style/home.styled";
 
 export default function Addprobe(addprobe: addprobeProps) {
   const { t } = useTranslation()
@@ -36,12 +37,14 @@ export default function Addprobe(addprobe: addprobeProps) {
     tempvalue: [pagestate !== "add" ? Number(probeData?.tempMin) : 0, pagestate !== "add" ? Number(probeData?.tempMax) : 0],
     humvalue: [pagestate !== "add" ? Number(probeData?.humMin) : 0, pagestate !== "add" ? Number(probeData?.humMax) : 0]
   })
+  const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
 
   const openmodal = () => {
     setShow(true)
   }
 
   const closemodal = () => {
+    client.publish(`${probeData?.devSerial}/temp`, 'off')
     setShow(false)
   }
 
@@ -223,6 +226,31 @@ export default function Addprobe(addprobe: addprobeProps) {
     { value: '3', name: t('probeChanel3') },
     { value: '4', name: t('probeChanel4') },
   ]
+
+  useEffect(() => {
+    if (show) {
+      client.subscribe(`${probeData?.devSerial}/temp/real`, (err) => {
+        if (err) {
+          console.error("MQTT Suubscribe Error", err)
+        }
+      })
+
+      client.publish(`${probeData?.devSerial}/temp`, 'on')
+
+      client.on('message', (_topic, message) => {
+        setMqttData(JSON.parse(message.toString()))
+      })
+
+      client.on("error", (err) => {
+        console.error("MQTT Error: ", err)
+        client.end()
+      })
+
+      client.on("reconnect", () => {
+        console.error("MQTT Reconnecting...")
+      })
+    }
+  }, [show])
 
   return (
     <>
@@ -530,6 +558,28 @@ export default function Addprobe(addprobe: addprobeProps) {
                     </FormSliderRange>
                   </Form.Label>
                 </InputGroup>
+              </Col>
+              <Col lg={12}>
+                <AdjustRealTimeFlex $primary={Number((mqttData.temp + Number(formdata.adjust_temp)).toFixed(2)) >= formdata.tempvalue[1] || Number((mqttData.temp + Number(formdata.adjust_temp)).toFixed(2)) <= formdata.tempvalue[0]}>
+                  <div>
+                    <span>{t('currentTemp')}</span>
+                    <div>
+                      <span>
+                        <span>{mqttData.temp.toFixed(2)}</span> °C
+                      </span>
+                    </div>
+                  </div>
+                  <RiArrowRightLine size={32} fill="grey" />
+                  <RiArrowDownLine size={32} fill="grey" />
+                  <div>
+                    <span>{t('adjustAfterTemp')}</span>
+                    <div>
+                      <span>
+                        <span>{(mqttData.temp + Number(formdata.adjust_temp) - Number(probeData?.adjustTemp)).toFixed(2)}</span> °C
+                      </span>
+                    </div>
+                  </div>
+                </AdjustRealTimeFlex>
               </Col>
             </Row>
           </Modal.Body>
