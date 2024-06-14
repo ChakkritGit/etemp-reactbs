@@ -17,6 +17,7 @@ import { fetchDevicesLog } from "../stores/LogsSlice"
 import { fetchDevicesData } from "../stores/devicesSlices"
 import { fetchUserData } from "../stores/userSlice"
 import { fetchProbeData } from "../stores/probeSlice"
+import { Toaster } from "react-hot-toast"
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -56,6 +57,10 @@ export default function Main() {
 
   return (
     <SideParent onContextMenu={handleContextMenu}>
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
       <SideChildSide $primary>
         <Sidebar />
       </SideChildSide>

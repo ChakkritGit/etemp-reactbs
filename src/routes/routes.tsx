@@ -17,7 +17,7 @@ import {
 import { socket } from '../services/websocket'
 import Fullchart from '../pages/dashboard/fullchart'
 import Fulltable from '../pages/dashboard/fulltable'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import { useEffect, useState } from 'react'
@@ -82,10 +82,6 @@ export default function RoutesComponent() {
 
   return (
     <BrowserRouter>
-      <Toaster
-        position="bottom-right"
-        reverseOrder={false}
-      />
       <Routes>
         <Route element={<AuthRoute />}>
           <Route path='/' element={<Main />}>

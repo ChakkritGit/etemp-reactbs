@@ -63,7 +63,6 @@ export default function Notification() {
     fetchData()
     if (socketData && !soundMode) {
       notiSound.play()
-      dispatch(setSocketData(null))
     } else {
       dispatch(setSocketData(null))
     }
