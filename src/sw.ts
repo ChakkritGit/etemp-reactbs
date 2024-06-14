@@ -46,6 +46,18 @@ const fontRoute = new Route(
 
 registerRoute(fontRoute)
 
+// cache audio
+const audioRoute = new Route(
+  ({ request }) => {
+    return request.destination === 'audio'
+  },
+  new CacheFirst({
+    cacheName: 'medias',
+  })
+)
+
+registerRoute(audioRoute)
+
 // cache api calls with token
 const fetchDeviceRoute = new Route(
   ({ request }) => {
