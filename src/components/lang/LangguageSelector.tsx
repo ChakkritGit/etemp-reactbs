@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useTranslation } from 'react-i18next'
-import '../../style/LangSelector.css'
 import { Dropdown } from "react-bootstrap"
 import { LangFlag, LangFlagFlex, LangSwitch, LangSwitchContainer, LangText } from "../../style/style"
 import { RiEarthLine } from "react-icons/ri"
 import { toast } from 'react-hot-toast'
 import Th from "../../assets/svg/th.svg"
 import En from "../../assets/svg/us.svg"
+import { LangContainer, LangSwitchButton } from "../../style/components/language"
 // import Cn from "../../assets/svg/cn.svg"
 // import Jp from "../../assets/svg/jp.svg"
 
@@ -57,18 +57,20 @@ export default function LangguageSelector() {
           </LangSwitchContainer>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item className={langs == 'th' ? "active-lang" : ""} onClick={() => changeLanguage('th')}>
-            <LangFlagFlex>
-              <LangFlag src={Th} alt="flag-icon" />
-              ไทย
-            </LangFlagFlex>
-          </Dropdown.Item>
-          <Dropdown.Item className={langs == 'en' ? "active-lang" : ""} onClick={() => changeLanguage('en')}>
-            <LangFlagFlex>
-              <LangFlag src={En} alt="flag-icon" />
-              <div>English <small>(US)</small></div>
-            </LangFlagFlex>
-          </Dropdown.Item>
+          <LangContainer>
+            <LangSwitchButton $lang={langs == 'th'} onClick={() => changeLanguage('th')}>
+              <LangFlagFlex>
+                <LangFlag src={Th} alt="flag-icon" />
+                <span>ไทย</span>
+              </LangFlagFlex>
+            </LangSwitchButton >
+            <LangSwitchButton $lang={langs == 'en'} onClick={() => changeLanguage('en')}>
+              <LangFlagFlex>
+                <LangFlag src={En} alt="flag-icon" />
+                <span>English <small>(US)</small></span>
+              </LangFlagFlex>
+            </LangSwitchButton>
+          </LangContainer>
           {/* <Dropdown.Item className={langs == 'cn' ? "active-lang" : ""} onClick={() => changeLanguage('cn')}>
             <LangFlagFlex>
               <LangFlag src={Cn} alt="flag-icon" />

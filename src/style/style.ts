@@ -1447,7 +1447,7 @@ export const LangFlagFlex = styled.div<{ $primary?: boolean }>`
 display: flex;
 align-items: center;
 justify-content: start;
-gap: .75rem;
+gap: .7rem;
 `
 
 export const LangFlag = styled.img<{ $primary?: boolean }>`

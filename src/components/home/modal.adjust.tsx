@@ -5,7 +5,7 @@ import {
 } from "../../style/style"
 import { RiArrowDownLine, RiArrowLeftSLine, RiArrowRightLine, RiCloseLine, RiSpeakerLine, RiVolumeMuteLine, RiVolumeUpLine } from "react-icons/ri"
 import { Slider } from "@mui/material"
-import { AdjustRealTimeFlex, ModalMuteHead, OpenSettingBuzzer } from "../../style/home.styled"
+import { AdjustRealTimeFlex, ModalMuteHead, OpenSettingBuzzer } from "../../style/components/home.styled"
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { AsyncThunk } from "@reduxjs/toolkit"

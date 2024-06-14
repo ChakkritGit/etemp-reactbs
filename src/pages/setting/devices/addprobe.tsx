@@ -15,7 +15,7 @@ import { probeType } from "../../../types/probe.type";
 import { storeDispatchType } from "../../../stores/store";
 import { fetchProbeData } from "../../../stores/probeSlice";
 import { client } from "../../../services/mqtt";
-import { AdjustRealTimeFlex } from "../../../style/home.styled";
+import { AdjustRealTimeFlex } from "../../../style/components/home.styled";
 
 export default function Addprobe(addprobe: addprobeProps) {
   const { t } = useTranslation()
