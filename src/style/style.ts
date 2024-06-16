@@ -143,6 +143,7 @@ height: 53px;
 
 export const SideParent = styled.div<{ $primary?: boolean }>`
 display: flex;
+height: 100%;
 padding: 0;
 margin: 0;
 
@@ -191,6 +192,7 @@ export const SideChildOutlet = styled.div<{ $primary?: boolean }>`
 padding: .5rem;
 width: 100%;
 max-width: 100%;
+height: 100%;
 `
 
 // sidebar
@@ -441,6 +443,12 @@ ${props => props.$primary &&
 export const LineHr = styled.hr<{ $primary?: boolean, $mg?: number }>`
 width: 100%;
 
+${porps => porps.$primary && css`
+@media (max-width: 430px) {
+  display: none;
+}
+`}
+
 ${props => props.$mg === .5 &&
     css`
     margin: .5rem 0;
@@ -518,6 +526,18 @@ export const SearhIconClose = styled.div<{ $primary?: boolean }> `
   & svg {
     font-size: 20px;
   }
+`
+
+export const MainMenuSide = styled.div<{ $primary?: boolean }>`
+display: flex;
+align-items: center;
+flex-direction: column;
+margin-bottom: auto;
+gap: 5px;
+
+@media (max-width: 430px) {
+  display: none;
+}
 `
 
 export const GlobalsearchContainer = styled.div <{ $primary?: boolean }> `
@@ -634,7 +654,9 @@ gap: .8rem;
 @media (max-width: 430px) {
   &>div:nth-child(2),
   &>div:nth-child(3),
-  &>button:nth-child(4) {
+  &>button:nth-child(4),
+  &>div:nth-child(5),
+  &>div:nth-child(6) {
     display: none;
   }
 }
@@ -731,6 +753,11 @@ export const NavProfile = styled.img<{ $primary?: boolean }>`
   padding: 1px;
   box-sizing: border-box;
   object-fit: cover;
+
+  ${props => props.$primary && css`
+  max-width: 24px;
+  max-height: 24px;
+  `}
 `
 
 export const LangSwitch = styled.div<{ $primary?: boolean }>`
@@ -3151,6 +3178,10 @@ ${props => props.theme.mode === 'dark' &&
     css`
   color: var(--white);
 `}
+
+@media (max-width: 430px) {
+  padding: 0 .3rem;
+}
 `
 
 export const NotificationBadge = styled.div<{ $primary?: boolean }>`
@@ -3771,7 +3802,11 @@ div>input:checked {
 
 /* System setting */
 export const SettingSystem = styled.div<{ $primary?: boolean }>`
-
+@media (max-width: 430px) {
+  &>ul>li:nth-child(2) {
+    display: none;
+  }
+}
 `
 
 export const PasswordChangeFlex = styled.div<{ $primary: number }>`
@@ -3839,8 +3874,8 @@ export const SettingSystemContainer = styled.div<{ $primary?: boolean }>`
 display: flex;
 flex-wrap: wrap;
 gap: 1rem;
+height: 100%;
 width: 100%;
-height: max-content;
 margin-top: 1rem;
 `
 
@@ -3861,7 +3896,6 @@ flex-direction: column;
 justify-content: space-between;
 width: 180px;
 padding: .5rem;
-height: calc(100dvh - 150px);
 transition: .3s;
 
 &>div:nth-child(1) {
@@ -3947,7 +3981,11 @@ overflow: scroll;
 export const AccountContainer = styled.div<{ $primary?: boolean }>`
 padding: 0 1rem 0 0;
 max-height: calc(100dvh - 160px);
-overflow: scroll;
+overflow-y: scroll;
+
+&::-webkit-scrollbar {
+  display: none;
+}
 `
 
 export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number, $imageFit?: boolean }>`
@@ -4640,14 +4678,7 @@ export const TabConnect = styled.div<{ $primary?: boolean }>`
   color: var(--white);
   opacity: ${props => props.$primary ? 0 : 1};
   position: fixed;
-  bottom: 0;
+  bottom: 75px;
   z-index: 999999;
   transition: ease-in .5s;
-
-  @media (max-width: 430px) {
-  align-items: start;
-  height: ${props => props.$primary ? '0px' : '70px'};
-  padding: 10px 0 0 0;
-  z-index: 980;
-}
 `

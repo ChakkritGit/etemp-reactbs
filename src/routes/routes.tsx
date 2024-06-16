@@ -21,7 +21,7 @@ import toast from 'react-hot-toast'
 import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { storeDispatchType } from '../stores/store'
 import { setSocketData } from '../stores/utilsStateSlice'
 import { client } from '../services/mqtt'
@@ -30,11 +30,13 @@ import { socketResponseType } from '../types/component.type'
 import { RiAlarmWarningFill } from 'react-icons/ri'
 import { TabConnect } from '../style/style'
 import { useTranslation } from 'react-i18next'
+import { DeviceStateStore, UtilsStateStore } from '../types/redux.type'
 
 export default function RoutesComponent() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [status, setStatus] = useState(true)
+  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -106,7 +108,9 @@ export default function RoutesComponent() {
         <Route path='/login' element={<Islogout />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
-      <TabConnect $primary={status}>{status ? t('stateConnect') : t('stateDisconnect')}</TabConnect>
+      {
+        token !== 'null' && <TabConnect $primary={status}>{status ? t('stateConnect') : t('stateDisconnect')}</TabConnect>
+      }
     </BrowserRouter>
   )
 }

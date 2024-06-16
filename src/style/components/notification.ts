@@ -69,7 +69,7 @@ export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
     background-color: ${(propss) => (propss.$primary ? 'var(--white)' : 'var(--white)')};
     transition: transform 0.3s ease;
     transform: ${(propss) =>
-    propss.$primary ? 'translateX(25px)' : 'translateX(3px)'};
+    propss.$primary ? 'translateX(25.5px)' : 'translateX(2.7px)'};
     display: flex;
     align-items: center;
     justify-content: center;

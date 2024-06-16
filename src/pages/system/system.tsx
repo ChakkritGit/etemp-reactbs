@@ -36,7 +36,7 @@ export default function System() {
   }
 
   return (
-    <Container fluid>
+    <Container fluid className="h-100">
       <H3mt>{t('sideSetting')}</H3mt>
       <SettingSystemContainer>
         <SettingLeftContainer $primary={expand}>

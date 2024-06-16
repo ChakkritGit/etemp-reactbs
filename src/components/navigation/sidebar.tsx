@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
   HospitalName, Li, LineHr,
+  MainMenuSide,
   SettingSystem,
   Sidebar, SidebarLogo, SpanAside, TooltipSpan, Ul
 } from '../../style/style'
@@ -90,78 +91,80 @@ export default function sidebar() {
             `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
         <HospitalName $primary={expand}>{localStorage.getItem('hosname')}</HospitalName>
       </Link>
-      <LineHr />
+      <LineHr $primary />
       <Ul $primary={expand} $maxheight className="nav nav-pills">
-        <Li $primary={expand}>
-          <Link to="/" onClick={resetAsideandCardcount} className={location.pathname === "/" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"} aria-current="page">
-            {
-              location.pathname === "/" ?
-                <RiHome3Fill />
-                :
-                <RiHome3Line />
-            }
-            <SpanAside $primary={expand}>
+        <MainMenuSide>
+          <Li $primary={expand}>
+            <Link to="/" onClick={resetAsideandCardcount} className={location.pathname === "/" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"} aria-current="page">
+              {
+                location.pathname === "/" ?
+                  <RiHome3Fill />
+                  :
+                  <RiHome3Line />
+              }
+              <SpanAside $primary={expand}>
+                {t('sideShowAllBox')}
+              </SpanAside>
+            </Link>
+            <TooltipSpan $primary={expand}>
               {t('sideShowAllBox')}
-            </SpanAside>
-          </Link>
-          <TooltipSpan $primary={expand}>
-            {t('sideShowAllBox')}
-          </TooltipSpan>
-        </Li>
-        <Li $primary={expand}>
-          <Link to="/dashboard" onClick={resetAsideandCardcount} className={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-            {
-              location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ?
-                <RiDashboardFill />
-                :
-                <RiDashboardLine />
-            }
-            <SpanAside $primary={expand}>
+            </TooltipSpan>
+          </Li>
+          <Li $primary={expand}>
+            <Link to="/dashboard" onClick={resetAsideandCardcount} className={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+              {
+                location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare" ?
+                  <RiDashboardFill />
+                  :
+                  <RiDashboardLine />
+              }
+              <SpanAside $primary={expand}>
+                {t('sideDashboard')}
+              </SpanAside>
+            </Link>
+            <TooltipSpan $primary={expand}>
               {t('sideDashboard')}
-            </SpanAside>
-          </Link>
-          <TooltipSpan $primary={expand}>
-            {t('sideDashboard')}
-          </TooltipSpan>
-        </Li>
-        {
-          userlevel() !== '4' ?
-            <>
-              <Li $primary={expand}>
-                <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-                  {
-                    location.pathname === "/permission" ?
-                      <RiUser6Fill />
-                      :
-                      <RiUser6Line />
-                  }
-                  <SpanAside $primary={expand}>
+            </TooltipSpan>
+          </Li>
+          {
+            userlevel() !== '4' ?
+              <>
+                <Li $primary={expand}>
+                  <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+                    {
+                      location.pathname === "/permission" ?
+                        <RiUser6Fill />
+                        :
+                        <RiUser6Line />
+                    }
+                    <SpanAside $primary={expand}>
+                      {t('sidePermission')}
+                    </SpanAside>
+                  </Link>
+                  <TooltipSpan $primary={expand}>
                     {t('sidePermission')}
-                  </SpanAside>
-                </Link>
-                <TooltipSpan $primary={expand}>
-                  {t('sidePermission')}
-                </TooltipSpan>
-              </Li>
-              <Li $primary={expand}>
-                <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
-                  {
-                    location.pathname === "/management" || location.pathname === "/management/logadjust" ?
-                      <RiListSettingsFill />
-                      :
-                      <RiListSettingsLine />
-                  }
-                  <SpanAside $primary={expand}>
+                  </TooltipSpan>
+                </Li>
+                <Li $primary={expand}>
+                  <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+                    {
+                      location.pathname === "/management" || location.pathname === "/management/logadjust" ?
+                        <RiListSettingsFill />
+                        :
+                        <RiListSettingsLine />
+                    }
+                    <SpanAside $primary={expand}>
+                      {t('sideManage')}
+                    </SpanAside>
+                  </Link>
+                  <TooltipSpan $primary={expand}>
                     {t('sideManage')}
-                  </SpanAside>
-                </Link>
-                <TooltipSpan $primary={expand}>
-                  {t('sideManage')}
-                </TooltipSpan>
-              </Li> </>
-            :
-            <></>
-        }
+                  </TooltipSpan>
+                </Li> </>
+              :
+              <></>
+          }
+        </MainMenuSide>
         <LineHr />
         <Li $primary={expand}>
           <Link to="/warranty" onClick={resetAsideandCardcount} className={location.pathname === "/warranty" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
@@ -233,7 +236,7 @@ export default function sidebar() {
           </Li>
         </Ul>
       </SettingSystem>
-      <AboutVersion $primary={expand} onClick={() => navigate('/changeLog')}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
+      <AboutVersion $primary={expand} onClick={() => { navigate('/changeLog'); resetAsideandCardcount() }}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
     </Sidebar>
   )
 }
