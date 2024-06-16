@@ -2,11 +2,13 @@ import styled, { css } from "styled-components"
 
 export const BottomNavigateWrapper = styled.div<{ $primary?: boolean }>`
   display: none;
-  position: -webkit-sticky;
-  position: sticky;
+  position: -webkit-fixed;
+  position: fixed;
   height: 75px;
+  width: 100%;
   bottom: 0;
   z-index: 1020;
+
   @media (max-width: 430px) {
   display: block;
 }
