@@ -4,6 +4,10 @@ export default function Log() {
   return (
     <div className="p-2">
       <h2>Change Log</h2>
+      <LogSpan className="mt-3 mw-50"><b>Version 1.0-J17</b> <span>17/06/67</span></LogSpan>
+      <ul className="mt-2">
+        <li>Added animate transition.</li>
+      </ul>
       <LogSpan className="mt-3 mw-50"><b>Version 1.0-J16</b> <span>16/06/67</span></LogSpan>
       <ul className="mt-2">
         <li>Added responsive bottom navigation.</li>

@@ -14,18 +14,18 @@ import {
 } from '../../style/style'
 import { useEffect } from "react"
 import { userlevel } from "../../authen/authentFunc"
-import axios, { AxiosError } from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { setShowAside } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
-import { responseType } from "../../types/response.type"
-import { usersType } from "../../types/user.type"
 import { AboutVersion } from "../../style/components/sidebar"
+import { responseType } from "../../types/response.type"
+import axios, { AxiosError } from "axios"
+import { usersType } from "../../types/user.type"
 
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { expand, token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { expand, tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
@@ -56,7 +56,8 @@ export default function sidebar() {
 
   useEffect(() => {
     reFetchdata()
-  }, [tokenDecode, location])
+    window.scrollTo(0, 0)
+  }, [location])
 
   useEffect(() => {
     const changeFavicon = (href: string) => {

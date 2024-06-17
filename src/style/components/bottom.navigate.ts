@@ -8,9 +8,12 @@ export const BottomNavigateWrapper = styled.div<{ $primary?: boolean }>`
   width: 100%;
   bottom: 0;
   z-index: 1020;
+  transition: .3s;
 
   @media (max-width: 430px) {
-  display: block;
+    display: block;
+    height: ${props => props.$primary ? '0px' : '75px'};
+    transition: .3s;
 }
 `
 
@@ -23,8 +26,8 @@ export const NavigationBottom = styled.nav<{ $primary?: boolean }>`
   height: 75px;
   max-height: 75px;
   background-color: rgba(255, 255, 255, .5);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: ${props => props.$primary ? 'blur(10px)' : 'blur(20px)'};
+  -webkit-backdrop-filter: ${props => props.$primary ? 'blur(10px)' : 'blur(20px)'};
   border-top: .5px solid var(--soft-grey);
   box-shadow: 0px 15px 10px 15px rgba(0, 0, 0, .05);
   overflow: hidden;

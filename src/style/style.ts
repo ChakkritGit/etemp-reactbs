@@ -193,10 +193,6 @@ padding: .5rem;
 width: 100%;
 max-width: 100%;
 height: 100%;
-
-  @media (max-width: 430px) {
-  margin-bottom: 85px;
-}
 `
 
 // sidebar

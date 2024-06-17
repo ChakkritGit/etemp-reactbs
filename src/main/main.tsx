@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 import Sidebar from "../components/navigation/sidebar"
 import { SideParent, SideChild, SideChildOutlet, SideChildSide, HamburgerExpand } from "../style/style"
 import Navbar from "../components/navigation/navbar"
-import { MouseEventHandler, useEffect } from "react"
+import { MouseEventHandler, useEffect, useState } from "react"
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import { Button } from "react-bootstrap"
 import { RiMenuFoldLine } from "react-icons/ri"
@@ -26,6 +26,9 @@ export default function Main() {
   const { socketData, showAside, token, deviceId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const handleClose = () => dispatch(setShowAside(false))
   const handleShow = () => dispatch(setShowAside(true))
+  const [isScrollingDown, setIsScrollingDown] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
 
   const decodeToken = async () => {
     if (token) {
@@ -57,6 +60,28 @@ export default function Main() {
     // e.preventDefault()
   }
 
+
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY
+
+    if (currentScrollY > lastScrollY && currentScrollY > 50) {
+      // ถ้า scroll ลงและมากกว่า 50px ซ่อน navigation
+      setIsScrollingDown(true)
+    } else {
+      // ถ้า scroll ขึ้น แสดง navigation
+      setIsScrollingDown(false)
+    }
+    setLastScrollY(currentScrollY)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [lastScrollY])
+
   return (
     <SideParent onContextMenu={handleContextMenu}>
       <Toaster
@@ -81,8 +106,8 @@ export default function Main() {
         <SideChildOutlet>
           <Outlet />
         </SideChildOutlet>
-        <BottomNavigateWrapper>
-          <Bottombar />
+        <BottomNavigateWrapper $primary={isScrollingDown}>
+          <Bottombar isScrollingDown={isScrollingDown} />
         </BottomNavigateWrapper>
       </SideParent>
     </SideParent>
