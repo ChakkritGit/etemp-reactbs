@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { devicesType } from "../../types/device.type"
 import Chart from "react-apexcharts"
 
@@ -9,10 +10,19 @@ const CompareChartComponent = (compareProps: compareChart) => {
   const { chartData } = compareProps
 
   const timeLabels = () => {
-    const arrayLabels = chartData.map((items) => items.log.length > 0 && items.log.map((items) => items.createAt)).flat()
-    const uniqueArray = [...new Set(arrayLabels)]
-    return uniqueArray
+    let array: string[] = []
+    chartData.map((items) => {
+      if (items.log.length > 0) {
+        const newArrayLabel = items.log.map((items) => items.sendTime)
+        array.push(...newArrayLabel)
+      }
+    })
+    return array.flat()
   }
+
+  useEffect(() => {
+    console.log(timeLabels())
+  }, [])
 
   const seriesData = () => {
     interface seriesType {
