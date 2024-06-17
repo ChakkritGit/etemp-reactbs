@@ -233,7 +233,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
           <Modal.Body className="p-4">
             <Row>
               <Form.Label>
-                <span style={{ fontWeight: 'bold' }}>{t('selectProbe')}</span>
+                <span><b>{t('selectProbe')}</b></span>
                 <LineHr />
                 <Form.Select value={selectProbeI} onChange={selectProbe} className="mt-2">
                   {devicesdata.probe.map((items) => {
@@ -244,7 +244,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
             </Row>
             <Row className="mt-3">
               <Form.Label className="w-100 form-label">
-                <span style={{ fontWeight: 'bold' }}>{t('adjustMents')}</span>
+                <span><b>{t('adjustMents')}</b></span>
                 <LineHr />
               </Form.Label>
               <Col lg={12}>
@@ -423,7 +423,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               </Col>
               <Col lg={12}>
                 <Form.Label className="w-100">
-                  <span style={{ fontWeight: 'bold' }}>{t('muteSetting')}</span>
+                  <span><b>{t('muteSetting')}</b></span>
                   <LineHr />
                 </Form.Label>
               </Col>
