@@ -20,7 +20,7 @@ const Apexchart = (chart: chartType) => {
   const doorOpen = () => {
     let array: number[] = []
     chartData.map(items => {
-      if (items.door1 || items.door2 || items.door3) {
+      if (items.door1 === "1" || items.door2 === "1" || items.door3 === "1") {
         array.push(1)
       } else {
         array.push(0)

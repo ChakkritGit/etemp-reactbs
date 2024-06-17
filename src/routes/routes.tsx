@@ -17,7 +17,7 @@ import {
 import { socket } from '../services/websocket'
 import Fullchart from '../pages/dashboard/fullchart'
 import Fulltable from '../pages/dashboard/fulltable'
-import toast from 'react-hot-toast'
+import toast, { useToasterStore } from 'react-hot-toast'
 import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import { useEffect, useState } from 'react'
@@ -37,6 +37,8 @@ export default function RoutesComponent() {
   const dispatch = useDispatch<storeDispatchType>()
   const [status, setStatus] = useState(true)
   const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { toasts } = useToasterStore()
+  const toastLimit = 5
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -81,6 +83,13 @@ export default function RoutesComponent() {
       console.error("MQTT Error: ", error)
     }
   }, [])
+
+  useEffect(() => {
+    toasts
+      .filter((t) => t.visible) // Only consider visible toasts
+      .filter((_, i) => i >= toastLimit) // Is toast index over limit?
+      .forEach((t) => toast.dismiss(t.id)) // Dismiss – Use toast.remove(t.id) for no exit animation
+  }, [toasts])
 
   return (
     <BrowserRouter>

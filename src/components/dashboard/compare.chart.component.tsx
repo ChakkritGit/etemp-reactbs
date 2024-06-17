@@ -9,7 +9,9 @@ const CompareChartComponent = (compareProps: compareChart) => {
   const { chartData } = compareProps
 
   const timeLabels = () => {
-    return chartData.map((items) => items.log.length > 0 && items.log[0]?.createAt)
+    const arrayLabels = chartData.map((items) => items.log.length > 0 && items.log.map((items) => items.createAt)).flat()
+    const uniqueArray = [...new Set(arrayLabels)]
+    return uniqueArray
   }
 
   const seriesData = () => {
@@ -134,8 +136,7 @@ const CompareChartComponent = (compareProps: compareChart) => {
         fontSize: '14px',
         fontFamily: undefined
       }
-    },
-    colors: ["#556270", "#4ECDC4", "#C7F464", "#FF6B6B", "#C44D58", "#00A0B0", "#6A4A3C", "#CC333F", "#EB6841", "#EDC951", "#FF4E50", "#FC913A", "#F9D423", "#EDE574", "#E1F5C4"],
+    }
   }
 
   return (
