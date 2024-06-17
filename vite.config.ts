@@ -54,7 +54,7 @@ export default defineConfig({
     })
   ],
   build: {
-    chunkSizeWarningLimit: 100000, // Unit is in KB
+    chunkSizeWarningLimit: 100000, // Unit is in KB => 100MB
   },
   server: {
     port: 12345,

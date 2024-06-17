@@ -56,7 +56,7 @@ export default function LangguageSelector() {
             </LangSwitch>
           </LangSwitchContainer>
         </Dropdown.Toggle>
-        <Dropdown.Menu>
+        <Dropdown.Menu style={{width: '180px'}}>
           <LangContainer>
             <LangSwitchButton $lang={langs == 'th'} onClick={() => changeLanguage('th')}>
               <LangFlagFlex>
