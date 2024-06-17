@@ -37,6 +37,8 @@ import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
 import { wardsType } from "../../types/ward.type"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function Fullchart() {
   const { t } = useTranslation()
@@ -236,158 +238,164 @@ export default function Fullchart() {
   // }
 
   return (
-    <Container>
-      <Breadcrumbs className="mt-3"
-        separator={<RiArrowRightSLine fontSize={20} />}
+    <Container fluid>
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
       >
-        <Link to={'/dashboard'}>
-          <RiDashboardFill fontSize={20} />
-        </Link>
-        <Typography color="text.primary">{t('pageChart')}</Typography>
-      </Breadcrumbs>
-      <FullchartHead>
-        <FullchartHeadLeft>
-          <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
-          <span>|</span>
-          <FullchartHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullchartHeadBtn>
-        </FullchartHeadLeft>
-        <ExportandAuditFlex>
-          <AuditGraphBtn disabled onClick={() => {
-            if (logData.length > 0) {
-              swalOptimizeChartButtons
-                .fire({
-                  title: 'คำเตือน',
-                  html: `
+        <Breadcrumbs className="mt-3"
+          separator={<RiArrowRightSLine fontSize={20} />}
+        >
+          <Link to={'/dashboard'}>
+            <RiDashboardFill fontSize={20} />
+          </Link>
+          <Typography color="text.primary">{t('pageChart')}</Typography>
+        </Breadcrumbs>
+        <FullchartHead>
+          <FullchartHeadLeft>
+            <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FullchartHeadBtn>
+            <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
+            <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
+            <span>|</span>
+            <FullchartHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullchartHeadBtn>
+          </FullchartHeadLeft>
+          <ExportandAuditFlex>
+            <AuditGraphBtn disabled onClick={() => {
+              if (logData.length > 0) {
+                swalOptimizeChartButtons
+                  .fire({
+                    title: 'คำเตือน',
+                    html: `
                 เมื่อใช้ฟังก์ชันนี้กราฟจะแสดงผลต่างจากค่าจริงและปรับกราฟให้สมดุล </br> โปรดจำไว้ว่าการดำเนินการดังกล่าวจะไม่มีผลต่อข้อมูลในระบบ</br>เป็นเพียงการปรับแต่งกราฟแค่ชั่วคราว
                 `,
-                  icon: "warning",
-                  showCancelButton: true,
-                  confirmButtonText: 'ดำเนินการต่อ',
-                  cancelButtonText: 'ปิดหน้าต่าง',
-                  reverseButtons: false,
-                })
-                .then((result) => {
-                  if (result.isConfirmed) {
-                    // handleShowEdit()
-                  }
-                })
-            } else {
-              toast.error("Data not found")
-            }
-          }}>
-            <BsStars />
-            {t('optimizegraph')}
-          </AuditGraphBtn>
-          <Dropdown>
-            <Dropdown.Toggle variant="0" className="border-0 p-0">
-              <FullchartHeadExport>
-                <RiFolderSharedLine />
-                {t('exportFile')}
-              </FullchartHeadExport>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleDownload('png')}>
-                <RiImageLine />
-                <span>PNG</span>
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleDownload('jpg')}>
-                <RiImageLine />
-                <span>JPG</span>
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handleShow}>
-                <RiFilePdf2Line />
-                <span>PDF</span>
-              </Dropdown.Item>
-              <LineHr $mg={.5} />
-              <Dropdown.Item>
-                <RiPrinterLine />
-                <span>Print</span>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </ExportandAuditFlex>
-      </FullchartHead>
-      <FullchartBody $primary={pageNumber !== 3}>
-        <CustomChart>
-          {pageNumber === 3 &&
-            <FilterContainer>
-              <Form.Control
-                type="datetime-local"
-                min={devData?.dateInstall.substring(0, 16)}
-                max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
-                value={filterDate.startDate}
-                onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
-              <Form.Control
-                type="datetime-local"
-                min={filterDate.startDate}
-                max={getDateNow()}
-                value={filterDate.endDate}
-                onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
-              <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
-            </FilterContainer>}
-          {
-            logData.length > 0 ?
-              <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
-                <TableInfoDevice ref={tableInfoRef}>
-                  <h4>{localStorage.getItem('hosname')}</h4>
-                  <span>{devData?.devDetail ? devData?.devDetail : '--'} | {devData?.devSerial}</span>
-                  <span>{devData?.locInstall ? devData?.locInstall : '- -'}</span>
-                </TableInfoDevice>
-                <Apexchart
-                  chartData={logData}
-                  devicesData={{
-                    temp_min: devData?.probe[0]?.tempMin,
-                    temp_max: devData?.probe[0]?.tempMax
-                  }}
-                  doorHeight={80}
-                  doorWidth={1080}
-                  tempHeight={480}
-                  tempWidth={1080}
-                />
-              </FullchartBodyChartCon>
-              :
-              <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
-          }
-        </CustomChart>
-        <Modal size={'xl'} show={show} onHide={handleClose} scrollable>
-          <Modal.Header>
-            <ModalHead>
-              <Modal.Title>PDF</Modal.Title>
-              <button onClick={handleClose}>
-                <RiCloseLine />
-              </button>
-            </ModalHead>
-          </Modal.Header>
-          <Modal.Body>
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: 'ดำเนินการต่อ',
+                    cancelButtonText: 'ปิดหน้าต่าง',
+                    reverseButtons: false,
+                  })
+                  .then((result) => {
+                    if (result.isConfirmed) {
+                      // handleShowEdit()
+                    }
+                  })
+              } else {
+                toast.error("Data not found")
+              }
+            }}>
+              <BsStars />
+              {t('optimizegraph')}
+            </AuditGraphBtn>
+            <Dropdown>
+              <Dropdown.Toggle variant="0" className="border-0 p-0">
+                <FullchartHeadExport>
+                  <RiFolderSharedLine />
+                  {t('exportFile')}
+                </FullchartHeadExport>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleDownload('png')}>
+                  <RiImageLine />
+                  <span>PNG</span>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleDownload('jpg')}>
+                  <RiImageLine />
+                  <span>JPG</span>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleShow}>
+                  <RiFilePdf2Line />
+                  <span>PDF</span>
+                </Dropdown.Item>
+                <LineHr $mg={.5} />
+                <Dropdown.Item>
+                  <RiPrinterLine />
+                  <span>Print</span>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </ExportandAuditFlex>
+        </FullchartHead>
+        <FullchartBody $primary={pageNumber !== 3}>
+          <CustomChart>
+            {pageNumber === 3 &&
+              <FilterContainer>
+                <Form.Control
+                  type="datetime-local"
+                  min={devData?.dateInstall.substring(0, 16)}
+                  max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
+                  value={filterDate.startDate}
+                  onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
+                <Form.Control
+                  type="datetime-local"
+                  min={filterDate.startDate}
+                  max={getDateNow()}
+                  value={filterDate.endDate}
+                  onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
+                <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
+              </FilterContainer>}
             {
-              convertImage !== '' && devData !== undefined ?
-                <PDFViewer style={{ width: '100%', height: '100vh' }}>
-                  <Fullchartpdf
-                    title={'Chart-Report'}
-                    image={Images_one}
-                    chartIMG={convertImage}
-                    dev_sn={devData.devSerial}
-                    dev_name={devData.devDetail}
-                    hospital={validationData?.hospital.hosName}
-                    ward={validationData?.wardName}
-                    datetime={String(new Date).substring(0, 25)}
+              logData.length > 0 ?
+                <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
+                  <TableInfoDevice ref={tableInfoRef}>
+                    <h4>{localStorage.getItem('hosname')}</h4>
+                    <span>{devData?.devDetail ? devData?.devDetail : '--'} | {devData?.devSerial}</span>
+                    <span>{devData?.locInstall ? devData?.locInstall : '- -'}</span>
+                  </TableInfoDevice>
+                  <Apexchart
+                    chartData={logData}
+                    devicesData={{
+                      temp_min: devData?.probe[0]?.tempMin,
+                      temp_max: devData?.probe[0]?.tempMax
+                    }}
+                    doorHeight={80}
+                    doorWidth={1080}
+                    tempHeight={480}
+                    tempWidth={1080}
                   />
-                </PDFViewer>
+                </FullchartBodyChartCon>
                 :
-                null
+                <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
             }
-          </Modal.Body>
-          <Modal.Footer>
-            <GlobalButtoncontainer>
-              <GlobalButton $color onClick={handleClose}>
-                {t('form_btn_close')}
-              </GlobalButton>
-            </GlobalButtoncontainer>
-          </Modal.Footer>
-        </Modal>
-      </FullchartBody>
+          </CustomChart>
+          <Modal size={'xl'} show={show} onHide={handleClose} scrollable>
+            <Modal.Header>
+              <ModalHead>
+                <Modal.Title>PDF</Modal.Title>
+                <button onClick={handleClose}>
+                  <RiCloseLine />
+                </button>
+              </ModalHead>
+            </Modal.Header>
+            <Modal.Body>
+              {
+                convertImage !== '' && devData !== undefined ?
+                  <PDFViewer style={{ width: '100%', height: '100vh' }}>
+                    <Fullchartpdf
+                      title={'Chart-Report'}
+                      image={Images_one}
+                      chartIMG={convertImage}
+                      dev_sn={devData.devSerial}
+                      dev_name={devData.devDetail}
+                      hospital={validationData?.hospital.hosName}
+                      ward={validationData?.wardName}
+                      datetime={String(new Date).substring(0, 25)}
+                    />
+                  </PDFViewer>
+                  :
+                  null
+              }
+            </Modal.Body>
+            <Modal.Footer>
+              <GlobalButtoncontainer>
+                <GlobalButton $color onClick={handleClose}>
+                  {t('form_btn_close')}
+                </GlobalButton>
+              </GlobalButtoncontainer>
+            </Modal.Footer>
+          </Modal>
+        </FullchartBody>
+      </motion.div>
     </Container>
   )
 }

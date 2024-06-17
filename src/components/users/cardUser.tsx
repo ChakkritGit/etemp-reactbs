@@ -7,8 +7,6 @@ import Adduser from "../../pages/users/adduser"
 import { swalWithBootstrapButtons } from "../dropdown/sweetalertLib"
 import axios, { AxiosError } from "axios"
 import Swal from "sweetalert2"
-import { motion } from "framer-motion"
-import { items } from "../../animation/animate"
 import { useDispatch, useSelector } from "react-redux"
 import { storeDispatchType } from "../../stores/store"
 import { fetchUserData } from "../../stores/userSlice"
@@ -59,11 +57,6 @@ export default function CardUser(userProp: cardType) {
   }
 
   return (
-    <motion.div
-      variants={items}
-      initial="hidden"
-      animate="visible"
-    >
       <Card key={keyindex} className="border-0" style={{ backgroundColor: 'unset', border: 'unset' }}>
         <UsercardFlex>
           <Userimage
@@ -100,6 +93,5 @@ export default function CardUser(userProp: cardType) {
           </UserMenu>
         </UsercardFlex>
       </Card>
-    </motion.div>
   )
 }

@@ -27,6 +27,8 @@ import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function Fulltable() {
   const { t } = useTranslation()
@@ -342,89 +344,95 @@ export default function Fulltable() {
   }
 
   return (
-    <Container>
-      <Breadcrumbs className="mt-3"
-        separator={<RiArrowRightSLine fontSize={20} />}
+    <Container fluid>
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
       >
-        <Link to={'/dashboard'}>
-          <RiDashboardFill fontSize={20} />
-        </Link>
-        <Typography color="text.primary">{t('pageTable')}</Typography>
-      </Breadcrumbs>
-      <FulltableHead>
-        <FulltableHeadLeft>
-          <FulltableHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FulltableHeadBtn>
-          <FulltableHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FulltableHeadBtn>
-          <FulltableHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FulltableHeadBtn>
-        </FulltableHeadLeft>
-        <Dropdown>
-          <Dropdown.Toggle variant="0" className="border-0 p-0">
-            <FulltableHeadBtn>
-              <RiFolderSharedLine />
-              {t('exportFile')}
-            </FulltableHeadBtn>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => {
-              toast.promise(
-                convertArrayOfObjectsToExcel(tableData),
-                {
-                  loading: 'Downloading',
-                  success: <span>Downloaded</span>,
-                  error: <span>Something wrong</span>,
-                }
-              )
-            }}>
-              <RiFileExcel2Line />
-              <span>Excel</span>
-            </Dropdown.Item>
-            <LineHr $mg={.5} />
-            <Dropdown.Item>
-              <RiPrinterLine />
-              <span>Print</span>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </FulltableHead>
-      <FulltableBody $primary={pageNumber !== 3}>
-        <FulltableBodyChartCon $primary={expand}>
-          {pageNumber === 3 &&
-            <FilterContainer>
-              <Form.Control
-                type="datetime-local"
-                min={devData?.dateInstall.substring(0, 16)}
-                max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
-                value={filterDate.startDate}
-                onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
-              <Form.Control
-                type="datetime-local"
-                min={filterDate.startDate}
-                max={getDateNow()}
-                value={filterDate.endDate}
-                onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
-              <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
-            </FilterContainer>
-          }{
-            loading ?
-              <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
-              :
-              logData.length === 0 ?
-                <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+        <Breadcrumbs className="mt-3"
+          separator={<RiArrowRightSLine fontSize={20} />}
+        >
+          <Link to={'/dashboard'}>
+            <RiDashboardFill fontSize={20} />
+          </Link>
+          <Typography color="text.primary">{t('pageTable')}</Typography>
+        </Breadcrumbs>
+        <FulltableHead>
+          <FulltableHeadLeft>
+            <FulltableHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FulltableHeadBtn>
+            <FulltableHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FulltableHeadBtn>
+            <FulltableHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FulltableHeadBtn>
+          </FulltableHeadLeft>
+          <Dropdown>
+            <Dropdown.Toggle variant="0" className="border-0 p-0">
+              <FulltableHeadBtn>
+                <RiFolderSharedLine />
+                {t('exportFile')}
+              </FulltableHeadBtn>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => {
+                toast.promise(
+                  convertArrayOfObjectsToExcel(tableData),
+                  {
+                    loading: 'Downloading',
+                    success: <span>Downloaded</span>,
+                    error: <span>Something wrong</span>,
+                  }
+                )
+              }}>
+                <RiFileExcel2Line />
+                <span>Excel</span>
+              </Dropdown.Item>
+              <LineHr $mg={.5} />
+              <Dropdown.Item>
+                <RiPrinterLine />
+                <span>Print</span>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </FulltableHead>
+        <FulltableBody $primary={pageNumber !== 3}>
+          <FulltableBodyChartCon $primary={expand}>
+            {pageNumber === 3 &&
+              <FilterContainer>
+                <Form.Control
+                  type="datetime-local"
+                  min={devData?.dateInstall.substring(0, 16)}
+                  max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
+                  value={filterDate.startDate}
+                  onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
+                <Form.Control
+                  type="datetime-local"
+                  min={filterDate.startDate}
+                  max={getDateNow()}
+                  value={filterDate.endDate}
+                  onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
+                <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
+              </FilterContainer>
+            }{
+              loading ?
+                <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
                 :
-                <FulltableContainer>
-                  <DataTable
-                    responsive={true}
-                    columns={columns}
-                    data={tableData}
-                    pagination
-                    paginationRowsPerPageOptions={[10, 30, 50, 80, 100]}
-                    paginationPerPage={10}
-                    dense
-                  />
-                </FulltableContainer>
-          }
-        </FulltableBodyChartCon>
-      </FulltableBody>
+                logData.length === 0 ?
+                  <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                  :
+                  <FulltableContainer>
+                    <DataTable
+                      responsive={true}
+                      columns={columns}
+                      data={tableData}
+                      pagination
+                      paginationRowsPerPageOptions={[10, 30, 50, 80, 100]}
+                      paginationPerPage={10}
+                      dense
+                    />
+                  </FulltableContainer>
+            }
+          </FulltableBodyChartCon>
+        </FulltableBody>
+      </motion.div>
     </Container>
   )
 }

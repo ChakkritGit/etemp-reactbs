@@ -8,6 +8,8 @@ import Adduser from "./adduser"
 import Paginition from "../../components/filter/paginition"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UserState, UtilsStateStore } from "../../types/redux.type"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function Permission() {
   const { t } = useTranslation()
@@ -47,39 +49,45 @@ export default function Permission() {
 
   return (
     <Container fluid>
-      <CardUserHead>
-        <h3>{t('sidePermission')}</h3>
-        <Adduser pagestate={"add"} />
-      </CardUserHead>
-      <PaginitionContainer>
-        <div></div>
-        <Paginition
-          currentPage={currentPage}
-          cardsPerPage={cardsPerPage}
-          changePage={changePage}
-          displaySelectDevices={displaySelectDevices}
-          displayedCards={displayedCards}
-          userdata={userDaata}
-        />
-      </PaginitionContainer>
-      <CardUserBody>
-        {
-          displayedCards.map((item, index) => (
-            <CardUser
-              key={item.userId}
-              keyindex={index}
-              userPic={item.userPic}
-              displayName={item.displayName}
-              userName={item.userName}
-              userLevel={item.userLevel}
-              userId={item.userId}
-              hosId={item.ward.hosId}
-              userStatus={item.userStatus}
-              wardId={item.wardId}
-            />
-          ))
-        }
-      </CardUserBody>
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
+      >
+        <CardUserHead>
+          <h3>{t('sidePermission')}</h3>
+          <Adduser pagestate={"add"} />
+        </CardUserHead>
+        <PaginitionContainer>
+          <div></div>
+          <Paginition
+            currentPage={currentPage}
+            cardsPerPage={cardsPerPage}
+            changePage={changePage}
+            displaySelectDevices={displaySelectDevices}
+            displayedCards={displayedCards}
+            userdata={userDaata}
+          />
+        </PaginitionContainer>
+        <CardUserBody>
+          {
+            displayedCards.map((item, index) => (
+              <CardUser
+                key={item.userId}
+                keyindex={index}
+                userPic={item.userPic}
+                displayName={item.displayName}
+                userName={item.userName}
+                userLevel={item.userLevel}
+                userId={item.userId}
+                hosId={item.ward.hosId}
+                userStatus={item.userStatus}
+                wardId={item.wardId}
+              />
+            ))
+          }
+        </CardUserBody>
+      </motion.div>
     </Container >
   )
 }

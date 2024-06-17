@@ -18,6 +18,8 @@ import PrintComponent from "./printComponent"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function Repair() {
   const { t } = useTranslation()
@@ -196,58 +198,64 @@ export default function Repair() {
 
   return (
     <Container fluid>
-      <RepairContainer>
-        <RepairHeader className="mb-3 mt-3">
-          <h3>{t('titleRepair')}</h3>
-          <Addrepair
-            pagestate='add'
-            fetchdata={fetchData}
-            devdata={{} as repairType}
-          />
-        </RepairHeader>
-      </RepairContainer>
-      <ManageRepairBody>
-        {/* {JSON.stringify(repairData)} */}
-        <DataTable
-          className="hiTDLB-st"
-          responsive={true}
-          columns={columns}
-          data={filteredItems}
-          pagination
-        />
-      </ManageRepairBody>
-
-      <Modal show={show} size="lg" scrollable onHide={closemodal}>
-        <Modal.Header>
-          <ModalHead>
-            <strong>
-              Print
-            </strong>
-            <button onClick={closemodal}>
-              <RiCloseLine />
-            </button>
-          </ModalHead>
-        </Modal.Header>
-        <Modal.Body>
-          <PrintComponent
-            data={repairDataPrint}
-            componentRef={componentRef}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <FormFlexBtn>
-            <ReactToPrint
-              trigger={() =>
-                <FormBtn type="submit">
-                  <RiPrinterLine />
-                  Print
-                </FormBtn>}
-              content={() => componentRef.current}
-              pageStyle={`@page { size: portrait; margin: 5mm; padding: 0mm; }`}
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
+      >
+        <RepairContainer>
+          <RepairHeader className="mb-3 mt-3">
+            <h3>{t('titleRepair')}</h3>
+            <Addrepair
+              pagestate='add'
+              fetchdata={fetchData}
+              devdata={{} as repairType}
             />
-          </FormFlexBtn>
-        </Modal.Footer>
-      </Modal>
+          </RepairHeader>
+        </RepairContainer>
+        <ManageRepairBody>
+          {/* {JSON.stringify(repairData)} */}
+          <DataTable
+            className="hiTDLB-st"
+            responsive={true}
+            columns={columns}
+            data={filteredItems}
+            pagination
+          />
+        </ManageRepairBody>
+
+        <Modal show={show} size="lg" scrollable onHide={closemodal}>
+          <Modal.Header>
+            <ModalHead>
+              <strong>
+                Print
+              </strong>
+              <button onClick={closemodal}>
+                <RiCloseLine />
+              </button>
+            </ModalHead>
+          </Modal.Header>
+          <Modal.Body>
+            <PrintComponent
+              data={repairDataPrint}
+              componentRef={componentRef}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <FormFlexBtn>
+              <ReactToPrint
+                trigger={() =>
+                  <FormBtn type="submit">
+                    <RiPrinterLine />
+                    Print
+                  </FormBtn>}
+                content={() => componentRef.current}
+                pageStyle={`@page { size: portrait; margin: 5mm; padding: 0mm; }`}
+              />
+            </FormFlexBtn>
+          </Modal.Footer>
+        </Modal>
+      </motion.div>
     </Container>
   )
 }

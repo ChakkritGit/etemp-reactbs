@@ -3899,6 +3899,7 @@ display: flex;
 flex-direction: column;
 justify-content: space-between;
 width: 180px;
+height: calc(100dvh - 150px);
 padding: .5rem;
 transition: .3s;
 
@@ -3916,6 +3917,7 @@ transition: .3s;
 
 @media (max-width: 430px) {
   width: unset;
+  height: calc(100dvh - 220px);
 }
 `
 

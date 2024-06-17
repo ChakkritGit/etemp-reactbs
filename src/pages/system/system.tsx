@@ -13,6 +13,8 @@ import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import Lang from "./lang"
 import Noti from "./noti"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function System() {
   const { t } = useTranslation()
@@ -37,58 +39,64 @@ export default function System() {
 
   return (
     <Container fluid className="h-100">
-      <H3mt>{t('sideSetting')}</H3mt>
-      <SettingSystemContainer>
-        <SettingLeftContainer $primary={expand}>
-          <div>
-            <ListMenu $primary={pagenumber === 1} onClick={() => setPagenumber(1)}>
-              <RiUser6Line />
-              <span>{t('tabAccount')}</span>
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
+      >
+        <H3mt>{t('sideSetting')}</H3mt>
+        <SettingSystemContainer>
+          <SettingLeftContainer $primary={expand}>
+            <div>
+              <ListMenu $primary={pagenumber === 1} onClick={() => setPagenumber(1)}>
+                <RiUser6Line />
+                <span>{t('tabAccount')}</span>
+              </ListMenu>
+              <ListMenu $primary={pagenumber === 2} onClick={() => setPagenumber(2)}>
+                <RiPaletteLine />
+                <span>
+                  {t('tabDisplay')}
+                </span>
+              </ListMenu>
+              <ListMenu $primary={pagenumber === 3} onClick={() => setPagenumber(3)}>
+                <RiTranslate2 />
+                <span>
+                  {t('tabLanguage')}
+                </span>
+              </ListMenu>
+              <ListMenu $primary={pagenumber === 4} onClick={() => setPagenumber(4)}>
+                <RiAlarmWarningLine />
+                <span>
+                  {t('titleNotification')}
+                </span>
+              </ListMenu>
+            </div>
+            <ListMenu $logout onClick={() => logOut(true)}>
+              <RiLogoutBoxRLine />
+              <span>{t('tabLogout')}</span>
             </ListMenu>
-            <ListMenu $primary={pagenumber === 2} onClick={() => setPagenumber(2)}>
-              <RiPaletteLine />
-              <span>
-                {t('tabDisplay')}
-              </span>
-            </ListMenu>
-            <ListMenu $primary={pagenumber === 3} onClick={() => setPagenumber(3)}>
-              <RiTranslate2 />
-              <span>
-                {t('tabLanguage')}
-              </span>
-            </ListMenu>
-            <ListMenu $primary={pagenumber === 4} onClick={() => setPagenumber(4)}>
-              <RiAlarmWarningLine />
-              <span>
-                {t('titleNotification')}
-              </span>
-            </ListMenu>
-          </div>
-          <ListMenu $logout onClick={() => logOut(true)}>
-            <RiLogoutBoxRLine />
-            <span>{t('tabLogout')}</span>
-          </ListMenu>
-        </SettingLeftContainer>
-        <LineHeightSystem />
-        <SettingRightContainer>
-          {
-            pagenumber === 1 ?
-              <div>
-                <Account />
-              </div>
-              :
-              pagenumber === 2 ?
+          </SettingLeftContainer>
+          <LineHeightSystem />
+          <SettingRightContainer>
+            {
+              pagenumber === 1 ?
                 <div>
-                  <Color />
+                  <Account />
                 </div>
                 :
-                pagenumber === 3 ?
-                  <Lang />
+                pagenumber === 2 ?
+                  <div>
+                    <Color />
+                  </div>
                   :
-                  <Noti />
-          }
-        </SettingRightContainer>
-      </SettingSystemContainer>
+                  pagenumber === 3 ?
+                    <Lang />
+                    :
+                    <Noti />
+            }
+          </SettingRightContainer>
+        </SettingSystemContainer>
+      </motion.div>
     </Container>
   )
 }

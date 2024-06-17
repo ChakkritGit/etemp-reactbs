@@ -1,5 +1,5 @@
 import { Container, Modal } from "react-bootstrap"
-import { DelWarrantyButton, DetailFlex, DetailWarranty, FormBtn, FormFlexBtn, ModalHead, WarrantyBody, WarrantyHead, WarrantyHeadBtn } from "../../style/style";
+import { DelWarrantyButton, DetailFlex, DetailWarranty, FormBtn, FormFlexBtn, ModalHead, WarrantyBody, WarrantyHead, WarrantyHeadBtn } from "../../style/style"
 import { useEffect, useRef, useState } from "react"
 import Loading from "../../components/loading/loading"
 import { useTranslation } from "react-i18next"
@@ -7,13 +7,15 @@ import { RiCloseCircleLine, RiCloseLine, RiFileCloseLine, RiInformationLine, RiL
 import DataTable, { TableColumn } from "react-data-table-component"
 import ReactToPrint from "react-to-print"
 import Printwarranty from "./printwarranty"
-import { useSelector } from "react-redux";
-import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type";
-import axios, { AxiosError } from "axios";
-import { warrantyType } from "../../types/warranty.type";
-import { responseType } from "../../types/response.type";
-import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib";
-import Swal from "sweetalert2";
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import axios, { AxiosError } from "axios"
+import { warrantyType } from "../../types/warranty.type"
+import { responseType } from "../../types/response.type"
+import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib"
+import Swal from "sweetalert2"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function Warranty() {
   const { t } = useTranslation()
@@ -181,42 +183,29 @@ export default function Warranty() {
 
   return (
     <Container fluid>
-      <WarrantyHead>
-        <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('tabWarrantyExpired')}</WarrantyHeadBtn>
-        <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
-        <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
-      </WarrantyHead>
-      <WarrantyBody>
-        {
-          !isLoading ?
-            pagenumber === 1 ?
-              <>
-                {
-                  expiredArray.length > 0 ?
-                    <DataTable
-                      responsive={true}
-                      columns={columns}
-                      data={expiredArray}
-                      pagination
-                      paginationRowsPerPageOptions={[10]}
-                      paginationPerPage={10}
-                      dense
-                    />
-                    :
-                    <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
-                }
-              </>
-              :
-              pagenumber === 2 ?
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
+      >
+        <WarrantyHead>
+          <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('tabWarrantyExpired')}</WarrantyHeadBtn>
+          <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
+          <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
+        </WarrantyHead>
+        <WarrantyBody>
+          {
+            !isLoading ?
+              pagenumber === 1 ?
                 <>
                   {
-                    onwarrantyArray.length > 0 ?
+                    expiredArray.length > 0 ?
                       <DataTable
                         responsive={true}
                         columns={columns}
-                        data={onwarrantyArray}
+                        data={expiredArray}
                         pagination
-                        paginationRowsPerPageOptions={[10, 15, 30, 50, 100, 150]}
+                        paginationRowsPerPageOptions={[10]}
                         paginationPerPage={10}
                         dense
                       />
@@ -225,64 +214,82 @@ export default function Warranty() {
                   }
                 </>
                 :
-                <>
-                  {
-                    devicesArray.length > 0 ?
-                      <DataTable
-                        responsive={true}
-                        columns={columns}
-                        data={devicesArray}
-                        pagination
-                        paginationRowsPerPageOptions={[10, 15, 30, 50, 100, 150]}
-                        paginationPerPage={10}
-                        dense
-                      />
-                      :
-                      <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
-                  }
-                </>
-            :
-            <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
-        }
-      </WarrantyBody>
-
-      <Modal scrollable show={show} onHide={closemodal} size="lg">
-        <Modal.Header>
-          <ModalHead>
-            <strong>
-              Details
-            </strong>
-            <button onClick={closemodal}>
-              <RiCloseLine />
-            </button>
-          </ModalHead>
-        </Modal.Header>
-        <Modal.Body>
-          {
-            deviceDetails.length > 0 ?
-              <Printwarranty
-                data={deviceDetails}
-                componentRef={componentRef}
-              />
+                pagenumber === 2 ?
+                  <>
+                    {
+                      onwarrantyArray.length > 0 ?
+                        <DataTable
+                          responsive={true}
+                          columns={columns}
+                          data={onwarrantyArray}
+                          pagination
+                          paginationRowsPerPageOptions={[10, 15, 30, 50, 100, 150]}
+                          paginationPerPage={10}
+                          dense
+                        />
+                        :
+                        <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                    }
+                  </>
+                  :
+                  <>
+                    {
+                      devicesArray.length > 0 ?
+                        <DataTable
+                          responsive={true}
+                          columns={columns}
+                          data={devicesArray}
+                          pagination
+                          paginationRowsPerPageOptions={[10, 15, 30, 50, 100, 150]}
+                          paginationPerPage={10}
+                          dense
+                        />
+                        :
+                        <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                    }
+                  </>
               :
-              <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+              <Loading loading={true} title={t('loading')} icn={<RiLoader3Line />} />
           }
-        </Modal.Body>
-        <Modal.Footer>
-          <FormFlexBtn>
-            <ReactToPrint
-              trigger={() =>
-                <FormBtn type="submit">
-                  <RiPrinterLine />
-                  Print
-                </FormBtn>}
-              content={() => componentRef.current}
-              pageStyle={`@page { size: portrait; margin: 5mm; padding: 0mm; }`}
-            />
-          </FormFlexBtn>
-        </Modal.Footer>
-      </Modal>
+        </WarrantyBody>
 
+        <Modal scrollable show={show} onHide={closemodal} size="lg">
+          <Modal.Header>
+            <ModalHead>
+              <strong>
+                Details
+              </strong>
+              <button onClick={closemodal}>
+                <RiCloseLine />
+              </button>
+            </ModalHead>
+          </Modal.Header>
+          <Modal.Body>
+            {
+              deviceDetails.length > 0 ?
+                <Printwarranty
+                  data={deviceDetails}
+                  componentRef={componentRef}
+                />
+                :
+                <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+            }
+          </Modal.Body>
+          <Modal.Footer>
+            <FormFlexBtn>
+              <ReactToPrint
+                trigger={() =>
+                  <FormBtn type="submit">
+                    <RiPrinterLine />
+                    Print
+                  </FormBtn>}
+                content={() => componentRef.current}
+                pageStyle={`@page { size: portrait margin: 5mm padding: 0mm }`}
+              />
+            </FormFlexBtn>
+          </Modal.Footer>
+        </Modal>
+      </motion.div>
     </Container>
   )
 }

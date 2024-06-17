@@ -21,7 +21,6 @@ import { useEffect } from "react"
 import { wardsType } from "../../types/ward.type"
 import { hospitalsType } from "../../types/hospital.type"
 import { devicesType } from "../../types/device.type"
-import { motion } from "framer-motion"
 import { itemsFilter } from "../../animation/animate"
 import Loading from "../../components/loading/loading"
 import { useNavigate } from "react-router-dom"
@@ -38,6 +37,8 @@ import { probeType } from "../../types/probe.type"
 import { cardFilter } from "../../types/component.type"
 import { resetActive } from "../../constants/constants"
 import { logtype } from "../../types/log.type"
+import { motion } from "framer-motion"
+import { items } from "../../animation/animate"
 
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -597,171 +598,177 @@ export default function Home() {
 
   return (
     <Container fluid>
-      <Helmet>
-        <meta name="description" content="page show all etemp box detect temperature realtime and nofi when temperture higher then limit This project is using the production build of React and supported redux, product copyright Thanes Development Co. Ltd." />
-      </Helmet>
-      {
-        devices.length > 0 ?
-          <HomeContainerFlex>
-            <DevHomeHeadTile>
-              <h5>
-                {t('showAllBox')}
-              </h5>
-            </DevHomeHeadTile>
-            <DevHomeSecctionOne>
-              {
-                cardFilterData.map((items) => (
-                  <DevicesCard
-                    key={items.id}
-                    title={items.title}
-                    count={items.count}
-                    times={items.times}
-                    svg={items.svg}
-                    cardname={items.cardname}
-                    switchcase={items.switchcase}
-                    active={items.active}
-                  />
-                ))
-              }
-            </DevHomeSecctionOne>
-            <AboutBox>
-              <h5>{t('detailAllBox')}</h5>
-              <DeviceInfoflex>
+      <motion.div
+        variants={items}
+        initial="hidden"
+        animate="visible"
+      >
+        <Helmet>
+          <meta name="description" content="page show all etemp box detect temperature realtime and nofi when temperture higher then limit This project is using the production build of React and supported redux, product copyright Thanes Development Co. Ltd." />
+        </Helmet>
+        {
+          devices.length > 0 ?
+            <HomeContainerFlex>
+              <DevHomeHeadTile>
+                <h5>
+                  {t('showAllBox')}
+                </h5>
+              </DevHomeHeadTile>
+              <DevHomeSecctionOne>
                 {
-                  !filterdata &&
-                  <DeviceInfoSpan onClick={() => setFilterdata(true)}>
-                    {t('deviceFilter')}
-                    <RiFilter3Line />
-                  </DeviceInfoSpan>
+                  cardFilterData.map((items) => (
+                    <DevicesCard
+                      key={items.id}
+                      title={items.title}
+                      count={items.count}
+                      times={items.times}
+                      svg={items.svg}
+                      cardname={items.cardname}
+                      switchcase={items.switchcase}
+                      active={items.active}
+                    />
+                  ))
                 }
-                <FilterHomeHOSWARD>
+              </DevHomeSecctionOne>
+              <AboutBox>
+                <h5>{t('detailAllBox')}</h5>
+                <DeviceInfoflex>
                   {
-                    filterdata &&
-                    <DevHomeHead>
-                      <motion.div
-                        variants={itemsFilter}
-                        initial="hidden"
-                        animate="visible"
-                      >
-                        <Select options={hospitalsData.map((items) => {
-                          return {
-                            value: items.hosId,
-                            label: items.hosName
-                          }
-                        })}
-                          onChange={(e) => getHospital(e?.value)}
-                          autoFocus={false}
-                        />
-                        <Select options={wardName.map((items) => {
-                          return {
-                            value: items.wardId,
-                            label: items.wardName
-                          }
-                        })}
-                          onChange={(e) => getWard(e?.value)}
-                          autoFocus={false}
-                        />
-                      </motion.div>
-                      <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>
-                        <RiCloseLine />
-                      </DeviceInfoSpanClose>
-                    </DevHomeHead>
+                    !filterdata &&
+                    <DeviceInfoSpan onClick={() => setFilterdata(true)}>
+                      {t('deviceFilter')}
+                      <RiFilter3Line />
+                    </DeviceInfoSpan>
                   }
-                </FilterHomeHOSWARD>
-                <DeviceListFlex>
-                  <ListBtn $primary={listAndgrid === 1} onClick={() => setListandgrid(1)}><RiListUnordered /></ListBtn>
-                  <ListBtn $primary={listAndgrid === 2} onClick={() => setListandgrid(2)}><RiLayoutGridLine /></ListBtn>
-                </DeviceListFlex>
-              </DeviceInfoflex>
-            </AboutBox>
-            {
-              listAndgrid === 1 ?
-                <DatatableHome>
-                  <DataTable
-                    responsive={true}
-                    columns={columns}
-                    data={devicesFilter}
-                    paginationRowsPerPageOptions={[10, 20, 40, 60, 80, 100]}
-                    paginationPerPage={10}
-                    onRowClicked={handleRowClicked}
-                    expandableRowsComponent={ExpandedComponent}
-                    pagination
-                    dense
-                    expandableRows
-                    pointerOnHover
-                  />
-                </DatatableHome>
-                :
-                <DevHomeDetails $primary={devicesFilter.length <= 5 && devicesFilter.length !== 0}>
-                  <div>
+                  <FilterHomeHOSWARD>
                     {
-                      devicesFilter.length > 0 ?
-                        devicesFilter.map((item, index) =>
-                        (<DevicesInfoCard
-                          devicesdata={item}
-                          keyindex={index}
-                          key={item.devSerial}
-                          fetchData={filtersDevices}
-                        />))
-                        :
-                        <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                      filterdata &&
+                      <DevHomeHead>
+                        <motion.div
+                          variants={itemsFilter}
+                          initial="hidden"
+                          animate="visible"
+                        >
+                          <Select options={hospitalsData.map((items) => {
+                            return {
+                              value: items.hosId,
+                              label: items.hosName
+                            }
+                          })}
+                            onChange={(e) => getHospital(e?.value)}
+                            autoFocus={false}
+                          />
+                          <Select options={wardName.map((items) => {
+                            return {
+                              value: items.wardId,
+                              label: items.wardName
+                            }
+                          })}
+                            onChange={(e) => getWard(e?.value)}
+                            autoFocus={false}
+                          />
+                        </motion.div>
+                        <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>
+                          <RiCloseLine />
+                        </DeviceInfoSpanClose>
+                      </DevHomeHead>
                     }
-                  </div>
-                </DevHomeDetails>
-            }
-          </HomeContainerFlex>
-          :
-          <PageLoading />
-      }
+                  </FilterHomeHOSWARD>
+                  <DeviceListFlex>
+                    <ListBtn $primary={listAndgrid === 1} onClick={() => setListandgrid(1)}><RiListUnordered /></ListBtn>
+                    <ListBtn $primary={listAndgrid === 2} onClick={() => setListandgrid(2)}><RiLayoutGridLine /></ListBtn>
+                  </DeviceListFlex>
+                </DeviceInfoflex>
+              </AboutBox>
+              {
+                listAndgrid === 1 ?
+                  <DatatableHome>
+                    <DataTable
+                      responsive={true}
+                      columns={columns}
+                      data={devicesFilter}
+                      paginationRowsPerPageOptions={[10, 20, 40, 60, 80, 100]}
+                      paginationPerPage={10}
+                      onRowClicked={handleRowClicked}
+                      expandableRowsComponent={ExpandedComponent}
+                      pagination
+                      dense
+                      expandableRows
+                      pointerOnHover
+                    />
+                  </DatatableHome>
+                  :
+                  <DevHomeDetails $primary={devicesFilter.length <= 5 && devicesFilter.length !== 0}>
+                    <div>
+                      {
+                        devicesFilter.length > 0 ?
+                          devicesFilter.map((item, index) =>
+                          (<DevicesInfoCard
+                            devicesdata={item}
+                            keyindex={index}
+                            key={item.devSerial}
+                            fetchData={filtersDevices}
+                          />))
+                          :
+                          <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
+                      }
+                    </div>
+                  </DevHomeDetails>
+              }
+            </HomeContainerFlex>
+            :
+            <PageLoading />
+        }
 
-      <Modal show={showticks} onHide={isshowtk}>
-        <Modal.Header closeButton>
-          <strong>Info</strong>
-        </Modal.Header>
-        <Modal.Body>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '1rem', width: '100%' }}>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%' }}>
-              <div>
-                <DevicesCard
-                  title={'โพรบ'}
-                  count={Math.floor(Math.random() * 9)}
-                  times={'ครั้ง'}
-                  svg={<RiTempColdLine />}
-                  cardname={''}
-                  active={true}
-                />
+        <Modal show={showticks} onHide={isshowtk}>
+          <Modal.Header closeButton>
+            <strong>Info</strong>
+          </Modal.Header>
+          <Modal.Body>
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '1rem', width: '100%' }}>
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%' }}>
+                <div>
+                  <DevicesCard
+                    title={'โพรบ'}
+                    count={Math.floor(Math.random() * 9)}
+                    times={'ครั้ง'}
+                    svg={<RiTempColdLine />}
+                    cardname={''}
+                    active={true}
+                  />
+                </div>
+                <div style={{ textAlign: 'left', width: '250px' }}>
+                  <strong>พื้นหลังการ์ดเป็นสีฟ้า</strong>
+                  <br />
+                  <span>
+                    เมื่อพื้นหลังเป็นสีฟ้าแสดงว่าคุณกำลังฟิลเตอร์
+                    รายการอุปกรณ์จะแสดงตามการ์ดที่คุณฟิลเตอร์
+                  </span>
+                </div>
               </div>
-              <div style={{ textAlign: 'left', width: '250px' }}>
-                <strong>พื้นหลังการ์ดเป็นสีฟ้า</strong>
-                <br />
-                <span>
-                  เมื่อพื้นหลังเป็นสีฟ้าแสดงว่าคุณกำลังฟิลเตอร์
-                  รายการอุปกรณ์จะแสดงตามการ์ดที่คุณฟิลเตอร์
-                </span>
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%' }}>
+                <div style={{ textAlign: 'right', width: '250px' }}>
+                  <strong>คลิกที่การ์ดอีกครั้งเพื่อยกเลิก</strong>
+                  <br />
+                  <span>
+                    เมื่อคลิกที่การ์ดอีกครั้งจะเป็นการยกเลิกการฟิลเตอร์รายการอุปกรณ์
+                  </span>
+                </div>
+                <div>
+                  <DevicesCard
+                    title={'โพรบ'}
+                    count={Math.floor(Math.random() * 9)}
+                    times={'ครั้ง'}
+                    svg={<RiTempColdLine />}
+                    cardname={''}
+                    active={false}
+                  />
+                </div>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', width: '100%' }}>
-              <div style={{ textAlign: 'right', width: '250px' }}>
-                <strong>คลิกที่การ์ดอีกครั้งเพื่อยกเลิก</strong>
-                <br />
-                <span>
-                  เมื่อคลิกที่การ์ดอีกครั้งจะเป็นการยกเลิกการฟิลเตอร์รายการอุปกรณ์
-                </span>
-              </div>
-              <div>
-                <DevicesCard
-                  title={'โพรบ'}
-                  count={Math.floor(Math.random() * 9)}
-                  times={'ครั้ง'}
-                  svg={<RiTempColdLine />}
-                  cardname={''}
-                  active={false}
-                />
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+          </Modal.Body>
+        </Modal>
+      </motion.div>
     </Container>
   )
 }
