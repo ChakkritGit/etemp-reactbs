@@ -33,7 +33,9 @@ interface devicesType extends devices {
   noti: notificationType[],
   _count?: {
     warranty: number,
-    repair: number
+    repair: number,
+    history: number,
+    noti: number
   }
 }
 

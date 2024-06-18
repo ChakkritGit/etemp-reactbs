@@ -123,7 +123,7 @@ height: 53px;
     font-size: 24px;
   }
 
-  @media (min-width: 430px) {
+  @media (min-width: 460px) {
     display: none;
   }
 }

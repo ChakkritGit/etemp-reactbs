@@ -165,7 +165,8 @@ export default function Home() {
       {
         id: 2,
         title: t('countDoor'),
-        count: getCount('log', (items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1"),
+        count: getSum('noti'),
+        // count: getCount('log', (items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1"),
         times: t('countNormalUnit'),
         svg: <RiDoorClosedLine />,
         cardname: 'door',
@@ -205,7 +206,7 @@ export default function Home() {
       {
         id: 6,
         title: t('countAdjust'),
-        count: 0,
+        count: getSum('history'),
         times: t('countNormalUnit'),
         svg: <RiListSettingsLine />,
         cardname: 'adjust',
