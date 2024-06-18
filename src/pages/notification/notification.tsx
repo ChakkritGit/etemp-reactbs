@@ -1,4 +1,4 @@
-import { RiCloseLine, RiNotification2Line } from "react-icons/ri"
+import { RiAlarmWarningFill, RiCloseLine, RiNotification2Line } from "react-icons/ri"
 import { useEffect, useRef, useState } from "react"
 import { notificationType } from "../../types/notification.type"
 import { ModalHead, NotificationBadge, NotificationContainer } from "../../style/style"
@@ -13,11 +13,12 @@ import notificationSound from "../../assets/sounds/notification.mp3"
 import { storeDispatchType } from "../../stores/store"
 import { setSocketData } from "../../stores/utilsStateSlice"
 import { useTranslation } from "react-i18next"
+import toast from "react-hot-toast"
 
 export default function Notification() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, token, soundMode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, token, soundMode, popUpMode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [number, setNumber] = useState(0)
   const [show, setShow] = useState(false)
   const [notiData, setNotidata] = useState<notificationType[]>([])
@@ -61,10 +62,29 @@ export default function Notification() {
 
   useEffect(() => {
     fetchData()
-    if (socketData && !soundMode) {
+    if (socketData && !soundMode && !popUpMode) {
       notiSound.play()
     } else {
       dispatch(setSocketData(null))
+    }
+
+    if (socketData && !popUpMode) {
+      toast((_t) => (
+        `${socketData.device} \n ${socketData.message} \n ${new Date(socketData.time).toLocaleString('th-TH', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'UTC'
+        })}`
+      ),
+        {
+          icon: <RiAlarmWarningFill size={24} fill='var(--danger-color)' />,
+          duration: 6000
+        }
+      )
     }
   }, [socketData])
 

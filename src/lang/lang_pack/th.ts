@@ -245,6 +245,7 @@ export default {
     Readed: 'อ่านแล้ว',
     notificationAll: 'ทั้งหมด',
     notificationSound: 'เสียงการแจ้งเตือน',
+    notificationPopup: 'การแจ้งเตือน',
 
     // devices
     deviceDetail: 'รายละเอียดอุปกรณ์',

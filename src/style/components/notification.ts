@@ -45,6 +45,23 @@ export const NotificationSoundFlex = styled.div<{ $primary?: boolean }>`
   justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
+  opacity: 1;
+  transition: .3s;
+
+  &>span {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  ${props => props.$primary && css`
+  opacity: .5;
+  transition: .3s;
+
+  &>button:hover {
+    cursor: unset;
+  }
+  `}
 `
 
 export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
@@ -81,4 +98,8 @@ export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
   border-color: var(--main-color);
   transition: .3s;
 }
+`
+
+export const LiNoti = styled.li<{ $primary?: boolean }>`
+  list-style-type: none;
 `

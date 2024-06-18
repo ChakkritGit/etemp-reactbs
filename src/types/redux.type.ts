@@ -1,4 +1,4 @@
-import { jwtToken } from "./component.type"
+import { jwtToken, socketResponseType } from "./component.type"
 import { devicesType } from "./device.type"
 import { hospitalsType } from "./hospital.type"
 import { probeType } from "./probe.type"
@@ -32,12 +32,13 @@ type UtilsStateStore = {
   token: string,
   deviceId: string,
   Serial: string,
-  socketData: unknown,
+  socketData: socketResponseType | null,
   searchQuery: string,
   expand: boolean,
   showAside: boolean,
   tokenDecode: jwtToken,
-  soundMode: boolean
+  soundMode: boolean,
+  popUpMode: boolean
 }
 
 type DeviceStateStore = {

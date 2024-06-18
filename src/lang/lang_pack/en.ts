@@ -245,6 +245,7 @@ export default {
     Readed: 'Readed',
     notificationAll: 'All',
     notificationSound: 'Notofication Sound',
+    notificationPopup: 'Notofications',
 
     // devices
     deviceDetail: 'Device Detail',

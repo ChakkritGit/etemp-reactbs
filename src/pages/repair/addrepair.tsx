@@ -61,8 +61,8 @@ export default function Addrepair(addrepair: addrepairtype) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const { comment, devId, repairDetails, repairInfo, repairInfo1, repairInfo2, repairLocation, repairStatus, telePhone, ward, warrantyStatus } = repairData
-    if (repairInfo !== '' && repairLocation !== '' && telePhone !== '' && ward !== '' && devId !== '' && warrantyStatus !== '' && comment !== ''
+    const { devId, repairDetails, repairInfo, repairInfo1, repairInfo2, repairLocation, repairStatus, telePhone, ward, warrantyStatus } = repairData
+    if (repairInfo !== '' && repairLocation !== '' && telePhone !== '' && ward !== '' && devId !== '' && warrantyStatus !== ''
       && repairDetails !== '' && repairStatus !== '' && repairInfo1 !== '' && repairInfo2 !== ''
     ) {
       try {
@@ -124,8 +124,8 @@ export default function Addrepair(addrepair: addrepairtype) {
 
   const handleSubmitEdit = async (e: FormEvent) => {
     e.preventDefault()
-    const { comment, devId, repairDetails, repairInfo, repairInfo1, repairInfo2, repairLocation, repairStatus, telePhone, ward, warrantyStatus } = repairData
-    if (repairInfo !== '' && repairLocation !== '' && telePhone !== '' && ward !== '' && devId !== '' && warrantyStatus !== '' && comment !== ''
+    const { devId, repairDetails, repairInfo, repairInfo1, repairInfo2, repairLocation, repairStatus, telePhone, ward, warrantyStatus } = repairData
+    if (repairInfo !== '' && repairLocation !== '' && telePhone !== '' && ward !== '' && devId !== '' && warrantyStatus !== ''
       && repairDetails !== '' && repairStatus !== '' && repairInfo1 !== '' && repairInfo2 !== ''
     ) {
       try {

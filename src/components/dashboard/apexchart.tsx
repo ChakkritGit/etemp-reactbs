@@ -77,9 +77,14 @@ const Apexchart = (chart: chartType) => {
 
   const options: ApexCharts.ApexOptions = {
     chart: {
-      // id: 'temp',
-      // group: 'charts',
       type: 'line',
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        dynamicAnimation: {
+          speed: 500
+        }
+      },
       stacked: false,
       zoom: {
         type: 'x',

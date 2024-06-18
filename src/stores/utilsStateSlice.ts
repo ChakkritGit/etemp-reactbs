@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { UtilsStateStore } from "../types/redux.type"
-import { jwtToken } from "../types/component.type"
+import { jwtToken, socketResponseType } from "../types/component.type"
 
 const initialState: UtilsStateStore = {
   token: String(localStorage.getItem('token')),
@@ -11,7 +11,8 @@ const initialState: UtilsStateStore = {
   expand: localStorage.getItem('expandaside') === 'true',
   showAside: false,
   tokenDecode: {} as jwtToken,
-  soundMode: localStorage.getItem('soundMode') === 'true'
+  soundMode: localStorage.getItem('soundMode') === 'true',
+  popUpMode: localStorage.getItem('popUpMode') === 'true'
 }
 
 const utilsSlice = createSlice({
@@ -27,7 +28,7 @@ const utilsSlice = createSlice({
     setSerial: (state, action: PayloadAction<string>) => {
       state.Serial = action.payload
     },
-    setSocketData: (state, action: PayloadAction<unknown>) => {
+    setSocketData: (state, action: PayloadAction<socketResponseType | null>) => {
       state.socketData = action.payload
     },
     setSearchQuery: (state, action: PayloadAction<string>) => {
@@ -45,9 +46,12 @@ const utilsSlice = createSlice({
     setSoundMode: (state, action: PayloadAction<boolean>) => {
       state.soundMode = action.payload
     },
+    setPopUpMode: (state, action: PayloadAction<boolean>) => {
+      state.popUpMode = action.payload
+    },
   },
 })
 
-export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode, setSoundMode } = utilsSlice.actions
+export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode, setSoundMode, setPopUpMode } = utilsSlice.actions
 
 export default utilsSlice.reducer

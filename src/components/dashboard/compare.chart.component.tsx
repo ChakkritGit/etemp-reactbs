@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { devicesType } from "../../types/device.type"
 import Chart from "react-apexcharts"
 
@@ -6,36 +5,30 @@ type compareChart = {
   chartData: devicesType[]
 }
 
-const CompareChartComponent = (compareProps: compareChart) => {
-  const { chartData } = compareProps
+interface seriesType {
+  name: string,
+  data: number[]
+}
+
+const CompareChartComponent = ({ chartData }: compareChart) => {
 
   const timeLabels = () => {
     let array: string[] = []
-    chartData.map((items) => {
+    chartData.forEach((items) => {
       if (items.log.length > 0) {
-        const newArrayLabel = items.log.map((items) => items.sendTime)
-        array.push(...newArrayLabel)
+        array.push(...items.log.map((items) => items.sendTime))
       }
     })
-    return array.flat()
+    return array
   }
 
-  useEffect(() => {
-    console.log(timeLabels())
-  }, [])
-
   const seriesData = () => {
-    interface seriesType {
-      name: string,
-      data: number[]
-    }
-
     let array: seriesType[] = []
-    chartData.map((items) => {
+    chartData.forEach((items) => {
       if (items.log.length > 0) {
         array.push({
           name: items.devSerial,
-          data: items.log?.map((items) => items.tempAvg)
+          data: items.log.map((items) => items.tempAvg)
         })
       }
     })
@@ -44,7 +37,7 @@ const CompareChartComponent = (compareProps: compareChart) => {
 
   const tempLimit = () => {
     let array: number[] = []
-    chartData.map((items) => {
+    chartData.forEach((items) => {
       if (items.log.length > 0) {
         items.log.map((items) => array.push(items.tempAvg))
       }
@@ -57,6 +50,13 @@ const CompareChartComponent = (compareProps: compareChart) => {
   const options: ApexCharts.ApexOptions = {
     chart: {
       type: 'line',
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        dynamicAnimation: {
+          speed: 500
+        }
+      },
       stacked: false,
       zoom: {
         type: 'x',
