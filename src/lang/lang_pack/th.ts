@@ -145,7 +145,9 @@ export default {
     tabAdjustHistory: 'ประวัติการปรับค่าอุปกรณ์',
     subTabDevice: 'อุปกรณ์',
     sunTabProbe: 'โพรบ',
+    sunTabFirmware: 'เฟิร์มแวร์',
     subTabHosandWard: 'โรงพยาบาลและวอร์ด',
+    titleFirmware: 'จัดการเฟิร์มแวร์',
     titleManageDevices: 'จัดการอุปกรณ์',
     titleManageProbe: 'จัดการโพรบ',
     titleManageHosandWard: 'จัดการโรงพยาบาลและวอร์ด',
@@ -244,7 +246,7 @@ export default {
     notRead: 'ยังไม่อ่าน',
     Readed: 'อ่านแล้ว',
     notificationAll: 'ทั้งหมด',
-    notificationSound: 'เสียงการแจ้งเตือน',
+    notificationSound: 'เสียง',
     notificationPopup: 'การแจ้งเตือน',
 
     // devices
@@ -253,6 +255,10 @@ export default {
     deviceZone: 'โซนติดตั้ง',
     devicePicture: 'รูปอุปกรณ์',
     deviceNetwork: 'ตั้งค่าเน็ตเวิร์ค',
+
+    // firmware
+    firmwareName: 'ชื่อเฟิร์มแวร์',
+    firmwareVersion: 'เวอร์ชั่นของเฟิร์มแวร์',
 
     // sidebar
     sideShowAllBox: 'แสดงกล่องทั้งหมด',
@@ -269,6 +275,7 @@ export default {
     confirmButton: 'ตกลง',
     cancelButton: 'ยกเลิก',
     submitButton: 'บันทึก',
+    uploadButton: 'อัปโหลด',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',
@@ -302,6 +309,8 @@ export default {
     nodata: 'ไม่พบข้อมูล',
     loading: 'กำลังโหลด...',
     searchItemsNav: 'ค้นหา',
+    uploadLabel: 'อัปโหลด หรือวางไฟล์ที่นี่',
+    uploadLabelNotSupport: 'ไม่รองรับประเภทไฟล์',
 
     // sweetalert
     alertHeaderWarning: 'คำเตือน',
@@ -317,5 +326,6 @@ export default {
     deleteProbeText: 'คุณจะไม่สามารถกู้คืนการตั้งค่าโพรบได้',
     deleteWarranty: 'คุณต้องการลบประกันหรือไม่',
     deleteWarrantyText: 'คุณจะไม่สามารถกู้คืนข้อมูลการรับประกันได้',
+    selectedFile: 'กรุณาเลือกไฟล์หรือวางไฟล์',
   },
 }

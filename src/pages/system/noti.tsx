@@ -35,10 +35,7 @@ export default function Noti() {
       <ul className="mt-3">
         <LiNoti>
           <NotificationSoundFlex $primary={popUpMode}>
-            <div>
-              <RiSpeakerLine size={24} />
-              <span>{t('notificationSound')}</span>
-            </div>
+            <span><RiSpeakerLine size={24} />{t('notificationSound')}</span>
             <NotificationSoundButton disabled={popUpMode} onClick={switchOption} $primary={!soundMode}>
               <div className="icon">
                 {soundMode ? t('stateOff') : t('stateOn')}

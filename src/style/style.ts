@@ -2,8 +2,8 @@ import styled, { css } from "styled-components"
 
 export const ToggleButtonWrapper = styled.button`
   position: relative;
-  width: 40px;
-  height: 25px;
+  width: 45px;
+  height: 30px;
   background-color: ${(propss) => (propss.theme.mode === 'dark' ? 'var(--main-color)' : '#ddd')};
   border: 1px solid ${(propss) => (propss.theme.mode === 'dark' ? 'var(--main-color)' : '#ccc')};
   border-radius: 20px;
@@ -15,8 +15,8 @@ export const ToggleButtonWrapper = styled.button`
   overflow: hidden;
 
   .icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     background-color: ${(propss) => (propss.theme.mode === 'dark' ? 'var(--white)' : 'var(--white)')};
     transition: transform 0.3s ease;

@@ -48,16 +48,10 @@ export const NotificationSoundFlex = styled.div<{ $primary?: boolean }>`
   opacity: 1;
   transition: .3s;
 
-  &>div {
+  &>span {
     display: flex;
     align-items: center;
     gap: .5rem;
-  }
-
-  @media (max-width: 430px) {
-    &>div>span{
-      display: none;
-    }
   }
 
   ${props => props.$primary && css`

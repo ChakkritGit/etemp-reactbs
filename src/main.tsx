@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import 'react-circular-progressbar/dist/styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import RoutesComponent from './routes/routes'
 import { StyleSheetManager } from 'styled-components'

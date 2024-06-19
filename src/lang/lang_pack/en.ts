@@ -145,7 +145,9 @@ export default {
     tabAdjustHistory: 'Adjust Logs',
     subTabDevice: 'Devices',
     sunTabProbe: 'Probe',
+    sunTabFirmware: 'Firmware',
     subTabHosandWard: 'Hospital and Ward',
+    titleFirmware: 'Manage Firmware',
     titleManageDevices: 'Manage Devices',
     titleManageProbe: 'Manage Probe',
     titleManageHosandWard: 'Manage Hospital and Ward',
@@ -244,7 +246,7 @@ export default {
     notRead: 'Unread',
     Readed: 'Readed',
     notificationAll: 'All',
-    notificationSound: 'Notofication Sound',
+    notificationSound: 'Sound',
     notificationPopup: 'Notofications',
 
     // devices
@@ -253,6 +255,10 @@ export default {
     deviceZone: 'Location Zone',
     devicePicture: 'Device Picture',
     deviceNetwork: 'Network Settings',
+
+    // firmware
+    firmwareName: 'Firmware Name',
+    firmwareVersion: 'Firmware Version',
 
     // sidebar
     sideShowAllBox: 'Show all eTEMP',
@@ -269,6 +275,7 @@ export default {
     confirmButton: 'Confirm',
     cancelButton: 'Cancel',
     submitButton: 'Save',
+    uploadButton: 'Upload',
 
     // dropdown
     selectDeviceDrop: 'Select Devices',
@@ -302,6 +309,8 @@ export default {
     nodata: 'Data not found',
     loading: 'Loading...',
     searchItemsNav: 'Search',
+    uploadLabel: 'Upload or drop a file right here',
+    uploadLabelNotSupport: 'File type is not supported',
 
     // sweetalert
     alertHeaderWarning: 'Warning',
@@ -317,5 +326,6 @@ export default {
     deleteProbeText: 'You will not be able to reverse probe settings!',
     deleteWarranty: 'Do you want to warranty probe?',
     deleteWarrantyText: 'You will not be able to reverse warranty detail!',
+    selectedFile: 'Please selected file or drop file!',
   },
 }

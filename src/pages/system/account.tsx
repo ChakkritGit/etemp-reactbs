@@ -235,7 +235,7 @@ export default function Account() {
           <Modal.Footer>
             <FormFlexBtn>
               <FormBtn type="submit">
-                {t('change')}
+                {t('changPassword')}
               </FormBtn>
             </FormFlexBtn>
           </Modal.Footer>
