@@ -1,16 +1,18 @@
 import { useTranslation } from "react-i18next"
 import { DropContainer, DropHereFile, FileDroped, FirewareContent, FirmwareContainer, FirmwareHeader, RowChildren, UploadButton } from "../../../style/components/firmwareuoload"
-import DataTable, { TableColumn } from "react-data-table-component"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { FormEvent, useState } from "react"
 import { Form, Modal } from "react-bootstrap"
 import { FormBtn, FormFlexBtn, ModalHead } from "../../../style/style"
-import { RiCloseLine, RiDragDropLine, RiFileCheckLine, RiFileUploadLine } from "react-icons/ri"
+import { RiCloseCircleLine, RiCloseLine, RiDragDropLine, RiFileCheckLine, RiFileUploadLine } from "react-icons/ri"
 import { FileUploader } from "react-drag-drop-files"
-import Swal from "sweetalert2"
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { filesize } from "filesize"
+import DataTable, { TableColumn } from "react-data-table-component"
+import Swal from "sweetalert2"
+import axios, { AxiosError } from "axios"
+import { responseType } from "../../../types/response.type"
 
 export default function Uploadfirmware() {
   const { t } = useTranslation()
@@ -21,6 +23,7 @@ export default function Uploadfirmware() {
   const [dragChang, setDragChang] = useState<boolean>(false)
   const [progress, setProgress] = useState(36)
   const [submit, setSubmit] = useState(false)
+  const [error, setError] = useState(false)
   const fileTypes = ["BIN"]
 
   const openModal = () => {
@@ -31,16 +34,48 @@ export default function Uploadfirmware() {
     setShow(false)
     setFile(undefined)
     setSubmit(false)
+    setError(false)
     setProgress(0)
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('upload', blob as Blob)
+    formData.append('fileupload', blob as Blob)
     if (blob) {
-      console.log(blob)
-      setSubmit(true)
+      try {
+        setSubmit(true)
+        await axios.post<responseType<any>>(`${import.meta.env.VITE_APP_API}/firmware`, formData, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data"
+          }, onUploadProgress: (progressEvent) => {
+            const { progress } = progressEvent
+            setProgress(Number(progress) * 100)
+          }
+        })
+        closeModal()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+          setError(true)
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: "Unknown Error",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+          setError(true)
+        }
+      }
     } else {
       Swal.fire({
         title: t('alertHeaderWarning'),
@@ -77,6 +112,7 @@ export default function Uploadfirmware() {
     if (dragging) {
       setFile(undefined)
       setSubmit(false)
+      setError(false)
     }
   }
 
@@ -109,13 +145,19 @@ export default function Uploadfirmware() {
   const filteredItems = [{ name: 'test', version: '1.0' }].filter(item => item.name && item.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const UploadJSXStyle = () => (
-    <DropContainer $primary={file}>
+    <DropContainer $primary={file} $error={error}>
       {
         file ?
-          <FileDroped $primary={submit}>
-            {submit ? <CircularProgressbar
-              value={progress}
-              text={`${progress}%`} /> : <RiFileCheckLine size={128} />}
+          <FileDroped $primary={submit} $error={error}>
+            {submit ?
+              error ?
+                <RiCloseCircleLine />
+                :
+                <CircularProgressbar
+                  value={progress}
+                  text={`${progress.toFixed()}%`} />
+              :
+              <RiFileCheckLine size={128} />}
             <div>
               <span>{file?.name}</span>
               <span>{filesize(file?.size, { standard: "jedec" })}</span>

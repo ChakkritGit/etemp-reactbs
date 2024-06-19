@@ -111,7 +111,7 @@ ${props => props.$primary &&
 }
 `
 
-export const DropContainer = styled.div<{ $primary?: File | undefined }>`
+export const DropContainer = styled.div<{ $primary?: File | undefined, $error?: boolean }>`
 display: flex;
 align-items: center;
 justify-content: center;
@@ -121,6 +121,11 @@ border-radius: .5rem;
 border: 3px dashed ${props => props.$primary ? 'var(--main-color)' : 'var(--grey)'};
 background-color: ${props => props.$primary ? 'var(--main-color-f2)' : propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-seccond-color)' : 'var(--soft-grey)'};
 transition: .3s;
+
+${props => props.$error && css`
+  border: 3px dashed var(--danger-75);
+  background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--danger-25)' : 'var(--danger-50)'};
+`}
 `
 
 export const RowChildren = styled.div`
@@ -144,7 +149,7 @@ gap: 2rem;
 }
 `
 
-export const FileDroped = styled.div<{ $primary?: boolean }>`
+export const FileDroped = styled.div<{ $primary?: boolean, $error?: boolean }>`
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -178,8 +183,26 @@ ${props => props.$primary && css`
 }
 `}
 
+${props => props.$error && css`
+.CircularProgressbar .CircularProgressbar-text {
+    fill: var(--danger-100);
+  }
+
+  .CircularProgressbar .CircularProgressbar-trail {
+    stroke: var(--danger-75);
+  }
+
+  .CircularProgressbar .CircularProgressbar-path {
+    stroke: var(--danger-100);;
+  }
+`}
+
 &>div>span, svg {
   font-size: 18px;
   color: var(--main-color);
+
+  ${props => props.$error && css`
+    color: var(--danger-100);
+    `}
 }
 `

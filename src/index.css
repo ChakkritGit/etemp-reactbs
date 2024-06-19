@@ -65,6 +65,11 @@
   --success-primary: #5fd31c;
   --success-seccond: #80d54f;
 
+  --danger-25: #573d39;
+  --danger-50: #ffc6c0;
+  --danger-75: #fa877b;
+  --danger-100: #e94230;
+
   /* Dark mode */
   --main-dark-color: #181818;
   --main-seccond-color: #252525;
