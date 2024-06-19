@@ -88,7 +88,12 @@ export default function Uploadfirmware() {
   }
 
   const handleChange = (files: File) => {
-    setFile(files)
+    if (files) {
+      setFile(undefined)
+      setSubmit(false)
+      setError(false)
+      setFile(files)
+    }
     if (files) {
       const reader = new FileReader()
 
