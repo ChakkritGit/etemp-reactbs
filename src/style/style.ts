@@ -939,8 +939,6 @@ padding: 1rem;
 & div {
   width: 100%;
   & div {
-    width: 100%;
-    & div {
       max-width: 100%;
       & div:nth-child(2) {
         & span {
@@ -949,7 +947,6 @@ padding: 1rem;
         }
       }
     }
-  }
   }
 }
 `
