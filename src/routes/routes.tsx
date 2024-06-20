@@ -145,9 +145,9 @@ export default function RoutesComponent() {
 
   useEffect(() => {
     toasts
-      .filter((t) => t.visible) // Only consider visible toasts
-      .filter((_, i) => i >= toastLimit) // Is toast index over limit?
-      .forEach((t) => toast.dismiss(t.id)) // Dismiss – Use toast.remove(t.id) for no exit animation
+      .filter((toasts) => toasts.visible) // Only consider visible toasts
+      .filter((_, index) => index >= toastLimit) // Is toast index over limit?
+      .forEach((toasts) => toast.dismiss(toasts.id)) // Dismiss – Use toast.remove(t.id) for no exit animation
   }, [toasts])
 
   useEffect(() => {
