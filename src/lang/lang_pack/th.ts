@@ -312,6 +312,13 @@ export default {
     uploadLabel: 'อัปโหลด หรือวางไฟล์ที่นี่',
     uploadLabelNotSupport: 'ไม่รองรับประเภทไฟล์',
 
+    // router
+    titleError: 'อุ๊ปส์!',
+    descriptionError: '404 ไม่พบหน้า',
+    buttonErrorBack: 'กลับไปหน้าแรก',
+    titleNotAccess: 'ปฏิเสธการเข้าใช้!',
+    descriptionNotAccess: 'คุณไม่ได้รับอนุญาตให้เข้าถึงหน้านี้!',
+
     // sweetalert
     alertHeaderWarning: 'คำเตือน',
     alertHeaderError: 'ผิดพลาด',

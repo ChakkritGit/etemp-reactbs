@@ -23,10 +23,10 @@ export default function Notacess() {
       document.getElementsByTagName('head')[0].appendChild(link)
     }
 
-    changeFavicon('/src/assets/images/Thanes.jpg')
+    changeFavicon('logo.png')
 
     return () => {
-      changeFavicon('/Thanes.jpg')
+      changeFavicon('logo.png')
     }
   }, [])
 
@@ -35,7 +35,7 @@ export default function Notacess() {
       <h1>{t('titleNotAccess')}</h1>
       <p>{t('descriptionNotAccess')}</p>
       <p>
-        <i onClick={() => navigate(-1)}>{t('btnerror')}</i>
+        <i onClick={() => navigate(-1)}>{t('buttonErrorBack')}</i>
       </p>
     </div>
   )

@@ -21,7 +21,7 @@ export default function Uploadfirmware() {
   const [file, setFile] = useState<File | undefined>(undefined)
   const [blob, setBlob] = useState<Blob | null>(null)
   const [dragChang, setDragChang] = useState<boolean>(false)
-  const [progress, setProgress] = useState(36)
+  const [progress, setProgress] = useState(0)
   const [submit, setSubmit] = useState(false)
   const [error, setError] = useState(false)
   const fileTypes = ["BIN"]
@@ -181,7 +181,10 @@ export default function Uploadfirmware() {
     <FirmwareContainer>
       <FirmwareHeader>
         <h3>{t('titleFirmware')}</h3>
-        <UploadButton onClick={openModal}><RiFileUploadLine size={24} />{t('uploadButton')}</UploadButton>
+        <UploadButton onClick={openModal}>
+          <RiFileUploadLine size={24} />
+          {t('uploadButton')}
+        </UploadButton>
       </FirmwareHeader>
       <FirewareContent>
         <DataTable

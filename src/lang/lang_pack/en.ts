@@ -312,6 +312,13 @@ export default {
     uploadLabel: 'Upload or drop a file right here',
     uploadLabelNotSupport: 'File type is not supported',
 
+    // router
+    titleError: 'Oops!',
+    descriptionError: '404 Not found',
+    buttonErrorBack: 'Back to home',
+    titleNotAccess: 'Access denied',
+    descriptionNotAccess: `You don't have permission to access this page!`,
+
     // sweetalert
     alertHeaderWarning: 'Warning',
     alertHeaderError: 'Error',

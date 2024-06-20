@@ -16,26 +16,26 @@ export default function ErrorPage() {
   useEffect(() => {
     const changeFavicon = (href: string) => {
       const link: HTMLLinkElement = document.querySelector("link[rel*='icon']") || document.createElement('link')
-      link.type = 'image/jpg'
+      link.type = 'image/png'
       link.rel = 'icon'
       link.href = href
 
       document.getElementsByTagName('head')[0].appendChild(link)
     }
 
-    changeFavicon('/src/assets/images/Thanes.jpg')
+    changeFavicon('logo.png')
 
     return () => {
-      changeFavicon('/Thanes.jpg')
+      changeFavicon('logo.png')
     }
   }, [])
 
   return (
     <div className="error-page">
-      <h1>{t('titleerror')}</h1>
-      <p>{t('descerror')}</p>
+      <h1>{t('titleError')}</h1>
+      <p>{t('descriptionError')}</p>
       <p>
-        <i onClick={() => navigate('/')}>{t('btnerror')}</i>
+        <i onClick={() => navigate('/')}>{t('buttonErrorBack')}</i>
       </p>
     </div>
   )

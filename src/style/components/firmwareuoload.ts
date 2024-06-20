@@ -147,6 +147,10 @@ gap: 2rem;
 &>span {
   font-size: 18px;
 }
+
+&>svg {
+  color: var(--border-dark-color);
+}
 `
 
 export const FileDroped = styled.div<{ $primary?: boolean, $error?: boolean }>`
