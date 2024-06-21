@@ -37,6 +37,7 @@ justify-content: space-between;
 &>div {
   display: flex;
   gap: .5rem;
+  align-items: center;
 }
 
 & h3 {

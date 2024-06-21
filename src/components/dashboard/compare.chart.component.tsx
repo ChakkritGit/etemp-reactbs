@@ -14,9 +14,10 @@ const CompareChartComponent = ({ chartData }: compareChart) => {
 
   const timeLabels = () => {
     let array: string[] = []
-    chartData.forEach((items) => {
+    chartData.forEach((items, _index) => {
       if (items.log.length > 0) {
         array.push(...items.log.map((items) => items.sendTime))
+        // console.log(`Label Round: ${index}`, items.log.map((items) => items.sendTime).length)
       }
     })
     return array
@@ -24,12 +25,13 @@ const CompareChartComponent = ({ chartData }: compareChart) => {
 
   const seriesData = () => {
     let array: seriesType[] = []
-    chartData.forEach((items) => {
+    chartData.forEach((items, _index) => {
       if (items.log.length > 0) {
         array.push({
           name: items.devSerial,
-          data: items.log.map((items) => items.tempAvg)
+          data: items.log.map((items) => items.tempAvg).reverse().slice()
         })
+        // console.log(`Round: ${index}`, items.log.map((items) => items.tempAvg).length)
       }
     })
     return array
@@ -49,7 +51,6 @@ const CompareChartComponent = ({ chartData }: compareChart) => {
 
   const options: ApexCharts.ApexOptions = {
     chart: {
-      type: 'line',
       animations: {
         enabled: true,
         easing: 'easeinout',
@@ -151,6 +152,7 @@ const CompareChartComponent = ({ chartData }: compareChart) => {
 
   return (
     <Chart
+      type="line"
       options={options}
       series={series}
       height={480}

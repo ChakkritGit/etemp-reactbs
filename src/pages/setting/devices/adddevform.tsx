@@ -55,22 +55,22 @@ export default function Adddevform(managedevices: managedevices) {
   })
 
   const fetchWard = async () => {
-    if (devdata.wardId) {
-      try {
-        const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devdata.wardId}`, { headers: { authorization: `Bearer ${token}` } })
-        setHosid(response.data.data.hospital.hosId)
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          console.error(error.response?.data.message)
-        } else {
-          console.error('Unknown Error: ', error)
-        }
+    try {
+      const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devdata.wardId}`, { headers: { authorization: `Bearer ${token}` } })
+      setHosid(response.data.data.hospital.hosId)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error(error.response?.data.message)
+      } else {
+        console.error('Unknown Error: ', error)
       }
     }
   }
 
   useEffect(() => {
-    fetchWard()
+    if (devdata.wardId) {
+      fetchWard()
+    }
   }, [])
 
   const openmodal = () => {

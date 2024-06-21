@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 import { DropContainer, DropHereFile, FileDroped, FirewareContent, FirmwareContainer, FirmwareHeader, RowChildren, UploadButton } from "../../../style/components/firmwareuoload"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Form, Modal } from "react-bootstrap"
 import { FormBtn, FormFlexBtn, ModalHead } from "../../../style/style"
 import { RiCloseCircleLine, RiCloseLine, RiDragDropLine, RiFileCheckLine, RiFileUploadLine } from "react-icons/ri"
@@ -13,46 +13,74 @@ import DataTable, { TableColumn } from "react-data-table-component"
 import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
 import { responseType } from "../../../types/response.type"
+import ESPToolComponent from "./serial.port"
 
 export default function Uploadfirmware() {
   const { t } = useTranslation()
-  const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [show, setShow] = useState(false)
   const [file, setFile] = useState<File | undefined>(undefined)
-  const [blob, setBlob] = useState<Blob | null>(null)
   const [dragChang, setDragChang] = useState<boolean>(false)
   const [progress, setProgress] = useState(0)
   const [submit, setSubmit] = useState(false)
   const [error, setError] = useState(false)
+  const [_dataFiles, setDataFile] = useState<string[]>([])
   const fileTypes = ["BIN"]
+
+  const fetchFiles = async () => {
+    try {
+      const response = await axios.get<responseType<string[]>>(`${import.meta.env.VITE_APP_API}/firmwares`, {
+        headers: { authorization: `Bearer ${token}`, }
+      })
+      console.log(response.data.data)
+      setDataFile(response.data.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+
+      } else {
+
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchFiles()
+  }, [])
 
   const openModal = () => {
     setShow(true)
   }
 
   const closeModal = () => {
-    setShow(false)
     setFile(undefined)
     setSubmit(false)
     setError(false)
     setProgress(0)
+    setShow(false)
   }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('fileupload', blob as Blob)
-    if (blob) {
+    formData.append('fileupload', file as Blob)
+    if (file) {
       try {
         setSubmit(true)
-        await axios.post<responseType<any>>(`${import.meta.env.VITE_APP_API}/firmware`, formData, {
+        const response = await axios.post<responseType<string>>(`${import.meta.env.VITE_APP_API}/firmwares`, formData, {
           headers: {
-            Accept: "application/json",
+            authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data"
           }, onUploadProgress: (progressEvent) => {
             const { progress } = progressEvent
             setProgress(Number(progress) * 100)
           }
+        })
+        Swal.fire({
+          title: t('alertHeaderSuccess'),
+          text: response.data.message,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
         })
         closeModal()
       } catch (error) {
@@ -88,27 +116,12 @@ export default function Uploadfirmware() {
   }
 
   const handleChange = (files: File) => {
+    console.log(files)
     if (files) {
       setFile(undefined)
       setSubmit(false)
       setError(false)
       setFile(files)
-    }
-    if (files) {
-      const reader = new FileReader()
-
-      reader.onloadend = () => {
-        // Create a Blob from the file's data
-        if (reader.result) {
-          // Create a Blob from the file's data
-          const blob = new Blob([reader.result], { type: files.type })
-          setBlob(blob)
-        } else {
-          console.error('Failed to read file as ArrayBuffer')
-        }
-      }
-
-      reader.readAsArrayBuffer(files) // Read the file as an ArrayBuffer to create a Blob
     }
   }
 
@@ -181,10 +194,12 @@ export default function Uploadfirmware() {
     <FirmwareContainer>
       <FirmwareHeader>
         <h3>{t('titleFirmware')}</h3>
-        <UploadButton onClick={openModal}>
-          <RiFileUploadLine size={24} />
-          {t('uploadButton')}
-        </UploadButton>
+        <div>
+          <UploadButton onClick={openModal}>
+            <RiFileUploadLine size={24} />
+            {t('uploadButton')}
+          </UploadButton>
+        </div>
       </FirmwareHeader>
       <FirewareContent>
         <DataTable
@@ -195,6 +210,8 @@ export default function Uploadfirmware() {
           pagination
         />
       </FirewareContent>
+
+      <ESPToolComponent />
 
       <Modal size={"lg"} show={show} onHide={closeModal}>
         <Modal.Header>

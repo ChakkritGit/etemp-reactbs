@@ -212,6 +212,7 @@ const Apexchart = (chart: chartType) => {
 
   return (
     <Chart
+      type="line"
       options={options}
       series={series}
       height={chart.tempHeight}
