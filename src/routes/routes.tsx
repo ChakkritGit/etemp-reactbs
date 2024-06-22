@@ -1,7 +1,7 @@
 import ErrorPage from '../routes/error-page'
 import Home from '../pages/home/home'
 import Dashboard from '../pages/dashboard/dashboard'
-import { Hidesetting, Islogout } from '../authen/authen'
+import { HideFlashFW, Hidesetting, Islogout } from '../authen/authen'
 import Main from "../../src/main/main"
 import Setting from '../pages/setting/setting'
 import Permission from '../pages/users/manageusers'
@@ -26,6 +26,7 @@ import { socketResponseType } from '../types/component.type'
 import { TabConnect } from '../style/style'
 import { useTranslation } from 'react-i18next'
 import { DeviceStateStore, UtilsStateStore } from '../types/redux.type'
+import ESPToolComponent from '../pages/setting/devices/serial.port'
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,15 @@ const router = createBrowserRouter([
             path: "changeLog",
             element: <Log />,
           },
+          {
+            element: <HideFlashFW />,
+            children: [
+              {
+                path: "management/flasher",
+                element: <ESPToolComponent />,
+              },
+            ]
+          }
         ],
       },
     ],

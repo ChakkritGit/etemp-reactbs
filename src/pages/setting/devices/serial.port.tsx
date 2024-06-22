@@ -6,6 +6,10 @@ import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "esptool-js"
 import { useEffect, useRef } from "react"
 import { useState } from "react"
 
+type progressType = {
+  value: string
+}
+
 const term = new Terminal()
 term.options = {
   fontSize: 12,
@@ -27,12 +31,18 @@ const filters = [
 ]
 
 const ESPToolComponent = () => {
-  const [baudrates, setBaudrates] = useState('')
-  const [baudratesConsole, setBaudratesConsole] = useState('')
+  const [baudrates, setBaudrates] = useState('921600')
+  const [baudratesConsole, setBaudratesConsole] = useState('115200')
   const terminalRef = useRef<HTMLDivElement>(null)
   const erasButtonRef = useRef<HTMLButtonElement>(null)
   const fileTableRef = useRef<HTMLTableElement>(null)
   const alertmsgRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (terminalRef.current) {
+      term.open(terminalRef.current)
+    }
+  }, [])
 
   const handleFileSelect = (evt: any) => {
     const file = evt.target.files[0]
@@ -251,7 +261,7 @@ const ESPToolComponent = () => {
     alertmsgRef.current!!.style.display = "none"
 
     const fileArray = []
-    const progressBars: HTMLElement[] = []
+    const progressBars: progressType[] = []
 
     for (let index = 1; index < fileTableRef.current!!.rows.length; index++) {
       const row = fileTableRef.current!!.rows[index]
@@ -260,9 +270,9 @@ const ESPToolComponent = () => {
       const offset = parseInt(offSetObj.value)
 
       const fileObj = row.cells[1].childNodes[0] as ChildNode & { data: string }
-      const progressBar = row.cells[2].childNodes[0] as HTMLElement
+      const progressBar = row.cells[2].childNodes[0] as unknown as progressType
 
-      progressBar.textContent = "0"
+      progressBar.value = "0"
       progressBars.push(progressBar)
 
       row.cells[2].style.display = "initial"
@@ -278,9 +288,9 @@ const ESPToolComponent = () => {
         eraseAll: false,
         compress: true,
         reportProgress: (fileIndex, written, total) => {
-          progressBars[fileIndex].textContent = ((written / total) * 100).toFixed(2)
+          progressBars[fileIndex].value = ((written / total) * 100).toFixed(2)
         },
-        calculateMD5Hash: (image) => String(CryptoJS.MD5(CryptoJS.enc.Latin1.parse(image))),
+        calculateMD5Hash: (image): string => CryptoJS.MD5(CryptoJS.enc.Latin1.parse(image)) as unknown as string,
       } as FlashOptions
       await esploader.writeFlash(flashOptions)
     } catch (e: any) {
@@ -295,11 +305,8 @@ const ESPToolComponent = () => {
     }
   }
 
-
   useEffect(() => {
-    if (terminalRef.current) {
-      term.open(terminalRef.current)
-    }
+    addFileFunc()
   }, [])
 
   return (
@@ -324,8 +331,8 @@ const ESPToolComponent = () => {
       </div>
       <hr />
       <div>
-        <table className="table table-striped" ref={fileTableRef}>
-          <thead className="thead-light">
+        <table ref={fileTableRef}>
+          <thead>
             <tr>
               <th>Flash Address</th>
               <th>File</th>

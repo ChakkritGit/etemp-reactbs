@@ -46,38 +46,7 @@ justify-content: space-between;
 `
 
 export const FirewareContent = styled.div<{ $primary?: boolean }>`
-&>div>div>div>div,&>div>div>div {
-  background-color: transparent;
-}
-
-&>div>div>div>div>div,
-&>div>nav {
-  background-color: var(--bg-grey);
-}
-${props => props.theme.mode === 'dark' &&
-    css`
-    &>div>div>div>div:nth-child(2)>div {
-    border-bottom: 1px solid rgba(255, 255, 255, .1);
-  }
-
-&>div>div>div>div>div,
-&>div>nav {
-  background-color: var(--main-seccond-color);
-  color: var(--white);
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
-
-  &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
-  }
-
-  &>div>button:disabled {
-    cursor: unset;
-    color: rgba(255, 255, 255, .30) !important;
-    fill: rgba(255, 255, 255, .30) !important;
-  }
-}
-`}
+margin-top: 1rem;
 `
 
 export const UploadButton = styled.button<{ $primary?: boolean }>`
@@ -210,4 +179,48 @@ ${props => props.$error && css`
     color: var(--danger-100);
     `}
 }
+`
+
+export const FileList = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--white);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  border-radius: .8rem;
+  padding: .7rem 1.5rem;
+  height: 70px;
+
+  &>div {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+
+    &>img {
+      max-width: 24px;
+      max-height: 24px;
+    }
+  }
+
+  &>button {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: unset;
+    color: var(--real-black);
+
+    &:hover {
+      color: var(--main-color);
+      transition: .3s;
+    }
+  }
+`
+
+export const ProgressBar = styled.div<{ $primary?: string }>`
+  height: 8px;
+  width: ${props => props.$primary + '%'};
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: var(--main-color);
+  transition: .3s;
 `

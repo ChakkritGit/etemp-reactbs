@@ -25,3 +25,11 @@ export function Hidesetting() {
     userLevel === '4' ? <Notacess /> : <Outlet />
   )
 }
+
+export function HideFlashFW() {
+  const { tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { userLevel } = tokenDecode
+  return (
+    userLevel !== '1' ? <Notacess /> : <Outlet />
+  )
+}
