@@ -5,6 +5,8 @@ import CryptoJS from "crypto-js"
 import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "esptool-js"
 import { useEffect, useRef } from "react"
 import { useState } from "react"
+import { motion } from "framer-motion"
+import { items } from "../../../animation/animate"
 
 type progressType = {
   value: string
@@ -310,55 +312,61 @@ const ESPToolComponent = () => {
   }, [])
 
   return (
-    <div>
-      <div ref={alertmsgRef} style={{ display: 'none' }}></div>
+    <motion.div
+      variants={items}
+      initial="hidden"
+      animate="visible"
+    >
       <div>
-        <h5>Connect device</h5>
-        <select onChange={(e) => setBaudrates(e.target.value)} value={baudrates}>
-          <option value="921600">921600</option>
-          <option value="460800">460800</option>
-          <option value="230400">230400</option>
-          <option value="115200">115200</option>
-        </select>
-        <button onClick={connectDevice} disabled={!baudrates}>Connect</button>
+        <div ref={alertmsgRef} style={{ display: 'none' }}></div>
+        <div>
+          <h5>Connect device</h5>
+          <select onChange={(e) => setBaudrates(e.target.value)} value={baudrates}>
+            <option value="921600">921600</option>
+            <option value="460800">460800</option>
+            <option value="230400">230400</option>
+            <option value="115200">115200</option>
+          </select>
+          <button onClick={connectDevice} disabled={!baudrates}>Connect</button>
+        </div>
+        <hr />
+        <div>
+          <h5>after connect</h5>
+          <button onClick={traceFunc}>Copy trace</button>
+          <button onClick={disconnectFunc}>Disconnect</button>
+          <button onClick={eraseFunc} ref={erasButtonRef}>Eras</button>
+        </div>
+        <hr />
+        <div>
+          <table ref={fileTableRef}>
+            <thead>
+              <tr>
+                <th>Flash Address</th>
+                <th>File</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <button onClick={addFileFunc}>Add file</button>
+          <button onClick={programFunc}>Program</button>
+        </div>
+        <hr />
+        <div>
+          <h5>Console</h5>
+          <select onChange={(e) => setBaudratesConsole(e.target.value)} value={baudratesConsole}>
+            <option value="115200">115200</option>
+            <option value="74880">74880</option>
+          </select>
+          <button onClick={consoleStartFunc}>Start</button>
+          <button onClick={consoleStopFunc}>Stop</button>
+          <button onClick={resetFunc}>Reset</button>
+        </div>
+        <hr />
+        <div ref={terminalRef}></div>
       </div>
-      <hr />
-      <div>
-        <h5>after connect</h5>
-        <button onClick={traceFunc}>Copy trace</button>
-        <button onClick={disconnectFunc}>Disconnect</button>
-        <button onClick={eraseFunc} ref={erasButtonRef}>Eras</button>
-      </div>
-      <hr />
-      <div>
-        <table ref={fileTableRef}>
-          <thead>
-            <tr>
-              <th>Flash Address</th>
-              <th>File</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-        <button onClick={addFileFunc}>Add file</button>
-        <button onClick={programFunc}>Program</button>
-      </div>
-      <hr />
-      <div>
-        <h5>Console</h5>
-        <select onChange={(e) => setBaudratesConsole(e.target.value)} value={baudratesConsole}>
-          <option value="115200">115200</option>
-          <option value="74880">74880</option>
-        </select>
-        <button onClick={consoleStartFunc}>Start</button>
-        <button onClick={consoleStopFunc}>Stop</button>
-        <button onClick={resetFunc}>Reset</button>
-      </div>
-      <hr />
-      <div ref={terminalRef}></div>
-    </div>
+    </motion.div>
   )
 }
 

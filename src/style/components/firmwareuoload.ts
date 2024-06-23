@@ -46,7 +46,12 @@ justify-content: space-between;
 `
 
 export const FirewareContent = styled.div<{ $primary?: boolean }>`
-margin-top: 1rem;
+display: flex;
+align-items: start;
+flex-wrap: wrap;
+gap: .5rem;
+margin-top: 1.5rem;
+height: calc(100dvh - 350px);
 `
 
 export const UploadButton = styled.button<{ $primary?: boolean }>`
@@ -185,16 +190,31 @@ export const FileList = styled.div<{ $primary?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--white);
+  width: 450px;
+  background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white)'};
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   border-radius: .8rem;
   padding: .7rem 1.5rem;
-  height: 70px;
+  height: 100px;
 
-  &>div {
+  &>div:nth-child(1) {
     display: flex;
     align-items: center;
     gap: .7rem;
+
+    &>div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+
+      &>span {
+        max-width: 150px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
 
     &>img {
       max-width: 24px;
@@ -202,17 +222,42 @@ export const FileList = styled.div<{ $primary?: boolean }>`
     }
   }
 
-  &>button {
+  &>div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+
+    &>div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    &>button:nth-child(2) {
     width: 40px;
     height: 40px;
     background-color: transparent;
     border: unset;
-    color: var(--real-black);
+    color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
 
     &:hover {
       color: var(--main-color);
       transition: .3s;
     }
+  }
+    &>button:nth-child(3) {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: unset;
+    color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
+
+    &:hover {
+      color: var(--danger-color);
+      transition: .3s;
+    }
+  }
   }
 `
 

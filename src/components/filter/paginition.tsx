@@ -1,14 +1,15 @@
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri"
 import { usersType } from "../../types/user.type"
 import { PaginitionButton, PaginitionContainer, PaginitionFlex, PaginitionFlexOne, PaginitionFlexTwo, PaginitionSelect } from "../../style/style"
+import { firmwareType } from "../../types/component.type"
 
 type pagniprop = {
   currentPage: number,
   cardsPerPage: number,
   changePage: (change: number) => void,
   displaySelectDevices: (event: React.ChangeEvent<HTMLSelectElement>) => void,
-  displayedCards: usersType[]
-  userdata: usersType[]
+  displayedCards: usersType[] | firmwareType[]
+  userdata: usersType[] | firmwareType[]
 }
 
 export default function Paginition(pagniprop: pagniprop) {

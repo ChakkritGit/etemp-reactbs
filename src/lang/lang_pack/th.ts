@@ -276,6 +276,7 @@ export default {
     cancelButton: 'ยกเลิก',
     submitButton: 'บันทึก',
     uploadButton: 'อัปโหลด',
+    flashButton: 'อัปโหลดโค้ด',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',

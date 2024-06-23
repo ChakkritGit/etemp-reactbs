@@ -276,6 +276,7 @@ export default {
     cancelButton: 'Cancel',
     submitButton: 'Save',
     uploadButton: 'Upload',
+    flashButton: 'Upload Code',
 
     // dropdown
     selectDeviceDrop: 'Select Devices',

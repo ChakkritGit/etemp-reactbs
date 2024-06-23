@@ -147,9 +147,9 @@ export default function sidebar() {
                   </TooltipSpan>
                 </Li>
                 <Li $primary={expand}>
-                  <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+                  <Link to="/management" onClick={resetAsideandCardcount} className={location.pathname === "/management" || location.pathname === "/management/logadjust" || location.pathname === "/management/flasher" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
                     {
-                      location.pathname === "/management" || location.pathname === "/management/logadjust" ?
+                      location.pathname === "/management" || location.pathname === "/management/logadjust" || location.pathname === '/management/flasher' ?
                         <RiListSettingsFill />
                         :
                         <RiListSettingsLine />

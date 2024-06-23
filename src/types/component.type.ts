@@ -81,4 +81,10 @@ type socketResponseType = {
   time: string
 }
 
-export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter, socketResponseType }
+type firmwareType = {
+  fileName: string,
+  fileSize: string,
+  createDate: string
+}
+
+export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter, socketResponseType, firmwareType }

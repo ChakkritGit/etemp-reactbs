@@ -85,15 +85,15 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
               <span>{t('sidePermission')}</span>
               <ActiveNavBlur $primary={location.pathname === "/permission"} />
             </NavigationItems>
-            <NavigationItems $primary={location.pathname === "/management"} onClick={() => navigate('/management')}>
+            <NavigationItems $primary={location.pathname === "/management" || location.pathname === '/management/flasher'} onClick={() => navigate('/management')}>
               {
-                location.pathname === "/management" || location.pathname === "/management/logadjust" ?
+                location.pathname === "/management" || location.pathname === "/management/logadjust" || location.pathname === '/management/flasher'?
                   <RiListSettingsFill />
                   :
                   <RiListSettingsLine />
               }
               <span>{t('sideManage')}</span>
-              <ActiveNavBlur $primary={location.pathname === "/management" || location.pathname === "/management/logadjust"} />
+              <ActiveNavBlur $primary={location.pathname === "/management" || location.pathname === "/management/logadjust" || location.pathname === '/management/flasher'} />
             </NavigationItems>
           </>
           :
