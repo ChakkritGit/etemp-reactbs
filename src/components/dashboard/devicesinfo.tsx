@@ -22,8 +22,6 @@ import axios, { AxiosError } from "axios"
 import { useTranslation } from "react-i18next"
 import Swal from "sweetalert2"
 import { userlevel } from "../../authen/authentFunc"
-import { useSelector } from "react-redux"
-import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { AdjustRealTimeFlex } from "../../style/components/home.styled"
 import { client } from "../../services/mqtt"
 import { responseType } from "../../types/response.type"
@@ -36,7 +34,6 @@ type devicesinfo = {
 
 export default function Devicesinfo(devicesinfo: devicesinfo) {
   const { devicesData } = devicesinfo
-  const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
   const [show, setShow] = useState(false)
   const [showPic, setShowpic] = useState(false)
@@ -153,7 +150,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
 
   return (
     <DashboardDevicesInfo>
-      <DashboardDevicesDetails $primary={expand}>
+      <DashboardDevicesDetails>
         <DeviceDetailsHead>
           <div>
             <strong>

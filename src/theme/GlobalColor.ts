@@ -94,6 +94,27 @@ const getColorStyles = (colors: number) => {
         --main-color-f1: rgba(6, 208, 1, .3);
         --main-color-f2: rgba(5, 146, 18, .3);
       `
+    case 14:
+      return css`
+        --blue-black: #39375B;
+        --main-color: #745C97;
+        --main-color-f1: rgba(116, 92, 151, .3);
+        --main-color-f2: rgba(57, 55, 91, .3);
+      `
+    case 15:
+      return css`
+        --blue-black: #212121;
+        --main-color: #000000;
+        --main-color-f1: rgba(0, 0, 0, .3);
+        --main-color-f2: rgba(33, 33, 33, .3);
+      `
+    case 16:
+      return css`
+        --blue-black: #7A5947;
+        --main-color: #93786A;
+        --main-color-f1: rgba(147, 120, 106, .3);
+        --main-color-f2: rgba(122, 89, 71, .3);
+      `
     default:
       return css`
         --blue-black: #EA6B6C;

@@ -389,7 +389,7 @@ export default function Fullchart() {
             <Modal.Footer>
               <GlobalButtoncontainer>
                 <GlobalButton $color onClick={handleClose}>
-                  {t('form_btn_close')}
+                  {t('closeButton')}
                 </GlobalButton>
               </GlobalButtoncontainer>
             </Modal.Footer>

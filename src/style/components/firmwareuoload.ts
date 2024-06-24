@@ -131,11 +131,28 @@ align-items: center;
 gap: 2rem;
 
 &>span {
-  font-size: 18px;
+  font-size: 24px;
 }
 
-&>svg {
-  color: var(--border-dark-color);
+&>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--grey-25)'};
+  width: 184px;
+  height: 184px;
+  padding: 1.5rem;
+  border-radius: 50%;
+
+  &>svg {
+    color: var(--border-dark-color);
+  }
+}
+
+@media (max-width: 430px) {
+  &>span {
+  font-size: 18px;
+}
 }
 `
 
@@ -146,12 +163,27 @@ justify-content: center;
 align-items: center;
 gap: 2rem;
 
-&>div {
+&>div:nth-child(1) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-rgba-05)' : 'var(--main-last-rgba-03)'};
+  width: 184px;
+  height: 184px;
+  padding: 1.5rem;
+  border-radius: 50%;
+
+  ${props => props.$error && css`
+    background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--danger-15)' : 'var(--danger-75)'};
+    `}
+}
+
+&>div:nth-child(2) {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: .5rem
+  gap: .5rem;
 }
 
 ${props => props.$primary && css`
@@ -186,6 +218,10 @@ ${props => props.$error && css`
     stroke: var(--danger-100);;
   }
 `}
+
+&>div>span:nth-child(1) {
+  font-weight: bold;
+}
 
 &>div>span, svg {
   font-size: 18px;

@@ -26,6 +26,9 @@ export default function Color() {
     { color: 'palette12', label: 'pColor', value: 12 },
     { color: 'palette13', label: 'pColor', value: 13 },
     { color: 'palette14', label: 'pColor', value: 14 },
+    { color: 'palette15', label: 'pColor', value: 15 },
+    { color: 'palette16', label: 'pColor', value: 16 },
+    { color: 'palette17', label: 'pColor', value: 17 },
   ]
 
   const RenderColorOptions = () => (

@@ -441,6 +441,10 @@ ${props => props.$primary &&
   color: var(--white) !important;
   transition: .3s;
 }
+
+& .nav-link:focus-visible {
+  box-shadow: 0 0 0 .25rem var(--main-color-f2);
+}
 `
 
 // Line between
@@ -2180,11 +2184,12 @@ ${props => props.theme.mode === 'dark' &&
 export const DashboardDevicesInfo = styled.div<{ $primary?: boolean }>`
 display: flex;
 justify-content: start;
-flex-wrap: wrap;
 gap: 1rem;
 margin-top: 1rem;
+width: 100%;
 
 @media (max-width: 430px) {
+  flex-wrap: wrap;
   justify-content: center;
 }
 `
@@ -2193,8 +2198,7 @@ export const DashboardDevicesDetails = styled.div<{ $primary?: boolean }>`
 display: flex;
 flex-direction: column;
 flex-wrap: wrap;
-width: 335px;
-max-width: 470px;
+width: 30%;
 gap: 1rem;
 padding: 1rem;
 background-color: var(--white);
@@ -2207,11 +2211,9 @@ ${props => props.theme.mode === 'dark' &&
     background-color: var(--main-last-color);
 `}
 
-${props => props.$primary &&
-    css`
-    width: 470px;
-    transition: .3s;
-`}
+@media (max-width: 430px) {
+  width: 100%;
+}
 `
 
 export const DeviceDetailsHead = styled.div<{ $primary?: boolean }>`
@@ -2303,14 +2305,13 @@ div>span:nth-child(1) {
 
 export const DevicesBodyStatus = styled.div<{ $primary?: boolean }>`
 display: flex;
-max-width: 900px;
+width: 70%;
 flex-wrap: wrap;
 gap: .5rem;
 
 @media (max-width: 430px) {
   justify-content: center;
   width: 100%;
-  max-width: unset;
 }
 `
 
@@ -4326,6 +4327,51 @@ const getColorStyles = ($color?: string) => {
         &:focus {
           outline: none;
           box-shadow: 0 0 0 0.25rem rgba(5, 146, 18, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette14':
+      return css`
+        border: 2px solid #745C97;
+        background-color: #745C97;
+
+        svg {
+          background-color: #39375B;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(57, 55, 91, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette15':
+      return css`
+        border: 2px solid #000000;
+        background-color: #000000;
+
+        svg {
+          background-color: #212121;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(33, 33, 33, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette16':
+      return css`
+        border: 2px solid #93786A;
+        background-color: #93786A;
+
+        svg {
+          background-color: #7A5947;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(122, 89, 71, .3);
           transition: box-shadow ease .25s;
         }
       `

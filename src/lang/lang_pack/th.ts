@@ -274,6 +274,7 @@ export default {
     submitButton: 'บันทึก',
     uploadButton: 'อัปโหลด',
     flashButton: 'อัปโหลดโค้ด',
+    closeButton: 'ปิด',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',
@@ -307,7 +308,7 @@ export default {
     nodata: 'ไม่พบข้อมูล',
     loading: 'กำลังโหลด...',
     searchItemsNav: 'ค้นหา',
-    uploadLabel: 'อัปโหลด หรือวางไฟล์ที่นี่',
+    uploadLabel: 'อัปโหลดหรือวางไฟล์ที่นี่',
     uploadLabelNotSupport: 'ไม่รองรับประเภทไฟล์',
 
     // router

@@ -34,6 +34,7 @@
   --bg-grey: #f5f5f5;
   --grey: #949494;
   --grey-50: #929292;
+  --grey-25: #e0e0e0;
   --soft-grey: #f0f0f0;
   --soft-grey-hover: #f2f2f2;
   --danger-color: #e74c3c;
@@ -65,6 +66,7 @@
   --success-primary: #5fd31c;
   --success-seccond: #80d54f;
 
+  --danger-15: #3b2a27;
   --danger-25: #573d39;
   --danger-50: #ffc6c0;
   --danger-75: #fa877b;
@@ -77,6 +79,8 @@
   --border-dark-color: #555555;
   --hover-dark-color: #444444;
   --main-last-rgba: rgba(53, 53, 53, 0.4);
+  --main-last-rgba-05: rgba(0, 0, 0, 0.15);
+  --main-last-rgba-03: rgba(50, 50, 50, 0.1);
   --main-white-rgba: rgba(255, 255, 255, 0.5);
 
   /* border */

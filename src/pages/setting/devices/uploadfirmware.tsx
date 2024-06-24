@@ -204,15 +204,17 @@ export default function Uploadfirmware() {
       {
         file ?
           <FileDroped $primary={submit} $error={error}>
-            {submit ?
-              error ?
-                <RiCloseCircleLine />
+            <div>
+              {submit ?
+                error ?
+                  <RiCloseCircleLine size={128} />
+                  :
+                  <CircularProgressbar
+                    value={progress}
+                    text={`${progress.toFixed()}%`} />
                 :
-                <CircularProgressbar
-                  value={progress}
-                  text={`${progress.toFixed()}%`} />
-              :
-              <RiFileCheckLine size={128} />}
+                <RiFileCheckLine size={128} />}
+            </div>
             <div>
               <span>{file?.name}</span>
               <span>{filesize(file?.size, { standard: "jedec" })}</span>
@@ -220,7 +222,9 @@ export default function Uploadfirmware() {
           </FileDroped>
           :
           !dragChang ? <DropHereFile>
-            <RiDragDropLine size={128} />
+            <div>
+              <RiDragDropLine size={128} />
+            </div>
             <span>{t('uploadLabel')}</span>
           </DropHereFile> : <></>
       }
