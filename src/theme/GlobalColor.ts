@@ -104,7 +104,7 @@ const getColorStyles = (colors: number) => {
   }
 }
 
-export const GlobalColors = createGlobalStyle<{ theme: { colors: number } }>`
+export const GlobalColors = createGlobalStyle`
   ${props => css`
     :root {
       ${getColorStyles(props.theme.colors)}
