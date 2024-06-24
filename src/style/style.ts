@@ -381,7 +381,7 @@ export const DeviceStateNetwork = styled.span<{ $primary?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 70px;
+  max-width: 90px;
   max-height: 30px;
   width: max-content;
   height: 30px;
@@ -4122,8 +4122,8 @@ export const FullscreenBtn = styled.button<{ $primary?: boolean }>`
 export const ColorPalette = styled.div<{ $primary?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 1rem;
   flex-wrap: wrap;
+  gap: 1rem;
   width: 100%;
   margin: 1rem 0 0 .5rem;
 
@@ -4131,6 +4131,221 @@ export const ColorPalette = styled.div<{ $primary?: boolean }>`
   gap: .5rem;
 }
 `
+
+const getColorStyles = ($color?: string) => {
+  switch ($color) {
+    case 'palette1':
+      return css`
+        border: 2px solid #4646DC;
+        background-color: #4646DC;
+
+        svg {
+          background-color: #2a2a60;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(145, 145, 255, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette2':
+      return css`
+        border: 2px solid #2ECC71;
+        background-color: #2ECC71;
+
+        svg {
+          background-color: #21874C;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette3':
+      return css`
+        border: 2px solid #68D2E8;
+        background-color: #68D2E8;
+
+        svg {
+          background-color: #03AED2;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(3, 174, 210, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette4':
+      return css`
+        border: 2px solid #FFC700;
+        background-color: #FFC700;
+
+        svg {
+          background-color: #C99E00;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(201, 158, 0, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette5':
+      return css`
+        border: 2px solid #A569BD;
+        background-color: #A569BD;
+
+        svg {
+          background-color: #734A84;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(165, 105, 189, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette6':
+      return css`
+        border: 2px solid #E48D55;
+        background-color: #E48D55;
+
+        svg {
+          background-color: #D67536;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(214, 117, 54, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette7':
+      return css`
+        border: 2px solid #3C4E7F;
+        background-color: #3C4E7F;
+
+        svg {
+          background-color: #26355D;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(38, 53, 93, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette8':
+      return css`
+        border: 2px solid #EE4545;
+        background-color: #EE4545;
+
+        svg {
+          background-color: #DF3737;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(223, 55, 55, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette9':
+      return css`
+        border: 2px solid #53C1AB;
+        background-color: #53C1AB;
+
+        svg {
+          background-color: #3FA28E;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(63, 162, 142, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette10':
+      return css`
+        border: 2px solid #9A9B94;
+        background-color: #9A9B94;
+
+        svg {
+          background-color: #888983;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(136, 137, 131, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette11':
+      return css`
+        border: 2px solid #8DC6FF;
+        background-color: #8DC6FF;
+
+        svg {
+          background-color: #70AAE4;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(112, 170, 228, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette12':
+      return css`
+        border: 2px solid #D65F00;
+        background-color: #D65F00;
+
+        svg {
+          background-color: #C04D00;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(192, 77, 0, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    case 'palette13':
+      return css`
+        border: 2px solid #06D001;
+        background-color: #06D001;
+
+        svg {
+          background-color: #059212;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(5, 146, 18, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+    default:
+      return css`
+        border: 2px solid #F57B7C;
+        background-color: #F57B7C;
+
+        svg {
+          background-color: #EA6B6C;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 0.25rem rgba(234, 107, 108, .3);
+          transition: box-shadow ease .25s;
+        }
+      `
+  }
+}
 
 export const ButtonColorChang = styled.button<{ $color?: string }>`
   width: 80px;
@@ -4141,96 +4356,19 @@ export const ButtonColorChang = styled.button<{ $color?: string }>`
     width: 50px;
     height: 50px;
     border-radius: var(--border-radius-small);
-}
+  }
 
   svg {
     font-size: 42px;
     border-radius: 50%;
     color: var(--white);
 
-  @media (max-width: 430px) {
-    font-size: 32px;
+    @media (max-width: 430px) {
+      font-size: 32px;
+    }
   }
-}
 
-  ${props => props.$color === 'palette1' ?
-    css`
-      border: 2px solid #4646DC;
-      background-color: #4646DC;
-
-      svg {
-          background-color: #2a2a60;
-      }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 0.25rem rgba(145, 145, 255, .3);
-      transition: box-shadow ease .25s;
-  }
-`:
-    props.$color === 'palette2' ?
-      css`
-      border: 2px solid #2ECC71;
-      background-color: #2ECC71;
-
-      svg {
-          background-color: #21874C;
-      }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, .3);
-      transition: box-shadow ease .25s;
-  }
-      `
-      :
-      props.$color === 'palette3' ?
-        css`
-        border: 2px solid #68D2E8;
-        background-color: #68D2E8;
-
-        svg {
-          background-color: #03AED2;
-        }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 0.25rem rgba(3, 174, 210, .3);
-      transition: box-shadow ease .25s;
-  }
-        `
-        :
-        props.$color === 'palette4' ?
-          css`
-          border: 2px solid #FFC700;
-          background-color: #FFC700;
-
-          svg {
-          background-color: #C99E00;
-      }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 0.25rem rgba(201, 158, 0, .3);
-      transition: box-shadow ease .25s;
-  }
-          `
-          :
-          css`
-          border: 2px solid #A569BD;
-          background-color: #A569BD;
-
-          svg {
-          background-color: #734A84;
-      }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 0.25rem rgba(165, 105, 189, .3);
-      transition: box-shadow ease .25s;
-  }
-`
-  }
+  ${props => getColorStyles(props.$color)}
 `
 
 /* warranty */

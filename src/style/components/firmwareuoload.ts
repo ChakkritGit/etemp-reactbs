@@ -43,6 +43,17 @@ justify-content: space-between;
 & h3 {
   margin-bottom: unset;
 }
+
+@media (max-width: 430px) {
+  flex-direction: column;
+  align-items: start;
+  gap: 1rem;
+
+  &>div:nth-child(2) {
+    width: 100%;
+    justify-content: end;
+  }
+}
 `
 
 export const FirewareContent = styled.div<{ $primary?: boolean }>`
@@ -51,7 +62,7 @@ align-items: start;
 flex-wrap: wrap;
 gap: .5rem;
 margin-top: 1.5rem;
-height: calc(100dvh - 350px);
+/* max-height: calc(100dvh - 350px); */
 `
 
 export const UploadButton = styled.button<{ $primary?: boolean }>`
@@ -186,11 +197,11 @@ ${props => props.$error && css`
 }
 `
 
-export const FileList = styled.div<{ $primary?: boolean }>`
+export const FileList = styled.div<{ $primary?: number }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 450px;
+  width: 400px;
   background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white)'};
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   border-radius: .8rem;
@@ -209,7 +220,7 @@ export const FileList = styled.div<{ $primary?: boolean }>`
       gap: 5px;
 
       &>span {
-        max-width: 150px;
+        max-width: 115px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -217,8 +228,8 @@ export const FileList = styled.div<{ $primary?: boolean }>`
     }
 
     &>img {
-      max-width: 24px;
-      max-height: 24px;
+      max-width: 32px;
+      max-height: 32px;
     }
   }
 
@@ -227,38 +238,62 @@ export const FileList = styled.div<{ $primary?: boolean }>`
     align-items: center;
     gap: .7rem;
 
-    &>div {
+    &>div:nth-child(1) {
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 5px;
+
+      &>small {
+        width: 80px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
-    &>button:nth-child(2) {
-    width: 40px;
-    height: 40px;
-    background-color: transparent;
-    border: unset;
-    color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
+      &>div:nth-child(2) {
+        display: flex;
+        align-items: center;
 
-    &:hover {
-      color: var(--main-color);
-      transition: .3s;
+      &>button:nth-child(1) {
+        width: 40px;
+        height: 40px;
+        background-color: transparent;
+        border: unset;
+        color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
+
+        &:hover {
+          color: var(--main-color);
+          transition: .3s;
+        }
+      }
+      &>button:nth-child(2) {
+        width: 40px;
+        height: 40px;
+        background-color: transparent;
+        border: unset;
+        color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
+
+        &:hover {
+          color: var(--danger-color);
+          transition: .3s;
+        }
+      }
     }
   }
-    &>button:nth-child(3) {
-    width: 40px;
-    height: 40px;
-    background-color: transparent;
-    border: unset;
-    color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
 
-    &:hover {
-      color: var(--danger-color);
-      transition: .3s;
+  @media (max-width: 430px) {
+    &>div:nth-child(2) {
+      flex-direction: column;
+      font-size: 12px;
+      gap: 5px;
+
+      &>div:nth-child(1) {
+        align-items: center;
+      }
     }
-  }
-  }
+}
 `
 
 export const ProgressBar = styled.div<{ $primary?: string }>`

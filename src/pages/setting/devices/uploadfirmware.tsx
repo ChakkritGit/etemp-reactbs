@@ -5,7 +5,7 @@ import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { Form, Modal } from "react-bootstrap"
 import { FormBtn, FormFlexBtn, ModalHead, PaginitionContainer } from "../../../style/style"
-import { RiCloseCircleLine, RiCloseLine, RiCodeSSlashLine, RiDeleteBin2Line, RiDownloadCloud2Line, RiDragDropLine, RiFileCheckLine, RiFileUploadLine } from "react-icons/ri"
+import { RiCloseCircleLine, RiCloseLine, RiCodeSSlashLine, RiDeleteBin2Line, RiDownloadCloud2Line, RiDownloadLine, RiDragDropLine, RiFileCheckLine, RiFileUploadLine } from "react-icons/ri"
 import { FileUploader } from "react-drag-drop-files"
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { filesize } from "filesize"
@@ -20,6 +20,7 @@ import BinIco from "../../../assets/images/bin-icon.png"
 import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
 import Paginition from "../../../components/filter/paginition"
+import toast from "react-hot-toast"
 
 const term = new Terminal({ cols: 80, rows: 40 })
 term.options = {
@@ -56,6 +57,7 @@ export default function Uploadfirmware() {
   const [parttition, setPartition] = useState<string | ArrayBuffer | null | undefined>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
   const [flashProgress, setFlashProgress] = useState('0')
+  const [downloadProgress, setDownloadProgress] = useState(0)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [cardsPerPage, setCardsPerPage] = useState<number>(10)
   const [displayedCards, setDisplayedCards] = useState<firmwareType[]>(dataFiles ? dataFiles.slice(0, cardsPerPage) : [])
@@ -92,6 +94,9 @@ export default function Uploadfirmware() {
 
   const closeModalConsole = async () => {
     setShowConsole(false)
+    term.clear()
+    setDownloadProgress(0)
+    setFlashProgress('0')
     await cleanUp()
   }
 
@@ -224,7 +229,7 @@ export default function Uploadfirmware() {
 
   const getBootLoader = async () => {
     try {
-      const bootloader = await axios.get<Blob>('/src/assets/bin/bootloader.bin', {
+      const bootloader = await axios.get<Blob>(`${import.meta.env.VITE_APP_API}/firmware/bootloader.bin`, {
         responseType: 'blob'
       })
 
@@ -248,7 +253,7 @@ export default function Uploadfirmware() {
 
   const getPartition = async () => {
     try {
-      const partition = await axios.get<Blob>('/src/assets/bin/partitions.bin', {
+      const partition = await axios.get<Blob>(`${import.meta.env.VITE_APP_API}/firmware/partitions.bin`, {
         responseType: 'blob'
       })
 
@@ -270,11 +275,25 @@ export default function Uploadfirmware() {
     }
   }
 
+  useEffect(() => {
+    if (downloadProgress > 0 && downloadProgress <= 99) {
+      toast(`Downloading... ${downloadProgress.toFixed()}%`, {
+        icon: <RiDownloadLine size={24} />,
+      })
+    } else if (downloadProgress === 100) {
+      toast.success(`Downloaded ${downloadProgress.toFixed()}%`)
+    }
+  }, [downloadProgress])
+
   const downloadFw = async (fileName: string) => {
     try {
       const response = await axios.get<Blob>(`${import.meta.env.VITE_APP_API}/firmware/${fileName}`, {
         headers: { authorization: `Bearer ${token}`, },
-        responseType: 'blob'
+        responseType: 'blob',
+        onDownloadProgress: (progressEvent) => {
+          const { progress } = progressEvent
+          setDownloadProgress(Number(progress) * 100)
+        }
       })
 
       const file = new File([response.data], 'firmware.bin', { type: 'application/octet-stream' }); // สร้าง File object
@@ -367,16 +386,18 @@ export default function Uploadfirmware() {
       await esploader.main()
 
       // Temporarily broken
-      // await esploader.flashId()
+      await esploader.flashId()
     } catch (e: any) {
+      toast.error(e.message)
       console.error(e)
-      cleanUp()
       term.writeln(`Error: ${e.message}`)
+      cleanUp()
     }
 
     try {
       await esploader.eraseFlash()
     } catch (e: any) {
+      toast.error(e.message)
       console.error(e)
       term.writeln(`Error: ${e.message}`)
     }
@@ -405,6 +426,7 @@ export default function Uploadfirmware() {
       } as FlashOptions
       await esploader.writeFlash(flashOptions)
     } catch (e: any) {
+      toast.error(e.message)
       console.error(e)
       term.writeln(`Error: ${e.message}`)
     } finally {
@@ -464,7 +486,7 @@ export default function Uploadfirmware() {
       </FirmwareHeader>
       <FirewareContent>
         {
-          displayedCards.map((items, index) => (
+          displayedCards.filter((filter) => !filter.fileName.startsWith('bootloader') && !filter.fileName.startsWith('partition')).map((items, index) => (
             <FileList key={items.fileName + index}>
               <div>
                 <img src={BinIco} alt="Icon" />
@@ -478,30 +500,35 @@ export default function Uploadfirmware() {
                   <small>{items.createDate.split(' ')[0]}</small>
                   <small>{items.createDate.split(' ')[1]}</small>
                 </div>
-                <button onClick={() => {
-                  downloadFw(items.fileName)
-                  getBootLoader()
-                  getPartition()
-                }}>
-                  <RiDownloadCloud2Line size={24} />
-                </button>
-                <button onClick={() => swalWithBootstrapButtons
-                  .fire({
-                    title: t('deactivateDevice'),
-                    text: t('deactivateDeviceText'),
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: t('confirmButton'),
-                    cancelButtonText: t('cancelButton'),
-                    reverseButtons: false,
-                  })
-                  .then((result) => {
-                    if (result.isConfirmed) {
-                      deleteFw(items.fileName)
-                    }
-                  })}>
-                  <RiDeleteBin2Line size={24} />
-                </button>
+                {
+                  !items.fileName.startsWith('bootloader') && !items.fileName.startsWith('partition') &&
+                  <div>
+                    <button onClick={() => {
+                      downloadFw(items.fileName)
+                      getBootLoader()
+                      getPartition()
+                    }}>
+                      <RiDownloadCloud2Line size={24} />
+                    </button>
+                    <button onClick={() => swalWithBootstrapButtons
+                      .fire({
+                        title: t('deactivateDevice'),
+                        text: t('deactivateDeviceText'),
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: t('confirmButton'),
+                        cancelButtonText: t('cancelButton'),
+                        reverseButtons: false,
+                      })
+                      .then((result) => {
+                        if (result.isConfirmed) {
+                          deleteFw(items.fileName)
+                        }
+                      })}>
+                      <RiDeleteBin2Line size={24} />
+                    </button>
+                  </div>
+                }
               </div>
             </FileList>
           ))

@@ -11,7 +11,7 @@ import {
   AboutBox, DatatableHome, DevHomeDetails, DevHomeHead, DevHomeHeadTile,
   DevHomeSecctionOne, DeviceCardFooterDoor, DeviceCardFooterDoorFlex,
   DeviceCardFooterInfo, DeviceInfoSpan, DeviceInfoSpanClose, DeviceInfoflex,
-  DeviceListFlex, FilterHomeHOSWARD, HomeContainerFlex, ListBtn,
+  DeviceListFlex, DeviceStateNetwork, FilterHomeHOSWARD, HomeContainerFlex, ListBtn,
   SubWardColumnFlex
 } from "../../style/style"
 import DevicesInfoCard from "../../components/home/devicesInfoCard"
@@ -394,7 +394,9 @@ export default function Home() {
     },
     {
       name: t('deviceConnectTb'),
-      selector: (items) => ((Number(new Date()) - Number(new Date(items.log[0]?.sendTime))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline'),
+      cell: (items) => <DeviceStateNetwork $primary={items.log[0]?.internet === "1"}>
+      {items.log[0]?.internet === "1" ? t('deviceOffline') : t('deviceOnline')}
+    </DeviceStateNetwork>,
       sortable: false,
       center: true,
       width: '90px'
