@@ -84,7 +84,8 @@
   --main-white-rgba: rgba(255, 255, 255, 0.5);
 
   /* border */
-  --border-radius-small: 0.55rem;
+  --border-radius-small: 1.70rem;
+  /* .55rem */
   --border-radius-big: 1.15rem;
 }
 
@@ -92,6 +93,7 @@
   margin: 0;
   padding: 0;
   font-family: "Anuphan", sans-serif;
+  /* outline: 1px solid red; */
   /* user-select: none;
   -webkit-user-select: none; */
 }
@@ -238,6 +240,7 @@ div:where(.swal2-icon).swal2-success .swal2-success-ring {
 
 .nav-pills .nav-link {
   border-radius: var(--border-radius-small) !important;
+  height: 48px;
 }
 
 .modal-content {

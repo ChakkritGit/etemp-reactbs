@@ -1,11 +1,14 @@
 import { useTranslation } from "react-i18next"
-import { DropContainer, DropHereFile, FileDroped, FileList, FirewareContent, FirmwareContainer, FirmwareHeader, ProgressBar, RowChildren, UploadButton } from "../../../style/components/firmwareuoload"
+import { DropContainer, DropHereFile, FileDroped, FileList, FirewareContent, FirmwareContainer, FirmwareHeader, ProgressBar, RowChildren, TerminalDiv, UploadButton } from "../../../style/components/firmwareuoload"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { Form, Modal } from "react-bootstrap"
 import { FormBtn, FormFlexBtn, ModalHead, PaginitionContainer } from "../../../style/style"
-import { RiCloseCircleLine, RiCloseLine, RiCodeSSlashLine, RiDeleteBin2Line, RiDownloadCloud2Line, RiDownloadLine, RiDragDropLine, RiFileCheckLine, RiFileUploadLine } from "react-icons/ri"
+import {
+  RiCloseCircleLine, RiCloseLine, RiCodeSSlashLine, RiDeleteBin2Line, RiDownloadCloud2Line,
+  RiDownloadLine, RiDragDropLine, RiFileCheckLine, RiFileUploadLine
+} from "react-icons/ri"
 import { FileUploader } from "react-drag-drop-files"
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { filesize } from "filesize"
@@ -22,7 +25,7 @@ import axios, { AxiosError } from "axios"
 import Paginition from "../../../components/filter/paginition"
 import toast from "react-hot-toast"
 
-const term = new Terminal({ cols: 80, rows: 40 })
+const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
   fontSize: 12,
   fontFamily: 'Courier New',
@@ -171,7 +174,6 @@ export default function Uploadfirmware() {
   }
 
   const handleChange = (files: File) => {
-    console.log(files)
     if (files) {
       setFile(undefined)
       setSubmit(false)
@@ -473,6 +475,27 @@ export default function Uploadfirmware() {
   }
   // จบส่วนการ์ด
 
+  useEffect(() => {
+    return () => {
+      cleanUp()
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = '' // ตามสเปคของ HTML5
+    }
+
+    if (flashProgress !== '0') {
+      window.addEventListener('beforeunload', handleBeforeUnload)
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
+
   return (
     <FirmwareContainer>
       <FirmwareHeader>
@@ -565,7 +588,7 @@ export default function Uploadfirmware() {
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <ProgressBar $primary={flashProgress} />
-            <div ref={terminalRef} />
+            <TerminalDiv ref={terminalRef} />
           </Modal.Body>
         </Form>
       </Modal>

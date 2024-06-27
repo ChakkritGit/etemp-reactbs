@@ -4137,16 +4137,16 @@ const getColorStyles = ($color?: string) => {
   switch ($color) {
     case 'palette1':
       return css`
-        border: 2px solid #4646DC;
-        background-color: #4646DC;
+        border: 2px solid #2A2AE7;
+        background-color: #2A2AE7;
 
         svg {
-          background-color: #2a2a60;
+          background-color: #2323B7;
         }
 
         &:focus {
           outline: none;
-          box-shadow: 0 0 0 0.25rem rgba(145, 145, 255, .3);
+          box-shadow: 0 0 0 0.25rem rgba(35, 35, 183, .3);
           transition: box-shadow ease .25s;
         }
       `

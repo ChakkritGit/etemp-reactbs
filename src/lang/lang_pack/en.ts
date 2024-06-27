@@ -256,6 +256,16 @@ export default {
     // firmware
     firmwareName: 'Firmware Name',
     firmwareVersion: 'Firmware Version',
+    writeFirmware: 'Write Firmware',
+    connectDevice: 'Connect Device',
+    disConnectDevice: 'Disconnect Device',
+    copyTrace: 'Copy Logs',
+    eraseMemory: 'Erase Memory',
+    programBoard: 'Write Firmware',
+    startconButton: 'Start',
+    stopconButton: 'Stop',
+    resetconButton: 'Reset',
+    consoleText: 'Console',
 
     // sidebar
     sideShowAllBox: 'Show all eTEMP',
@@ -275,6 +285,7 @@ export default {
     uploadButton: 'Upload',
     flashButton: 'Upload Code',
     closeButton: 'Close',
+    updateButton: 'Update',
 
     // dropdown
     selectDeviceDrop: 'Select Devices',
@@ -285,6 +296,7 @@ export default {
     selectDelay: 'Select Delay Time',
     selectDoor: 'Select Door',
     selectChanel: 'Select Chanel',
+    selectOTA: 'Select firmware',
 
     // utis
     stateOn: 'On',
@@ -310,6 +322,7 @@ export default {
     searchItemsNav: 'Search',
     uploadLabel: 'Upload or drop a file right here',
     uploadLabelNotSupport: 'File type is not supported',
+    sendOTA: 'Firmware update',
 
     // router
     titleError: 'Oops!',

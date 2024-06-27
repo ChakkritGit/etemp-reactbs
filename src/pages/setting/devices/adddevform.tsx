@@ -1,5 +1,5 @@
 import { AddDevices, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from '../../../style/style'
-import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine } from 'react-icons/ri'
+import { RiAddLine, RiArrowLeftSLine, RiCloseLine, RiEditLine, RiListSettingsLine, RiMessage3Line } from 'react-icons/ri'
 import { devicesType, managedevices } from '../../../types/device.type'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Col, Modal, Row, Form, InputGroup } from 'react-bootstrap'
@@ -19,6 +19,8 @@ import { ModalMuteHead } from '../../../style/components/home.styled'
 import { configType } from '../../../types/config.type'
 import { client } from '../../../services/mqtt'
 import { wardsType } from '../../../types/ward.type'
+import { SendOTAtoBoard, UploadButton } from '../../../style/components/firmwareuoload'
+import { firmwareType } from '../../../types/component.type'
 
 export default function Adddevform(managedevices: managedevices) {
   const { devdata, pagestate } = managedevices
@@ -53,6 +55,8 @@ export default function Adddevform(managedevices: managedevices) {
     Gateway: config?.getway ? config.getway : '',
     DNS: config?.dns ? config.dns : ''
   })
+  const [firmwareName, setFirmwareName] = useState<string>('')
+  const [firmwareList, setFirmwareList] = useState<firmwareType[]>([])
 
   const fetchWard = async () => {
     try {
@@ -345,6 +349,25 @@ export default function Adddevform(managedevices: managedevices) {
     }
   }
 
+  const fetchFirmware = async () => {
+    try {
+      const response = await axios.get<responseType<firmwareType[]>>(`${import.meta.env.VITE_APP_API}/firmwares`, {
+        headers: { authorization: `Bearer ${token}` }
+      })
+      setFirmwareList(response.data.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message)
+      } else {
+        console.error("Uknown error: ", error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchFirmware()
+  }, [])
+
   return (
     <div>
       {
@@ -543,15 +566,41 @@ export default function Adddevform(managedevices: managedevices) {
                       </InputGroup>
                     </Col>
                     <Col lg={6}>
-                      <InputGroup className="mb-3">
-                        <Form.Label className="w-100">
-                          {t('deviceNetwork')}
-                          <ManageConfigAdd type='button' onClick={openmodalConfig} className="mt-3">
-                            {t('แก้ไขคอนฟิก')}
-                            <RiListSettingsLine />
-                          </ManageConfigAdd>
-                        </Form.Label>
-                      </InputGroup>
+                      <Row>
+                        <InputGroup className="mb-3">
+                          <Form.Label className="w-100">
+                            {t('deviceNetwork')}
+                            <ManageConfigAdd type='button' onClick={openmodalConfig} className="mt-3">
+                              {t('deviceNetwork')}
+                              <RiListSettingsLine />
+                            </ManageConfigAdd>
+                          </Form.Label>
+                        </InputGroup>
+                      </Row>
+                      <Row>
+                        <InputGroup className="mb-3">
+                          <Form.Label className="w-100">
+                            {t('sendOTA')}
+                            <SendOTAtoBoard>
+                              <Form.Select onChange={(e) => setFirmwareName(e.target.value)} value={firmwareName}>
+                                <option key={'select-option'} value="">{t('selectOTA')}</option>
+                                {firmwareList.map((items, index) => (
+                                  <option key={index} value={items.fileName}>{items.fileName}</option>
+                                ))}
+                              </Form.Select>
+                              <UploadButton type='button' disabled={firmwareName === ''} onClick={() => {
+                                client.publish(`${devdata.devSerial}/firmware`, firmwareName)
+                              }}>
+                                <RiMessage3Line size={24} />
+                                {t('updateButton')}
+                              </UploadButton>
+                            </SendOTAtoBoard>
+                          </Form.Label>
+                        </InputGroup>
+                        <Row>
+                          <progress max={100}></progress>
+                        </Row>
+                      </Row>
                     </Col>
                   </>
                   :

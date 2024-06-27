@@ -5,7 +5,7 @@ import {
 } from '../../style/style'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Apexchart from './apexchart'
+import ApexchartFull from './apexchartFull'
 
 type chartData = {
   data: logtype[] | undefined,
@@ -31,7 +31,7 @@ export default function Chart(chartData: chartData) {
           <RiFullscreenLine />
         </ChartCardHeahBtn>
       </ChartCardHeah>
-      <Apexchart
+      <ApexchartFull
         chartData={chartData.data as logtype[]}
         devicesData={{
           temp_min: chartData.tempMin,

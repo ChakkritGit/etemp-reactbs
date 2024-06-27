@@ -256,6 +256,16 @@ export default {
     // firmware
     firmwareName: 'ชื่อเฟิร์มแวร์',
     firmwareVersion: 'เวอร์ชั่นของเฟิร์มแวร์',
+    writeFirmware: 'เขียนเฟิร์มแวร์',
+    connectDevice: 'เชื่อมต่ออุปกรณ์',
+    disConnectDevice: 'ตัดการเชื่อมต่ออุปกรณ์',
+    copyTrace: 'คัดลอก Logs',
+    eraseMemory: 'ล้างความจำ',
+    programBoard: 'เขียนเฟิร์มแวร์',
+    startconButton: 'เริ่ม',
+    stopconButton: 'หยุด',
+    resetconButton: 'รีเซ็ต',
+    consoleText: 'คอนโซล',
 
     // sidebar
     sideShowAllBox: 'แสดงกล่องทั้งหมด',
@@ -275,6 +285,7 @@ export default {
     uploadButton: 'อัปโหลด',
     flashButton: 'อัปโหลดโค้ด',
     closeButton: 'ปิด',
+    updateButton: 'อัปเดท',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',
@@ -285,6 +296,7 @@ export default {
     selectDelay: 'เลือกดีเลย์ไทม์',
     selectDoor: 'เลือกจำนวนประตู',
     selectChanel: 'เลือกช่องโพรบ',
+    selectOTA: 'เลือกเฟิร์มแวร์',
 
     // utis
     stateOn: 'เปิด',
@@ -310,6 +322,7 @@ export default {
     searchItemsNav: 'ค้นหา',
     uploadLabel: 'อัปโหลดหรือวางไฟล์ที่นี่',
     uploadLabelNotSupport: 'ไม่รองรับประเภทไฟล์',
+    sendOTA: 'อัปเดทเฟิร์มแวร์',
 
     // router
     titleError: 'อุ๊ปส์!',

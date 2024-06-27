@@ -7,12 +7,15 @@ import { useEffect, useRef } from "react"
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { items } from "../../../animation/animate"
+import { Col, Container, Form, Row } from "react-bootstrap"
+import { Breadcrumbs, Typography } from "@mui/material"
+import { RiArrowRightSLine, RiCloseFill, RiEraserLine, RiFileCopyLine, RiListSettingsFill, RiLoopRightFill, RiStopCircleLine, RiTerminalBoxLine, RiUsbLine } from "react-icons/ri"
+import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import { ConnectButton, ConnectionFlex, ConsoleFlex, DisConnectButton, EraseButton, FlashFirmwareContainer, ProgramButton, ProgressBar, ResetButton, StartConsoleButton, StopConsoleButton, TerminalDiv, TraceButton } from "../../../style/components/firmwareuoload"
+import toast from "react-hot-toast"
 
-type progressType = {
-  value: string
-}
-
-const term = new Terminal()
+const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
   fontSize: 12,
   fontFamily: 'Courier New',
@@ -23,7 +26,6 @@ term.options = {
 }
 
 let device: SerialPort
-let chip: string = ""
 let transport: Transport
 let esploader: ESPLoader
 let isConsoleClosed = false
@@ -33,12 +35,13 @@ const filters = [
 ]
 
 const ESPToolComponent = () => {
-  const [baudrates, setBaudrates] = useState('921600')
-  const [baudratesConsole, setBaudratesConsole] = useState('115200')
+  const { t } = useTranslation()
   const terminalRef = useRef<HTMLDivElement>(null)
   const erasButtonRef = useRef<HTMLButtonElement>(null)
-  const fileTableRef = useRef<HTMLTableElement>(null)
-  const alertmsgRef = useRef<HTMLDivElement>(null)
+  const [consoleStart, setconsoleStart] = useState(false)
+  const [chip, setChip] = useState('')
+  const [fileData, setFileData] = useState<{ data: string | ArrayBuffer | null | undefined, address: number }>({ data: '', address: 0x10000 })
+  const [progress, setProgress] = useState('')
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -54,7 +57,7 @@ const ESPToolComponent = () => {
     const reader = new FileReader()
 
     reader.onload = (ev: ProgressEvent<FileReader>) => {
-      evt.target.data = ev.target?.result
+      setFileData({ ...fileData, data: ev.target?.result })
     }
 
     reader.readAsBinaryString(file)
@@ -78,24 +81,29 @@ const ESPToolComponent = () => {
       transport = new Transport(device, true)
     }
 
+    let chipInfo = ''
+
     try {
       const flashOptions = {
         transport,
-        baudrate: parseInt(baudrates),
+        baudrate: 115200,
         terminal: espLoaderTerminal,
       } as LoaderOptions
       esploader = new ESPLoader(flashOptions)
-
-      chip = await esploader.main()
+      chipInfo = await esploader.main()
+      setChip(chipInfo)
 
       // Temporarily broken
-      // await esploader.flashId()
+      await esploader.flashId()
     } catch (e: any) {
       console.error(e)
       term.writeln(`Error: ${e.message}`)
+    } finally {
+      toast.success(`Connected: ${chipInfo}`, {
+        duration: 6000,
+      })
+      console.log("Settings done for :" + chipInfo)
     }
-
-    console.log("Settings done for :" + chip)
   }
 
   const traceFunc = async () => {
@@ -105,6 +113,7 @@ const ESPToolComponent = () => {
   }
 
   const resetFunc = async () => {
+    term.reset()
     if (transport) {
       await transport.setDTR(false)
       await new Promise((resolve) => setTimeout(resolve, 100))
@@ -124,65 +133,17 @@ const ESPToolComponent = () => {
     }
   }
 
-  const addFileFunc = () => {
-    const rowCount = fileTableRef.current!!.rows.length
-    const row = fileTableRef.current!!.insertRow(rowCount)
-
-    //Column 1 - Offset
-    const cell1 = row.insertCell(0)
-    const element1 = document.createElement("input")
-    element1.type = "text"
-    element1.id = "offset" + rowCount
-    element1.value = "0x1000"
-    cell1.appendChild(element1)
-
-    // Column 2 - File selector
-    const cell2 = row.insertCell(1)
-    const element2 = document.createElement("input")
-    element2.type = "file"
-    element2.id = "selectFile" + rowCount
-    element2.name = "selected_File" + rowCount
-    element2.addEventListener("change", handleFileSelect, false)
-    cell2.appendChild(element2)
-
-    // Column 3  - Progress
-    const cell3 = row.insertCell(2)
-    cell3.classList.add("progress-cell")
-    cell3.style.display = "none"
-    cell3.innerHTML = `<progress value="0" max="100"></progress>`
-
-    // Column 4  - Remove File
-    const cell4 = row.insertCell(3)
-    cell4.classList.add("action-cell")
-    if (rowCount > 1) {
-      const element4 = document.createElement("input")
-      element4.type = "button"
-      const btnName = "button" + rowCount
-      element4.name = btnName
-      element4.setAttribute("class", "btn")
-      element4.setAttribute("value", "Remove") // or element1.value = "button"
-      element4.onclick = function () {
-        removeRow(row)
-      }
-      cell4.appendChild(element4)
-    }
-  }
-
-  const removeRow = (row: HTMLTableRowElement) => {
-    const rowIndex = Array.from(fileTableRef.current!!.rows).indexOf(row)
-    fileTableRef.current!!.deleteRow(rowIndex)
-  }
-
   const disconnectFunc = async () => {
     if (transport) await transport.disconnect()
     term.reset()
-    cleanUp()
+    await cleanUp()
   }
 
-  const cleanUp = () => {
+  const cleanUp = async () => {
     device = null as unknown as SerialPort
     transport = null as unknown as Transport
-    chip = null as unknown as string
+    setChip('')
+    setFileData({ ...fileData, data: '' })
   }
 
   const consoleStartFunc = async () => {
@@ -190,7 +151,10 @@ const ESPToolComponent = () => {
       device = await navigator.serial.requestPort({ filters })
       transport = new Transport(device, true)
     }
-    await transport.connect(parseInt(baudratesConsole))
+
+    setconsoleStart(true)
+
+    await transport.connect(115200)
     isConsoleClosed = false
 
     while (true && !isConsoleClosed) {
@@ -210,106 +174,68 @@ const ESPToolComponent = () => {
       await transport.disconnect()
       await transport.waitForUnlock(1500)
     }
+    setconsoleStart(false)
     term.reset()
     cleanUp()
   }
 
-  const validateProgramInputs = () => {
-    const offsetArr: number[] = []
-    const rowCount = fileTableRef.current!!.rows.length
-    let row
-    let offset = 0
-    let fileData = null
-
-    // Check for mandatory fields
-    for (let index = 1; index < rowCount; index++) {
-      row = fileTableRef.current!!.rows[index]
-
-      // Offset fields checks
-      const offSetObj = row.cells[0].childNodes[0] as HTMLInputElement
-      offset = parseInt(offSetObj.value)
-
-      // Non-numeric or blank offset
-      if (Number.isNaN(offset)) {
-        return "Offset field in row " + index + " is not a valid address!"
-      }
-      // Repeated offset used
-      else if (offsetArr.includes(offset)) {
-        return "Offset field in row " + index + " is already in use!"
-      }
-      else {
-        offsetArr.push(offset)
-      }
-
-      const fileObj = row.cells[1].childNodes[0] as HTMLInputElement
-      fileData = fileObj.value  // Assuming you meant to use .value here instead of .data
-      if (fileData == null || fileData === "") {
-        return "No file selected for row " + index + "!"
-      }
-    }
-    return "success"
-  }
-
   const programFunc = async () => {
-    const err = validateProgramInputs()
-
-    if (err != "success") {
-      alertmsgRef.current!!.innerHTML = "<strong>" + err + "</strong>"
-      alertmsgRef.current!!.style.display = "block"
+    if (fileData.data === '') {
+      toast.error('Please Select File')
       return
-    }
-
-    // Hide error message
-    alertmsgRef.current!!.style.display = "none"
-
-    const fileArray = []
-    const progressBars: progressType[] = []
-
-    for (let index = 1; index < fileTableRef.current!!.rows.length; index++) {
-      const row = fileTableRef.current!!.rows[index]
-
-      const offSetObj = row.cells[0].childNodes[0] as HTMLInputElement
-      const offset = parseInt(offSetObj.value)
-
-      const fileObj = row.cells[1].childNodes[0] as ChildNode & { data: string }
-      const progressBar = row.cells[2].childNodes[0] as unknown as progressType
-
-      progressBar.value = "0"
-      progressBars.push(progressBar)
-
-      row.cells[2].style.display = "initial"
-      row.cells[3].style.display = "none"
-
-      fileArray.push({ data: fileObj.data, address: offset })
     }
 
     try {
       const flashOptions: FlashOptions = {
-        fileArray: fileArray,
+        fileArray: [fileData],
         flashSize: "keep",
         eraseAll: false,
         compress: true,
-        reportProgress: (fileIndex, written, total) => {
-          progressBars[fileIndex].value = ((written / total) * 100).toFixed(2)
+        reportProgress: (_fileIndex, written, total) => {
+          setProgress(((written / total) * 100).toFixed(2))
+          if (((written / total) * 100).toFixed() === '100') {
+            toast.success('Firmware flashed')
+          }
         },
         calculateMD5Hash: (image): string => CryptoJS.MD5(CryptoJS.enc.Latin1.parse(image)) as unknown as string,
       } as FlashOptions
       await esploader.writeFlash(flashOptions)
     } catch (e: any) {
+      toast.error(e.message)
       console.error(e)
       term.writeln(`Error: ${e.message}`)
     } finally {
-      // Hide progress bars and show erase buttons
-      for (let index = 1; index < fileTableRef.current!!.rows.length; index++) {
-        fileTableRef.current!!.rows[index].cells[2].style.display = "none"
-        fileTableRef.current!!.rows[index].cells[3].style.display = "initial"
-      }
+      if (transport) await transport.disconnect()
+      term.reset()
+      toast.success('Starting console...')
+      consoleStartFunc()
+      setChip('')
+      setFileData({ ...fileData, data: '' })
+      setProgress('')
     }
   }
 
   useEffect(() => {
-    addFileFunc()
+    return () => {
+      disconnectFunc()
+      setconsoleStart(false)
+    }
   }, [])
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = '' // ตามสเปคของ HTML5
+    }
+
+    if (progress !== '') {
+      window.addEventListener('beforeunload', handleBeforeUnload)
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [progress])
 
   return (
     <motion.div
@@ -317,55 +243,94 @@ const ESPToolComponent = () => {
       initial="hidden"
       animate="visible"
     >
-      <div>
-        <div ref={alertmsgRef} style={{ display: 'none' }}></div>
-        <div>
-          <h5>Connect device</h5>
-          <select onChange={(e) => setBaudrates(e.target.value)} value={baudrates}>
-            <option value="921600">921600</option>
-            <option value="460800">460800</option>
-            <option value="230400">230400</option>
-            <option value="115200">115200</option>
-          </select>
-          <button onClick={connectDevice} disabled={!baudrates}>Connect</button>
-        </div>
-        <hr />
-        <div>
-          <h5>after connect</h5>
-          <button onClick={traceFunc}>Copy trace</button>
-          <button onClick={disconnectFunc}>Disconnect</button>
-          <button onClick={eraseFunc} ref={erasButtonRef}>Eras</button>
-        </div>
-        <hr />
-        <div>
-          <table ref={fileTableRef}>
-            <thead>
-              <tr>
-                <th>Flash Address</th>
-                <th>File</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-          <button onClick={addFileFunc}>Add file</button>
-          <button onClick={programFunc}>Program</button>
-        </div>
-        <hr />
-        <div>
-          <h5>Console</h5>
-          <select onChange={(e) => setBaudratesConsole(e.target.value)} value={baudratesConsole}>
-            <option value="115200">115200</option>
-            <option value="74880">74880</option>
-          </select>
-          <button onClick={consoleStartFunc}>Start</button>
-          <button onClick={consoleStopFunc}>Stop</button>
-          <button onClick={resetFunc}>Reset</button>
-        </div>
-        <hr />
-        <div ref={terminalRef}></div>
-      </div>
+      <Container fluid>
+        <Breadcrumbs className="mt-3"
+          separator={<RiArrowRightSLine fontSize={20} />}
+        >
+          <Link to={'/management'}>
+            <RiListSettingsFill size={20} />
+          </Link>
+          <Typography color="text.primary">{t('writeFirmware')}</Typography>
+        </Breadcrumbs>
+        <FlashFirmwareContainer>
+          <div>
+            <h3>{t('writeFirmware')}</h3>
+            {
+              !consoleStart && <ConnectionFlex>
+                {chip === '' ? <ConnectButton onClick={connectDevice}>
+                  <RiUsbLine size={24} />
+                  {t('connectDevice')}
+                </ConnectButton>
+                  :
+                  <ConnectionFlex>
+                    <DisConnectButton $primary={progress !== ''} onClick={disconnectFunc} disabled={progress !== ''}>
+                      <RiCloseFill size={24} />
+                      {t('disConnectDevice')}
+                    </DisConnectButton>
+                    <div>
+                      <TraceButton onClick={traceFunc}>
+                        <RiFileCopyLine size={24} />
+                        {t('copyTrace')}
+                      </TraceButton>
+                      <EraseButton $primary={progress !== ''} onClick={eraseFunc} ref={erasButtonRef} disabled={progress !== ''}>
+                        <RiEraserLine size={24} />
+                        {t('eraseMemory')}
+                      </EraseButton>
+                    </div>
+                  </ConnectionFlex>
+                }
+              </ConnectionFlex>
+            }
+            {
+              chip && <>
+                <hr />
+                <Row className="d-flex align-items-center">
+                  <Col lg={3}>
+                    <Form.Group controlId="formFile">
+                      <Form.Control type="file" onChange={handleFileSelect} />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={9}>
+                    <ProgramButton onClick={programFunc}>
+                      {t('programBoard')}
+                    </ProgramButton>
+                  </Col>
+                </Row>
+              </>
+            }
+          </div>
+          <hr />
+          {
+            chip === '' && <>
+              <>
+                <h3>{t('consoleText')}</h3>
+                <ConsoleFlex>
+                  {
+                    consoleStart ? <>
+                      <StopConsoleButton onClick={consoleStopFunc}>
+                        <RiStopCircleLine size={24} />
+                        {t('stopconButton')}
+                      </StopConsoleButton>
+                      <ResetButton onClick={resetFunc}>
+                        <RiLoopRightFill size={24} />
+                        {t('resetconButton')}
+                      </ResetButton>
+                    </>
+                      :
+                      <StartConsoleButton onClick={consoleStartFunc}>
+                        <RiTerminalBoxLine size={24} />
+                        {t('startconButton')}
+                      </StartConsoleButton>
+                  }
+                </ConsoleFlex>
+              </>
+              <hr />
+            </>
+          }
+          <ProgressBar $primary={progress} />
+          <TerminalDiv ref={terminalRef} />
+        </FlashFirmwareContainer>
+      </Container>
     </motion.div>
   )
 }

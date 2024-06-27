@@ -19,7 +19,7 @@ import {
 } from "react-icons/ri"
 import { useEffect, useRef, useState } from "react"
 import axios, { AxiosError } from "axios"
-import { logtype } from "../../types/log.type"
+import { logTypeChart } from "../../types/log.type"
 import { devicesType } from "../../types/device.type"
 import Swal from "sweetalert2"
 import { useTranslation } from "react-i18next"
@@ -49,12 +49,12 @@ export default function Fullchart() {
     startDate: '',
     endDate: ''
   })
-  const [logData, setLogData] = useState<logtype[]>([])
+  const [logData, setLogData] = useState<logTypeChart>()
   const [devData, setDevData] = useState<devicesType>()
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => {
-    if (logData.length > 0) {
+    if (logData) {
       exportChart()
       setShow(true)
     } else {
@@ -99,10 +99,10 @@ export default function Fullchart() {
 
   const Logday = async () => {
     setPagenumber(1)
-    setLogData([])
+    setLogData(undefined)
     try {
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logTypeChart>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -113,10 +113,10 @@ export default function Fullchart() {
 
   const Logweek = async () => {
     setPagenumber(2)
-    setLogData([])
+    setLogData(undefined)
     try {
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logTypeChart>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -135,7 +135,7 @@ export default function Fullchart() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+            .get<responseType<logTypeChart>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)
@@ -262,7 +262,7 @@ export default function Fullchart() {
           </FullchartHeadLeft>
           <ExportandAuditFlex>
             <AuditGraphBtn disabled onClick={() => {
-              if (logData.length > 0) {
+              if (logData) {
                 swalOptimizeChartButtons
                   .fire({
                     title: 'คำเตือน',
@@ -335,7 +335,7 @@ export default function Fullchart() {
                 <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
               </FilterContainer>}
             {
-              logData.length > 0 ?
+              logData ?
                 <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
                   <TableInfoDevice ref={tableInfoRef}>
                     <h4>{localStorage.getItem('hosname')}</h4>

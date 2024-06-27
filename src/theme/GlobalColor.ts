@@ -5,10 +5,10 @@ const getColorStyles = (colors: number) => {
   switch (colors) {
     case 1:
       return css`
-        --blue-black: #2a2a60;
-        --main-color: #4646DC;
-        --main-color-f1: rgba(70, 70, 255, .3);
-        --main-color-f2: rgba(145, 145, 255, .3);
+        --blue-black: #2323B7;
+        --main-color: #2A2AE7;
+        --main-color-f1: rgba(35, 35, 183, .3);
+        --main-color-f2: rgba(42, 42, 231, .3);
       `
     case 2:
       return css`

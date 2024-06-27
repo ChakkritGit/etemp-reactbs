@@ -86,6 +86,15 @@ ${props => props.$primary &&
   height: 30px;
 `}
 
+&:disabled {
+  opacity: .5;
+
+  &:hover {
+    background-color: unset;
+    color: var(--main-color);
+  }
+}
+
 &:hover {
   background-color: var(--main-color);
   color: var(--white);
@@ -339,4 +348,254 @@ export const ProgressBar = styled.div<{ $primary?: string }>`
   border-top-right-radius: 8px;
   background-color: var(--main-color);
   transition: .3s;
+`
+
+export const SendOTAtoBoard = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &>select {
+    width: 200px;
+    height: 45px;
+    max-width: 200px;
+    max-height: 45px;
+    overflow: hidden;
+    border-radius: var(--border-radius-small);
+  }
+`
+
+export const FlashFirmwareContainer = styled.div<{ $primary?: boolean }>`
+  margin-top: 1.5rem;
+`
+
+export const ConnectionFlex = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  width: 100%;
+
+  &>div {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  @media (max-width: 430px) {
+  flex-wrap: wrap;
+}
+`
+
+export const ConnectButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+  transition: .3s;
+}
+`
+
+export const DisConnectButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--danger-color);
+  background-color: unset;
+  color: var(--danger-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--danger-color);
+  color: var(--white);
+  transition: .3s;
+}
+
+${props => props.$primary && css`
+  opacity: .5;
+  transition: .3s;
+
+  &:hover {
+  background-color: unset;
+  color: var(--danger-color);
+}
+`}
+`
+
+export const TraceButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+  transition: .3s;
+}
+`
+
+export const EraseButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--danger-color);
+  background-color: unset;
+  color: var(--danger-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--danger-color);
+  color: var(--white);
+  transition: .3s;
+}
+
+${props => props.$primary && css`
+  opacity: .5;
+  transition: .3s;
+
+  &:hover {
+  background-color: unset;
+  color: var(--danger-color);
+}
+`}
+`
+
+export const ProgramButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+  transition: .3s;
+}
+`
+
+export const TerminalDiv = styled.div`
+@media (max-width: 430px) {
+  &>div:nth-child(1)>div {
+  width: 100dvh;
+}
+
+  max-width: 335px;
+  overflow-x: scroll;
+}
+`
+
+export const ConsoleFlex = styled.div`
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+`
+
+export const StartConsoleButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+  transition: .3s;
+}
+`
+
+export const StopConsoleButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--danger-color);
+  background-color: unset;
+  color: var(--danger-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--danger-color);
+  color: var(--white);
+  transition: .3s;
+}
+`
+
+export const ResetButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  width: max-content;
+  height: 45px;
+  max-height: 45px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: .5rem 1rem;
+
+  &:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+  transition: .3s;
+}
 `
