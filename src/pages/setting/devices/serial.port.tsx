@@ -21,7 +21,7 @@ term.options = {
   fontFamily: 'Courier New',
   cursorStyle: 'block',
   theme: {
-    background: '#000'
+    background: '#353535'
   }
 }
 
@@ -272,7 +272,7 @@ const ESPToolComponent = () => {
                         <RiFileCopyLine size={24} />
                         {t('copyTrace')}
                       </TraceButton>
-                      <EraseButton $primary={progress !== ''} onClick={eraseFunc} ref={erasButtonRef} disabled={progress !== ''}>
+                      <EraseButton $primary={true} onClick={eraseFunc} ref={erasButtonRef} disabled={true}>
                         <RiEraserLine size={24} />
                         {t('eraseMemory')}
                       </EraseButton>

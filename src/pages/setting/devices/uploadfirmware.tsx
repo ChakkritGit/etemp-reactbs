@@ -31,7 +31,7 @@ term.options = {
   fontFamily: 'Courier New',
   cursorStyle: 'block',
   theme: {
-    background: '#000'
+    background: '#353535'
   }
 }
 
