@@ -14,7 +14,7 @@ const initialState: UtilsStateStore = {
   soundMode: localStorage.getItem('soundMode') === 'true',
   popUpMode: localStorage.getItem('popUpMode') === 'true',
   hosId: String(localStorage.getItem('selectHos')),
-  wardId: String(localStorage.getItem('selectWard'))
+  wardId: String(localStorage.getItem('selectWard') ?? 'WID-DEVELOPMENT')
 }
 
 const utilsSlice = createSlice({

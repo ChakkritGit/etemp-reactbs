@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next"
-import { DropContainer, DropHereFile, FileDroped, FileList, FirewareContent, FirmwareContainer, FirmwareHeader, ProgressBar, RowChildren, TerminalDiv, UploadButton } from "../../../style/components/firmwareuoload"
+import {
+  DropContainer, DropHereFile, FileDroped, FileList, FirewareContent, FirmwareContainer,
+  FirmwareHeader, ProgressBar, RowChildren, UploadButton
+} from "../../../style/components/firmwareuoload"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
@@ -24,6 +27,7 @@ import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
 import Paginition from "../../../components/filter/paginition"
 import toast from "react-hot-toast"
+import TerminalComponent from "../../../components/settings/terminal"
 
 const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
@@ -588,7 +592,7 @@ export default function Uploadfirmware() {
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <ProgressBar $primary={flashProgress} />
-            <TerminalDiv ref={terminalRef} />
+            <TerminalComponent terminalRef={terminalRef} />
           </Modal.Body>
         </Form>
       </Modal>

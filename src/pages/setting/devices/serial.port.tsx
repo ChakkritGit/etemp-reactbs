@@ -12,8 +12,12 @@ import { Breadcrumbs, Typography } from "@mui/material"
 import { RiArrowRightSLine, RiCloseFill, RiEraserLine, RiFileCopyLine, RiListSettingsFill, RiLoopRightFill, RiStopCircleLine, RiTerminalBoxLine, RiUsbLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { ConnectButton, ConnectionFlex, ConsoleFlex, DisConnectButton, EraseButton, FlashFirmwareContainer, ProgramButton, ProgressBar, ResetButton, StartConsoleButton, StopConsoleButton, TerminalDiv, TraceButton } from "../../../style/components/firmwareuoload"
+import {
+  ConnectButton, ConnectionFlex, ConsoleFlex, DisConnectButton, EraseButton, FlashFirmwareContainer,
+  ProgramButton, ProgressBar, ResetButton, StartConsoleButton, StopConsoleButton, TraceButton
+} from "../../../style/components/firmwareuoload"
 import toast from "react-hot-toast"
+import TerminalComponent from "../../../components/settings/terminal"
 
 const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
@@ -47,7 +51,7 @@ const ESPToolComponent = () => {
     if (terminalRef.current) {
       term.open(terminalRef.current)
     }
-  }, [])
+  }, [terminalRef.current])
 
   const handleFileSelect = (evt: any) => {
     const file = evt.target.files[0]
@@ -328,7 +332,7 @@ const ESPToolComponent = () => {
             </>
           }
           <ProgressBar $primary={progress} />
-          <TerminalDiv ref={terminalRef} />
+          <TerminalComponent terminalRef={terminalRef} />
         </FlashFirmwareContainer>
       </Container>
     </motion.div>
