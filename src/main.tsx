@@ -15,6 +15,10 @@ import GlobalColors from './theme/GlobalColor'
 import { store } from './stores/store'
 import { Provider } from 'react-redux'
 
+if (import.meta.env.VITE_APP_NODE_ENV === 'production') {
+  console.log = () => { }
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>

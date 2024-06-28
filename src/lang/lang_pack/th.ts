@@ -104,7 +104,7 @@ export default {
     dashPlug: 'ปลั๊ก',
     dashBattery: 'แบตเตอรี่',
     dashTempofDay: 'ช่วงอุณหภูมิทั้งวัน',
-    dashSdCard: 'เอสดีการ์ฺด',
+    dashSdCard: 'เอสดีการ์ด',
     dashProbeandDoor: 'โพรบและประตู',
     dashWarranty: 'การรับประกัน',
     dashRepair: 'แจ้งซ่อม',

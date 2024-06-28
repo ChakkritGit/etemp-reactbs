@@ -39,11 +39,12 @@ import { resetActive } from "../../constants/constants"
 import { logtype } from "../../types/log.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { userlevel } from "../../authen/authentFunc"
 
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { searchQuery, wardId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, hosId, wardId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const devicesFilter = useSelector<DeviceStateStore, devicesType[]>((state) => state.arraySlice.device.devicesFilter)
   const hospitalsData = useSelector<DeviceStateStore, hospitalsType[]>((state) => state.arraySlice.hospital.hospitalsData)
   const wardData = useSelector<DeviceStateStore, wardsType[]>((state) => state.arraySlice.ward.wardData)
@@ -260,7 +261,7 @@ export default function Home() {
   }
 
   const getHospital = (hospitalID: string | undefined) => {
-    updateLocalStorageAndDispatch('selectWard', hospitalID, setHosId)
+    updateLocalStorageAndDispatch('selectHos', hospitalID, setHosId)
     setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID))
   }
 
@@ -627,6 +628,11 @@ export default function Home() {
               <DevHomeHeadTile>
                 <h5>
                   {t('showAllBox')}
+                </h5>
+                <h5>
+                  {
+                    userlevel() === '1' && `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
+                  }
                 </h5>
               </DevHomeHeadTile>
               <DevHomeSecctionOne>
