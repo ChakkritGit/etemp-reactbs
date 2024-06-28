@@ -13,7 +13,7 @@ import { FileUploader } from "react-drag-drop-files"
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { filesize } from "filesize"
 import { responseType } from "../../../types/response.type"
-import { Terminal } from "xterm"
+import { Terminal } from "@xterm/xterm"
 import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "esptool-js"
 import { useNavigate } from "react-router-dom"
 import { firmwareType } from "../../../types/component.type"

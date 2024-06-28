@@ -1,6 +1,6 @@
 /// <reference path="./serial.d.ts" />
 
-import { Terminal } from "xterm"
+import { Terminal } from "@xterm/xterm"
 import CryptoJS from "crypto-js"
 import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "esptool-js"
 import { useEffect, useRef } from "react"
