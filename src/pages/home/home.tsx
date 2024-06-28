@@ -677,6 +677,14 @@ export default function Home() {
                               label: items.hosName
                             }
                           })}
+                            defaultValue={hospitalsData.map((f) => {
+                              if (f.hosId === hosId) {
+                                return {
+                                  value: f.hosId,
+                                  label: f.hosName
+                                }
+                              }
+                            })}
                             onChange={(e) => getHospital(e?.value)}
                             autoFocus={false}
                           />
@@ -684,6 +692,14 @@ export default function Home() {
                             return {
                               value: items.wardId,
                               label: items.wardName
+                            }
+                          })}
+                          defaultValue={wardData.map((f) => {
+                            if (f.wardId === wardId) {
+                              return {
+                                value: f.wardId,
+                                label: f.wardName
+                              }
                             }
                           })}
                             onChange={(e) => getWard(e?.value)}

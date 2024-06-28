@@ -1,10 +1,9 @@
 import Chart from "react-apexcharts"
 import { logtype } from "../../types/log.type"
+import { ChartContainerFull } from "../../style/components/chart"
 type chartType = {
   chartData: logtype[],
   devicesData: { tempMin: number | undefined, tempMax: number | undefined },
-  doorHeight: number | string | undefined,
-  doorWidth: number | string | undefined,
   tempHeight: number | string | undefined,
   tempWidth: number | string | undefined
 }
@@ -190,13 +189,15 @@ const Apexchart = (chart: chartType) => {
   }
 
   return (
-    <Chart
-      type="line"
-      options={options}
-      series={series}
-      height={chart.tempHeight}
-      width={chart.tempWidth}
-    />
+    <ChartContainerFull>
+      <Chart
+        type="line"
+        options={options}
+        series={series}
+        height={chart.tempHeight}
+        width={chart.tempWidth}
+      />
+    </ChartContainerFull>
   )
 }
 

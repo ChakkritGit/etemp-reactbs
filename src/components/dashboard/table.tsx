@@ -45,7 +45,7 @@ export default function Table(tableType: tableType) {
     },
     {
       name: t('deviceTime'),
-      cell: (item) => item.createAt.substring(11, 16),
+      cell: (item) => item.sendTime.substring(11, 16),
       sortable: false,
       center: false
     },

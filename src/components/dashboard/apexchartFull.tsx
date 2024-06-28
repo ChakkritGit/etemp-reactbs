@@ -3,8 +3,6 @@ import { logtype } from "../../types/log.type"
 type chartType = {
   chartData: logtype[],
   devicesData: { tempMin: number | undefined, tempMax: number | undefined },
-  doorHeight: number | string | undefined,
-  doorWidth: number | string | undefined,
   tempHeight: number | string | undefined,
   tempWidth: number | string | undefined
 }

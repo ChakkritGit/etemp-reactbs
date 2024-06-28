@@ -348,10 +348,8 @@ export default function Fullchart() {
                       tempMin: devData?.probe[0]?.tempMin,
                       tempMax: devData?.probe[0].tempMax
                     }}
-                    doorHeight={80}
-                    doorWidth={1080}
-                    tempHeight={480}
-                    tempWidth={1080}
+                    tempHeight={680}
+                    tempWidth={1480}
                   />
                 </FullchartBodyChartCon>
                 :

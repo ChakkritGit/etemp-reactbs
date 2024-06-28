@@ -37,8 +37,6 @@ export default function Chart(chartData: chartData) {
           tempMin: chartData.tempMin,
           tempMax: chartData.tempMax
         }}
-        doorHeight={80}
-        doorWidth={undefined}
         tempHeight={460}
         tempWidth={undefined}
       />
