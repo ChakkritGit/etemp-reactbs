@@ -88,3 +88,10 @@ display: flex;
 align-items: center;
 gap: .5rem;
 `
+
+export const TagCurrentHos = styled.span`
+  padding: 7px .8rem;
+  background-color: var(--main-color-f2);
+  border-radius: var(--border-radius-small);
+  font-size: 18px;
+`

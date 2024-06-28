@@ -40,6 +40,7 @@ import { logtype } from "../../types/log.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import { userlevel } from "../../authen/authentFunc"
+import { TagCurrentHos } from "../../style/components/home.styled"
 
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -629,11 +630,11 @@ export default function Home() {
                 <h5>
                   {t('showAllBox')}
                 </h5>
-                <h5>
+                <TagCurrentHos>
                   {
                     userlevel() === '1' && `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
                   }
-                </h5>
+                </TagCurrentHos>
               </DevHomeHeadTile>
               <DevHomeSecctionOne>
                 {
