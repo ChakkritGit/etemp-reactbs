@@ -296,7 +296,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <Row>
-              <Col lg={12}>
+              <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderFlex>
@@ -339,7 +339,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                   </Form.Label>
                 </InputGroup>
               </Col>
-              <Col lg={12}>
+              <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderFlex>

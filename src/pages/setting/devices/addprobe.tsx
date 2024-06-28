@@ -415,7 +415,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                   </Form.Label>
                 </InputGroup>
               </Col>
-              <Col lg={12}>
+              <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderFlex>
@@ -458,7 +458,7 @@ export default function Addprobe(addprobe: addprobeProps) {
                   </Form.Label>
                 </InputGroup>
               </Col>
-              <Col lg={12}>
+              <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderFlex>
