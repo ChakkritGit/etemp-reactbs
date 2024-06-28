@@ -230,7 +230,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
           </ModalHead>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
-          <Modal.Body className="p-4">
+          <Modal.Body>
             <Row>
               <Form.Label>
                 <span><b>{t('selectProbe')}</b></span>
@@ -247,7 +247,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                 <span><b>{t('adjustMents')}</b></span>
                 <LineHr />
               </Form.Label>
-              <Col lg={12}>
+              <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderFlex>
@@ -290,7 +290,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   </Form.Label>
                 </InputGroup>
               </Col>
-              <Col lg={12}>
+              <Col lg={6}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     <SliderFlex>

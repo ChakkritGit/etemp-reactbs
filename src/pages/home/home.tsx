@@ -42,6 +42,21 @@ import { items } from "../../animation/animate"
 import { userlevel } from "../../authen/authentFunc"
 import { TagCurrentHos } from "../../style/components/home.styled"
 
+type Option = {
+  value: string,
+  label: string,
+}
+
+interface Hospital {
+  hosId: string,
+  hosName: string,
+}
+
+interface Ward {
+  wardId: string,
+  wardName: string,
+}
+
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
@@ -613,6 +628,18 @@ export default function Home() {
     )
   }
 
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
+
   return (
     <Container fluid>
       <motion.div
@@ -671,37 +698,15 @@ export default function Home() {
                           initial="hidden"
                           animate="visible"
                         >
-                          <Select options={hospitalsData.map((items) => {
-                            return {
-                              value: items.hosId,
-                              label: items.hosName
-                            }
-                          })}
-                            defaultValue={hospitalsData.map((f) => {
-                              if (f.hosId === hosId) {
-                                return {
-                                  value: f.hosId,
-                                  label: f.hosName
-                                }
-                              }
-                            })}
+                          <Select
+                            options={mapOptions<Hospital, keyof Hospital>(hospitalsData, 'hosId', 'hosName')}
+                            defaultValue={mapDefaultValue<Hospital, keyof Hospital>(hospitalsData, hosId, 'hosId', 'hosName')}
                             onChange={(e) => getHospital(e?.value)}
                             autoFocus={false}
                           />
-                          <Select options={wardName.map((items) => {
-                            return {
-                              value: items.wardId,
-                              label: items.wardName
-                            }
-                          })}
-                          defaultValue={wardData.map((f) => {
-                            if (f.wardId === wardId) {
-                              return {
-                                value: f.wardId,
-                                label: f.wardName
-                              }
-                            }
-                          })}
+                          <Select
+                            options={mapOptions<Ward, keyof Ward>(wardName, 'wardId', 'wardName')}
+                            defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, wardId, 'wardId', 'wardName')}
                             onChange={(e) => getWard(e?.value)}
                             autoFocus={false}
                           />
