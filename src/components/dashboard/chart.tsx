@@ -34,8 +34,8 @@ export default function Chart(chartData: chartData) {
       <ApexchartFull
         chartData={chartData.data as logtype[]}
         devicesData={{
-          temp_min: chartData.tempMin,
-          temp_max: chartData.tempMax
+          tempMin: chartData.tempMin,
+          tempMax: chartData.tempMax
         }}
         doorHeight={80}
         doorWidth={undefined}

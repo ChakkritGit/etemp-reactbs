@@ -12,7 +12,9 @@ const initialState: UtilsStateStore = {
   showAside: false,
   tokenDecode: {} as jwtToken,
   soundMode: localStorage.getItem('soundMode') === 'true',
-  popUpMode: localStorage.getItem('popUpMode') === 'true'
+  popUpMode: localStorage.getItem('popUpMode') === 'true',
+  hosId: String(localStorage.getItem('selectHos')),
+  wardId: String(localStorage.getItem('selectWard'))
 }
 
 const utilsSlice = createSlice({
@@ -49,9 +51,15 @@ const utilsSlice = createSlice({
     setPopUpMode: (state, action: PayloadAction<boolean>) => {
       state.popUpMode = action.payload
     },
+    setHosId: (state, action: PayloadAction<string>) => {
+      state.hosId = action.payload
+    },
+    setWardId: (state, action: PayloadAction<string>) => {
+      state.wardId = action.payload
+    },
   },
 })
 
-export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode, setSoundMode, setPopUpMode } = utilsSlice.actions
+export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId } = utilsSlice.actions
 
 export default utilsSlice.reducer

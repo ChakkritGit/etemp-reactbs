@@ -19,7 +19,7 @@ import {
 } from "react-icons/ri"
 import { useEffect, useRef, useState } from "react"
 import axios, { AxiosError } from "axios"
-import { logTypeChart } from "../../types/log.type"
+import { logtype } from "../../types/log.type"
 import { devicesType } from "../../types/device.type"
 import Swal from "sweetalert2"
 import { useTranslation } from "react-i18next"
@@ -49,7 +49,7 @@ export default function Fullchart() {
     startDate: '',
     endDate: ''
   })
-  const [logData, setLogData] = useState<logTypeChart>()
+  const [logData, setLogData] = useState<logtype[]>([])
   const [devData, setDevData] = useState<devicesType>()
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
@@ -99,10 +99,10 @@ export default function Fullchart() {
 
   const Logday = async () => {
     setPagenumber(1)
-    setLogData(undefined)
+    setLogData([])
     try {
       const responseData = await axios
-        .get<responseType<logTypeChart>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -113,10 +113,10 @@ export default function Fullchart() {
 
   const Logweek = async () => {
     setPagenumber(2)
-    setLogData(undefined)
+    setLogData([])
     try {
       const responseData = await axios
-        .get<responseType<logTypeChart>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -135,7 +135,7 @@ export default function Fullchart() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get<responseType<logTypeChart>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)
@@ -345,8 +345,8 @@ export default function Fullchart() {
                   <Apexchart
                     chartData={logData}
                     devicesData={{
-                      temp_min: devData?.probe[0]?.tempMin,
-                      temp_max: devData?.probe[0]?.tempMax
+                      tempMin: devData?.probe[0]?.tempMin,
+                      tempMax: devData?.probe[0].tempMax
                     }}
                     doorHeight={80}
                     doorWidth={1080}

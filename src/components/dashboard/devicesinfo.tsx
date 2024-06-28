@@ -198,9 +198,10 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         />
         <CardstatusNomal
           title={t('dashConnect')}
-          valuestext={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 ? t('stateDisconnect') : t('stateConnect')}
+          valuestext={
+            ((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 && devicesData?.log[0]?.internet === '0' ? t('stateDisconnect') : t('stateConnect')}
           svg={<RiSignalWifi1Line />}
-          alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60}
+          alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 && devicesData?.log[0]?.internet === '0'}
         />
         {/* <CardstatusNomal
           title={t('connect')}
@@ -248,10 +249,10 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         <CardstatusNomal
           title={t('dashSdCard')}
           valuestext={
-            devicesData?.log[0]?.sdCard ? t('stateNormal') : t('stateProblem')
+            devicesData?.log[0]?.sdCard === '0' ? t('stateNormal') : t('stateProblem')
           }
           svg={<RiSdCardMiniLine />}
-          alertone={!devicesData?.log[0]?.sdCard}
+          alertone={devicesData?.log[0]?.sdCard !== '0'}
         />
         <CardstatusSpecial
           title={t('dashProbeandDoor')}

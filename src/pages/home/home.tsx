@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { setDeviceId, setSerial, setSearchQuery } from "../../stores/utilsStateSlice"
+import { setDeviceId, setSerial, setSearchQuery, setHosId, setWardId } from "../../stores/utilsStateSlice"
 import { filtersDevices, setFilterDevice } from "../../stores/dataArraySlices"
 import { storeDispatchType } from "../../stores/store"
 import DataTable, { TableColumn } from "react-data-table-component"
@@ -43,7 +43,7 @@ import { items } from "../../animation/animate"
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, wardId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const devicesFilter = useSelector<DeviceStateStore, devicesType[]>((state) => state.arraySlice.device.devicesFilter)
   const hospitalsData = useSelector<DeviceStateStore, hospitalsType[]>((state) => state.arraySlice.hospital.hospitalsData)
   const wardData = useSelector<DeviceStateStore, wardsType[]>((state) => state.arraySlice.ward.wardData)
@@ -62,7 +62,7 @@ export default function Home() {
     warranty: false
   })
   const [showticks, setShowticks] = useState(false)
-  const [listAndgrid, setListandgrid] = useState(1)
+  const [listAndgrid, setListandgrid] = useState(Number(localStorage.getItem('listGrid') ?? 1))
   const [cardFilterData, setCardFilterData] = useState<cardFilter[]>([])
 
   const showtk = () => {
@@ -254,14 +254,26 @@ export default function Home() {
     window.scrollTo(0, 0)
   }
 
+  const updateLocalStorageAndDispatch = (key: string, id: string | undefined, action: Function) => {
+    localStorage.setItem(key, String(id))
+    dispatch(action(String(id)))
+  }
+
   const getHospital = (hospitalID: string | undefined) => {
-    const newArray: wardsType[] = wardData.filter((items) => items.hospital.hosId === hospitalID)
-    setWardname(newArray)
+    updateLocalStorageAndDispatch('selectWard', hospitalID, setHosId)
+    setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID))
   }
 
   const getWard = (wardID: string | undefined) => {
-    dispatch(setFilterDevice(devices.filter((items) => items.wardId === wardID)))
+    updateLocalStorageAndDispatch('selectWard', wardID, setWardId)
   }
+
+  useEffect(() => {
+    const filteredDevices = wardId !== 'WID-DEVELOPMENT'
+      ? devices.filter((items) => items.wardId === wardId)
+      : devices
+    dispatch(setFilterDevice(filteredDevices))
+  }, [wardId, devices])
 
   const columns: TableColumn<devicesType>[] = [
     {
@@ -395,8 +407,8 @@ export default function Home() {
     {
       name: t('deviceConnectTb'),
       cell: (items) => <DeviceStateNetwork $primary={items.log[0]?.internet === "1"}>
-      {items.log[0]?.internet === "1" ? t('deviceOffline') : t('deviceOnline')}
-    </DeviceStateNetwork>,
+        {items.log[0]?.internet === "1" ? t('deviceOffline') : t('deviceOnline')}
+      </DeviceStateNetwork>,
       sortable: false,
       center: true,
       width: '90px'
@@ -678,8 +690,18 @@ export default function Home() {
                     }
                   </FilterHomeHOSWARD>
                   <DeviceListFlex>
-                    <ListBtn $primary={listAndgrid === 1} onClick={() => setListandgrid(1)}><RiListUnordered /></ListBtn>
-                    <ListBtn $primary={listAndgrid === 2} onClick={() => setListandgrid(2)}><RiLayoutGridLine /></ListBtn>
+                    <ListBtn $primary={listAndgrid === 1} onClick={() => {
+                      localStorage.setItem('listGrid', String(1))
+                      setListandgrid(1)
+                    }}>
+                      <RiListUnordered />
+                    </ListBtn>
+                    <ListBtn $primary={listAndgrid === 2} onClick={() => {
+                      localStorage.setItem('listGrid', String(2))
+                      setListandgrid(2)
+                    }}>
+                      <RiLayoutGridLine />
+                    </ListBtn>
                   </DeviceListFlex>
                 </DeviceInfoflex>
               </AboutBox>

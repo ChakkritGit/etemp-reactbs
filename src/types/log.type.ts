@@ -23,19 +23,4 @@ type logtype = {
   device: devicesType
 }
 
-type actionType = {
-  notiId: string,
-  devSerial: string,
-  notiDetail: string,
-  notiStatus: boolean,
-  createAt: string,
-  updateAt: string
-}
-
-type logTypeChart = {
-  log: logtype[],
-  action: actionType[]
-}
-
-
-export type { logtype, actionType, logTypeChart }
+export type { logtype }

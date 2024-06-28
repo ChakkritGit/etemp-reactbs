@@ -42,7 +42,7 @@ export default function Adddevform(managedevices: managedevices) {
   const [Mode, setMode] = useState(1)
   const [hosid, setHosid] = useState('')
   const dispatch = useDispatch<storeDispatchType>()
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [devicePicture, setDevicePicture] = useState<string>(devdata.locPic ? `${import.meta.env.VITE_APP_IMG}${devdata.locPic}` : '')
   const { config } = devdata
   const [netConfig, setNetConfig] = useState({
@@ -102,6 +102,7 @@ export default function Adddevform(managedevices: managedevices) {
       try {
         const response = await axios.post<responseType<devicesType>>(url, {
           devSerial: formdata.dev_sn,
+          createBy: tokenDecode.userId,
           config: {
             macAddWiFi: formdata.macAddWiFi
           }

@@ -38,7 +38,9 @@ type UtilsStateStore = {
   showAside: boolean,
   tokenDecode: jwtToken,
   soundMode: boolean,
-  popUpMode: boolean
+  popUpMode: boolean,
+  hosId: string,
+  wardId: string
 }
 
 type DeviceStateStore = {

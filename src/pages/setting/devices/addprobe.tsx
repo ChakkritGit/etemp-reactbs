@@ -28,7 +28,7 @@ export default function Addprobe(addprobe: addprobeProps) {
     probeName: pagestate !== "add" ? probeData?.probeName : '',
     probeType: pagestate !== "add" ? probeData?.probeType : '',
     probeCh: pagestate !== "add" ? probeData?.probeCh : '',
-    devId: pagestate !== "add" ? probeData?.devSerial : '',
+    devSerial: pagestate !== "add" ? probeData?.devSerial : '',
     adjust_temp: pagestate !== "add" ? probeData?.adjustTemp : '',
     adjust_hum: pagestate !== "add" ? probeData?.adjustHum : '',
     delay_time: pagestate !== "add" ? probeData?.delayTime : '',
@@ -55,7 +55,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       probeName: formdata.probeName,
       probeType: formdata.probeType,
       probeCh: formdata.probeCh,
-      devId: formdata.devId,
+      devSerial: formdata.devSerial,
       adjustTemp: formdata.adjust_temp,
       adjustHum: formdata.adjust_hum,
       delayTime: formdata.delay_time,
@@ -66,7 +66,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       humMin: formdata.humvalue[0],
       humMax: formdata.humvalue[1],
     }
-    if (formdata.devId !== '' && formdata.adjust_temp !== '' && formdata.adjust_hum !== '' && formdata.door !== '' && formdata.delay_time !== ''
+    if (formdata.devSerial !== '' && formdata.adjust_temp !== '' && formdata.adjust_hum !== '' && formdata.door !== '' && formdata.delay_time !== ''
       && formdata.probeName !== '' && formdata.probeType !== '' && formdata.probeCh !== '' && formdata.location !== '' && formdata.tempvalue !== null && formdata.humvalue !== null) {
       try {
         const response = await axios.post<responseType<probeType>>(url, bodyData, {
@@ -120,7 +120,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       probeName: formdata.probeName,
       probeType: formdata.probeType,
       probeCh: formdata.probeCh,
-      devId: formdata.devId,
+      devId: formdata.devSerial,
       adjustTemp: formdata.adjust_temp,
       adjustHum: formdata.adjust_hum,
       delayTime: formdata.delay_time,
@@ -131,7 +131,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       humMin: formdata.humvalue[0],
       humMax: formdata.humvalue[1],
     }
-    if (formdata.devId !== '' && formdata.adjust_temp !== '' && formdata.adjust_hum !== '' && formdata.door !== '' && formdata.delay_time !== ''
+    if (formdata.devSerial !== '' && formdata.adjust_temp !== '' && formdata.adjust_hum !== '' && formdata.door !== '' && formdata.delay_time !== ''
       && formdata.probeName !== '' && formdata.probeType !== '' && formdata.probeCh !== '' && formdata.location !== '' && formdata.tempvalue !== null && formdata.humvalue !== null) {
       try {
         const response = await axios.put<responseType<probeType>>(`${import.meta.env.VITE_APP_API}/probe/${probeData?.probeId}`, bodyData, {
@@ -199,7 +199,7 @@ export default function Addprobe(addprobe: addprobeProps) {
     setFormdata({ ...formdata, door: e.target.value })
   }
   const deviceSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormdata({ ...formdata, devId: e.target.value })
+    setFormdata({ ...formdata, devSerial: e.target.value })
   }
   const channelSelected = (e: ChangeEvent<HTMLSelectElement>) => {
     setFormdata({ ...formdata, probeCh: e.target.value })
@@ -291,14 +291,14 @@ export default function Addprobe(addprobe: addprobeProps) {
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
                         {t('selectDeviceDrop')}
-                        <Form.Select onChange={deviceSelected} name="field_select_hos" value={formdata.devId || '0'}>
+                        <Form.Select onChange={deviceSelected} name="field_select_hos" value={formdata.devSerial || '0'}>
                           <option value={'0'} disabled={!probeData?.devSerial}>
                             {t('selectDeviceDrop')}
                           </option>
                           {devices.map((items, index) => {
                             const optionKey = `option_${index}`
                             return (
-                              <option key={optionKey} value={items.devId}>
+                              <option key={optionKey} value={items.devSerial}>
                                 {items.devSerial}
                               </option>
                             )

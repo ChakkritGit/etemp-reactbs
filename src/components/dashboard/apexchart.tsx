@@ -1,8 +1,8 @@
 import Chart from "react-apexcharts"
-import { logTypeChart } from "../../types/log.type"
+import { logtype } from "../../types/log.type"
 type chartType = {
-  chartData: logTypeChart,
-  devicesData: { temp_min: number | undefined, temp_max: number | undefined },
+  chartData: logtype[],
+  devicesData: { tempMin: number | undefined, tempMax: number | undefined },
   doorHeight: number | string | undefined,
   doorWidth: number | string | undefined,
   tempHeight: number | string | undefined,
@@ -11,75 +11,56 @@ type chartType = {
 
 const Apexchart = (chart: chartType) => {
   const { chartData, devicesData } = chart
-  const { temp_max, temp_min } = devicesData
+  const { tempMax, tempMin } = devicesData
+  const tempAvgValues = chartData.map((items) => items.tempAvg)
+  const minTempAvg = Math.min(...tempAvgValues) - 2
+  const maxTempAvg = Math.max(...tempAvgValues) + 2
 
-
-
-  const timeLabels = () => {
-    const newLabels = Array.from([...chartData.action, ...chartData.log])
-    newLabels.sort((a, b) => new Date(a.createAt).getTime() - new Date(b.createAt).getTime())
-    return newLabels.map((items) => items.createAt)
-  }
-
-  const doorOpen = () => {
-    let array: number[] = []
-    const newDoors = Array.from([...chartData.action, ...chartData.log])
-    newDoors.sort((a, b) => new Date(a.createAt).getTime() - new Date(b.createAt).getTime())
-    newDoors.map(items => {
-      if ('notiStatus' in items && items.notiStatus === false) {
-        array.push(1)
-      } else {
-        array.push(0)
-      }
-    })
-    return array
-  }
-
-  const chartmin = (minmax: string) => {
-    let array: number[] = []
-    const newlimits = Array.from([...chartData.action, ...chartData.log])
-    newlimits.sort((a, b) => new Date(a.createAt).getTime() - new Date(b.createAt).getTime())
-    if (newlimits !== undefined) {
-      for (let i = 0; i < newlimits.length; i++) {
-        if (minmax === 'min') {
-          array.push(Number(temp_min))
-        } else {
-          array.push(Number(temp_max))
-        }
-      }
-      return array
-    } else {
-      return [null]
+  const mappedData = chartData.map((items) => {
+    const time = new Date(items.sendTime).getTime()
+    return {
+      time,
+      tempAvg: items.tempAvg,
+      humidityAvg: items.humidityAvg,
+      door: items.door1 === '1' || items.door2 === '1' || items.door3 === '1' ? 1 : 0
     }
-  }
-
-  // const doorSeries: ApexAxisChartSeries = [
-  //   {
-  //     name: 'Doors',
-  //     data: doorOpen()
-  //   }
-  // ]
+  })
 
   const series: ApexAxisChartSeries = [
     {
       name: 'Temperature',
-      data: chartData.log.map((items) => items.tempAvg)
+      data: mappedData.map((data) => ({
+        x: data.time,
+        y: data.tempAvg
+      }))
     },
     {
       name: 'Humidity',
-      data: chartData.log.map((items) => items.humidityAvg)
+      data: mappedData.map((data) => ({
+        x: data.time,
+        y: data.humidityAvg
+      }))
     },
     {
       name: 'Min',
-      data: chartmin('min')
+      data: mappedData.map((data) => ({
+        x: data.time,
+        y: tempMin
+      }))
     },
     {
       name: 'Max',
-      data: chartmin('max')
+      data: mappedData.map((data) => ({
+        x: data.time,
+        y: tempMax
+      }))
     },
     {
       name: 'Door',
-      data: doorOpen()
+      data: mappedData.map((data) => ({
+        x: data.time,
+        y: data.door
+      }))
     }
   ]
 
@@ -150,17 +131,7 @@ const Apexchart = (chart: chartType) => {
       width: [2.5, 2, .8, .8, 1.5]
     },
     xaxis: {
-      type: "datetime",
-      categories: timeLabels(),
-      labels: {
-        datetimeFormatter: {
-          year: 'yyyy',
-          month: 'MMM yy',
-          day: 'dd MMM',
-          hour: 'HH:mm'
-        }
-      },
-      stepSize: 10,
+      type: "datetime"
     },
     yaxis: [
       {
@@ -171,8 +142,8 @@ const Apexchart = (chart: chartType) => {
           show: false,
           color: "rgba(255, 76, 60 , 1)"
         },
-        min: Math.min(...(chartData.log.map((items) => items.tempAvg))) - 2,
-        max: Math.max(...(chartData.log.map((items) => items.tempAvg))) + 2
+        min: minTempAvg,
+        max: maxTempAvg
       },
       {
         show: true,
@@ -189,18 +160,18 @@ const Apexchart = (chart: chartType) => {
       },
       {
         show: false,
-        min: Math.min(...(chartData.log.map((items) => items.tempAvg))) - 2,
-        max: Math.max(...(chartData.log.map((items) => items.tempAvg))) + 2
+        min: minTempAvg,
+        max: maxTempAvg
       },
       {
         show: false,
-        min: Math.min(...(chartData.log.map((items) => items.tempAvg))) - 2,
-        max: Math.max(...(chartData.log.map((items) => items.tempAvg))) + 2
+        min: minTempAvg,
+        max: maxTempAvg
       },
       {
         show: false,
-        min: 0,
-        max: 1
+        min: 5,
+        max: 0
       }
     ],
     noData: {

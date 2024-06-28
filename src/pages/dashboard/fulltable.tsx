@@ -312,7 +312,7 @@ export default function Fulltable() {
             Door1: items.door1 === "1" ? t('stateOn') : t('stateOff'),
             Door2: items.door2 === "1" ? t('stateOn') : t('stateOff'),
             Door3: items.door3 === "1" ? t('stateOn') : t('stateOff'),
-            Connectivity: items.internet ? t('stateDisconnect') : t('stateConnect'),
+            Connectivity: items.internet === '1' ? t('stateDisconnect') : t('stateConnect'),
             Plug: items.ac ? t('stateProblem') : t('stateNormal'),
             Battery: items.battery + '%',
             Time: new Date(items.createAt).toLocaleString('th-TH', {
