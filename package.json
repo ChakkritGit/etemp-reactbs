@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.19",
     "@react-pdf/renderer": "^3.4.4",
     "@reduxjs/toolkit": "^2.2.5",
+    "@xterm/xterm": "^5.5.0",
     "apexcharts": "^3.49.1",
     "atob-lite": "^2.0.0",
     "axios": "^1.7.2",
@@ -59,8 +60,7 @@
     "workbox-precaching": "^7.1.0",
     "workbox-routing": "^7.1.0",
     "workbox-strategies": "^7.1.0",
-    "xlsx": "file:vendor\\xlsx-0.20.2.tgz",
-    "xterm": "^5.3.0"
+    "xlsx": "file:vendor\\xlsx-0.20.2.tgz"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
