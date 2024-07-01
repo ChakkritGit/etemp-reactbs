@@ -147,7 +147,9 @@ export default function Home() {
       setActive({ ...resetActive, [filtertext]: true })
     } else {
       setActive({ ...resetActive, [filtertext]: cardactive })
-      dispatch(setFilterDevice(cardactive ? tempFilter : devices.filter((items) => items.wardId === wardId)))
+      dispatch(setFilterDevice(cardactive ? tempFilter : wardId !== 'WID-DEVELOPMENT'
+        ? devices.filter((items) => items.wardId === wardId)
+        : devices))
     }
 
     if (!!active.adjust && !!active.probe && !!active.door && !!active.connect && !!active.plug

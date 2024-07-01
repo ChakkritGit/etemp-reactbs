@@ -495,7 +495,7 @@ padding: 0 2.5rem;
 height: 45px;
 width: 280px;
 border-radius: var(--border-radius-small);
-background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-dark-color)' : 'rgba(235, 235, 235, .5)'};
+background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-seccond-color)' : 'rgba(235, 235, 235, .5)'};
 border: unset;
 border: 2px solid transparent;
 cursor: pointer;
@@ -1510,6 +1510,7 @@ padding: .8rem;
 border-radius: .8rem;
 box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 transition: .3s;
+cursor: pointer;
 
 &:hover {
   transform: scale(1.05);
@@ -1541,7 +1542,6 @@ ${props => props.$primary && css`
   margin-bottom: 0;
 }
 
-cursor: pointer;
 
 span:nth-child(2) {
   font-size: 28px;
@@ -3196,10 +3196,10 @@ color: var(--white);
 border-radius: 50%;
 left: 12px;
 bottom: 10px;
-width: 20px;
-height: 20px;
-max-height: 20px;
-font-size: 10px;
+width: 25px;
+height: 25px;
+font-size: 12px;
+font-weight: bold;
 border: 2px solid var(--white);
 display: flex;
 align-items: center;
@@ -4858,7 +4858,8 @@ width: 100%;
 }
 `
 
-export const TabConnect = styled.div<{ $primary?: boolean }>`
+export const TabConnect = styled.div<{ $primary?: boolean, $show?: boolean }>`
+visibility: ${props => props.$show ? 'visible' : 'hidden'};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -4868,7 +4869,11 @@ export const TabConnect = styled.div<{ $primary?: boolean }>`
   color: var(--white);
   opacity: ${props => props.$primary ? 0 : 1};
   position: fixed;
-  bottom: 75px;
+  bottom: 0;
   z-index: 999999;
   transition: ease-in .5s;
+
+  @media (max-width: 430px) {
+    bottom: 75px;
+  }
 `

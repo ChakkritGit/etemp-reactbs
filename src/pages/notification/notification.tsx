@@ -82,7 +82,7 @@ export default function Notification() {
       ),
         {
           icon: <RiAlarmWarningFill size={24} fill='var(--danger-color)' />,
-          duration: 6000
+          duration: 10000,
         }
       )
     }
