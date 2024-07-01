@@ -50,15 +50,8 @@ export default function Notification() {
   }
 
   useEffect(() => {
-    let count = 0
-    notiData.forEach(items => {
-      if (!items.notiStatus) {
-        count += 1
-      }
-    })
-    setNumber(count)
+    setNumber(notiData.filter(items => !items.notiStatus).length)
   }, [notiData])
-
 
   useEffect(() => {
     fetchData()

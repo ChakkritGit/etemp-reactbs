@@ -54,11 +54,6 @@
   --badges-error-color: #ffc7c1;
   --warning-light: #fff6d1;
 
-  /* christmas theme */
-  /* --active-sidebar: #08862b;
-  --main-color: #591f10;
-  --login-btn-hover: #08862b; */
-
   /* Sweet alert mod colors */
   --warning-primary: #ed6f00;
   --warning-seccond: #de771d;
@@ -102,6 +97,25 @@
 /* body::-webkit-scrollbar {
   display: none;
 } */
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: unset;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--main-color);
+  border-radius: 7px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blue-black);
+}
 
 /* routes/error-page */
 .error-page {
@@ -261,24 +275,6 @@ input[type="range"]::-moz-range-thumb {
 
 .modal-header {
   padding: 0.8rem !important;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: unset;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--main-color);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--blue-black);
 }
 
 .compare-text {

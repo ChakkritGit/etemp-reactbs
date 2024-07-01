@@ -209,7 +209,6 @@ width: 235px;
 padding: 1rem;
 border-right: 1.5px solid var(--soft-grey);
 background-color: var(--white);
-
 transition: width ease .3s;
 
 ${props => props.$primary &&
@@ -495,7 +494,7 @@ padding: 0 2.5rem;
 height: 45px;
 width: 280px;
 border-radius: var(--border-radius-small);
-background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-seccond-color)' : 'rgba(235, 235, 235, .5)'};
+background-color: ${props => props.theme.mode === 'dark' ? 'rgba(37, 37, 37, .5)' : 'rgba(235, 235, 235, .5)'};
 border: unset;
 border: 2px solid transparent;
 cursor: pointer;
