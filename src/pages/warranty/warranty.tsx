@@ -16,6 +16,7 @@ import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLi
 import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import Addwarranty from "./addwarranty"
 
 export default function Warranty() {
   const { t } = useTranslation()
@@ -151,6 +152,10 @@ export default function Warranty() {
       name: t('action'),
       cell: ((items) => {
         return <DetailFlex>
+          <Addwarranty
+              pagestate="edit"
+              warData={items}
+            />
           <DetailWarranty
             key={items.warrId}
             onClick={() => openmodal(items.warrId)}>
@@ -189,9 +194,16 @@ export default function Warranty() {
         animate="visible"
       >
         <WarrantyHead>
-          <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('tabWarrantyExpired')}</WarrantyHeadBtn>
-          <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
-          <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
+          <div>
+            <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('tabWarrantyExpired')}</WarrantyHeadBtn>
+            <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
+            <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
+          </div>
+          <div>
+            <Addwarranty
+              pagestate="add"
+            />
+          </div>
         </WarrantyHead>
         <WarrantyBody>
           {

@@ -4423,8 +4423,16 @@ export const ButtonColorChang = styled.button<{ $color?: string }>`
 export const WarrantyHead = styled.div<{ $primary?: boolean }>`
   display: flex;
   align-items: center;
-  gap: .5rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
   margin-top: 1rem;
+
+  &>div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
 `
 
 export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`
