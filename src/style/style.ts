@@ -67,7 +67,7 @@ export const KeyboardShortcut = styled.div<{ $primary?: boolean }>`
   align-items: center;
   position: absolute;
   gap: .3rem;
-  right: 5px;
+  right: 10px;
 
   &>span {
     font-size: 14px;
@@ -468,9 +468,9 @@ export const Nav = styled.nav`
 display: flex;
 align-items: center;
 justify-content: space-between;
-background-color: rgba(255, 255, 255, .5);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
+background-color: rgba(255, 255, 255, .7);
+backdrop-filter: blur(30px);
+-webkit-backdrop-filter: blur(30px);
 width: 100%;
 height: 60px;
 padding: 0 1.5rem 0 1rem;
@@ -484,7 +484,7 @@ box-shadow: 0px 15px 10px -15px rgba(0, 0, 0, .05);
 
 ${props => props.theme.mode === 'dark' &&
     css`
-  background-color: rgba(53, 53, 53, .5);
+  background-color: rgba(53, 53, 53, .6);
   border-color: var(--border-dark-color);
   color: var(--white);
 `}
@@ -492,7 +492,7 @@ ${props => props.theme.mode === 'dark' &&
 
 export const GlobalsearchInput = styled.input <{ $primary?: boolean }> `
 padding: 0 2rem;
-height: 40px;
+height: 45px;
 width: 280px;
 border-radius: var(--border-radius-small);
 background-color: rgba(235, 235, 235, .5);
@@ -519,6 +519,10 @@ ${props => props.theme.mode === 'dark' &&
     background-color: rgba(53, 53, 53, .5);
     color: var(--white);
 `}
+@media (max-width: 430px) {
+  padding: 0 2.5rem;
+  height: 55px;
+  }
 `
 export const SearhIconClose = styled.div<{ $primary?: boolean }> `
   position: absolute;
@@ -583,27 +587,24 @@ gap: .5rem;
 `
 
 export const GlobalsearchContainerMB = styled.div<{ $primary?: boolean }> `
-position: fixed;
-visibility: hidden;
-top: 0;
-left: 0;
-height: 0;
-transition: height ease .3s;
-
-${props => props.$primary &&
-    css`
-  visibility: visible;
+  position: absolute;
+  visibility: ${props => props.$primary ? 'visible' : 'hidden'};
+  top: 0;
+  left: 0;
+  height: ${props => props.$primary ? '100px' : '0'};
   display: flex;
   justify-content: center;
   align-items: center;
   gap: .5rem;
-  width: 200px;
+  width: ${props => props.$primary ? '100%' : '200px'};
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  width: 100%;
-  height: 100px;
+  opacity: ${props => props.$primary ? 1 : 0};
   z-index: 15;
+  transition: .3s;
 
+${props => props.$primary &&
+    css`
   ${props => props.theme.mode === 'dark' &&
         css`
 background-color: var(--main-last-color);
@@ -612,13 +613,14 @@ background-color: var(--main-last-color);
 
 & svg:nth-child(2) {
   position: absolute;
-  left: 55px;
+  left: 75px;
+  font-size: 18px;
 }
 `
 
 export const MBSearchClearIcon = styled.div<{ $primary?: boolean }>`
 position: absolute;
-right: 85px;
+right: 110px;
 
 & svg {
   font-size: 20px;

@@ -155,6 +155,30 @@ const fetchRepairRoute = new Route(
 
 registerRoute(fetchRepairRoute)
 
+const fetchFirmwaresRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/firmwares`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchFirmwares',
+  })
+)
+
+registerRoute(fetchFirmwaresRoute)
+
+const fetchHistoryRoute = new Route(
+  ({ request }) => {
+    return request.url.includes(`${import.meta.env.VITE_APP_API}/history`)
+  },
+
+  new NetworkFirst({
+    cacheName: 'api/fetchHistory',
+  })
+)
+
+registerRoute(fetchHistoryRoute)
+
 // cache navigations
 const navigationRoute = new NavigationRoute(
   new NetworkFirst({
@@ -165,7 +189,7 @@ const navigationRoute = new NavigationRoute(
 
 registerRoute(navigationRoute)
 
-// background sync
+// background sync (ยังไม่เสร็จ)
 const bgSyncPlugin = new BackgroundSyncPlugin("backgroundSyncQueue", {
   maxRetentionTime: 24 * 60
 })

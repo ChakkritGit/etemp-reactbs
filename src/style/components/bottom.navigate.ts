@@ -25,16 +25,16 @@ export const NavigationBottom = styled.nav<{ $primary?: boolean }>`
   gap: .5rem;
   height: 75px;
   max-height: 75px;
-  background-color: rgba(255, 255, 255, .5);
-  backdrop-filter: ${props => props.$primary ? 'blur(10px)' : 'blur(20px)'};
-  -webkit-backdrop-filter: ${props => props.$primary ? 'blur(10px)' : 'blur(20px)'};
+  background-color: rgba(255, 255, 255, .7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border-top: .5px solid var(--soft-grey);
   box-shadow: 0px 15px 10px 15px rgba(0, 0, 0, .05);
   overflow: hidden;
 
   ${props => props.theme.mode === 'dark' &&
     css`
-  background-color: rgba(53, 53, 53, .5);
+  background-color: rgba(53, 53, 53, .6);
   border-color: var(--border-dark-color);
   color: var(--white);
 `}
