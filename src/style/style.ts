@@ -491,11 +491,11 @@ ${props => props.theme.mode === 'dark' &&
 `
 
 export const GlobalsearchInput = styled.input <{ $primary?: boolean }> `
-padding: 0 2rem;
+padding: 0 2.5rem;
 height: 45px;
 width: 280px;
 border-radius: var(--border-radius-small);
-background-color: rgba(235, 235, 235, .5);
+background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-dark-color)' : 'rgba(235, 235, 235, .5)'};
 border: unset;
 border: 2px solid transparent;
 cursor: pointer;
@@ -516,17 +516,17 @@ cursor: pointer;
 
 ${props => props.theme.mode === 'dark' &&
     css`
-    background-color: rgba(53, 53, 53, .5);
     color: var(--white);
 `}
 @media (max-width: 430px) {
-  padding: 0 2.5rem;
+  padding: 0 3rem;
   height: 55px;
   }
 `
 export const SearhIconClose = styled.div<{ $primary?: boolean }> `
   position: absolute;
   right: .5rem;
+  right: 1rem;
   display: flex;
   cursor: pointer;
 
@@ -536,7 +536,7 @@ export const SearhIconClose = styled.div<{ $primary?: boolean }> `
 }
 
   & svg {
-    font-size: 20px;
+    font-size: 24px;
   }
 `
 
@@ -566,12 +566,12 @@ overflow: hidden;
 
 export const SearhIcon = styled.div<{ $primary?: boolean }> `
   position: absolute;
-  left: .5rem;
+  left: .7rem;
   display: flex;
 
   & svg {
-    font-size: 18px;
-    color: var(--login-btn-hover);
+    font-size: 24px;
+    color: var(--grey-75);
 
     ${props => props.theme.mode === 'dark' &&
     css`
@@ -614,7 +614,8 @@ background-color: var(--main-last-color);
 & svg:nth-child(2) {
   position: absolute;
   left: 75px;
-  font-size: 18px;
+  font-size: 24px;
+  color: var(--grey-75);
 }
 `
 
