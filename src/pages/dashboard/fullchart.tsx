@@ -6,7 +6,7 @@ import {
   AuditGraphBtn,
   CustomChart,
   ExportandAuditFlex,
-  FilterContainer, FilterSearchBtn, FullchartBody,
+  FilterContainer, FilterSearchBtn, FullcharComparetHeadBtn, FullchartBody,
   FullchartBodyChartCon, FullchartHead, FullchartHeadBtn,
   FullchartHeadExport, FullchartHeadLeft, GlobalButton,
   GlobalButtoncontainer, LineHr, ModalHead,
@@ -258,7 +258,7 @@ export default function Fullchart() {
             <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
             <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
             <span>|</span>
-            <FullchartHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullchartHeadBtn>
+            <FullcharComparetHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullcharComparetHeadBtn>
           </FullchartHeadLeft>
           <ExportandAuditFlex>
             <AuditGraphBtn disabled onClick={() => {
@@ -321,13 +321,13 @@ export default function Fullchart() {
             {pageNumber === 3 &&
               <FilterContainer>
                 <Form.Control
-                  type="datetime-local"
+                  type="date"
                   min={devData?.dateInstall.substring(0, 16)}
                   max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
                   value={filterDate.startDate}
                   onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
                 <Form.Control
-                  type="datetime-local"
+                  type="date"
                   min={filterDate.startDate}
                   max={getDateNow()}
                   value={filterDate.endDate}

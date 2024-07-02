@@ -199,9 +199,9 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         <CardstatusNomal
           title={t('dashConnect')}
           valuestext={
-            ((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 && devicesData?.log[0]?.internet === '0' ? t('stateDisconnect') : t('stateConnect')}
+            ((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 || devicesData?.log[0]?.internet === '1' ? t('stateConnect') : t('stateDisconnect')}
           svg={<RiSignalWifi1Line />}
-          alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 && devicesData?.log[0]?.internet === '0'}
+          alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 || devicesData?.log[0]?.internet === '1'}
         />
         {/* <CardstatusNomal
           title={t('connect')}

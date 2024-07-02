@@ -89,8 +89,8 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                 </TooltipSpan>
               </CardDevBtn>
             </DeviceCardHeadHandle>
-            <DeviceStateNetwork $primary={devicesdata.log[0]?.internet === "1"}>
-              {devicesdata.log[0]?.internet === "1" ? t('deviceOffline') : t('deviceOnline')}
+            <DeviceStateNetwork $primary={devicesdata.log[0]?.internet === "1" || devicesdata.log?.length <= 0 || ((Number(new Date()) - Number(new Date(devicesdata.log[0]?.createAt))) / 1000) > 10 * 60}>
+              {devicesdata.log[0]?.internet === "1" || devicesdata.log?.length <= 0 || ((Number(new Date()) - Number(new Date(devicesdata.log[0]?.createAt))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline')}
             </DeviceStateNetwork>
             {/* <DeviceStateNetwork $primary={devicesdata.dev_status !== '1'}>
               {devicesdata.dev_status === '1' ? t('online') : t('offline')}
@@ -213,7 +213,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                 devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin
               }>
               {
-                  devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
+                devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
                   devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin ?
                   <RiErrorWarningLine />
                   :

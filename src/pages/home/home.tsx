@@ -185,7 +185,6 @@ export default function Home() {
         id: 2,
         title: t('countDoor'),
         count: getSum('noti'),
-        // count: getCount('log', (items) => items.door1 === "1" || items.door2 === "1" || items.door3 === "1"),
         times: t('countNormalUnit'),
         svg: <RiDoorClosedLine />,
         cardname: 'door',
@@ -425,9 +424,11 @@ export default function Home() {
     },
     {
       name: t('deviceConnectTb'),
-      cell: (items) => <DeviceStateNetwork $primary={items.log[0]?.internet === "1"}>
-        {items.log[0]?.internet === "1" ? t('deviceOffline') : t('deviceOnline')}
-      </DeviceStateNetwork>,
+      cell: (items) => {
+        return <DeviceStateNetwork $primary={items.log[0]?.internet === "1" || items.log?.length <= 0 || ((Number(new Date()) - Number(new Date(items.log[0]?.createAt))) / 1000) > 10 * 60}>
+          {items.log[0]?.internet === "1" || items.log?.length <= 0 || ((Number(new Date()) - Number(new Date(items.log[0]?.createAt))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline')}
+        </DeviceStateNetwork>
+      },
       sortable: false,
       center: true,
       width: '90px'
@@ -741,6 +742,7 @@ export default function Home() {
                     <DataTable
                       responsive={true}
                       columns={columns}
+                      // data={devicesFilter.length > 0 ? devicesFilter.filter((items) => { if (items.log.length > 0) { return items } }) : devicesFilter}
                       data={devicesFilter}
                       paginationRowsPerPageOptions={[10, 20, 40, 60, 80, 100]}
                       paginationPerPage={10}
@@ -757,13 +759,25 @@ export default function Home() {
                     <div>
                       {
                         devicesFilter.length > 0 ?
+                          // devicesFilter.map((item, index) => {
+                          //   if (item.log.length > 0) {
+                          //     return <DevicesInfoCard
+                          //       devicesdata={item}
+                          //       keyindex={index}
+                          //       key={item.devSerial}
+                          //       fetchData={filtersDevices}
+                          //     />
+                          //   }
+                          // }
+                          // )
                           devicesFilter.map((item, index) =>
-                          (<DevicesInfoCard
-                            devicesdata={item}
-                            keyindex={index}
-                            key={item.devSerial}
-                            fetchData={filtersDevices}
-                          />))
+                            <DevicesInfoCard
+                              devicesdata={item}
+                              keyindex={index}
+                              key={item.devSerial}
+                              fetchData={filtersDevices}
+                            />
+                          )
                           :
                           <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
                       }

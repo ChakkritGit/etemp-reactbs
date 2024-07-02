@@ -4,7 +4,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import {
   DeviceCardFooterDoor, DoorTableContainer, FilterContainer, FilterSearchBtn,
-  FulltableBody, FulltableBodyChartCon, FulltableContainer, FulltableHead, FulltableHeadBtn,
+  FulltableBody, FulltableBodyChartCon, FulltableContainer, FulltableExportHeadBtn, FulltableHead, FulltableHeadBtn,
   FulltableHeadLeft, LineHr
 } from "../../style/style"
 import {
@@ -366,10 +366,10 @@ export default function Fulltable() {
           </FulltableHeadLeft>
           <Dropdown>
             <Dropdown.Toggle variant="0" className="border-0 p-0">
-              <FulltableHeadBtn>
+              <FulltableExportHeadBtn>
                 <RiFolderSharedLine />
                 {t('exportFile')}
-              </FulltableHeadBtn>
+              </FulltableExportHeadBtn>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={() => {
@@ -398,13 +398,13 @@ export default function Fulltable() {
             {pageNumber === 3 &&
               <FilterContainer>
                 <Form.Control
-                  type="datetime-local"
+                  type="date"
                   min={devData?.dateInstall.substring(0, 16)}
                   max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
                   value={filterDate.startDate}
                   onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
                 <Form.Control
-                  type="datetime-local"
+                  type="date"
                   min={filterDate.startDate}
                   max={getDateNow()}
                   value={filterDate.endDate}

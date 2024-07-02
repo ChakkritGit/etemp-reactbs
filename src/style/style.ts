@@ -904,14 +904,14 @@ width: max-content;
 max-width: 165px;
 max-height: 45px;
 border-radius: var(--border-radius-small);
-border: 2px solid var(--warning-primary);
+border: 2px solid var(--danger-color);
 background-color: unset;
-color: var( --warning-primary);
+color: var(--danger-color);
 font-weight: bold;
 padding: .5rem;
 
 &:hover {
-  background-color: var(--warning-primary);
+  background-color: var(--danger-color);
   color: var(--white);
   transition: .3s;
 }
@@ -2748,6 +2748,40 @@ export const FullchartHeadBtn = styled.button<{ $primary?: boolean }>`
   max-width: 150px;
   max-height: 35px;
   border-radius: var(--border-radius-small);
+  border: 2px solid ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
+  background-color: unset;
+  color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
+  font-weight: bold;
+  padding: 0.5rem;
+
+  svg {
+    font-size: 24px;
+  }
+
+  ${props => props.$primary &&
+    css`
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
+  `}
+
+  &:hover {
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
+    transition: .3s;
+}
+`
+
+export const FullcharComparetHeadBtn = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: 150px;
+  max-height: 35px;
+  border-radius: var(--border-radius-small);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -2760,14 +2794,16 @@ export const FullchartHeadBtn = styled.button<{ $primary?: boolean }>`
 
   ${props => props.$primary &&
     css`
-  background-color: var(--main-color);
-  color: var(--white);
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
   `}
 
   &:hover {
-  background-color: var(--main-color);
-  color: var(--white);
-  transition: .3s;
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
+    transition: .3s;
 }
 `
 
@@ -2895,29 +2931,65 @@ export const FulltableHeadBtn = styled.div<{ $primary?: boolean }>`
   max-width: 150px;
   max-height: 35px;
   border-radius: var(--border-radius-small);
-  border: 2px solid var(--main-color);
+  border: 2px solid ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   background-color: unset;
-  color: var(--main-color);
+  color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   font-weight: bold;
   padding: 0.5rem;
-  cursor: pointer;
 
   svg {
     font-size: 24px;
   }
 
+  ${props => props.$primary &&
+    css`
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
+  `}
+
   &:hover {
-  background-color: var(--main-color);
-  color: var(--white);
-  transition: .3s;
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
+    transition: .3s;
 }
+`
+
+export const FulltableExportHeadBtn = styled.div<{ $primary?: boolean }>`
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: 150px;
+  max-height: 35px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: 0.5rem;
+
+  svg {
+    font-size: 24px;
+  }
 
   ${props => props.$primary &&
     css`
-  background-color: var(--main-color);
-  color: var(--white);
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
   `}
+
+  &:hover {
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color);
+    color: var(--white);
+    transition: .3s;
+}
 `
+
 
 export const FulltableHead = styled.div<{ $primary?: boolean }>`
 display: flex;
@@ -4444,14 +4516,15 @@ export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`
   max-width: 150px;
   max-height: 35px;
   border-radius: var(--border-radius-small);
-  border: 2px solid var(--main-color);
+  border: 2px solid ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   background-color: unset;
-  color: var(--main-color);
+  color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   font-weight: bold;
   padding: 0.5rem;
 
   &:hover {
     background-color: var(--main-color);
+    border: 2px solid var(--main-color);
     color: var(--white);
     transition: .3s;
   }
@@ -4459,6 +4532,7 @@ export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`
   ${props => props.$primary &&
     css`
     background-color: var(--main-color);
+    border: 2px solid var(--main-color);
     color: var(--white);
   `}
 `

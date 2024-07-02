@@ -101,9 +101,9 @@ const Comparechart = () => {
       </Breadcrumbs>
       <FullchartHead>
         <FullchartHeadLeft>
-          <FullchartHeadBtn $primary={pageNumber === 1} onClick={() => { }}>{t('chartDay')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 2} onClick={() => { }}>{t('chartWeek')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 1} onClick={() => setPagenumber(1)}>{t('chartDay')}</FullchartHeadBtn>
+          {/* <FullchartHeadBtn $primary={pageNumber === 2} onClick={() => { }}>{t('chartWeek')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn> */}
         </FullchartHeadLeft>
         <ExportandAuditFlex>
           <Dropdown>

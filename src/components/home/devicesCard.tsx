@@ -1,11 +1,11 @@
-import { ReactNode, useEffect, useRef } from 'react'
+import { ReactNode } from 'react'
 import {
   CardSpan, DevCardContainer,
   DevCardFooter
 } from '../../style/style'
 import { useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../../types/redux.type'
-import { CountUp } from "countup.js"
+// import { CountUp } from "countup.js"
 
 type DevCard = {
   title: string,
@@ -22,14 +22,14 @@ export default function DevicesCard(DevCard: DevCard) {
   const acTive = () => {
     DevCard.switchcase?.(DevCard.cardname, !DevCard.active)
   }
-  const countupRef = useRef(null)
+  // const countupRef = useRef(null)
 
-  useEffect(() => {
-    if (countupRef.current) {
-      const numAnim = new CountUp(countupRef.current, DevCard.count ?? 0)
-      numAnim.start()
-    }
-  }, [DevCard.count])
+  // useEffect(() => {
+  //   if (countupRef.current) {
+  //     const numAnim = new CountUp(countupRef.current, DevCard.count ?? 0)
+  //     numAnim.start()
+  //   }
+  // }, [DevCard.count])
 
   return (
     <DevCardContainer
@@ -38,7 +38,7 @@ export default function DevicesCard(DevCard: DevCard) {
       $eventcount={DevCard.count > 0}
       $responsivecard={expand}>
       <CardSpan>{DevCard.title}</CardSpan>
-      <span ref={countupRef}></span>
+      <span>{DevCard.count}</span>
       <DevCardFooter>
         <span>{DevCard.times}</span>
         <div>{DevCard.svg}</div>

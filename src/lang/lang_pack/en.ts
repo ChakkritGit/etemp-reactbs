@@ -200,6 +200,7 @@ export default {
     tabWarrantyall: 'All',
     warrantyMa: 'MA',
     warrantyEtc: 'Other',
+    invoice: 'invoice',
 
     // repair
     addRepair: 'Add Repair',
@@ -237,6 +238,11 @@ export default {
     screen: 'Screen',
     fullScreen: 'Full Screen Mode',
     changeLanguage: 'Change Language',
+
+    // warranty
+    editWarranty: 'Edit Warranty',
+    startDate: 'Start date',
+    endDate: 'Expired date',
 
     // notification
     titleNotification: 'Notification',
@@ -286,6 +292,7 @@ export default {
     flashButton: 'Upload Code',
     closeButton: 'Close',
     updateButton: 'Update',
+    addWarrantyButton: 'Add Warranty',
 
     // dropdown
     selectDeviceDrop: 'Select Devices',

@@ -238,6 +238,12 @@ export default {
     fullScreen: 'โหมดเต็มหน้าจอ',
     changeLanguage: 'เปลี่ยนภาษา',
 
+    // warranty
+    editWarranty: 'แก้ไขการรับประกัน',
+    startDate: 'วันเริ่มประกัน',
+    endDate: 'วันหมดประกัน',
+    invoice: 'invoice',
+
     // notification
     titleNotification: 'การแจ้งเตือน',
     notRead: 'ยังไม่อ่าน',
@@ -286,6 +292,7 @@ export default {
     flashButton: 'อัปโหลดโค้ด',
     closeButton: 'ปิด',
     updateButton: 'อัปเดท',
+    addWarrantyButton: 'เพิ่มการรับประกัน',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',

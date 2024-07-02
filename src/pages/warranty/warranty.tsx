@@ -3,7 +3,7 @@ import { DelWarrantyButton, DetailFlex, DetailWarranty, FormBtn, FormFlexBtn, Mo
 import { useEffect, useRef, useState } from "react"
 import Loading from "../../components/loading/loading"
 import { useTranslation } from "react-i18next"
-import { RiCloseCircleLine, RiCloseLine, RiFileCloseLine, RiInformationLine, RiLoader3Line, RiPrinterLine } from "react-icons/ri"
+import { RiCloseLine, RiDeleteBin2Line, RiFileCloseLine, RiInformationLine, RiLoader3Line, RiPrinterLine } from "react-icons/ri"
 import DataTable, { TableColumn } from "react-data-table-component"
 import ReactToPrint from "react-to-print"
 import Printwarranty from "./printwarranty"
@@ -17,6 +17,11 @@ import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import Addwarranty from "./addwarranty"
+import { userlevel } from "../../authen/authentFunc"
+
+interface dataTableProps {
+  warrantyData: warrantyType[]
+}
 
 export default function Warranty() {
   const { t } = useTranslation()
@@ -54,18 +59,18 @@ export default function Warranty() {
 
   const expiredArray = devicesArray.filter((items) => {
     const today = new Date()
-    const targetDate = new Date(items.device.dateInstall)
-    targetDate.setFullYear(targetDate.getFullYear() + 1)
-    const timeDifference = targetDate.getTime() - today.getTime()
+    const expiredDate = new Date(items.expire)
+    // Use the expiredDate directly
+    const timeDifference = expiredDate.getTime() - today.getTime()
     const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
     return daysRemaining <= 0
   })
 
   const onwarrantyArray = devicesArray.filter((items) => {
     const today = new Date()
-    const targetDate = new Date(items.device.dateInstall)
-    targetDate.setFullYear(targetDate.getFullYear() + 1)
-    const timeDifference = targetDate.getTime() - today.getTime()
+    const expiredDate = new Date(items.expire)
+    // Use the expiredDate directly
+    const timeDifference = expiredDate.getTime() - today.getTime()
     const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
     return daysRemaining >= 0
   })
@@ -138,9 +143,9 @@ export default function Warranty() {
       name: t('deviceWarrantyTb'),
       cell: ((items) => {
         const today = new Date()
-        const targetDate = new Date(items.device.dateInstall)
-        targetDate.setFullYear(targetDate.getFullYear() + 1)
-        const timeDifference = targetDate.getTime() - today.getTime()
+        const expiredDate = new Date(items.expire)
+        // Use the expiredDate directly
+        const timeDifference = expiredDate.getTime() - today.getTime()
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
 
         return <span>{daysRemaining} วัน</span>
@@ -152,39 +157,56 @@ export default function Warranty() {
       name: t('action'),
       cell: ((items) => {
         return <DetailFlex>
-          <Addwarranty
-              pagestate="edit"
-              warData={items}
-            />
           <DetailWarranty
             key={items.warrId}
             onClick={() => openmodal(items.warrId)}>
             <RiInformationLine />
           </DetailWarranty>
-          <DelWarrantyButton onClick={() =>
-            swalWithBootstrapButtons
-              .fire({
-                title: t('deleteWarranty'),
-                text: t('deleteWarrantyText'),
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: t('confirmButton'),
-                cancelButtonText: t('cancelButton'),
-                reverseButtons: false,
-              })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  deleteWarranty(items.warrId)
-                }
-              })}>
-            <RiCloseCircleLine />
-          </DelWarrantyButton>
+          {
+            userlevel() === '4' || '3' && <>
+              <Addwarranty
+                pagestate="edit"
+                warData={items}
+                fetchData={fetchData}
+              />
+              <DelWarrantyButton onClick={() =>
+                swalWithBootstrapButtons
+                  .fire({
+                    title: t('deleteWarranty'),
+                    text: t('deleteWarrantyText'),
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: t('confirmButton'),
+                    cancelButtonText: t('cancelButton'),
+                    reverseButtons: false,
+                  })
+                  .then((result) => {
+                    if (result.isConfirmed) {
+                      deleteWarranty(items.warrId)
+                    }
+                  })}>
+                <RiDeleteBin2Line />
+              </DelWarrantyButton>
+            </>
+          }
         </DetailFlex>
       }),
       sortable: false,
       center: true,
     },
   ]
+
+  const DataTableComponent = ({ warrantyData }: dataTableProps) => (
+    <DataTable
+      responsive={true}
+      columns={columns}
+      data={warrantyData}
+      pagination
+      paginationRowsPerPageOptions={[10]}
+      paginationPerPage={10}
+      dense
+    />
+  )
 
   return (
     <Container fluid>
@@ -199,11 +221,12 @@ export default function Warranty() {
             <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
             <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
           </div>
-          <div>
+          {userlevel() === '4' || '3' && <div>
             <Addwarranty
               pagestate="add"
+              fetchData={fetchData}
             />
-          </div>
+          </div>}
         </WarrantyHead>
         <WarrantyBody>
           {
@@ -212,14 +235,8 @@ export default function Warranty() {
                 <>
                   {
                     expiredArray.length > 0 ?
-                      <DataTable
-                        responsive={true}
-                        columns={columns}
-                        data={expiredArray}
-                        pagination
-                        paginationRowsPerPageOptions={[10]}
-                        paginationPerPage={10}
-                        dense
+                      <DataTableComponent
+                        warrantyData={expiredArray}
                       />
                       :
                       <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
@@ -230,14 +247,8 @@ export default function Warranty() {
                   <>
                     {
                       onwarrantyArray.length > 0 ?
-                        <DataTable
-                          responsive={true}
-                          columns={columns}
-                          data={onwarrantyArray}
-                          pagination
-                          paginationRowsPerPageOptions={[10, 15, 30, 50, 100, 150]}
-                          paginationPerPage={10}
-                          dense
+                        <DataTableComponent
+                          warrantyData={onwarrantyArray}
                         />
                         :
                         <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
@@ -247,14 +258,8 @@ export default function Warranty() {
                   <>
                     {
                       devicesArray.length > 0 ?
-                        <DataTable
-                          responsive={true}
-                          columns={columns}
-                          data={devicesArray}
-                          pagination
-                          paginationRowsPerPageOptions={[10, 15, 30, 50, 100, 150]}
-                          paginationPerPage={10}
-                          dense
+                        <DataTableComponent
+                          warrantyData={devicesArray}
                         />
                         :
                         <Loading loading={false} title={t('nodata')} icn={<RiFileCloseLine />} />
