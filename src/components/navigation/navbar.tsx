@@ -39,6 +39,7 @@ export default function Navbar(navbar: navbar) {
           </Button>
         </HamburgerExpand>
         <Globalsearch />
+        {import.meta.env.VITE_APP_NODE_ENV === 'development' && <div>{import.meta.env.VITE_APP_API}</div>}
       </Navleft>
       <NavRight>
         <Notification />

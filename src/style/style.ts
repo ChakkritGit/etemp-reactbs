@@ -1643,7 +1643,7 @@ export const HomeContainerFlex = styled.div<{ $primary?: boolean }>`
 export const DevHomeDetails = styled.div<{ $primary?: boolean }>`
 display: flex;
 align-items: center;
-justify-content: ${props => props.$primary ? 'unset' : 'center'};
+justify-content: center;
 gap: .5rem;
 margin-top: 1rem;
 
@@ -2957,7 +2957,7 @@ export const FulltableHeadBtn = styled.div<{ $primary?: boolean }>`
 `
 
 export const FulltableExportHeadBtn = styled.div<{ $primary?: boolean }>`
-   display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -3300,17 +3300,18 @@ border-color: var(--main-last-color);
 export const Noticontainer = styled.div<{ $primary?: boolean, $readed?: boolean }>`
 display: flex;
 flex-direction: column;
-border-bottom: 1px solid var(--soft-grey);
+border-bottom: 1px solid var(--grey-25);
+padding: .5rem;
 cursor: ${props => props.$readed ? 'unset' : 'pointer'};
 
 ${props => props.$primary &&
     css`
-    background-color: var(--main-color-f2);
+    background-color: var(--soft-grey);
 
     ${props => props.theme.mode === 'dark' &&
         css`
       color: var(--black);
-      background-color: var(--main-color-f1);
+      background-color: var(--main-seccond-color);
 `}
 `}
 `
@@ -3320,6 +3321,26 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 5px .5rem;
+
+&>div {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+
+  &>div {
+    display: none;
+  }
+
+  ${props => props.$primary && css`
+  &>div {
+    display: flex;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+  }
+    `}
+}
 `
 
 export const NotiflexTwo = styled.div<{ $primary?: boolean }>`

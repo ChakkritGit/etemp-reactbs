@@ -43,77 +43,79 @@ export default function Notificationdata(notilist: notilist) {
 
   const subTextNotiDetails = (text: string) => {
     console.log(text)
-    if (text.split('/')[0] === 'PROBE1') {
-      if (text.split('/')[2] === 'ON') {
-        if (text.split('/')[1] === 'DOOR1') {
-          return 'โพรบ 1 ประตู 1 ถูกเปิด'
-        } else if (text.split('/')[1] === 'DOOR2') {
-          return 'โพรบ 1  ประตู 2 ถูกเปิด'
-        } else {
-          return 'โพรบ 1  ประตู 3 ถูกเปิด'
-        }
-      } else {
-        if (text.split('/')[1] === 'DOOR1') {
-          return 'โพรบ 1 ประตู 1 ถูกปิด'
-        } else if (text.split('/')[1] === 'DOOR2') {
-          return 'โพรบ 1  ประตู 2 ถูกปิด'
-        } else {
-          return 'โพรบ 1  ประตู 3 ถูกปิด'
-        }
-      }
-    } else if (text.split('/')[0] === 'PROBE2') {
-      if (text.split('/')[2] === 'ON') {
-        if (text.split('/')[1] === 'DOOR1') {
-          return 'โพรบ 2 ประตู 1 ถูกเปิด'
-        } else if (text.split('/')[1] === 'DOOR2') {
-          return 'โพรบ 2 ประตู 2 ถูกเปิด'
-        } else {
-          return 'โพรบ 2 ประตู 3 ถูกเปิด'
-        }
-      } else {
-        if (text.split('/')[1] === 'DOOR1') {
-          return 'โพรบ 2 ประตู 1 ถูกปิด'
-        } else if (text.split('/')[1] === 'DOOR2') {
-          return 'โพรบ 2 ประตู 2 ถูกปิด'
-        } else {
-          return 'โพรบ 2 ประตู 3 ถูกปิด'
-        }
-      }
-    } else if (text.split('/')[0] === 'PROBE3') {
-      if (text.split('/')[2] === 'ON') {
-        if (text.split('/')[1] === 'DOOR1') {
-          return 'โพรบ 3 ประตู 1 ถูกเปิด'
-        } else if (text.split('/')[1] === 'DOOR2') {
-          return 'โพรบ 3 ประตู 2 ถูกเปิด'
-        } else {
-          return 'โพรบ 3 ประตู 3 ถูกเปิด'
-        }
-      } else {
-        if (text.split('/')[1] === 'DOOR1') {
-          return 'โพรบ 3 ประตู 1 ถูกปิด'
-        } else if (text.split('/')[1] === 'DOOR2') {
-          return 'โพรบ 3 ประตู 2 ถูกปิด'
-        } else {
-          return 'โพรบ 3 ประตู 3 ถูกปิด'
-        }
-      }
-    } else if (false) {
+    // if (text.split('/')[0] === 'PROBE1') {
+    //   if (text.split('/')[2] === 'ON') {
+    //     if (text.split('/')[1] === 'DOOR1') {
+    //       return 'โพรบ 1 ประตู 1 ถูกเปิด'
+    //     } else if (text.split('/')[1] === 'DOOR2') {
+    //       return 'โพรบ 1  ประตู 2 ถูกเปิด'
+    //     } else {
+    //       return 'โพรบ 1  ประตู 3 ถูกเปิด'
+    //     }
+    //   } else {
+    //     if (text.split('/')[1] === 'DOOR1') {
+    //       return 'โพรบ 1 ประตู 1 ถูกปิด'
+    //     } else if (text.split('/')[1] === 'DOOR2') {
+    //       return 'โพรบ 1  ประตู 2 ถูกปิด'
+    //     } else {
+    //       return 'โพรบ 1  ประตู 3 ถูกปิด'
+    //     }
+    //   }
+    // } else if (text.split('/')[0] === 'PROBE2') {
+    //   if (text.split('/')[2] === 'ON') {
+    //     if (text.split('/')[1] === 'DOOR1') {
+    //       return 'โพรบ 2 ประตู 1 ถูกเปิด'
+    //     } else if (text.split('/')[1] === 'DOOR2') {
+    //       return 'โพรบ 2 ประตู 2 ถูกเปิด'
+    //     } else {
+    //       return 'โพรบ 2 ประตู 3 ถูกเปิด'
+    //     }
+    //   } else {
+    //     if (text.split('/')[1] === 'DOOR1') {
+    //       return 'โพรบ 2 ประตู 1 ถูกปิด'
+    //     } else if (text.split('/')[1] === 'DOOR2') {
+    //       return 'โพรบ 2 ประตู 2 ถูกปิด'
+    //     } else {
+    //       return 'โพรบ 2 ประตู 3 ถูกปิด'
+    //     }
+    //   }
+    // } else if (text.split('/')[0] === 'PROBE3') {
+    //   if (text.split('/')[2] === 'ON') {
+    //     if (text.split('/')[1] === 'DOOR1') {
+    //       return 'โพรบ 3 ประตู 1 ถูกเปิด'
+    //     } else if (text.split('/')[1] === 'DOOR2') {
+    //       return 'โพรบ 3 ประตู 2 ถูกเปิด'
+    //     } else {
+    //       return 'โพรบ 3 ประตู 3 ถูกเปิด'
+    //     }
+    //   } else {
+    //     if (text.split('/')[1] === 'DOOR1') {
+    //       return 'โพรบ 3 ประตู 1 ถูกปิด'
+    //     } else if (text.split('/')[1] === 'DOOR2') {
+    //       return 'โพรบ 3 ประตู 2 ถูกปิด'
+    //     } else {
+    //       return 'โพรบ 3 ประตู 3 ถูกปิด'
+    //     }
+    //   }
+    // } else if (false) {
 
-    }
+    // }
 
-
-    // const probe = text.split('/')
-    // const probeNumber = probe[0].replace('PROBE', '')
-    // const doorNumber = probe[1].replace('DOOR', '')
-    // const status = probe[2] === 'ON' ? 'เปิด' : 'ปิด'
-    // return `โพรบ ${probeNumber} ประตู ${doorNumber} ถูก${status}`
+    const probe = text.split('/')
+    const probeNumber = probe[0].replace('PROBE', '')
+    const doorNumber = probe[1].replace('DOOR', '')
+    const status = probe[2] === 'ON' ? 'เปิด' : 'ปิด'
+    return `โพรบ ${probeNumber} ประตู ${doorNumber} ${status}`
   }
 
   const ListNotiTSX = ({ notiData, index }: listNotiProps) => {
     const { notiId, notiStatus, notiDetail, createAt, device } = notiData
     return <Noticontainer $primary={!notiStatus} $readed key={index} onClick={() => !notiStatus && setRead(notiId)}>
-      <NotiflexOne>
-        <strong>{subTextNotiDetails(notiDetail)}</strong>
+      <NotiflexOne $primary={!notiStatus}>
+        <div>
+          <div></div>
+          <strong>{subTextNotiDetails(notiDetail)}</strong>
+        </div>
         <span>{createAt.substring(11, 16)}</span>
       </NotiflexOne>
       <NotiflexTwo>

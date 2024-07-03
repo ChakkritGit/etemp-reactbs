@@ -125,6 +125,20 @@ export default function Fullchart() {
     }
   }
 
+  const Logmonth = async () => {
+    setPagenumber(3)
+    setLogData([])
+    try {
+      const responseData = await axios
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+          headers: { authorization: `Bearer ${token}` }
+        })
+      setLogData(responseData.data.data)
+    } catch (error) {
+      console.error('Something wrong' + error)
+    }
+  }
+
   const Logcustom = async () => {
     const { endDate, startDate } = filterDate
     let startDateNew = new Date(filterDate.startDate)
@@ -256,7 +270,8 @@ export default function Fullchart() {
           <FullchartHeadLeft>
             <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FullchartHeadBtn>
             <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
-            <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
+            <FullchartHeadBtn $primary={pageNumber === 3} onClick={Logmonth}>{t('month')}</FullchartHeadBtn>
+            <FullchartHeadBtn $primary={pageNumber === 4} onClick={() => setPagenumber(4)}>{t('chartCustom')}</FullchartHeadBtn>
             <span>|</span>
             <FullcharComparetHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullcharComparetHeadBtn>
           </FullchartHeadLeft>
@@ -316,9 +331,9 @@ export default function Fullchart() {
             </Dropdown>
           </ExportandAuditFlex>
         </FullchartHead>
-        <FullchartBody $primary={pageNumber !== 3}>
+        <FullchartBody $primary={pageNumber !== 4}>
           <CustomChart>
-            {pageNumber === 3 &&
+            {pageNumber === 4 &&
               <FilterContainer>
                 <Form.Control
                   type="date"

@@ -809,7 +809,7 @@ export default function Home() {
                     />
                   </DatatableHome>
                   :
-                  <DevHomeDetails $primary={devicesFilter.length <= 5 && devicesFilter.length !== 0}>
+                  <DevHomeDetails>
                     <div>
                       {
                         devicesFilter.length > 0 ?
