@@ -202,7 +202,7 @@ export default function Warranty() {
       columns={columns}
       data={warrantyData}
       pagination
-      paginationRowsPerPageOptions={[10]}
+      paginationRowsPerPageOptions={[10, 30, 50, 80, 100, 150, 200, 300, 500]}
       paginationPerPage={10}
       dense
     />

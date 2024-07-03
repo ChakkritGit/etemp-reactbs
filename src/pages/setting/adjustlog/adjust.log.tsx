@@ -73,6 +73,7 @@ export default function AdjustLog() {
       <DataTable
         columns={columns}
         data={filteredItems}
+        paginationRowsPerPageOptions={[10, 30, 50, 80, 100, 150, 200, 300, 500]}
         paginationPerPage={10}
         pagination
         responsive
