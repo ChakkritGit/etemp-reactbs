@@ -139,8 +139,8 @@ const CompareChartComponent = ({ chartData }: compareChart) => {
       type="line"
       options={options}
       series={series}
-      height={480}
-      width={1080}
+      height={680}
+      width={1480}
     />
   )
 }

@@ -660,11 +660,13 @@ export default function Home() {
                 <h5>
                   {t('showAllBox')}
                 </h5>
-                <TagCurrentHos>
-                  {
-                    userlevel() === '1' && `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
-                  }
-                </TagCurrentHos>
+                {
+                  userlevel() === '1' && <TagCurrentHos>
+                    {
+                      `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
+                    }
+                  </TagCurrentHos>
+                }
               </DevHomeHeadTile>
               <DevHomeSecctionOne>
                 {

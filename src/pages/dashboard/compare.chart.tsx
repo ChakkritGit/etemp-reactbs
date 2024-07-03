@@ -87,7 +87,7 @@ const Comparechart = () => {
   }
 
   return (
-    <Container>
+    <Container fluid>
       <Breadcrumbs className="mt-3"
         separator={<RiArrowRightSLine fontSize={20} />}
       >
