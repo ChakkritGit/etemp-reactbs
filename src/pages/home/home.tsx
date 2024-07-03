@@ -256,13 +256,6 @@ export default function Home() {
     setCardFilterData(CardFilterData)
   }, [devicesFilter, t])
 
-  useEffect(() => {
-    dispatch(setFilterDevice(devices.filter((items) =>
-    (items.devSerial?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
-      items.devName?.toLowerCase()?.includes(searchQuery.toLowerCase()))
-    )))
-  }, [searchQuery, devices])
-
   const handleRowClicked = (row: devicesType) => {
     localStorage.setItem('devid', row.devId)
     localStorage.setItem('devSerial', row.devSerial)
@@ -285,6 +278,16 @@ export default function Home() {
   const getWard = (wardID: string | undefined) => {
     updateLocalStorageAndDispatch('selectWard', wardID, setWardId)
   }
+
+  useEffect(() => {
+    const filteredDevices = wardId !== 'WID-DEVELOPMENT'
+      ? devices.filter((items) => items.wardId === wardId)
+      : devices
+    const filteredWard = filteredDevices.filter((items) => items.devSerial?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
+      items.devName?.toLowerCase()?.includes(searchQuery.toLowerCase()))
+    dispatch(setFilterDevice(filteredWard))
+
+  }, [searchQuery, devices, wardId])
 
   useEffect(() => {
     const filteredDevices = wardId !== 'WID-DEVELOPMENT'
