@@ -20,6 +20,7 @@
     "apexcharts": "^3.49.2",
     "atob-lite": "^2.0.0",
     "axios": "^1.7.2",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "5.3.3",
     "countup.js": "^2.8.0",
     "crypto-js": "^4.2.0",
@@ -63,6 +64,7 @@
     "xlsx": "file:vendor\\xlsx-0.20.2.tgz"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

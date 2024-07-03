@@ -10,15 +10,7 @@ export default function Navprofile() {
   const { t } = useTranslation()
   const logOut = (action: boolean) => {
     if (action === true) {
-      localStorage.removeItem("hosimg")
-      localStorage.removeItem("userpicture")
-      localStorage.removeItem("hosname")
-      localStorage.removeItem("userlevel")
-      localStorage.removeItem("groupid")
-      localStorage.removeItem("userid")
-      localStorage.removeItem("displayname")
-      localStorage.removeItem("hosid")
-      localStorage.removeItem("token")
+      localStorage.clear()
       navigate("/login")
     }
   }

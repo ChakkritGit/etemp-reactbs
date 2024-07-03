@@ -337,7 +337,7 @@ export default function Fullchart() {
               <FilterContainer>
                 <Form.Control
                   type="date"
-                  min={devData?.dateInstall.substring(0, 16)}
+                  min={devData?.dateInstall.split('T')[0]}
                   max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
                   value={filterDate.startDate}
                   onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />

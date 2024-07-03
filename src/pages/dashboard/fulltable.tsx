@@ -61,7 +61,7 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
@@ -76,11 +76,25 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
+    } catch (error) {
+      console.error('Something wrong' + error)
+    }
+  }
+
+  const Logmonth = async () => {
+    setPagenumber(3)
+    setLogData([])
+    try {
+      const responseData = await axios
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
+          headers: { authorization: `Bearer ${token}` }
+        })
+      setLogData(responseData.data.data)
     } catch (error) {
       console.error('Something wrong' + error)
     }
@@ -96,7 +110,7 @@ export default function Fulltable() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data.map((items) => items).reverse())
@@ -362,7 +376,8 @@ export default function Fulltable() {
           <FulltableHeadLeft>
             <FulltableHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FulltableHeadBtn>
             <FulltableHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FulltableHeadBtn>
-            <FulltableHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FulltableHeadBtn>
+            <FulltableHeadBtn $primary={pageNumber === 3} onClick={Logmonth}>{t('month')}</FulltableHeadBtn>
+            <FulltableHeadBtn $primary={pageNumber === 4} onClick={() => setPagenumber(4)}>{t('chartCustom')}</FulltableHeadBtn>
           </FulltableHeadLeft>
           <Dropdown>
             <Dropdown.Toggle variant="0" className="border-0 p-0">
@@ -393,13 +408,13 @@ export default function Fulltable() {
             </Dropdown.Menu>
           </Dropdown>
         </FulltableHead>
-        <FulltableBody $primary={pageNumber !== 3}>
+        <FulltableBody $primary={pageNumber !== 4}>
           <FulltableBodyChartCon $primary={expand}>
-            {pageNumber === 3 &&
+            {pageNumber === 4 &&
               <FilterContainer>
                 <Form.Control
                   type="date"
-                  min={devData?.dateInstall.substring(0, 16)}
+                  min={devData?.dateInstall.split('T')[0]}
                   max={filterDate.endDate !== '' ? filterDate.endDate : getDateNow()}
                   value={filterDate.startDate}
                   onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
