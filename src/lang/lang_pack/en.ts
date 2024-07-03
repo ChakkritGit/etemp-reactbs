@@ -330,6 +330,9 @@ export default {
     uploadLabel: 'Upload or drop a file right here',
     uploadLabelNotSupport: 'File type is not supported',
     sendOTA: 'Firmware update',
+    year: 'Year',
+    month: 'Month',
+    day: 'Day',
 
     // router
     titleError: 'Oops!',

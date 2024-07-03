@@ -148,7 +148,12 @@ export default function Warranty() {
         const timeDifference = expiredDate.getTime() - today.getTime()
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
 
-        return <span>{daysRemaining} วัน</span>
+        const years = Math.floor(daysRemaining / 365) // คำนวณจำนวนปี
+        const remainingDaysAfterYears = daysRemaining % 365 // หาวันที่เหลือหลังจากคำนวณปี
+        const months = Math.floor(remainingDaysAfterYears / 30) // คำนวณจำนวนเดือนจากวันที่เหลือ
+        const remainingDaysAfterMonths = remainingDaysAfterYears % 30 // หาวันที่เหลือหลังจากคำนวณเดือน
+
+        return <span>{daysRemaining > 0 ? years > 0 ? `${years} ${t('year')} ${months} ${t('month')} ${remainingDaysAfterMonths} ${t('day')}` : months > 0 ? `${months} ${t('month')} ${remainingDaysAfterMonths} ${t('day')}` : `${remainingDaysAfterMonths} ${t('day')}` : t('countWarranty')}</span>
       }),
       sortable: false,
       center: true,

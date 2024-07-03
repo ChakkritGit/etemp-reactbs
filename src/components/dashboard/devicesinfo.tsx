@@ -32,6 +32,13 @@ type devicesinfo = {
   index: number
 }
 
+type dateCalType = {
+  daysRemaining: number,
+  years: number,
+  months: number,
+  remainingDaysAfterMonths: number
+}
+
 export default function Devicesinfo(devicesinfo: devicesinfo) {
   const { devicesData } = devicesinfo
   const { t } = useTranslation()
@@ -45,6 +52,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
   const [tempvalue, setTempvalue] = useState<number[]>([probe[0]?.tempMin, probe[0]?.tempMax])
   const [humvalue, setHumvalue] = useState<number[]>([probe[0]?.humMin, probe[0]?.humMax])
   const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
+  const [dataData, setDateData] = useState<dateCalType>({} as dateCalType)
 
   const handleTempChange = (_event: Event, newValue: number | number[]) => {
     setTempvalue(newValue as number[])
@@ -147,6 +155,31 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
       })
     }
   }, [show])
+
+  const calulateDate = (devicesData: devicesType) => {
+    const { dateInstall } = devicesData
+    const today = new Date()
+    const targetDate = new Date(dateInstall)
+    targetDate.setFullYear(targetDate.getFullYear() + 1)
+    const timeDifference = targetDate.getTime() - today.getTime()
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
+
+    const years = Math.floor(daysRemaining / 365) // คำนวณจำนวนปี
+    const remainingDaysAfterYears = daysRemaining % 365 // หาวันที่เหลือหลังจากคำนวณปี
+    const months = Math.floor(remainingDaysAfterYears / 30) // คำนวณจำนวนเดือนจากวันที่เหลือ
+    const remainingDaysAfterMonths = remainingDaysAfterYears % 30 // หาวันที่เหลือหลังจากคำนวณเดือน
+
+    return {
+      daysRemaining,
+      years,
+      months,
+      remainingDaysAfterMonths
+    }
+  }
+
+  useEffect(() => {
+    setDateData(calulateDate(devicesData))
+  }, [devicesData])
 
   return (
     <DashboardDevicesInfo>
@@ -261,13 +294,12 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           valuestwo={Number(devicesData?.probe[0]?.door)}
           pipetwo={''}
         />
-        <CardstatusSpecial
+        <CardstatusNomal
           title={t('dashWarranty')}
           svg={<RiShieldCheckLine />}
-          valuesone={
-            Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24))
+          valuestext={
+            dataData.daysRemaining > 0 ? dataData.years > 0 ? `${dataData.years} ${t('year')} ${dataData.months} ${t('month')} ${dataData.remainingDaysAfterMonths} ${t('day')}` : dataData.months > 0 ? `${dataData.months} ${t('month')} ${dataData.remainingDaysAfterMonths} ${t('day')}` : `${dataData.remainingDaysAfterMonths} ${t('day')}` : t('countWarranty')
           }
-          valuestwo={t('stateDateDay')}
           alertone={Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
         />
         <CardstatusNomal

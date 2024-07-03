@@ -330,6 +330,9 @@ export default {
     uploadLabel: 'อัปโหลดหรือวางไฟล์ที่นี่',
     uploadLabelNotSupport: 'ไม่รองรับประเภทไฟล์',
     sendOTA: 'อัปเดทเฟิร์มแวร์',
+    year: 'ปี',
+    month: 'เดือน',
+    day: 'วัน',
 
     // router
     titleError: 'อุ๊ปส์!',
