@@ -36,7 +36,7 @@ type dateCalType = {
   daysRemaining: number,
   years: number,
   months: number,
-  remainingDaysAfterMonths: number
+  remainingDays: number
 }
 
 export default function Devicesinfo(devicesinfo: devicesinfo) {
@@ -156,6 +156,10 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
     }
   }, [show])
 
+  const isLeapYear = (year: number): boolean => {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)
+  }
+
   const calulateDate = (devicesData: devicesType) => {
     const { dateInstall } = devicesData
     const today = new Date()
@@ -164,16 +168,47 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
     const timeDifference = targetDate.getTime() - today.getTime()
     const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
 
-    const years = Math.floor(daysRemaining / 365) // คำนวณจำนวนปี
-    const remainingDaysAfterYears = daysRemaining % 365 // หาวันที่เหลือหลังจากคำนวณปี
-    const months = Math.floor(remainingDaysAfterYears / 30) // คำนวณจำนวนเดือนจากวันที่เหลือ
-    const remainingDaysAfterMonths = remainingDaysAfterYears % 30 // หาวันที่เหลือหลังจากคำนวณเดือน
+    let remainingDays = daysRemaining
+    let years = 0
+    let months = 0
+
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    while (remainingDays >= 365) {
+      if (isLeapYear(today.getFullYear() + years)) {
+        if (remainingDays >= 366) {
+          remainingDays -= 366
+          years++
+        } else {
+          break
+        }
+      } else {
+        remainingDays -= 365
+        years++
+      }
+    }
+
+    let currentMonth = today.getMonth()
+    while (remainingDays >= daysInMonth[currentMonth]) {
+      if (currentMonth === 1 && isLeapYear(today.getFullYear() + years)) {
+        if (remainingDays >= 29) {
+          remainingDays -= 29
+          months++
+        } else {
+          break
+        }
+      } else {
+        remainingDays -= daysInMonth[currentMonth]
+        months++
+      }
+      currentMonth = (currentMonth + 1) % 12
+    }
 
     return {
       daysRemaining,
       years,
       months,
-      remainingDaysAfterMonths
+      remainingDays
     }
   }
 
@@ -298,7 +333,13 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           title={t('dashWarranty')}
           svg={<RiShieldCheckLine />}
           valuestext={
-            dataData.daysRemaining > 0 ? dataData.years > 0 ? `${dataData.years} ${t('year')} ${dataData.months} ${t('month')} ${dataData.remainingDaysAfterMonths} ${t('day')}` : dataData.months > 0 ? `${dataData.months} ${t('month')} ${dataData.remainingDaysAfterMonths} ${t('day')}` : `${dataData.remainingDaysAfterMonths} ${t('day')}` : t('countWarranty')
+            dataData.daysRemaining > 0
+              ? dataData.years > 0
+                ? `${dataData.years} ${t('year')} ${dataData.months} ${t('month')} ${dataData.remainingDays} ${t('day')}`
+                : dataData.months > 0
+                  ? `${dataData.months} ${t('month')} ${dataData.remainingDays} ${t('day')}`
+                  : `${dataData.remainingDays} ${t('day')}`
+              : t('tabWarrantyExpired')
           }
           alertone={Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
         />

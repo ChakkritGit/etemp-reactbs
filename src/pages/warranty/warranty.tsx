@@ -118,6 +118,10 @@ export default function Warranty() {
     }
   }
 
+  const isLeapYear = (year: number): boolean => {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)
+  }
+
   const columns: TableColumn<warrantyType>[] = [
     {
       name: t('noNumber'),
@@ -148,12 +152,51 @@ export default function Warranty() {
         const timeDifference = expiredDate.getTime() - today.getTime()
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
 
-        const years = Math.floor(daysRemaining / 365) // คำนวณจำนวนปี
-        const remainingDaysAfterYears = daysRemaining % 365 // หาวันที่เหลือหลังจากคำนวณปี
-        const months = Math.floor(remainingDaysAfterYears / 30) // คำนวณจำนวนเดือนจากวันที่เหลือ
-        const remainingDaysAfterMonths = remainingDaysAfterYears % 30 // หาวันที่เหลือหลังจากคำนวณเดือน
+        let remainingDays = daysRemaining
+        let years = 0
+        let months = 0
 
-        return <span>{daysRemaining > 0 ? years > 0 ? `${years} ${t('year')} ${months} ${t('month')} ${remainingDaysAfterMonths} ${t('day')}` : months > 0 ? `${months} ${t('month')} ${remainingDaysAfterMonths} ${t('day')}` : `${remainingDaysAfterMonths} ${t('day')}` : t('countWarranty')}</span>
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        while (remainingDays >= 365) {
+          if (isLeapYear(today.getFullYear() + years)) {
+            if (remainingDays >= 366) {
+              remainingDays -= 366
+              years++
+            } else {
+              break
+            }
+          } else {
+            remainingDays -= 365
+            years++
+          }
+        }
+
+        let currentMonth = today.getMonth()
+        while (remainingDays >= daysInMonth[currentMonth]) {
+          if (currentMonth === 1 && isLeapYear(today.getFullYear() + years)) {
+            if (remainingDays >= 29) {
+              remainingDays -= 29
+              months++
+            } else {
+              break
+            }
+          } else {
+            remainingDays -= daysInMonth[currentMonth]
+            months++
+          }
+          currentMonth = (currentMonth + 1) % 12
+        }
+
+        return <span>
+          {daysRemaining > 0
+            ? years > 0
+              ? `${years} ${t('year')} ${months} ${t('month')} ${remainingDays} ${t('day')}`
+              : months > 0
+                ? `${months} ${t('month')} ${remainingDays} ${t('day')}`
+                : `${remainingDays} ${t('day')}`
+            : t('tabWarrantyExpired')}
+        </span>
       }),
       sortable: false,
       center: true,
