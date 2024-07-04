@@ -1,5 +1,5 @@
 import { HideFlashFW, Hidesetting, Islogout } from '../authen/authen'
-import { AuthRoute } from '../../src/authen/authen'
+// import { AuthRoute } from '../../src/authen/authen'
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { socket } from '../services/websocket'
 import { useEffect, useState } from 'react'
@@ -27,6 +27,7 @@ import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import Log from '../pages/log/log'
 import ESPToolComponent from '../pages/setting/devices/serial.port'
+import { AuthRoute } from '../middleware/authprotect'
 
 const router = createBrowserRouter([
   {

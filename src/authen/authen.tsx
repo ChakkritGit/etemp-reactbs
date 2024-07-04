@@ -1,16 +1,16 @@
 import { Outlet, Navigate } from "react-router-dom"
-import { getUser } from "./authentFunc"
+// import { getUser } from "./authentFunc"
 import Login from "../pages/login/login"
 import { getLogin } from "./authentFunc"
 import Notacess from "../components/permission/notacess"
 import { DeviceStateStore, UtilsStateStore } from "../types/redux.type"
 import { useSelector } from "react-redux"
 
-export function AuthRoute() {
-  return (
-    getUser() ? <Outlet /> : <Navigate to="/login" />
-  )
-}
+// export function AuthRoute() {
+//   return (
+//     getUser() ? <Outlet /> : <Navigate to="/login" />
+//   )
+// }
 
 export function Islogout() {
   return (

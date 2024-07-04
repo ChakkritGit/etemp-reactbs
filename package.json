@@ -30,6 +30,7 @@
     "framer-motion": "^11.2.12",
     "html2canvas": "^1.4.1",
     "i18next": "^23.11.5",
+    "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mqtt": "^5.7.3",
     "pako": "^2.1.0",
@@ -66,6 +67,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-helmet": "^6.1.11",

@@ -82,10 +82,10 @@ const arraySlice = createSlice({
       .addMatcher(
         (action: PayloadAction) => action.type.endsWith("/rejected"),
         (state: DataArrayStore, action: payloadError) => {
-          if (action.error.message.split(' ')[action.error.message.split(' ').length - 1] === '401') {
-            localStorage.clear()
-            window.location = '/' as unknown as Location
-          }
+          // if (action.error.message.split(' ')[action.error.message.split(' ').length - 1] === '401') {
+          //   localStorage.clear()
+          //   window.location = '/' as unknown as Location
+          // }
           state.arrayLoading = false
           state.arrayError = action.error.message
         },

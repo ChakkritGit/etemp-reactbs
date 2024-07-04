@@ -1,4 +1,3 @@
-
 export const getDateNow = () => {
   let date = new Date()
   let year = date.getFullYear()
