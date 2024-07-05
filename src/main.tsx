@@ -14,6 +14,7 @@ import { ThemeProviders } from './theme/ThemeProvider'
 import { ColorProvider } from './theme/ColorsProvider'
 import { store } from './stores/store'
 import { Provider } from 'react-redux'
+import ReloadPrompt from './components/reloadSW/ReloadPrompt'
 
 if (import.meta.env.VITE_APP_NODE_ENV === 'production') {
   console.log = () => { }
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           minBreakpoint="xxs">
           <ThemeProviders>
             <ColorProvider>
+              <ReloadPrompt />
               <GlobalStyles />
               <GlobalColors />
               <RoutesComponent />
