@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { ClosePromptToastButton, ReloadPromptContainer, ReloadPromptMessage, ReloadPromptToast, ReloadPromptToastButton } from '../../style/components/reloadprompt'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 export default function ReloadPrompt() {
+  const { t } = useTranslation()
+
   const {
     offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
@@ -27,14 +30,14 @@ export default function ReloadPrompt() {
         && <ReloadPromptToast>
           <ReloadPromptMessage>
             {offlineReady
-              ? <span>App ready to work offline</span>
-              : <span>New content available, click on reload button to update.</span>
+              ? <span>{t('appOffline')}</span>
+              : <span>{t('newContentReload')}</span>
             }
           </ReloadPromptMessage>
           {needRefresh &&
-            <ReloadPromptToastButton onClick={() => updateServiceWorker(true)}>Reload</ReloadPromptToastButton>
+            <ReloadPromptToastButton onClick={() => updateServiceWorker(true)}>{t('reloadButton')}</ReloadPromptToastButton>
           }
-          <ClosePromptToastButton onClick={() => close()}>Close</ClosePromptToastButton>
+          <ClosePromptToastButton onClick={() => close()}>{t('closeButton')}</ClosePromptToastButton>
         </ReloadPromptToast>
       }
     </ReloadPromptContainer>

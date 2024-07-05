@@ -293,6 +293,7 @@ export default {
     closeButton: 'ปิด',
     updateButton: 'อัปเดท',
     addWarrantyButton: 'เพิ่มการรับประกัน',
+    reloadButton: 'รีโหลด',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',
@@ -356,5 +357,9 @@ export default {
     deleteWarranty: 'คุณต้องการลบประกันหรือไม่',
     deleteWarrantyText: 'คุณจะไม่สามารถกู้คืนข้อมูลการรับประกันได้',
     selectedFile: 'กรุณาเลือกไฟล์หรือวางไฟล์',
+
+    // reload sw
+    appOffline: 'แอพกำลังทำงานแบบออฟไลน์',
+    newContentReload: 'มีอัปเดทใหม่, คลิกที่ปุ่ม "รีโหลด" เพื่ออัปเดท',
   },
 }

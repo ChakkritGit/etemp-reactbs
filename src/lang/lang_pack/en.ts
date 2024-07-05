@@ -293,6 +293,7 @@ export default {
     closeButton: 'Close',
     updateButton: 'Update',
     addWarrantyButton: 'Add Warranty',
+    reloadButton: 'Reload',
 
     // dropdown
     selectDeviceDrop: 'Select Devices',
@@ -356,5 +357,9 @@ export default {
     deleteWarranty: 'Do you want to warranty probe?',
     deleteWarrantyText: 'You will not be able to reverse warranty detail!',
     selectedFile: 'Please selected file or drop file!',
+
+    // reload sw
+    appOffline: 'App ready to work offline',
+    newContentReload: 'New content available, click on reload button to update.',
   },
 }
