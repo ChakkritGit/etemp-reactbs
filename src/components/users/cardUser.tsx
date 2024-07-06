@@ -65,7 +65,7 @@ export default function CardUser(userProp: cardType) {
           <UserDetails>
             <span>{displayName}</span>
             <span>@{userName}</span>
-            <span>{userLevel === "1" ? t('levelSuper') : userLevel === "2" ? t('levelService') : userLevel === "3" ? t('levelAdmin') : t('levelUser')}</span>
+            <span>{userLevel === "0" ? t('levelSuper') : userLevel === "1" ? t('levelService') : userLevel === "2" ? t('levelAdmin') : t('levelUser')}</span>
           </UserDetails>
           <UserMenu>
             <Adduser

@@ -128,7 +128,7 @@ export default function sidebar() {
             </TooltipSpan>
           </Li>
           {
-            userlevel() !== '4' ?
+            userlevel() !== '3' ?
               <>
                 <Li $primary={expand}>
                   <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>

@@ -73,7 +73,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
         <ActiveNavBlur $primary={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare"} />
       </NavigationItems>
       {
-        userlevel() !== '4' ?
+        userlevel() !== '3' ?
           <>
             <NavigationItems $primary={location.pathname === "/permission"} onClick={() => navigate('/permission')}>
               {

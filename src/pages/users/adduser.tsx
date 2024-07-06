@@ -226,10 +226,10 @@ export default function Adduser(AdduserProp: adduserProp) {
   }
 
   const userlevel = [
-    { value: '1', name: t('levelSuper') },
-    { value: '2', name: t('levelService') },
-    { value: '3', name: t('levelAdmin') },
-    { value: '4', name: t('levelUser') },
+    { value: '0', name: t('levelSuper') },
+    { value: '1', name: t('levelService') },
+    { value: '2', name: t('levelAdmin') },
+    { value: '3', name: t('levelUser') },
   ]
 
   const userstatus = [

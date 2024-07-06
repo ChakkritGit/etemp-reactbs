@@ -46,8 +46,8 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     choichfour: devicesdata.config.mobileNoti === "1" ? 'on' : 'off'
   })
   const [sendTime, setSendTime] = useState({
-    after: devicesdata.config.notiTime > "0" ? Number(devicesdata.config.notiTime) : 0,
-    every: devicesdata.config.repeat !== "0" ? Number(devicesdata.config.repeat) : 0
+    after: devicesdata.config.notiTime > "0" ? Number(devicesdata.config.notiTime) : 1,
+    every: devicesdata.config.repeat !== "0" ? Number(devicesdata.config.repeat) : 1
   })
   const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
   const [selectProbeI, setSelectProbeI] = useState(devicesdata.probe[0]?.probeId)
@@ -343,7 +343,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={userLevel === '4'}
+                          disabled={userLevel === '3'}
                           value={formData.adjust_temp}
                           onChange={(e) => setFormData({ ...formData, adjust_temp: Number(e.target.value) })} />
                         <strong>°C</strong>
@@ -351,14 +351,14 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="temp"
-                      $disabled={userLevel === '4'}
+                      $disabled={userLevel === '3'}
                     >
                       <Slider
                         color="error"
                         min={-20}
                         max={20}
                         step={.01}
-                        disabled={userLevel === '4'}
+                        disabled={userLevel === '3'}
                         value={formData.adjust_temp}
                         onChange={handleAdjusttempChange}
                         valueLabelDisplay="off" />
@@ -376,7 +376,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                           min={-20}
                           max={20}
                           step={.01}
-                          disabled={userLevel === '4'}
+                          disabled={userLevel === '3'}
                           value={formData.adjust_hum}
                           onChange={(e) => setFormData({ ...formData, adjust_hum: Number(e.target.value) })} />
                         <strong>%</strong>
@@ -384,14 +384,14 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="hum"
-                      $disabled={userLevel === '4'}
+                      $disabled={userLevel === '3'}
                     >
                       <Slider
                         color="primary"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={userLevel === '4'}
+                        disabled={userLevel === '3'}
                         value={formData.adjust_hum}
                         onChange={handleAdjusthumChange}
                         valueLabelDisplay="off" />

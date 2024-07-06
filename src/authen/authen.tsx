@@ -21,8 +21,9 @@ export function Islogout() {
 export function Hidesetting() {
   const { tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { userLevel } = tokenDecode
+  console.log(userLevel)
   return (
-    userLevel === '4' ? <Notacess /> : <Outlet />
+    userLevel === '3' ? <Notacess /> : <Outlet />
   )
 }
 
@@ -30,6 +31,6 @@ export function HideFlashFW() {
   const { tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { userLevel } = tokenDecode
   return (
-    userLevel !== '1' ? <Notacess /> : <Outlet />
+    userLevel !== '0' ? <Notacess /> : <Outlet />
   )
 }
