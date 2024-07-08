@@ -360,7 +360,7 @@ export default {
     selectedFile: 'กรุณาเลือกไฟล์หรือวางไฟล์',
 
     // reload sw
-    appOffline: 'แอพกำลังทำงานแบบออฟไลน์',
+    appOffline: 'แอพพร้อมใช้งานแบบออฟไลน์',
     newContentReload: 'มีอัปเดทใหม่, คลิกที่ปุ่ม "รีโหลด" เพื่ออัปเดท',
   },
 }
