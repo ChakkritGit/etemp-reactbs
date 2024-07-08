@@ -9,6 +9,9 @@ export const ReloadPromptContainer = styled.div`
 `
 
 export const ReloadPromptToast = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
   position: fixed;
   right: 0;
   top: 60px;
@@ -27,21 +30,24 @@ export const ReloadPromptMessage = styled.div`
   margin-bottom: 8px;
 `
 
-export const ReloadPromptToastButton = styled.div`
+export const ReloadPromptToastButton = styled.button`
   border: 1px solid var(--main-color);
   outline: none;
   margin-right: 5px;
   border-radius: var(--border-radius-small);
   background-color: var(--main-color);
+  color: var(--white);
   padding: 3px 10px;
   width: max-content;
 `
 
-export const ClosePromptToastButton = styled.div`
+export const ClosePromptToastButton = styled.button`
   border: 1px solid #8885;
   outline: none;
   margin-right: 5px;
   border-radius: var(--border-radius-small);
+  background-color: transparent;
+  color: ${props => props.theme.mode === 'dark' ? 'var(--white)' : 'var(--main-last-color)'};
   padding: 3px 10px;
   width: max-content;
 `
