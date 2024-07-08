@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import {
-  AccountContainer, Checkboxbsoveride, FormBtn, FormFlexBtn, LineHr, ModalHead,
+  AccountContainer, Checkboxbsoveride, EditProfileButton, FormBtn, FormFlexBtn, LineHr, ModalHead,
   PasswordChangeFlex, ProfileFlex, SecurityFlex, SecurityPasswordBtn
 } from "../../style/style"
 import { RiCloseLine, RiEditLine } from "react-icons/ri"
@@ -19,8 +19,19 @@ export default function Account() {
   const { tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
   const [show, setshow] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
   const [newpassword, setNewpassword] = useState('')
   const [showpassword, setShowpassword] = useState(false)
+  const [userData, setUserData] = useState<usersType>()
+  const [userDisplayName, setUserDisplayName] = useState<string>('')
+
+  const openmodalProfile = () => {
+    setShowProfile(true)
+  }
+
+  const closemodalProfile = () => {
+    setShowProfile(false)
+  }
 
   const openmodal = () => {
     setshow(true)
@@ -49,6 +60,7 @@ export default function Account() {
       localStorage.setItem("hosimg", hospital.hosPic)
       localStorage.setItem("hosname", hospital.hosName)
       localStorage.setItem("groupid", wardId)
+      setUserData(response.data.data)
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
@@ -146,20 +158,83 @@ export default function Account() {
     }
   }
 
+  const handleSubmitProfile = async (e: FormEvent) => {
+    e.preventDefault()
+    if (userDisplayName !== '') {
+      try {
+        const response = await axios.put(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, {
+          displayName: userDisplayName
+        }, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${token}`
+          }
+        })
+        setShowProfile(false)
+        Swal.fire({
+          title: t('alertHeaderSuccess'),
+          text: response.data.message,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+        reFetchdata()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: 'Uknown Error',
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
+      }
+    } else {
+      Swal.fire({
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
+        icon: "warning",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  useEffect(() => {
+    reFetchdata()
+  }, [])
+
   return (
     <AccountContainer>
       <h3>{t('titleProfile')}</h3>
       <ProfileFlex $radius={50} $dimension={150} $imageFit>
         <div>
-          <img src={userpicture ? userpicture : localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
-          <label htmlFor={'user-file-upload'} >
-            <RiEditLine />
-            <input id="user-file-upload" type="file" onChange={handleChang} />
-          </label>
+          <div>
+            <img src={userpicture ? userpicture : localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
+            <label htmlFor={'user-file-upload'} >
+              <RiEditLine />
+              <input id="user-file-upload" type="file" onChange={handleChang} />
+            </label>
+          </div>
+          <div>
+            <h5>{localStorage.getItem('displayname')}</h5>
+            <span>@{userData?.userName}</span>
+          </div>
         </div>
         <div>
-          <h5>{localStorage.getItem('displayname')}</h5>
-          <span>@username</span>
+          <EditProfileButton onClick={openmodalProfile}>
+            <RiEditLine />
+            {t('editbutton')}
+          </EditProfileButton>
         </div>
       </ProfileFlex>
       <LineHr />
@@ -170,6 +245,46 @@ export default function Account() {
           {t('changPassword')}
         </SecurityPasswordBtn>
       </SecurityFlex>
+
+      <Modal show={showProfile} onHide={closemodalProfile}>
+        <Modal.Header>
+          <ModalHead>
+            <strong>
+              {t('userDisplayName')}
+            </strong>
+            <button onClick={closemodalProfile}>
+              <RiCloseLine />
+            </button>
+          </ModalHead>
+        </Modal.Header>
+        <Form onSubmit={handleSubmitProfile}>
+          <Modal.Body>
+            <Row>
+              <Col lg={12}>
+                <InputGroup className="mb-3">
+                  <Form.Label className="w-100">
+                    {t('userDisplayName')}
+                    <Form.Control
+                      spellCheck={false}
+                      autoComplete='off'
+                      type={'text'}
+                      value={userDisplayName}
+                      onChange={(e) => setUserDisplayName(e.target.value)}
+                    />
+                  </Form.Label>
+                </InputGroup>
+              </Col>
+            </Row>
+          </Modal.Body>
+          <Modal.Footer>
+            <FormFlexBtn>
+              <FormBtn type="submit">
+                {t('changPassword')}
+              </FormBtn>
+            </FormFlexBtn>
+          </Modal.Footer>
+        </Form>
+      </Modal>
 
       <Modal show={show} onHide={closemodal}>
         <Modal.Header>

@@ -4089,10 +4089,18 @@ overflow-y: scroll;
 
 export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number, $imageFit?: boolean }>`
 display: flex;
+justify-content: space-between;
 gap: 2rem;
 margin: 1rem 0;
 
-&>div {
+&>div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+&>div:nth-child(1)>div:nth-child(1) {
   display: block;
   position: relative;
   width: ${props => props.$dimension + 'px'};
@@ -4103,7 +4111,7 @@ margin: 1rem 0;
   overflow: hidden;
 }
 
-&>div>img {
+&>div:nth-child(1)>div:nth-child(1)>img {
   position: absolute;
   width: ${props => props.$dimension + 'px'};
   height: ${props => props.$dimension + 'px'};
@@ -4117,7 +4125,7 @@ margin: 1rem 0;
   overflow: hidden;
 }
 
-&>div>label {
+&>div:nth-child(1)>div:nth-child(1)>label {
   position: absolute;
   width: 35px;
   height: 35px;
@@ -4138,25 +4146,47 @@ margin: 1rem 0;
   }
 }
 
-&>div>label:hover {
+&>div:nth-child(1)>div:nth-child(1)>label:hover {
   background-color: var(--blue-black);
   transition: .3s;
 }
 
-&>div>label>input[type='file'] {
+&>div:nth-child(1)>div:nth-child(1)>label>input[type='file'] {
   display: none;
 }
 
 @media (max-width: 430px) {
   flex-direction: column;
   align-items: center;
-  height: 275px;
+  height: max-content;
   gap: 1.5rem;
 
-  &>div:nth-child(2) {
-    height: 100px;
+  &>div:nth-child(1) {
+    justify-content: center;
   }
 }
+`
+
+export const EditProfileButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: 150px;
+  max-height: 35px;
+  border-radius: var(--border-radius-small);
+  border: 2px solid var(--main-color);
+  background-color: unset;
+  color: var(--main-color);
+  font-weight: bold;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: var(--main-color);
+    color: var(--white);
+    transition: .3s;
+  }
 `
 
 export const SecurityFlex = styled.div<{ $primary?: boolean }>`

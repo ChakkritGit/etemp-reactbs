@@ -18,6 +18,10 @@ export default defineConfig({
         swDest: 'dist/sw.js',
         maximumFileSizeToCacheInBytes: 100 * 1024 * 1024 // 100MB
       },
+      workbox: {
+        cleanupOutdatedCaches: false,
+        sourcemap: true
+      },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
         name: 'eTEMP',

@@ -294,6 +294,7 @@ export default {
     updateButton: 'อัปเดท',
     addWarrantyButton: 'เพิ่มการรับประกัน',
     reloadButton: 'รีโหลด',
+    editbutton: 'แก้ไข',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',
