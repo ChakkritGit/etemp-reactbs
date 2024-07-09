@@ -363,6 +363,9 @@ export default {
     logoutDialog: 'คุณต้องการออกจากระบบหรือไม่',
     logoutDialogText: 'คุณจะถูกนำไปยังหน้าล็อกอิน',
 
+    // time
+    thTime: 'th-TH',
+
     // reload sw
     appOffline: 'แอพพร้อมใช้งานแบบออฟไลน์',
     newContentReload: 'มีอัปเดทใหม่, คลิกที่ปุ่ม "รีโหลด" เพื่ออัปเดท',

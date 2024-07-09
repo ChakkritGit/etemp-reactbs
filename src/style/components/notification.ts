@@ -20,7 +20,7 @@ export const NotiHeadBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);

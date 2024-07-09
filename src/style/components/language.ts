@@ -12,7 +12,7 @@ export const LangSwitchButton = styled.button<{ $lang?: boolean }>`
   background-color: unset;
   border: unset;
   padding: .5rem;
-  border-radius: .5rem;
+  border-radius: var(--border-radius-big);
   color: var(--real-black);
   ${(propss) => (propss.theme.mode === 'dark' && css`
     color: var(--white);

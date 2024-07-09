@@ -92,7 +92,7 @@ export const DelProbeButton = styled.button<{ $primary?: boolean }>`
   gap: .5rem;
   width: 30px;
   max-height: 30px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--danger-color);
   background-color: unset;
   color: var(--danger-color);
@@ -118,7 +118,7 @@ export const ManageProbeAdd = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 165px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);

@@ -19,7 +19,7 @@ export const CardFlex = styled.div`
 background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white)'};
 color: ${props => props.theme.mode === 'dark' ? 'var(--white)' : 'var(--main-last-color)'};
 box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 padding: 1.5rem;
 width: 450px;
 
@@ -30,6 +30,7 @@ width: 450px;
 `
 
 export const TimeStap = styled.div`
+color: ${props => props.theme.mode === 'dark' ? 'var(--white)' : 'black'};
 text-align: right;
 width: 450px;
 
@@ -44,7 +45,7 @@ export const LoginButton = styled.button<{ $primary?: boolean }>`
   color: var(--white);
   border: unset;
   background-color: var(--main-color);
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
 
   &:disabled {
     background-color: ${props => props.$primary && 'var(--main-last-color)'};

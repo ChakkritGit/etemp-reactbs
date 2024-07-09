@@ -80,9 +80,9 @@
   --main-white-rgba: rgba(255, 255, 255, 0.5);
 
   /* border */
-  --border-radius-small: 1.70rem;
+  --border-radius-small: 1.15rem;
   /* .55rem */
-  --border-radius-big: 1.15rem;
+  --border-radius-big: 1.70rem;
 }
 
 * {
@@ -140,8 +140,8 @@
 /* bootstrap navlink */
 .nav-tabs .nav-link {
   color: var(--real-black);
-  border-top-left-radius: var(--border-radius-small) !important;
-  border-top-right-radius: var(--border-radius-small) !important;
+  border-top-left-radius: var(--border-radius-big) !important;
+  border-top-right-radius: var(--border-radius-big) !important;
 }
 
 .nav-tabs .nav-link.active {
@@ -189,7 +189,7 @@ div:where(.swal2-container) div:where(.swal2-actions) {
 }
 
 div:where(.swal2-container).swal2-center>.swal2-popup {
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
 }
 
 div:where(.swal2-container).swal2-backdrop-show {
@@ -250,11 +250,11 @@ div:where(.swal2-icon).swal2-success .swal2-success-ring {
 }
 
 .dropdown-menu {
-  border-radius: var(--border-radius-small) !important;
+  border-radius: var(--border-radius-big) !important;
 }
 
 .nav-pills .nav-link {
-  border-radius: var(--border-radius-small) !important;
+  border-radius: var(--border-radius-big) !important;
   height: 48px;
 }
 

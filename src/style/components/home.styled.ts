@@ -22,7 +22,7 @@ margin: 1rem 0;
   height: 65px;
   max-width: 300px;
   max-height: 70px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   padding: .7rem 1rem;
   border: 2px solid ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
   overflow: hidden;
@@ -64,7 +64,7 @@ height: 35px;
 gap: .5rem;
 padding: .5rem;
 background-color: transparent;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 
 & > svg, span {
@@ -92,5 +92,5 @@ gap: .5rem;
 export const TagCurrentHos = styled.span`
   padding: 7px .8rem;
   background-color: var(--main-color-f2);
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
 `

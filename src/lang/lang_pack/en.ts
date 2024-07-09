@@ -363,6 +363,9 @@ export default {
     logoutDialog: 'Do you want to logout?',
     logoutDialogText: 'You will be redirected to the login page!',
 
+    // time
+    thTime: 'en-EN',
+
     // reload sw
     appOffline: 'App ready to work offline',
     newContentReload: 'New content available, click on reload button to update.',

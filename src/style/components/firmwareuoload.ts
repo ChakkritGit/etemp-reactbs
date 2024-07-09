@@ -73,7 +73,7 @@ gap: .5rem;
 width: max-content;
 max-width: 165px;
 max-height: 45px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
 color: var(--main-color);
@@ -361,7 +361,7 @@ export const SendOTAtoBoard = styled.div<{ $primary?: boolean }>`
     max-width: 200px;
     max-height: 45px;
     overflow: hidden;
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius-big);
   }
 `
 
@@ -395,7 +395,7 @@ export const ConnectButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -417,7 +417,7 @@ export const DisConnectButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--danger-color);
   background-color: unset;
   color: var(--danger-color);
@@ -449,7 +449,7 @@ export const TraceButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -471,7 +471,7 @@ export const EraseButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--danger-color);
   background-color: unset;
   color: var(--danger-color);
@@ -503,7 +503,7 @@ export const ProgramButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -542,7 +542,7 @@ export const StartConsoleButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -564,7 +564,7 @@ export const StopConsoleButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--danger-color);
   background-color: unset;
   color: var(--danger-color);
@@ -586,7 +586,7 @@ export const ResetButton = styled.button<{ $primary?: boolean }>`
   width: max-content;
   height: 45px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);

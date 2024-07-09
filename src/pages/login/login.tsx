@@ -122,13 +122,13 @@ export default function Login() {
     return () => clearInterval(intervalId)
   }, [])
 
-  const formattedDate = currentDate.toLocaleDateString('th-TH', {
+  const formattedDate = currentDate.toLocaleDateString(t('thTime'), {
     weekday: 'long', // 'long' สำหรับแสดงชื่อวันแบบเต็ม
     year: 'numeric',
     month: 'long', // 'long' สำหรับแสดงชื่อเดือนแบบเต็ม
     day: 'numeric',
   })
-  const formattedTime = currentDate.toLocaleTimeString('th-TH', {
+  const formattedTime = currentDate.toLocaleTimeString(t('thTime'), {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit'

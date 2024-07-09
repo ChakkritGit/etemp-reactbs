@@ -34,7 +34,7 @@ export const ReloadPromptToastButton = styled.button`
   border: 1px solid var(--main-color);
   outline: none;
   margin-right: 5px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   background-color: var(--main-color);
   color: var(--white);
   padding: 3px 10px;
@@ -45,7 +45,7 @@ export const ClosePromptToastButton = styled.button`
   border: 1px solid #8885;
   outline: none;
   margin-right: 5px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   background-color: transparent;
   color: ${props => props.theme.mode === 'dark' ? 'var(--white)' : 'var(--main-last-color)'};
   padding: 3px 10px;

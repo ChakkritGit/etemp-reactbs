@@ -43,7 +43,7 @@ export const GlobalButton = styled.button<{ $color?: boolean }>`
   gap: 0.5remrem;
   width: 80px;
   max-height: 50px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid transparent;
   background-color: unset;
   font-weight: bold;
@@ -252,7 +252,7 @@ export const SidebarLogo = styled.img<{ $primary?: boolean }>`
   max-height: 100px;
   margin-bottom: .5rem;
   background-color: var(--white);
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   transition: .3s;
   overflow: hidden;
 
@@ -493,7 +493,7 @@ export const GlobalsearchInput = styled.input <{ $primary?: boolean }> `
 padding: 0 2.5rem;
 height: 45px;
 width: 280px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 background-color: ${props => props.theme.mode === 'dark' ? 'rgba(37, 37, 37, .5)' : 'rgba(235, 235, 235, .5)'};
 border: unset;
 border: 2px solid transparent;
@@ -678,7 +678,7 @@ export const NavLogout = styled.div<{ $primary?: boolean }> `
   gap: 5px;
   width: 100%;
   max-height: 80px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
@@ -701,7 +701,7 @@ export const NavProfileContainer = styled.div<{ $primary?: boolean }>`
   gap: 5px;
   width: 100%;
   max-height: 80px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
@@ -823,7 +823,7 @@ justify-content: center;
 gap: .5rem;
 width: 80px;
 max-height: 50px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
 color: var(--main-color);
@@ -852,7 +852,7 @@ gap: .5rem;
 width: 30px;
 height: 30px;
 max-height: 45px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
 color: var(--main-color);
@@ -877,7 +877,7 @@ justify-content: center;
 gap: .5rem;
 width: 30px;
 max-height: 30px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--danger-color);
 background-color: unset;
 color: var(--danger-color);
@@ -903,7 +903,7 @@ gap: .5rem;
 width: max-content;
 max-width: 165px;
 max-height: 45px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--danger-color);
 background-color: unset;
 color: var(--danger-color);
@@ -1005,7 +1005,7 @@ max-width: 60px;
 max-height: 60px;
 width: 60px;
 height: 60px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 box-shadow: 0 0 5px 2px rgba(0, 0, 0, .05);
 background-color: var(--white);
 object-fit: cover;
@@ -1087,7 +1087,7 @@ max-height: 35px;
 width: 35px;
 height: 35px;
 border: unset;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 
 &:disabled>svg {
   color: var(--grey);
@@ -1165,7 +1165,7 @@ gap: .5rem;
 width: max-content;
 max-width: 165px;
 max-height: 45px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
 color: var(--main-color);
@@ -1191,7 +1191,7 @@ gap: .5rem;
 width: max-content;
 max-width: 165px;
 max-height: 45px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
 color: var(--main-color);
@@ -1354,7 +1354,7 @@ gap: .5rem;
 width: max-content;
 max-width: 165px;
 max-height: 45px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
 color: var(--main-color);
@@ -1437,7 +1437,7 @@ max-height: 35px;
 max-width: 35px;
 height: 30px;
 width: 30px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 background-color: unset;
 border: unset;
 position: absolute;
@@ -1455,7 +1455,7 @@ max-height: 40px;
 max-width: 230px;
 height: 40px;
 width: 200px;
-border-radius: var(--border-radius-small);
+border-radius: var(--border-radius-big);
 background-color: unset;
 border: 1px solid var(--grey);
 
@@ -2273,7 +2273,7 @@ height: 130px;
 max-width: 100px;
 max-height: 130px;
 aspect-ratio: 3/4;
-border-radius: var( --border-radius-small);
+border-radius: var(--border-radius-big);
 border: 2px solid transparent;
 cursor: pointer;
 overflow: hidden;
@@ -2716,7 +2716,7 @@ export const FullchartHeadExport = styled.div<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -2747,7 +2747,7 @@ export const FullchartHeadBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   background-color: unset;
   color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
@@ -2781,7 +2781,7 @@ export const FullcharComparetHeadBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -2893,7 +2893,7 @@ export const AuditGraphBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 200px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--danger-color);
   background-color: unset;
   color: var(--danger-color);
@@ -2930,7 +2930,7 @@ export const FulltableHeadBtn = styled.div<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   background-color: unset;
   color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
@@ -2964,7 +2964,7 @@ export const FulltableExportHeadBtn = styled.div<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -3046,7 +3046,7 @@ export const FilterSearchBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: var(--main-color);
   color: var(--white);
@@ -3398,7 +3398,7 @@ export const AddrepairBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 165px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -3458,7 +3458,7 @@ export const ListBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 35px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -3520,7 +3520,7 @@ export const RepairPrintBtn = styled.button<{ $primary?: boolean }>`
   height: 30px;
   max-width: 165px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -4175,7 +4175,7 @@ export const EditProfileButton = styled.button`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -4204,7 +4204,7 @@ export const SecurityPasswordBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -4226,7 +4226,7 @@ export const FullscreenBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
@@ -4526,7 +4526,7 @@ export const ButtonColorChang = styled.button<{ $color?: string }>`
   @media (max-width: 430px) {
     width: 50px;
     height: 50px;
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius-big);
   }
 
   svg {
@@ -4566,7 +4566,7 @@ export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 150px;
   max-height: 35px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   background-color: unset;
   color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
@@ -4639,7 +4639,7 @@ export const DetailWarranty = styled.button<{ $primary?: boolean }>`
   width: max-content;
   max-width: 165px;
   max-height: 45px;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
