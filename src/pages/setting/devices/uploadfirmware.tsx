@@ -543,8 +543,8 @@ export default function Uploadfirmware() {
                     </button>
                     <button onClick={() => swalWithBootstrapButtons
                       .fire({
-                        title: t('deactivateDevice'),
-                        text: t('deactivateDeviceText'),
+                        title: t('deleteFirmware'),
+                        text: t('deleteFirmwareText'),
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonText: t('confirmButton'),

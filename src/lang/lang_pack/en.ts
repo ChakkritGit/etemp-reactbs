@@ -358,6 +358,10 @@ export default {
     deleteWarranty: 'Do you want to warranty probe?',
     deleteWarrantyText: 'You will not be able to reverse warranty detail!',
     selectedFile: 'Please selected file or drop file!',
+    deleteFirmware: 'Do you want to delete firmware?',
+    deleteFirmwareText: 'You will not be able to recover this file',
+    logoutDialog: 'Do you want to logout?',
+    logoutDialogText: 'You will be redirected to the login page!',
 
     // reload sw
     appOffline: 'App ready to work offline',

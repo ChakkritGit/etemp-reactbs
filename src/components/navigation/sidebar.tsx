@@ -62,8 +62,10 @@ export default function sidebar() {
   }
 
   useEffect(() => {
-    reFetchdata()
-    window.scrollTo(0, 0)
+    if (location.pathname !== '/login') {
+      reFetchdata()
+      window.scrollTo(0, 0)
+    }
   }, [location])
 
   useEffect(() => {

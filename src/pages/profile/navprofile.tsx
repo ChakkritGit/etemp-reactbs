@@ -4,22 +4,26 @@ import { Dropdown } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { NavbarProfileDropdown } from "../../style/components/navbar"
-import { cookies } from "../../constants/constants"
-import { useSelector } from "react-redux"
+import { cookieOptions, cookies } from "../../constants/constants"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import { storeDispatchType } from "../../stores/store"
+import { setCookieEncode } from "../../stores/utilsStateSlice"
+import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib"
 
 export default function Navprofile() {
   const navigate = useNavigate()
+  const dispatch = useDispatch<storeDispatchType>()
   const { t } = useTranslation()
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
 
-  const logOut = (action: boolean) => {
-    if (action === true) {
-      cookies.remove('localDataObject')
-      localStorage.removeItem('token')
-      navigate("/login")
-    }
+  const logOut = () => {
+    dispatch(setCookieEncode(''))
+    cookies.remove('localDataObject', cookieOptions)
+    localStorage.removeItem('token')
+    navigate("/login")
   }
+
   return (
     <Dropdown>
       <Dropdown.Toggle variant="0" className="border-0 p-0">
@@ -41,7 +45,21 @@ export default function Navprofile() {
             </div>
           </NavProfileContainer>
           <LineHr />
-          <NavLogout onClick={() => logOut(true)}>
+          <NavLogout onClick={() => swalWithBootstrapButtons
+            .fire({
+              title: t('logoutDialog'),
+              text: t('logoutDialogText'),
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: t('confirmButton'),
+              cancelButtonText: t('cancelButton'),
+              reverseButtons: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                logOut()
+              }
+            })}>
             <RiLogoutBoxRLine />
             {t('tabLogout')}
           </NavLogout>

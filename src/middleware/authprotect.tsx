@@ -1,28 +1,33 @@
 import { ReactElement } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../types/redux.type'
 import { CookieType } from '../types/cookie.type'
-import { cookies, decodeCookieObject } from '../constants/constants'
+import { cookieOptions, cookies, decodeCookieObject } from '../constants/constants'
 import CryptoJS from "crypto-js"
+import { setCookieEncode } from '../stores/utilsStateSlice'
+import { storeDispatchType } from '../stores/store'
 
 type authProps = {
   children: ReactElement
 }
 
 const verifyToken = (cookieEncode: string) => {
+  const dispatch = useDispatch<storeDispatchType>()
   try {
     const cookieObject: CookieType = JSON.parse(decodeCookieObject(cookieEncode).toString(CryptoJS.enc.Utf8))
     if (cookieObject.token) {
       return { valid: true, cookieObject }
     } else {
+      cookies.remove('localDataObject', cookieOptions)
       localStorage.removeItem('token')
-      cookies.remove('localDataObject')
+      dispatch(setCookieEncode(''))
       return { valid: false, error: 'Token expired or invalid' }
     }
   } catch (error) {
+    cookies.remove('localDataObject', cookieOptions)
     localStorage.removeItem('token')
-    cookies.remove('localDataObject')
+    dispatch(setCookieEncode(''))
     return { valid: false, error }
   }
 }

@@ -358,6 +358,10 @@ export default {
     deleteWarranty: 'คุณต้องการลบประกันหรือไม่',
     deleteWarrantyText: 'คุณจะไม่สามารถกู้คืนข้อมูลการรับประกันได้',
     selectedFile: 'กรุณาเลือกไฟล์หรือวางไฟล์',
+    deleteFirmware: 'คุณต้องการลบเฟิร์มแวร์หรือไม่',
+    deleteFirmwareText: 'คุณจะไม่สามารถกู้คืนไฟล์ที่ลบได้',
+    logoutDialog: 'คุณต้องการออกจากระบบหรือไม่',
+    logoutDialogText: 'คุณจะถูกนำไปยังหน้าล็อกอิน',
 
     // reload sw
     appOffline: 'แอพพร้อมใช้งานแบบออฟไลน์',

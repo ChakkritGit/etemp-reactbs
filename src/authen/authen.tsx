@@ -3,11 +3,11 @@ import Login from "../pages/login/login"
 import Notacess from "../components/permission/notacess"
 import { DeviceStateStore, UtilsStateStore } from "../types/redux.type"
 import { useSelector } from "react-redux"
-import { logOut } from "./authFunc"
 
 export function Islogout() {
+  const { cookieEncode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   return (
-    logOut() ? <Navigate to="/" /> : <Login />
+    cookieEncode ? <Navigate to="/" /> : <Login />
   )
 }
 

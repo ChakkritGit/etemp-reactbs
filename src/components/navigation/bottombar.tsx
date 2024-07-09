@@ -56,8 +56,10 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
   }
 
   useEffect(() => {
-    reFetchdata()
-    window.scrollTo(0, 0)
+    if (location.pathname !== '/login') {
+      reFetchdata()
+      window.scrollTo(0, 0)
+    }
   }, [location])
 
   return (
@@ -97,7 +99,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
             </NavigationItems>
             <NavigationItems $primary={location.pathname === "/management" || location.pathname === '/management/flasher'} onClick={() => navigate('/management')}>
               {
-                location.pathname === "/management" || location.pathname === "/management/logadjust" || location.pathname === '/management/flasher'?
+                location.pathname === "/management" || location.pathname === "/management/logadjust" || location.pathname === '/management/flasher' ?
                   <RiListSettingsFill />
                   :
                   <RiListSettingsLine />
