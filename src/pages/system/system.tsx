@@ -9,24 +9,29 @@ import { useState } from "react"
 import Color from "./display"
 import { useNavigate } from "react-router-dom"
 import Account from "./account"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import Lang from "./lang"
 import Noti from "./noti"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib"
+import { cookieOptions, cookies } from "../../constants/constants"
+import { setCookieEncode } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 export default function System() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [pagenumber, setPagenumber] = useState(1)
   const navigate = useNavigate()
 
-  const logOut = (action: boolean) => {
-    if (action === true) {
-      localStorage.clear()
-      return navigate("/login")
-    }
+  const logOut = () => {
+    dispatch(setCookieEncode(''))
+    cookies.remove('localDataObject', cookieOptions)
+    localStorage.removeItem('token')
+    navigate("/login")
   }
 
   return (
@@ -63,7 +68,23 @@ export default function System() {
                 </span>
               </ListMenu>
             </div>
-            <ListMenu $logout onClick={() => logOut(true)}>
+            <ListMenu $logout onClick={() =>
+              swalWithBootstrapButtons
+                .fire({
+                  title: t('logoutDialog'),
+                  text: t('logoutDialogText'),
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: t('confirmButton'),
+                  cancelButtonText: t('cancelButton'),
+                  reverseButtons: false,
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    logOut()
+                  }
+                })
+            }>
               <RiLogoutBoxRLine />
               <span>{t('tabLogout')}</span>
             </ListMenu>

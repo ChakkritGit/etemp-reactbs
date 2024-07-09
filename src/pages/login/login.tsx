@@ -1,8 +1,5 @@
-import './login.css'
 import Container from 'react-bootstrap/Container'
-import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import LangguageSelector from '../../components/lang/LangguageSelector'
@@ -11,7 +8,7 @@ import axios, { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { FormEvent, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Col, Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import { RiLoader3Line } from "react-icons/ri"
 import { useEffect } from 'react'
 import { setCookieEncode, setToken } from '../../stores/utilsStateSlice'
@@ -20,6 +17,11 @@ import { storeDispatchType } from '../../stores/store'
 import { responseType } from '../../types/response.type'
 import { LoginResponse } from '../../types/response.type'
 import { accessToken, cookieOptions, cookies } from '../../constants/constants'
+import {
+  CardContainer, CardFlex, LangContainer, LoadingButton,
+  LoginButton,
+  TimeStap
+} from '../../style/components/login'
 
 export default function Login() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -31,6 +33,7 @@ export default function Login() {
     password: ''
   })
   const [isloading, setIsloading] = useState(false)
+  const [currentDate, setCurrentDate] = useState(new Date())
 
   useEffect(() => {
     const changeFavicon = (href: string) => {
@@ -108,16 +111,37 @@ export default function Login() {
         showConfirmButton: false,
       })
     }
-
   }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date())
+    }, 1000) // อัปเดตทุก 1 นาที
+
+    // ล้าง interval เมื่อ component ถูก unmounted
+    return () => clearInterval(intervalId)
+  }, [])
+
+  const formattedDate = currentDate.toLocaleDateString('th-TH', {
+    weekday: 'long', // 'long' สำหรับแสดงชื่อวันแบบเต็ม
+    year: 'numeric',
+    month: 'long', // 'long' สำหรับแสดงชื่อเดือนแบบเต็ม
+    day: 'numeric',
+  })
+  const formattedTime = currentDate.toLocaleTimeString('th-TH', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+
   return (
     <Container className='p-3'>
       <Col>
-        <div className='mb-3' style={{ display: 'flex', justifyContent: 'right', width: '100%' }}>
+        <LangContainer>
           <LangguageSelector />
-        </div>
-        <Row className='d-flex flex-column align-items-center mt-5 p-2'>
-          <Card className='login-card p-4 border-0'>
+        </LangContainer>
+        <CardContainer>
+          <CardFlex>
             <Form onSubmit={submitForm}>
               <h3
                 className="mb-3 text-center"
@@ -158,18 +182,20 @@ export default function Login() {
                   />
                 </FloatingLabel>
               </InputGroup>
-              <Button
-                className="login-button-submit border-0"
-                type="submit"
-                variant="primary"
+              <LoginButton
+                $primary={isloading}
                 disabled={isloading}
-              >{isloading ? <div className='login-button-load-flex'>
+                type="submit"
+              >{isloading ? <LoadingButton>
                 <RiLoader3Line />
-                {t('loginButtonLoading')}</div> : t('loginButton')}
-              </Button>
+                {t('loginButtonLoading')}</LoadingButton> : t('loginButton')}
+              </LoginButton>
             </Form>
-          </Card>
-        </Row>
+          </CardFlex>
+          <TimeStap>
+            <span>{`${formattedDate} ${formattedTime}`}</span>
+          </TimeStap>
+        </CardContainer>
       </Col>
     </Container >
   )

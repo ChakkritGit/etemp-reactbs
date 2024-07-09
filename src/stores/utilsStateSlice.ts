@@ -17,7 +17,7 @@ const initialState: UtilsStateStore = {
   popUpMode: localStorage.getItem('popUpMode') === 'true',
   hosId: String(localStorage.getItem('selectHos')),
   wardId: String(localStorage.getItem('selectWard') ?? 'WID-DEVELOPMENT'),
-  cookieEncode: cookies.get('localDataObject'),
+  cookieEncode: cookies.get('localDataObject') || null,
   cookieDecode: false as unknown as CookieType
 }
 

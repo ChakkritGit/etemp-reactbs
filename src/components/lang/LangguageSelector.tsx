@@ -7,12 +7,12 @@ import { toast } from 'react-hot-toast'
 import Th from "../../assets/svg/th.svg"
 import En from "../../assets/svg/us.svg"
 import { LangContainer, LangSwitchButton } from "../../style/components/language"
-import Cn from "../../assets/svg/cn.svg"
-import Jp from "../../assets/svg/jp.svg"
+// import Cn from "../../assets/svg/cn.svg"
+// import Jp from "../../assets/svg/jp.svg"
 
 export default function LangguageSelector() {
   const { i18n } = useTranslation()
-  const langs = localStorage.getItem("lang")
+  const langs = localStorage.getItem("lang") || 'th'
 
   const changeLanguage = (language: string) => {
     if (language === "cn" || language === "jp") {
@@ -70,7 +70,7 @@ export default function LangguageSelector() {
                 <span>English <small>(US)</small></span>
               </LangFlagFlex>
             </LangSwitchButton>
-            <LangSwitchButton $lang={langs == 'cn'} onClick={() => changeLanguage('cn')}>
+            {/* <LangSwitchButton $lang={langs == 'cn'} onClick={() => changeLanguage('cn')}>
               <LangFlagFlex>
                 <LangFlag src={Cn} alt="flag-icon" />
                 <span>简体中文  <small style={{ borderRadius: '.3rem', backgroundColor: 'var(--warning-light)', padding: '3px 5px', fontSize: '10px', color: 'black' }}>Beta</small></span>
@@ -81,7 +81,7 @@ export default function LangguageSelector() {
                 <LangFlag src={Jp} alt="flag-icon" />
                 <span>日本語 <small style={{ borderRadius: '.3rem', backgroundColor: 'var(--warning-light)', padding: '3px 5px', fontSize: '10px', color: 'black' }}>Beta</small></span>
               </LangFlagFlex>
-            </LangSwitchButton>
+            </LangSwitchButton> */}
           </LangContainer>
         </Dropdown.Menu>
       </Dropdown>
