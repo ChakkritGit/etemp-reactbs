@@ -9,14 +9,18 @@ import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap"
 import Swal from "sweetalert2"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
+import { accessToken, cookieOptions, cookies } from "../../constants/constants"
+import { storeDispatchType } from "../../stores/store"
+import { setCookieEncode } from "../../stores/utilsStateSlice"
 
 export default function Account() {
   const [userpicture, setUserpicture] = useState<string>('')
   const { tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const dispatch = useDispatch<storeDispatchType>()
   const { t } = useTranslation()
   const [show, setshow] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
@@ -42,30 +46,33 @@ export default function Account() {
   }
 
   const reFetchdata = async () => {
-    const url: string = `${import.meta.env.VITE_APP_API}/user/${tokenDecode?.userId}`
-    try {
-      const response = await axios
-        .get<responseType<usersType>>(url, {
-          headers: {
-            authorization: `Bearer ${token}`
-          }
-        })
-      const { displayName, userId, userLevel, userPic, wardId, ward } = response.data.data
-      const { hosId, hospital } = ward
-      localStorage.setItem("userid", userId)
-      localStorage.setItem("hosid", hosId)
-      localStorage.setItem("displayname", displayName)
-      localStorage.setItem("userpicture", String(userPic))
-      localStorage.setItem("userlevel", userLevel)
-      localStorage.setItem("hosimg", hospital.hosPic)
-      localStorage.setItem("hosname", hospital.hosName)
-      localStorage.setItem("groupid", wardId)
-      setUserData(response.data.data)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
-      } else {
-        console.error('Unknown Error', error)
+    if (tokenDecode.userId !== undefined) {
+      try {
+        const response = await axios
+          .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
+        const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
+        const { hosId, hospital } = ward
+        const { hosPic, hosName } = hospital
+        const localDataObject = {
+          userId: userId,
+          hosId: hosId,
+          displayName: displayName,
+          userPicture: userPic,
+          userLevel: userLevel,
+          hosImg: hosPic,
+          hosName: hosName,
+          groupId: wardId,
+          token: token
+        }
+        setUserData(response.data.data)
+        cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
+        dispatch(setCookieEncode(String(accessToken(localDataObject))))
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.error(error.response?.data.message)
+        } else {
+          console.error('Unknown Error')
+        }
       }
     }
   }

@@ -6,7 +6,7 @@ type CookieType = {
   hosName: string,
   userId: string,
   userLevel: string,
-  userPicture: string
+  userPicture: string,
   token: string
 }
 

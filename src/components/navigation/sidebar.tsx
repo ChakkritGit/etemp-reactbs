@@ -15,12 +15,13 @@ import {
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { setShowAside } from "../../stores/utilsStateSlice"
+import { setCookieEncode, setShowAside } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 import { AboutVersion } from "../../style/components/sidebar"
 import { responseType } from "../../types/response.type"
 import axios, { AxiosError } from "axios"
 import { usersType } from "../../types/user.type"
+import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -34,15 +35,22 @@ export default function sidebar() {
       try {
         const response = await axios
           .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
-        const { displayName, userId, userLevel, userPic, ward } = response.data.data
-        localStorage.setItem("userid", userId)
-        localStorage.setItem("hosid", ward.hosId)
-        localStorage.setItem("displayname", displayName)
-        localStorage.setItem("userpicture", userPic)
-        localStorage.setItem("userlevel", userLevel)
-        localStorage.setItem("hosimg", ward.hospital.hosPic)
-        localStorage.setItem("hosname", ward.hospital.hosName)
-        localStorage.setItem("groupid", ward.hosId)
+        const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
+        const { hosId, hospital } = ward
+        const { hosPic, hosName } = hospital
+        const localDataObject = {
+          userId: userId,
+          hosId: hosId,
+          displayName: displayName,
+          userPicture: userPic,
+          userLevel: userLevel,
+          hosImg: hosPic,
+          hosName: hosName,
+          groupId: wardId,
+          token: token
+        }
+        cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
+        dispatch(setCookieEncode(String(accessToken(localDataObject))))
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)
@@ -74,7 +82,7 @@ export default function sidebar() {
     return () => {
       changeFavicon('logo.png')
     }
-  }, [location])
+  }, [location, cookieDecode])
 
   const resetAsideandCardcount = () => {
     dispatch(setShowAside(false))

@@ -1,4 +1,6 @@
+import { CookieType } from "../types/cookie.type"
 import Cookies, { CookieSetOptions } from "universal-cookie"
+import CryptoJS from "crypto-js"
 
 export const getDateNow = () => {
   let date = new Date()
@@ -20,6 +22,9 @@ export const resetActive = {
 }
 
 export const cookies = new Cookies()
+
+export const accessToken = (localDataObject: CookieType) => CryptoJS.AES.encrypt(JSON.stringify(localDataObject), `${import.meta.env.VITE_APP_SECRETKEY}`)
+export const decodeCookieObject = (cookieEncode: string) => CryptoJS.AES.decrypt(cookieEncode, `${import.meta.env.VITE_APP_SECRETKEY}`)
 
 const expiresDate = () => {
   // ตั้งค่า cookies พร้อม expiration date ที่ไกลในอนาคต

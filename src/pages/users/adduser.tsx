@@ -14,6 +14,8 @@ import { fetchUserData } from "../../stores/userSlice"
 import { storeDispatchType } from "../../stores/store"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
+import { accessToken, cookieOptions, cookies } from "../../constants/constants"
+import { setCookieEncode } from "../../stores/utilsStateSlice"
 
 export default function Adduser(AdduserProp: adduserProp) {
   const { pagestate, userData } = AdduserProp
@@ -68,26 +70,32 @@ export default function Adduser(AdduserProp: adduserProp) {
   }
 
   const reFetchdata = async () => {
-    const url: string = `${import.meta.env.VITE_APP_API}/user/${tokenDecode?.userId}`
-    try {
-      const response = await axios
-        .get<responseType<usersType>>(url, {
-          headers: {
-            authorization: `Bearer ${token}`
-          }
-        })
-      const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
-      localStorage.setItem("userid", userId)
-      localStorage.setItem("hosid", ward.hosId)
-      localStorage.setItem("displayname", displayName)
-      localStorage.setItem("userpicture", userPic)
-      localStorage.setItem("userlevel", userLevel)
-      localStorage.setItem("groupid", wardId)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
-      } else {
-        console.error("Uknown Error: ", error)
+    if (tokenDecode.userId !== undefined) {
+      try {
+        const response = await axios
+          .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
+        const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
+        const { hosId, hospital } = ward
+        const { hosPic, hosName } = hospital
+        const localDataObject = {
+          userId: userId,
+          hosId: hosId,
+          displayName: displayName,
+          userPicture: userPic,
+          userLevel: userLevel,
+          hosImg: hosPic,
+          hosName: hosName,
+          groupId: wardId,
+          token: token
+        }
+        cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
+        dispatch(setCookieEncode(String(accessToken(localDataObject))))
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          console.error(error.response?.data.message)
+        } else {
+          console.error('Unknown Error')
+        }
       }
     }
   }

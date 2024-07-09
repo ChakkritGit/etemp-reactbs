@@ -4,10 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { NavProfile } from "../../style/style"
 import { useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
+import { accessToken, cookieOptions, cookies } from "../../constants/constants"
+import { storeDispatchType } from "../../stores/store"
+import { setCookieEncode } from "../../stores/utilsStateSlice"
 import axios, { AxiosError } from "axios"
 
 interface BottombarProps {
@@ -17,6 +20,7 @@ interface BottombarProps {
 export default function Bottombar({ isScrollingDown }: BottombarProps) {
   const { t } = useTranslation()
   const location = useLocation()
+  const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
   const { tokenDecode, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
 
@@ -25,15 +29,22 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
       try {
         const response = await axios
           .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
-        const { displayName, userId, userLevel, userPic, ward } = response.data.data
-        localStorage.setItem("userid", userId)
-        localStorage.setItem("hosid", ward.hosId)
-        localStorage.setItem("displayname", displayName)
-        localStorage.setItem("userpicture", userPic)
-        localStorage.setItem("userlevel", userLevel)
-        localStorage.setItem("hosimg", ward.hospital.hosPic)
-        localStorage.setItem("hosname", ward.hospital.hosName)
-        localStorage.setItem("groupid", ward.hosId)
+        const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
+        const { hosId, hospital } = ward
+        const { hosPic, hosName } = hospital
+        const localDataObject = {
+          userId: userId,
+          hosId: hosId,
+          displayName: displayName,
+          userPicture: userPic,
+          userLevel: userLevel,
+          hosImg: hosPic,
+          hosName: hosName,
+          groupId: wardId,
+          token: token
+        }
+        cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
+        dispatch(setCookieEncode(String(accessToken(localDataObject))))
       } catch (error) {
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)

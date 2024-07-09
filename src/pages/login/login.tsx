@@ -19,8 +19,7 @@ import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../../stores/store'
 import { responseType } from '../../types/response.type'
 import { LoginResponse } from '../../types/response.type'
-import { cookieOptions, cookies } from '../../constants/constants'
-import CryptoJS from "crypto-js"
+import { accessToken, cookieOptions, cookies } from '../../constants/constants'
 
 export default function Login() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -74,17 +73,8 @@ export default function Login() {
           groupId: wardId,
           token: token
         }
-        const accessToken = CryptoJS.AES.encrypt(JSON.stringify(localDataObject), `${import.meta.env.VITE_APP_SECRETKEY}`)
-        cookies.set('localDataObject', String(accessToken), cookieOptions)
-        dispatch(setCookieEncode(String(accessToken)))
-        // localStorage.setItem("userId", userId)
-        // localStorage.setItem("hosId", hosId)
-        // localStorage.setItem("displayName", displayName)
-        // localStorage.setItem("userPicture", userPic)
-        // localStorage.setItem("userLevel", userLevel)
-        // localStorage.setItem("hosImg", String(hosPic))
-        // localStorage.setItem("hosName", hosName)
-        // localStorage.setItem("groupId", wardId)
+        cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
+        dispatch(setCookieEncode(String(accessToken(localDataObject))))
         localStorage.setItem("token", token)
         dispatch(setToken(token))
         navigate(`/`)
@@ -144,6 +134,7 @@ export default function Login() {
                     aria-describedby="user-input"
                     className='login-form-input'
                     autoComplete='off'
+                    autoFocus
                     type='text'
                     value={loginform.username}
                     onChange={(e) => setLoginform({ ...loginform, username: e.target.value })}

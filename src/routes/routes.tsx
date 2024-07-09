@@ -29,6 +29,7 @@ import Comparechart from '../pages/dashboard/compare.chart'
 import Log from '../pages/log/log'
 import ESPToolComponent from '../pages/setting/devices/serial.port'
 import CryptoJS from "crypto-js"
+import { decodeCookieObject } from '../constants/constants'
 
 const router = createBrowserRouter([
   {
@@ -171,9 +172,7 @@ export default function RoutesComponent() {
   useEffect(() => {
     if (cookieEncode) {
       try {
-        const decodeCookieObject = CryptoJS.AES.decrypt(cookieEncode, `${import.meta.env.VITE_APP_SECRETKEY}`)
-        const cookieDecoded = decodeCookieObject.toString(CryptoJS.enc.Utf8)
-        const CookieObject: CookieType = JSON.parse(cookieDecoded)
+        const CookieObject: CookieType = JSON.parse(decodeCookieObject(cookieEncode).toString(CryptoJS.enc.Utf8))
         dispatch(setCookieDecode(CookieObject))
       } catch (error) {
         console.error('Decoce error: ', error)
