@@ -1,10 +1,10 @@
 export const items = {
   hidden: {
-    y: 50, //25
+    // scale: 0.97, //25
     opacity: 0 //0
   },
   visible: {
-    y: 0,
+    // scale: 1,
     opacity: 1
   }
 }

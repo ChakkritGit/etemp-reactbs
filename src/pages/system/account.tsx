@@ -19,7 +19,8 @@ import { setCookieEncode } from "../../stores/utilsStateSlice"
 
 export default function Account() {
   const [userpicture, setUserpicture] = useState<string>('')
-  const { tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const dispatch = useDispatch<storeDispatchType>()
   const { t } = useTranslation()
   const [show, setshow] = useState(false)
@@ -46,10 +47,10 @@ export default function Account() {
   }
 
   const reFetchdata = async () => {
-    if (tokenDecode.userId !== undefined) {
+    if (cookieDecode) {
       try {
         const response = await axios
-          .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
+          .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${cookieDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
         const { displayName, userId, userLevel, userPic, ward, wardId } = response.data.data
         const { hosId, hospital } = ward
         const { hosPic, hosName } = hospital
@@ -79,7 +80,7 @@ export default function Account() {
 
   const handleChang = async (e: ChangeEvent<HTMLInputElement>) => {
     let reader = new FileReader()
-    const url: string = `${import.meta.env.VITE_APP_API}/user/${tokenDecode?.userId}`
+    const url: string = `${import.meta.env.VITE_APP_API}/user/${cookieDecode.userId}`
     const formData = new FormData()
 
     if (e.target && e.target.files && e.target.files.length > 0) {
@@ -118,7 +119,7 @@ export default function Account() {
     e.preventDefault()
     if (newpassword !== '') {
       try {
-        const response = await axios.patch(`${import.meta.env.VITE_APP_API}/auth/reset/${tokenDecode.userId}`, {
+        const response = await axios.patch(`${import.meta.env.VITE_APP_API}/auth/reset/${cookieDecode.userId}`, {
           password: newpassword
         }, {
           headers: {
@@ -169,7 +170,7 @@ export default function Account() {
     e.preventDefault()
     if (userDisplayName !== '') {
       try {
-        const response = await axios.put(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, {
+        const response = await axios.put(`${import.meta.env.VITE_APP_API}/user/${cookieDecode.userId}`, {
           displayName: userDisplayName
         }, {
           headers: {
@@ -226,14 +227,14 @@ export default function Account() {
       <ProfileFlexSetting $radius={50} $dimension={150} $imageFit>
         <div>
           <div>
-            <img src={userpicture ? userpicture : localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
+            <img src={userpicture ? userpicture : cookieDecode.userPicture !== 'null' ? `${import.meta.env.VITE_APP_IMG}${cookieDecode.userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
             <label htmlFor={'user-file-upload'} >
               <RiEditLine />
               <input id="user-file-upload" type="file" onChange={handleChang} />
             </label>
           </div>
           <div>
-            <h5>{localStorage.getItem('displayname')}</h5>
+            <h5>{cookieDecode.displayName}</h5>
             <span>@{userData?.userName}</span>
           </div>
         </div>
