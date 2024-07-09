@@ -1,16 +1,17 @@
 import { HideFlashFW, Hidesetting, Islogout } from '../authen/authen'
-// import { AuthRoute } from '../../src/authen/authen'
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { socket } from '../services/websocket'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeDispatchType } from '../stores/store'
-import { setSocketData } from '../stores/utilsStateSlice'
+import { setCookieDecode, setSocketData } from '../stores/utilsStateSlice'
 import { client } from '../services/mqtt'
 import { socketResponseType } from '../types/component.type'
 import { TabConnect } from '../style/style'
 import { useTranslation } from 'react-i18next'
 import { DeviceStateStore, UtilsStateStore } from '../types/redux.type'
+import { AuthRoute } from '../middleware/authprotect'
+import { CookieType } from '../types/cookie.type'
 import toast, { useToasterStore } from 'react-hot-toast'
 import ErrorPage from '../routes/error-page'
 import Home from '../pages/home/home'
@@ -27,7 +28,7 @@ import System from '../pages/system/system'
 import Comparechart from '../pages/dashboard/compare.chart'
 import Log from '../pages/log/log'
 import ESPToolComponent from '../pages/setting/devices/serial.port'
-import { AuthRoute } from '../middleware/authprotect'
+import CryptoJS from "crypto-js"
 
 const router = createBrowserRouter([
   {
@@ -105,7 +106,7 @@ const router = createBrowserRouter([
             ]
           }
         ],
-      },
+      }
     ],
   },
   {
@@ -122,7 +123,7 @@ export default function RoutesComponent() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [status, setStatus] = useState(true)
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token, cookieEncode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { toasts } = useToasterStore()
   const toastLimit = 5
 
@@ -166,6 +167,19 @@ export default function RoutesComponent() {
     console.info(`%cฟีเจอร์นี้เป็นฟีเจอร์ของเบราว์เซอร์ที่มีจุดมุ่งหมายให้ใช้สำหรับผู้พัฒนา หากมีคนบอกให้คุณคัดลอกแล้ววางข้อความบางอย่างที่นี่เพื่อเข้าถึงบางส่วนของระบบ "โดยมิชอบ" คำบอกกล่าวเช่นนี้ถือเป็นการละเมิดการใช้งานระบบ`, "font-size: 18px")
     // console.info('%c Look like warm 🌡️!!', 'font-weight: bold; font-size: 50px; font-family: "Anuphan", sans-serif; color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)')
   }, [])
+
+  useEffect(() => {
+    if (cookieEncode) {
+      try {
+        const decodeCookieObject = CryptoJS.AES.decrypt(cookieEncode, `${import.meta.env.VITE_APP_SECRETKEY}`)
+        const cookieDecoded = decodeCookieObject.toString(CryptoJS.enc.Utf8)
+        const CookieObject: CookieType = JSON.parse(cookieDecoded)
+        dispatch(setCookieDecode(CookieObject))
+      } catch (error) {
+        console.error('Decoce error: ', error)
+      }
+    }
+  }, [cookieEncode])
 
   return (
     <>

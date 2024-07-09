@@ -1,12 +1,14 @@
 import { Tab, Tabs } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { userlevel } from '../../../authen/authentFunc'
 import Managedev from './managedevices'
 import Probesetting from './probesetting'
 import Uploadfirmware from './uploadfirmware'
+import { useSelector } from 'react-redux'
+import { DeviceStateStore, UtilsStateStore } from '../../../types/redux.type'
 
 export default function Adddevices() {
   const { t } = useTranslation()
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
 
   return (
     <Tabs
@@ -20,7 +22,7 @@ export default function Adddevices() {
         <Probesetting />
       </Tab>
       {
-        userlevel() === '0' &&
+        cookieDecode.userLevel === '0' &&
         <Tab eventKey="firmware" title={t('sunTabFirmware')}>
           <Uploadfirmware />
         </Tab>

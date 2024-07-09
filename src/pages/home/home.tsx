@@ -39,7 +39,6 @@ import { resetActive } from "../../constants/constants"
 import { logtype } from "../../types/log.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
-import { userlevel } from "../../authen/authentFunc"
 import { TagCurrentHos } from "../../style/components/home.styled"
 
 type Option = {
@@ -60,7 +59,7 @@ interface Ward {
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { searchQuery, hosId, wardId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, hosId, wardId, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const devicesFilter = useSelector<DeviceStateStore, devicesType[]>((state) => state.arraySlice.device.devicesFilter)
   const hospitalsData = useSelector<DeviceStateStore, hospitalsType[]>((state) => state.arraySlice.hospital.hospitalsData)
   const wardData = useSelector<DeviceStateStore, wardsType[]>((state) => state.arraySlice.ward.wardData)
@@ -713,7 +712,7 @@ export default function Home() {
                   {t('showAllBox')}
                 </h5>
                 {
-                  userlevel() === '1' && <TagCurrentHos>
+                  cookieDecode.userLevel === '1' && <TagCurrentHos>
                     {
                       `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
                     }

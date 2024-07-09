@@ -17,7 +17,6 @@ import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import Addwarranty from "./addwarranty"
-import { userlevel } from "../../authen/authentFunc"
 
 interface dataTableProps {
   warrantyData: warrantyType[]
@@ -26,7 +25,7 @@ interface dataTableProps {
 export default function Warranty() {
   const { t } = useTranslation()
   const [pagenumber, setpagenumber] = useState(1)
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [show, setshow] = useState(false)
   const [deviceDetails, setDevicedetails] = useState<warrantyType[]>([])
   const [warrantyData, setWarrantyData] = useState<warrantyType[]>([])
@@ -211,7 +210,7 @@ export default function Warranty() {
             <RiInformationLine />
           </DetailWarranty>
           {
-            userlevel() === '4' || '3' && <>
+            cookieDecode.userLevel === '4' || '3' && <>
               <Addwarranty
                 pagestate="edit"
                 warData={items}
@@ -269,7 +268,7 @@ export default function Warranty() {
             <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
             <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
           </div>
-          {userlevel() === '4' || '3' && <div>
+          {cookieDecode.userLevel === '4' || '3' && <div>
             <Addwarranty
               pagestate="add"
               fetchData={fetchData}

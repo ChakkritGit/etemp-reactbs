@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import {
   AccountContainer, Checkboxbsoveride, EditProfileButton, FormBtn, FormFlexBtn, LineHr, ModalHead,
-  PasswordChangeFlex, ProfileFlex, SecurityFlex, SecurityPasswordBtn
+  PasswordChangeFlex, ProfileFlexSetting, SecurityFlex, SecurityPasswordBtn
 } from "../../style/style"
 import { RiCloseLine, RiEditLine } from "react-icons/ri"
 import axios, { AxiosError } from "axios"
@@ -216,7 +216,7 @@ export default function Account() {
   return (
     <AccountContainer>
       <h3>{t('titleProfile')}</h3>
-      <ProfileFlex $radius={50} $dimension={150} $imageFit>
+      <ProfileFlexSetting $radius={50} $dimension={150} $imageFit>
         <div>
           <div>
             <img src={userpicture ? userpicture : localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem('userpicture')}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
@@ -236,7 +236,7 @@ export default function Account() {
             {t('editbutton')}
           </EditProfileButton>
         </div>
-      </ProfileFlex>
+      </ProfileFlexSetting>
       <LineHr />
       <h3>{t('titleSecurity')}</h3>
       <SecurityFlex>

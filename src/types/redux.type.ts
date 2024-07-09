@@ -1,4 +1,5 @@
 import { jwtToken, socketResponseType } from "./component.type"
+import { CookieType } from "./cookie.type"
 import { devicesType } from "./device.type"
 import { hospitalsType } from "./hospital.type"
 import { probeType } from "./probe.type"
@@ -40,7 +41,9 @@ type UtilsStateStore = {
   soundMode: boolean,
   popUpMode: boolean,
   hosId: string,
-  wardId: string
+  wardId: string,
+  cookieEncode: string,
+  cookieDecode: CookieType
 }
 
 type DeviceStateStore = {

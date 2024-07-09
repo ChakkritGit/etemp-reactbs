@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { UtilsStateStore } from "../types/redux.type"
 import { jwtToken, socketResponseType } from "../types/component.type"
+import { cookies } from "../constants/constants"
+import { CookieType } from "../types/cookie.type"
 
 const initialState: UtilsStateStore = {
   token: String(localStorage.getItem('token')),
@@ -14,7 +16,9 @@ const initialState: UtilsStateStore = {
   soundMode: localStorage.getItem('soundMode') === 'true',
   popUpMode: localStorage.getItem('popUpMode') === 'true',
   hosId: String(localStorage.getItem('selectHos')),
-  wardId: String(localStorage.getItem('selectWard') ?? 'WID-DEVELOPMENT')
+  wardId: String(localStorage.getItem('selectWard') ?? 'WID-DEVELOPMENT'),
+  cookieEncode: cookies.get('localDataObject'),
+  cookieDecode: false as unknown as CookieType
 }
 
 const utilsSlice = createSlice({
@@ -57,9 +61,16 @@ const utilsSlice = createSlice({
     setWardId: (state, action: PayloadAction<string>) => {
       state.wardId = action.payload
     },
+    setCookieEncode: (state, action: PayloadAction<string>) => {
+      state.cookieEncode = action.payload
+    },
+    setCookieDecode: (state, action: PayloadAction<CookieType>) => {
+      state.cookieDecode = action.payload
+    },
   },
 })
 
-export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId } = utilsSlice.actions
+export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside,
+  setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId, setCookieEncode, setCookieDecode } = utilsSlice.actions
 
 export default utilsSlice.reducer

@@ -13,7 +13,6 @@ import {
   Sidebar, SidebarLogo, SpanAside, TooltipSpan, Ul
 } from '../../style/style'
 import { useEffect } from "react"
-import { userlevel } from "../../authen/authentFunc"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { setShowAside } from "../../stores/utilsStateSlice"
@@ -25,7 +24,7 @@ import { usersType } from "../../types/user.type"
 
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { expand, tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { expand, tokenDecode, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
@@ -67,10 +66,10 @@ export default function sidebar() {
       link.href = href
 
       document.getElementsByTagName('head')[0].appendChild(link)
-      document.title = localStorage.getItem("hosname") as string + " | " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
+      document.title = cookieDecode.hosName + " | " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
     }
 
-    changeFavicon(`${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`)
+    changeFavicon(`${import.meta.env.VITE_APP_IMG}${cookieDecode.hosImg}`)
 
     return () => {
       changeFavicon('logo.png')
@@ -87,10 +86,10 @@ export default function sidebar() {
         <SidebarLogo
           $primary={expand}
           src={localStorage.getItem('hosimg') !== 'null' ?
-            `${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`
+            `${import.meta.env.VITE_APP_IMG}${cookieDecode.hosImg}`
             :
             `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
-        <HospitalName $primary={expand}>{localStorage.getItem('hosname')}</HospitalName>
+        <HospitalName $primary={expand}>{cookieDecode.hosName}</HospitalName>
       </Link>
       <LineHr $primary />
       <Ul $primary={expand} $maxheight className="nav nav-pills">
@@ -128,7 +127,7 @@ export default function sidebar() {
             </TooltipSpan>
           </Li>
           {
-            userlevel() !== '3' ?
+            cookieDecode.userLevel !== '3' ?
               <>
                 <Li $primary={expand}>
                   <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>

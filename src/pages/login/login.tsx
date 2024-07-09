@@ -6,19 +6,21 @@ import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import LangguageSelector from '../../components/lang/LangguageSelector'
-import { useTranslation } from 'react-i18next'
-import { FormEvent, useState } from 'react'
 import Swal from "sweetalert2"
 import axios, { AxiosError } from 'axios'
+import { useTranslation } from 'react-i18next'
+import { FormEvent, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import { RiLoader3Line } from "react-icons/ri"
 import { useEffect } from 'react'
-import { setToken } from '../../stores/utilsStateSlice'
+import { setCookieEncode, setToken } from '../../stores/utilsStateSlice'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../../stores/store'
 import { responseType } from '../../types/response.type'
 import { LoginResponse } from '../../types/response.type'
+import { cookieOptions, cookies } from '../../constants/constants'
+import CryptoJS from "crypto-js"
 
 export default function Login() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -61,14 +63,28 @@ export default function Login() {
       try {
         const response = await axios.post<responseType<LoginResponse>>(url, data)
         const { displayName, hosId, hosName, hosPic, token, userId, userLevel, userPic, wardId } = response.data.data
-        localStorage.setItem("userid", userId)
-        localStorage.setItem("hosid", hosId)
-        localStorage.setItem("displayname", displayName)
-        localStorage.setItem("userpicture", userPic)
-        localStorage.setItem("userlevel", userLevel)
-        localStorage.setItem("hosimg", String(hosPic))
-        localStorage.setItem("hosname", hosName)
-        localStorage.setItem("groupid", wardId)
+        const localDataObject = {
+          userId: userId,
+          hosId: hosId,
+          displayName: displayName,
+          userPicture: userPic,
+          userLevel: userLevel,
+          hosImg: hosPic,
+          hosName: hosName,
+          groupId: wardId,
+          token: token
+        }
+        const accessToken = CryptoJS.AES.encrypt(JSON.stringify(localDataObject), `${import.meta.env.VITE_APP_SECRETKEY}`)
+        cookies.set('localDataObject', String(accessToken), cookieOptions)
+        dispatch(setCookieEncode(String(accessToken)))
+        // localStorage.setItem("userId", userId)
+        // localStorage.setItem("hosId", hosId)
+        // localStorage.setItem("displayName", displayName)
+        // localStorage.setItem("userPicture", userPic)
+        // localStorage.setItem("userLevel", userLevel)
+        // localStorage.setItem("hosImg", String(hosPic))
+        // localStorage.setItem("hosName", hosName)
+        // localStorage.setItem("groupId", wardId)
         localStorage.setItem("token", token)
         dispatch(setToken(token))
         navigate(`/`)

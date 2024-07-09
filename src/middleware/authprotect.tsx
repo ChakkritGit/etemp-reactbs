@@ -1,34 +1,37 @@
 import { ReactElement } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { jwtDecode } from 'jwt-decode'
 import { useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../types/redux.type'
-import { jwtToken } from '../types/component.type'
+import { CookieType } from '../types/cookie.type'
+import CryptoJS from "crypto-js"
+import { cookies } from '../constants/constants'
 
 type authProps = {
   children: ReactElement
 }
 
-const verifyToken = (token: string) => {
+const verifyToken = (cookieEncode: string) => {
   try {
-    const decoded: jwtToken = jwtDecode(token)
-    if (decoded && decoded.userId) {
-      return { valid: true, decoded }
+    const decodeCookieObject = CryptoJS.AES.decrypt(cookieEncode, `${import.meta.env.VITE_APP_SECRETKEY}`)
+    const cookieObject: CookieType = JSON.parse(decodeCookieObject.toString(CryptoJS.enc.Utf8))
+    if (cookieObject.token) {
+      return { valid: true, cookieObject }
     } else {
-      localStorage.clear()
+      localStorage.removeItem('token')
+      cookies.remove('localDataObject')
       return { valid: false, error: 'Token expired or invalid' }
     }
   } catch (error) {
-    localStorage.clear()
+    localStorage.removeItem('token')
+    cookies.remove('localDataObject')
     return { valid: false, error }
   }
 }
 
 const ProtectedRoute = ({ children }: authProps) => {
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { valid } = verifyToken(token)
-
-  if (token) {
+  const { cookieEncode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  if (cookieEncode) {
+    const { valid } = verifyToken(cookieEncode)
     return valid ? children : <Navigate to="/login" />
   } else {
     return <Navigate to="/login" />

@@ -3,7 +3,6 @@ import { ActiveNavBlur, NavigationBottom, NavigationItems } from "../../style/co
 import { useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { NavProfile } from "../../style/style"
-import { userlevel } from "../../authen/authentFunc"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
@@ -19,7 +18,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
-  const { tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { tokenDecode, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
 
   const reFetchdata = async () => {
     if (tokenDecode.userId !== undefined) {
@@ -73,7 +72,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
         <ActiveNavBlur $primary={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare"} />
       </NavigationItems>
       {
-        userlevel() !== '3' ?
+        cookieDecode.userLevel !== '3' ?
           <>
             <NavigationItems $primary={location.pathname === "/permission"} onClick={() => navigate('/permission')}>
               {

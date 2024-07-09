@@ -1,35 +1,27 @@
 import { Outlet, Navigate } from "react-router-dom"
-// import { getUser } from "./authentFunc"
 import Login from "../pages/login/login"
-import { getLogin } from "./authentFunc"
 import Notacess from "../components/permission/notacess"
 import { DeviceStateStore, UtilsStateStore } from "../types/redux.type"
 import { useSelector } from "react-redux"
-
-// export function AuthRoute() {
-//   return (
-//     getUser() ? <Outlet /> : <Navigate to="/login" />
-//   )
-// }
+import { logOut } from "./authFunc"
 
 export function Islogout() {
   return (
-    getLogin() ? <Navigate to="/" /> : <Login />
+    logOut() ? <Navigate to="/" /> : <Login />
   )
 }
 
 export function Hidesetting() {
-  const { tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { userLevel } = tokenDecode
-  console.log(userLevel)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { userLevel } = cookieDecode
   return (
     userLevel === '3' ? <Notacess /> : <Outlet />
   )
 }
 
 export function HideFlashFW() {
-  const { tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { userLevel } = tokenDecode
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { userLevel } = cookieDecode
   return (
     userLevel !== '0' ? <Notacess /> : <Outlet />
   )

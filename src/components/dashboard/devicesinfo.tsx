@@ -21,11 +21,12 @@ import { Slider } from "@mui/material"
 import axios, { AxiosError } from "axios"
 import { useTranslation } from "react-i18next"
 import Swal from "sweetalert2"
-import { userlevel } from "../../authen/authentFunc"
 import { AdjustRealTimeFlex } from "../../style/components/home.styled"
 import { client } from "../../services/mqtt"
 import { responseType } from "../../types/response.type"
 import { probeType } from "../../types/probe.type"
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 type devicesinfo = {
   devicesData: devicesType,
@@ -42,6 +43,7 @@ type dateCalType = {
 export default function Devicesinfo(devicesinfo: devicesinfo) {
   const { devicesData } = devicesinfo
   const { t } = useTranslation()
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [show, setShow] = useState(false)
   const [showPic, setShowpic] = useState(false)
   const { probe } = devicesData
@@ -465,7 +467,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={userlevel() === '4'}
+                          disabled={cookieDecode.userLevel === '4'}
                           value={formdata.adjust_temp}
                           onChange={(e) => setFormdata({ ...formdata, adjust_temp: Number(e.target.value) })} />
                         <strong>°C</strong>
@@ -473,14 +475,14 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="temp"
-                      $disabled={userlevel() === '4'}
+                      $disabled={cookieDecode.userLevel === '4'}
                     >
                       <Slider
                         color="error"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={userlevel() === '4'}
+                        disabled={cookieDecode.userLevel === '4'}
                         value={formdata.adjust_temp}
                         onChange={handleAdjusttempChange}
                         valueLabelDisplay="off" />
@@ -498,7 +500,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={userlevel() === '4'}
+                          disabled={cookieDecode.userLevel === '4'}
                           value={formdata.adjust_hum}
                           onChange={(e) => setFormdata({ ...formdata, adjust_hum: Number(e.target.value) })} />
                         <strong>%</strong>
@@ -506,14 +508,14 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="hum"
-                      $disabled={userlevel() === '4'}
+                      $disabled={cookieDecode.userLevel === '4'}
                     >
                       <Slider
                         color="primary"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={userlevel() === '4'}
+                        disabled={cookieDecode.userLevel === '4'}
                         value={formdata.adjust_hum}
                         onChange={handleAdjusthumChange}
                         valueLabelDisplay="off" />

@@ -4087,7 +4087,7 @@ overflow-y: scroll;
 }
 `
 
-export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number, $imageFit?: boolean }>`
+export const ProfileFlexSetting = styled.div<{ $radius?: number, $dimension?: number, $imageFit?: boolean }>`
 display: flex;
 justify-content: space-between;
 gap: 2rem;
@@ -5008,4 +5008,76 @@ visibility: ${props => props.$show ? 'visible' : 'hidden'};
   @media (max-width: 430px) {
     bottom: 75px;
   }
+`
+
+export const ProfileFlex = styled.div<{ $radius?: number, $dimension?: number, $imageFit?: boolean }>`
+display: flex;
+gap: 2rem;
+margin: 1rem 0;
+
+&>div {
+  display: block;
+  position: relative;
+  width: ${props => props.$dimension + 'px'};
+  height: ${props => props.$dimension + 'px'};
+  max-width: ${props => props.$dimension + 'px'};
+  max-height: ${props => props.$dimension + 'px'};
+  aspect-ratio: 150 / 150;
+  overflow: hidden;
+}
+
+&>div>img {
+  position: absolute;
+  width: ${props => props.$dimension + 'px'};
+  height: ${props => props.$dimension + 'px'};
+  max-width: ${props => props.$dimension + 'px'};
+  max-height: ${props => props.$dimension + 'px'};
+  border-radius: ${porps => porps.$radius + '%'};
+  background-color: var(--white);
+  object-fit: ${props => props.$imageFit ? 'cover' : 'contain'};
+  aspect-ratio: 1/1;
+  border: 3px solid var(--white);
+  overflow: hidden;
+}
+
+&>div>label {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  bottom: 5px;
+  right: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-color);
+  border: 3px solid var(--white);
+  cursor: pointer;
+  overflow: hidden;
+
+  &>svg {
+    font-size: 18px;
+    color: var(--white);
+  }
+}
+
+&>div>label:hover {
+  background-color: var(--blue-black);
+  transition: .3s;
+}
+
+&>div>label>input[type='file'] {
+  display: none;
+}
+
+@media (max-width: 430px) {
+  flex-direction: column;
+  align-items: center;
+  height: 275px;
+  gap: 1.5rem;
+
+  &>div:nth-child(2) {
+    height: 100px;
+  }
+}
 `
