@@ -30,6 +30,11 @@ export default function System() {
   const logOut = () => {
     dispatch(setCookieEncode(''))
     cookies.remove('localDataObject', cookieOptions)
+    cookies.remove('devSerial', cookieOptions)
+    cookies.remove('devid', cookieOptions)
+    cookies.remove('selectHos', cookieOptions)
+    cookies.remove('selectWard', cookieOptions)
+    cookies.update()
     navigate("/login")
   }
 

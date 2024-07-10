@@ -20,13 +20,21 @@ const verifyToken = (cookieEncode: string) => {
       return { valid: true, cookieObject }
     } else {
       cookies.remove('localDataObject', cookieOptions)
-      localStorage.removeItem('token')
+      cookies.remove('devSerial', cookieOptions)
+      cookies.remove('devid', cookieOptions)
+      cookies.remove('selectHos', cookieOptions)
+      cookies.remove('selectWard', cookieOptions)
+      cookies.update()
       dispatch(setCookieEncode(''))
       return { valid: false, error: 'Token expired or invalid' }
     }
   } catch (error) {
     cookies.remove('localDataObject', cookieOptions)
-    localStorage.removeItem('token')
+    cookies.remove('devSerial', cookieOptions)
+    cookies.remove('devid', cookieOptions)
+    cookies.remove('selectHos', cookieOptions)
+    cookies.remove('selectWard', cookieOptions)
+    cookies.update()
     dispatch(setCookieEncode(''))
     return { valid: false, error }
   }
