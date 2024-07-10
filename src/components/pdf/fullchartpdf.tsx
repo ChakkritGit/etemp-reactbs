@@ -10,11 +10,12 @@ type pdftype = {
   dev_name?: string,
   hospital?: string,
   ward?: string,
-  datetime?: string
+  datetime?: string,
+  hosImg?: string
 }
 
 export default function Fullchartpdf(pdftype: pdftype) {
-  const { chartIMG, datetime, dev_name, dev_sn, hospital, title, ward } = pdftype
+  const { chartIMG, datetime, dev_name, dev_sn, hospital, title, ward, hosImg } = pdftype
 
   return (
     <Document
@@ -53,14 +54,14 @@ export default function Fullchartpdf(pdftype: pdftype) {
           <View style={StylesPdf.right}>
             <Image
               style={StylesPdf.img}
-              src={`${import.meta.env.VITE_APP_IMG}${localStorage.getItem("hosimg")}`}
+              src={`${import.meta.env.VITE_APP_IMG}${hosImg}`}
             />
             <Text>{hospital}</Text>
             <Text>{ward}</Text>
           </View>
         </View>
         <View style={StylesPdf.Body_img}>
-          <Image src={chartIMG} style={StylesPdf.img_width}/>
+          <Image src={chartIMG} style={StylesPdf.img_width} />
         </View>
       </Page>
     </Document>

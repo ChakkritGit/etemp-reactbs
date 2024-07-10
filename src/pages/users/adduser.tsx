@@ -22,7 +22,7 @@ export default function Adduser(AdduserProp: adduserProp) {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, displayName } = cookieDecode
   const [show, setShow] = useState(false)
   const [form, setform] = useState({
     group_id: pagestate !== "add" ? String(userData?.userId) : '',
@@ -113,7 +113,7 @@ export default function Adduser(AdduserProp: adduserProp) {
     if (form.fileupload) {
       formData.append('fileupload', form.fileupload as File)
     }
-    formData.append('createBy', String(localStorage.getItem('displayname')))
+    formData.append('createBy', displayName)
     if (form.group_id !== '' && form.user_name !== '' && form.user_password !== '' && form.display_name !== '' && form.user_level !== '') {
       try {
         const response = await axios.post(url, formData, {
@@ -183,7 +183,7 @@ export default function Adduser(AdduserProp: adduserProp) {
     if (form.fileupload) {
       formData.append('fileupload', form.fileupload as File)
     }
-    formData.append('createBy', String(localStorage.getItem('displayname')))
+    formData.append('createBy', displayName)
     if (form.group_id !== '' && form.user_name !== '' && form.display_name !== '' && form.user_level !== '') {
       try {
         const response = await axios.put<responseType<usersType>>(url, formData, {

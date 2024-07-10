@@ -17,7 +17,8 @@ import Fullchartpdf from "../../components/pdf/fullchartpdf"
 const Comparechart = () => {
   const { t } = useTranslation()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const {hosName} = cookieDecode
   const [pageNumber, setPagenumber] = useState(1)
   const canvasChartRef = useRef<HTMLDivElement | null>(null)
   const tableInfoRef = useRef<HTMLDivElement | null>(null)
@@ -149,7 +150,7 @@ const Comparechart = () => {
         </FilterContainer>}
       <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
         <TableInfoDevice ref={tableInfoRef}>
-          <h4>{localStorage.getItem('hosname')}</h4>
+          <h4>{hosName}</h4>
         </TableInfoDevice>
         {
           devices.length > 0 ?

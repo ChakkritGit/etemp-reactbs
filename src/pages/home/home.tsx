@@ -35,7 +35,7 @@ import TableModal from "../../components/home/table.modal"
 import PageLoading from "../../components/loading/page.loading"
 import { probeType } from "../../types/probe.type"
 import { cardFilter } from "../../types/component.type"
-import { resetActive } from "../../constants/constants"
+import { cookieOptions, cookies, resetActive } from "../../constants/constants"
 import { logtype } from "../../types/log.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
@@ -256,8 +256,8 @@ export default function Home() {
   }, [devicesFilter, t])
 
   const handleRowClicked = (row: devicesType) => {
-    localStorage.setItem('devid', row.devId)
-    localStorage.setItem('devSerial', row.devSerial)
+    cookies.set('devid', row.devId, cookieOptions)
+    cookies.set('devSerial', row.devSerial, cookieOptions)
     dispatch(setDeviceId(row.devId))
     dispatch(setSerial(row.devSerial))
     navigate('/dashboard')
@@ -265,7 +265,7 @@ export default function Home() {
   }
 
   const updateLocalStorageAndDispatch = (key: string, id: string | undefined, action: Function) => {
-    localStorage.setItem(key, String(id))
+    cookies.set(key, String(id), cookieOptions)
     dispatch(action(String(id)))
   }
 

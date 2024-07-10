@@ -6,6 +6,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ApexchartFull from './apexchartFull'
+import { cookieOptions, cookies } from '../../constants/constants'
 
 type chartData = {
   data: logtype[] | undefined,
@@ -18,7 +19,7 @@ export default function Chart(chartData: chartData) {
   const navigate = useNavigate()
 
   const openFullchart = () => {
-    localStorage.setItem('devSerial', chartData.data !== undefined ? chartData.data[0].devSerial : '')
+    cookies.set('devSerial',chartData.data !== undefined ? chartData.data[0].devSerial : '' ,cookieOptions)
     navigate('/dashboard/fullchart')
     window.scrollTo(0, 0)
   }

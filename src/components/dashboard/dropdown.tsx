@@ -7,6 +7,7 @@ import { storeDispatchType } from "../../stores/store"
 import { setDefaultLogs } from "../../stores/LogsSlice"
 import { devicesType } from "../../types/device.type"
 import { useTranslation } from "react-i18next"
+import { cookieOptions, cookies } from "../../constants/constants"
 
 export default function Dropdown() {
   const { t } = useTranslation()
@@ -21,8 +22,8 @@ export default function Dropdown() {
     const newSerial = selectedValue.substring(41)
     setVal(selectedValue)
     dispatch(setDefaultLogs({} as devicesType))
-    localStorage.setItem('devid', newDeviceId)
-    localStorage.setItem('devSerial', newSerial)
+    cookies.set('devid', newDeviceId, cookieOptions)
+    cookies.set('devSerial', newSerial, cookieOptions)
     dispatch(setDeviceId(newDeviceId))
     dispatch(setSerial(newSerial))
   }

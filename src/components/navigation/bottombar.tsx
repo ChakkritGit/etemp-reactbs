@@ -23,7 +23,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
   const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
   const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, userPicture } = cookieDecode
 
   const reFetchdata = async () => {
     if (tokenDecode.userId !== undefined) {
@@ -113,7 +113,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
           <></>
       }
       <NavigationItems $primary={location.pathname === "/setting"} onClick={() => navigate('/setting')}>
-        <NavProfile $primary src={localStorage.getItem('userpicture') !== 'null' ? `${import.meta.env.VITE_APP_IMG}${localStorage.getItem("userpicture")}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
+        <NavProfile $primary src={userPicture !== 'null' ? `${import.meta.env.VITE_APP_IMG}${userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
         <span>{t('tabAccount')}</span>
         <ActiveNavBlur $primary={location.pathname === "/setting"} />
       </NavigationItems>

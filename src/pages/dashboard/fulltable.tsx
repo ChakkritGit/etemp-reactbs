@@ -25,7 +25,7 @@ import { RiArrowRightSLine } from "react-icons/ri"
 import toast from "react-hot-toast"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { getDateNow } from "../../constants/constants"
+import { cookies, getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
@@ -47,7 +47,7 @@ export default function Fulltable() {
   const fetchData = async () => {
     try {
       const responseData = await axios
-        .get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : localStorage.getItem('devid')}`, {
+        .get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : cookies.get('devid')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
@@ -62,7 +62,7 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : cookies.get('devSerial')}&type=table`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
@@ -77,7 +77,7 @@ export default function Fulltable() {
     try {
       setLoading(true)
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : cookies.get('devSerial')}&type=table`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
@@ -92,7 +92,7 @@ export default function Fulltable() {
     setLogData([])
     try {
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : cookies.get('devSerial')}&type=table`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -111,7 +111,7 @@ export default function Fulltable() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}&type=table`, {
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : cookies.get('devSerial')}&type=table`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data.map((items) => items).reverse())
@@ -139,9 +139,16 @@ export default function Fulltable() {
   }
 
   useEffect(() => {
-    Logday()
-    fetchData()
-  }, [])
+    if (token) {
+      fetchData()
+    }
+  }, [pageNumber, token])
+
+  useEffect(() => {
+    if (token) {
+      Logday()
+    }
+  }, [token])
 
   useEffect(() => {
     const filtered = logData.filter((items) =>

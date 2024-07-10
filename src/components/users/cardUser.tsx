@@ -26,7 +26,7 @@ export default function CardUser(userProp: cardType) {
     try {
       const response = await axios
         .delete<responseType<usersType>>(url, {
-          headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       dispatch(fetchUserData(token))
       Swal.fire({

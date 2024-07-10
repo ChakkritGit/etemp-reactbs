@@ -34,7 +34,7 @@ import toast from "react-hot-toast"
 import Apexchart from "../../components/dashboard/apexchart"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { getDateNow } from "../../constants/constants"
+import { cookies, getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
 import { wardsType } from "../../types/ward.type"
 import { motion } from "framer-motion"
@@ -45,7 +45,7 @@ export default function Fullchart() {
   const navigate = useNavigate()
   const [pageNumber, setPagenumber] = useState(1)
   const { Serial, deviceId, expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, hosName, hosImg } = cookieDecode
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
@@ -89,7 +89,7 @@ export default function Fullchart() {
   const fetchData = async () => {
     try {
       const responseData = await axios
-        .get(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : localStorage.getItem('deviceId')}`, {
+        .get(`${import.meta.env.VITE_APP_API}/device/${deviceId ? deviceId : cookies.get('devid')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
@@ -103,7 +103,7 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=day&devSerial=${Serial ? Serial : cookies.get('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -117,7 +117,7 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=week&devSerial=${Serial ? Serial : cookies.get('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -131,7 +131,7 @@ export default function Fullchart() {
     setLogData([])
     try {
       const responseData = await axios
-        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+        .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : cookies.get('devSerial')}`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
@@ -150,7 +150,7 @@ export default function Fullchart() {
       if (diffDays <= 31) {
         try {
           const responseData = await axios
-            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : localStorage.getItem('devSerial')}`, {
+            .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : cookies.get('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)
@@ -178,12 +178,16 @@ export default function Fullchart() {
   }
 
   useEffect(() => {
-    fetchData()
-  }, [pageNumber])
+    if (token) {
+      fetchData()
+    }
+  }, [pageNumber, token])
 
   useEffect(() => {
-    Logday()
-  }, [])
+    if (token) {
+      Logday()
+    }
+  }, [token])
 
   const exportChart = async () => {
     if (canvasChartRef.current) {
@@ -354,7 +358,7 @@ export default function Fullchart() {
               logData ?
                 <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
                   <TableInfoDevice ref={tableInfoRef}>
-                    <h4>{localStorage.getItem('hosname')}</h4>
+                    <h4>{hosName}</h4>
                     <span>{devData?.devDetail ? devData?.devDetail : '--'} | {devData?.devSerial}</span>
                     <span>{devData?.locInstall ? devData?.locInstall : '- -'}</span>
                   </TableInfoDevice>
@@ -394,6 +398,7 @@ export default function Fullchart() {
                       hospital={validationData?.hospital.hosName}
                       ward={validationData?.wardName}
                       datetime={String(new Date).substring(0, 25)}
+                      hosImg={hosImg}
                     />
                   </PDFViewer>
                   :

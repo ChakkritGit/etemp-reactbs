@@ -96,7 +96,7 @@ export default function sidebar() {
       <Link to="/" onClick={resetAsideandCardcount} className="d-flex flex-column align-items-center mb-3 mb-md-0 link-dark text-decoration-none">
         <SidebarLogo
           $primary={expand}
-          src={localStorage.getItem('hosimg') !== 'null' ?
+          src={cookieDecode.hosImg !== 'null' ?
             `${import.meta.env.VITE_APP_IMG}${cookieDecode.hosImg}`
             :
             `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />

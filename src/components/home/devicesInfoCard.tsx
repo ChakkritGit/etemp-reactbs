@@ -20,6 +20,7 @@ import { AsyncThunk } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
 import { storeDispatchType } from "../../stores/store"
 import ModalAdjust from "./modal.adjust"
+import { cookieOptions, cookies } from "../../constants/constants"
 
 type DevicesInfoCard = {
   devicesdata: devicesType,
@@ -48,8 +49,8 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
     } else {
       dispatch(setDeviceId(data.devid))
       dispatch(setSerial(data.devsn))
-      localStorage.setItem('devid', data.devid)
-      localStorage.setItem('devSerial', data.devsn)
+      cookies.set('devid', data.devid, cookieOptions)
+      cookies.set('devSerial', data.devsn, cookieOptions)
       navigate('/dashboard')
       window.scrollTo(0, 0)
       // เมื่อสลับหน้าไปยังแดชบอร์ดให้สกลอไปบนสุด

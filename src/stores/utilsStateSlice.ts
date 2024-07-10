@@ -5,8 +5,8 @@ import { cookies } from "../constants/constants"
 import { CookieType } from "../types/cookie.type"
 
 const initialState: UtilsStateStore = {
-  deviceId: String(localStorage.getItem('devid')),
-  Serial: String(localStorage.getItem('devSerial')),
+  deviceId: String(cookies.get('devid')),
+  Serial: String(cookies.get('devSerial')),
   socketData: null,
   searchQuery: '',
   expand: localStorage.getItem('expandaside') === 'true',
@@ -14,8 +14,8 @@ const initialState: UtilsStateStore = {
   tokenDecode: {} as jwtToken,
   soundMode: localStorage.getItem('soundMode') === 'true',
   popUpMode: localStorage.getItem('popUpMode') === 'true',
-  hosId: String(localStorage.getItem('selectHos')),
-  wardId: String(localStorage.getItem('selectWard') ?? 'WID-DEVELOPMENT'),
+  hosId: cookies.get('selectHos'),
+  wardId: cookies.get('selectWard') ?? 'WID-DEVELOPMENT',
   cookieEncode: cookies.get('localDataObject') || null,
   cookieDecode: false as unknown as CookieType
 }

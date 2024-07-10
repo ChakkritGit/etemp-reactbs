@@ -4,6 +4,8 @@ import Logo from '../../assets/images/Thanes.png'
 import Logofooter from '../../assets/images/ts-logo.png'
 import QRCode from "react-qr-code"
 import { warrantyType } from "../../types/warranty.type"
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 type warrantytype = {
   data: warrantyType[],
@@ -11,6 +13,9 @@ type warrantytype = {
 }
 
 export default function Printwarranty(warrantytype: warrantytype) {
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { displayName } = cookieDecode
+
   return (
     <>
       {
@@ -85,7 +90,7 @@ export default function Printwarranty(warrantytype: warrantytype) {
                         <span>ชื่อลูกค้า</span>
                         <span>Customer's Name</span>
                       </span>
-                      <span>{localStorage.getItem('displayname')}</span>
+                      <span>{displayName}</span>
                     </div>
                   </div>
                   <div>

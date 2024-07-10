@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { useSelector } from "react-redux"
+import { cookieOptions, cookies } from "../../constants/constants"
 
 type tableType = {
   data: logtype[],
@@ -70,7 +71,7 @@ export default function Table(tableType: tableType) {
   ]
 
   const openFulltable = () => {
-    localStorage.setItem('devSerial', data !== undefined ? data[0].devSerial : '')
+    cookies.set('devSerial', data !== undefined ? data[0].devSerial : '', cookieOptions)
     navigate('/dashboard/fulltable')
     window.scrollTo(0, 0)
   }
