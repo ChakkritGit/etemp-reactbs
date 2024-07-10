@@ -56,7 +56,7 @@ export default function Main() {
   }, [socketData, token])
 
   useEffect(() => {
-    if (deviceId !== "null" && token) {
+    if (deviceId !== "undefined" && token) {
       dispatch(fetchDevicesLog({ deviceId, token }))
     }
   }, [deviceId, token])
