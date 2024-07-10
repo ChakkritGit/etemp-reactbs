@@ -44,6 +44,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
   const { devicesData } = devicesinfo
   const { t } = useTranslation()
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { userLevel, token } = cookieDecode
   const [show, setShow] = useState(false)
   const [showPic, setShowpic] = useState(false)
   const { probe } = devicesData
@@ -101,7 +102,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         adjust_hum: formdata.adjust_hum,
       }, {
         headers: {
-          authorization: `Bearer ${localStorage.getItem('token')}`
+          authorization: `Bearer ${token}`
         }
       })
       setShow(false)
@@ -467,7 +468,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={cookieDecode.userLevel === '4'}
+                          disabled={userLevel === '4'}
                           value={formdata.adjust_temp}
                           onChange={(e) => setFormdata({ ...formdata, adjust_temp: Number(e.target.value) })} />
                         <strong>°C</strong>
@@ -475,14 +476,14 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="temp"
-                      $disabled={cookieDecode.userLevel === '4'}
+                      $disabled={userLevel === '4'}
                     >
                       <Slider
                         color="error"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={cookieDecode.userLevel === '4'}
+                        disabled={userLevel === '4'}
                         value={formdata.adjust_temp}
                         onChange={handleAdjusttempChange}
                         valueLabelDisplay="off" />
@@ -500,7 +501,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={cookieDecode.userLevel === '4'}
+                          disabled={userLevel === '4'}
                           value={formdata.adjust_hum}
                           onChange={(e) => setFormdata({ ...formdata, adjust_hum: Number(e.target.value) })} />
                         <strong>%</strong>
@@ -508,14 +509,14 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="hum"
-                      $disabled={cookieDecode.userLevel === '4'}
+                      $disabled={userLevel === '4'}
                     >
                       <Slider
                         color="primary"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={cookieDecode.userLevel === '4'}
+                        disabled={userLevel === '4'}
                         value={formdata.adjust_hum}
                         onChange={handleAdjusthumChange}
                         valueLabelDisplay="off" />

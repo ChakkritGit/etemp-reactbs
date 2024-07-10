@@ -16,7 +16,8 @@ import { responseType } from "../../../types/response.type";
 export default function Probesetting() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { probeData } = useSelector<DeviceStateStore, ProbeState>((state) => state.probe)
 
   const deleteProbe = async (probeId: string) => {

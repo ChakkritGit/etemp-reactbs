@@ -19,7 +19,8 @@ import Addward from "./addward"
 export default function ManageHospitals() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { searchQuery, token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { hospital } = useSelector<DeviceStateStore, DataArrayStore>((state) => state.arraySlice)
   const { hospitalsData } = hospital
   const { userLevel } = tokenDecode

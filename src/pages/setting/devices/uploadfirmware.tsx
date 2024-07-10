@@ -50,7 +50,8 @@ let transport: Transport
 export default function Uploadfirmware() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [show, setShow] = useState(false)
   const [showConsole, setShowConsole] = useState(false)
   const [file, setFile] = useState<File | undefined>(undefined)

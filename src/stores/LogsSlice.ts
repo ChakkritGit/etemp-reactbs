@@ -4,9 +4,9 @@ import { devicesType } from "../types/device.type"
 import { LogState, payloadError } from "../types/redux.type"
 import { responseType } from "../types/response.type"
 
-export const fetchDevicesLog = createAsyncThunk<devicesType, string>('deviceLogs/fetchDevicesLog', async (devId) => {
-  const response = await axios.get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${devId}`, {
-    headers: { authorization: `Bearer ${localStorage.getItem("token")}` }
+export const fetchDevicesLog = createAsyncThunk<devicesType, {deviceId: string, token: string}>('deviceLogs/fetchDevicesLog', async ({deviceId, token}) => {
+  const response = await axios.get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${deviceId}`, {
+    headers: { authorization: `Bearer ${token}` }
   })
   return response.data.data
 })

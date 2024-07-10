@@ -22,7 +22,8 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
   const location = useLocation()
   const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
-  const { tokenDecode, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
 
   const reFetchdata = async () => {
     if (tokenDecode.userId !== undefined) {

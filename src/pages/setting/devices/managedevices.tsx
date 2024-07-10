@@ -24,7 +24,8 @@ export default function Managedev() {
   const { t, i18n } = useTranslation()
   const langs = localStorage.getItem("lang")
   const dispatch = useDispatch<storeDispatchType>()
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
 
   useEffect(() => {

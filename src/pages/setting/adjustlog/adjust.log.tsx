@@ -10,7 +10,8 @@ import { useTranslation } from "react-i18next"
 
 export default function AdjustLog() {
   const { t } = useTranslation()
-  const { token, searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode, searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [history, setHistory] = useState<historyType[]>([])
 
   const fetchHistory = async () => {

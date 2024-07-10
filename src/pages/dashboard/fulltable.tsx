@@ -37,7 +37,8 @@ export default function Fulltable() {
   const [devData, setDevData] = useState<devicesType>()
   const [loading, setLoading] = useState(false)
   const [tableData, setTableData] = useState<logtype[]>([])
-  const { searchQuery, deviceId, expand, token, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, deviceId, expand, cookieDecode, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''

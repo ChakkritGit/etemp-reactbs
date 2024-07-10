@@ -25,7 +25,8 @@ interface dataTableProps {
 export default function Warranty() {
   const { t } = useTranslation()
   const [pagenumber, setpagenumber] = useState(1)
-  const { searchQuery, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const {token} = cookieDecode
   const [show, setshow] = useState(false)
   const [deviceDetails, setDevicedetails] = useState<warrantyType[]>([])
   const [warrantyData, setWarrantyData] = useState<warrantyType[]>([])

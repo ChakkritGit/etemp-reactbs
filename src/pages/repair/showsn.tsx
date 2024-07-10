@@ -38,7 +38,8 @@ type sntype = {
 
 export default function Showsn(sntype: sntype) {
   const { t } = useTranslation()
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [devData, setDevData] = useState<devicesType[]>([])
   const [selectedval, setSelectedVal] = useState('')
 

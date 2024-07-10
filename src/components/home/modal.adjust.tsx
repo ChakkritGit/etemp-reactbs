@@ -31,7 +31,8 @@ type modalAdjustType = {
 const ModalAdjust = (modalProps: modalAdjustType) => {
   const { fetchData, devicesdata, show, setShow } = modalProps
   const { t } = useTranslation()
-  const { token, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [tempvalue, setTempvalue] = useState<number[]>([Number(devicesdata.probe[0]?.tempMin), Number(devicesdata.probe[0]?.tempMax)])
   const [humvalue, setHumvalue] = useState<number[]>([Number(devicesdata.probe[0]?.humMin), Number(devicesdata.probe[0]?.humMax)])
   const [showSetting, setShowSetting] = useState(false)

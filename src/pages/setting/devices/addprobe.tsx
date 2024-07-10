@@ -22,7 +22,8 @@ export default function Addprobe(addprobe: addprobeProps) {
   const dispatch = useDispatch<storeDispatchType>()
   const { pagestate, probeData } = addprobe
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [show, setShow] = useState(false)
   const [formdata, setFormdata] = useState({
     probeName: pagestate !== "add" ? probeData?.probeName : '',

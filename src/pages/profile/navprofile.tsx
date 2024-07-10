@@ -20,7 +20,6 @@ export default function Navprofile() {
   const logOut = () => {
     dispatch(setCookieEncode(''))
     cookies.remove('localDataObject', cookieOptions)
-    localStorage.removeItem('token')
     navigate("/login")
   }
 

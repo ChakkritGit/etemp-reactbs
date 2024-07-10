@@ -21,7 +21,8 @@ export default function Adduser(AdduserProp: adduserProp) {
   const { pagestate, userData } = AdduserProp
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { tokenDecode, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [show, setShow] = useState(false)
   const [form, setform] = useState({
     group_id: pagestate !== "add" ? String(userData?.userId) : '',

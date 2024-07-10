@@ -17,7 +17,8 @@ import { responseType } from "../../../types/response.type"
 export default function ManageWard() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { ward } = useSelector<DeviceStateStore, DataArrayStore>((state) => state.arraySlice)
   const { wardData } = ward
 

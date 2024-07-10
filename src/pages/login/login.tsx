@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import { RiLoader3Line } from "react-icons/ri"
 import { useEffect } from 'react'
-import { setCookieEncode, setToken } from '../../stores/utilsStateSlice'
+import { setCookieEncode } from '../../stores/utilsStateSlice'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../../stores/store'
 import { responseType } from '../../types/response.type'
@@ -78,8 +78,6 @@ export default function Login() {
         }
         cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
         dispatch(setCookieEncode(String(accessToken(localDataObject))))
-        localStorage.setItem("token", token)
-        dispatch(setToken(token))
         navigate(`/`)
       } catch (error) {
         if (error instanceof AxiosError) {

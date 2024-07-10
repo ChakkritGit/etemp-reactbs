@@ -80,7 +80,7 @@
   --main-white-rgba: rgba(255, 255, 255, 0.5);
 
   /* border */
-  --border-radius-small: 1.15rem;
+  --border-radius-small: 1.25rem;
   /* .55rem */
   --border-radius-big: 1.70rem;
 }

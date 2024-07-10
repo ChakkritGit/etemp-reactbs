@@ -30,7 +30,6 @@ export default function System() {
   const logOut = () => {
     dispatch(setCookieEncode(''))
     cookies.remove('localDataObject', cookieOptions)
-    localStorage.removeItem('token')
     navigate("/login")
   }
 

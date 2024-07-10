@@ -27,7 +27,8 @@ type addrepairtype = {
 export default function Addrepair(addrepair: addrepairtype) {
   const { t } = useTranslation()
   const { devdata, fetchdata, pagestate } = addrepair
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [show, setShow] = useState(false)
   const [repairData, setRepairdata] = useState({
     repairInfo: devdata.repairInfo || localStorage.getItem('displayname') as string,

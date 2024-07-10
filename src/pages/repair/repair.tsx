@@ -23,7 +23,8 @@ import { items } from "../../animation/animate"
 
 export default function Repair() {
   const { t } = useTranslation()
-  const { searchQuery, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [repairData, setRepairdata] = useState<repairType[]>([])
   const [repairDataPrint, setRepairdataprint] = useState<repairType[]>([])
   const [show, setshow] = useState(false)

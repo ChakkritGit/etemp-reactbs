@@ -31,7 +31,8 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
   const { pagestate, warData, fetchData } = warProps
   const { t } = useTranslation()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [show, setShowe] = useState(false)
   const [warrantyObject, setWarrantyObject] = useState({
     devName: warData?.device.devName,
@@ -191,7 +192,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
                   <Form.Label className="w-100">
                     {t('selectDeviceDrop')}
                     <Form.Select onChange={(e) => setWarrantyObject({ ...warrantyObject, devName: e.target.value })} value={warrantyObject.devName} className="mt-2">
-                    <option value={''}>Select Device</option>
+                      <option value={''}>Select Device</option>
                       {
                         devices.map((items) => {
                           return <option key={items.devId} value={items.devName}>{items.devSerial}</option>

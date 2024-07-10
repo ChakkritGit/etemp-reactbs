@@ -5,7 +5,6 @@ import { cookies } from "../constants/constants"
 import { CookieType } from "../types/cookie.type"
 
 const initialState: UtilsStateStore = {
-  token: String(localStorage.getItem('token')),
   deviceId: String(localStorage.getItem('devid')),
   Serial: String(localStorage.getItem('devSerial')),
   socketData: null,
@@ -25,8 +24,8 @@ const utilsSlice = createSlice({
   name: 'utils',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload
+    setTokenDecode: (state, action: PayloadAction<jwtToken>) => {
+      state.tokenDecode = action.payload
     },
     setDeviceId: (state, action: PayloadAction<string>) => {
       state.deviceId = action.payload
@@ -45,9 +44,6 @@ const utilsSlice = createSlice({
     },
     setShowAside: (state, action: PayloadAction<boolean>) => {
       state.showAside = action.payload
-    },
-    setTokenDecode: (state, action: PayloadAction<jwtToken>) => {
-      state.tokenDecode = action.payload
     },
     setSoundMode: (state, action: PayloadAction<boolean>) => {
       state.soundMode = action.payload
@@ -70,7 +66,7 @@ const utilsSlice = createSlice({
   },
 })
 
-export const { setToken, setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside,
+export const { setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside,
   setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId, setCookieEncode, setCookieDecode } = utilsSlice.actions
 
 export default utilsSlice.reducer

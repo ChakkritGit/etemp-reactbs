@@ -23,7 +23,8 @@ import { BottomNavigateWrapper } from "../style/components/bottom.navigate"
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, showAside, token, deviceId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, showAside, deviceId, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const handleClose = () => dispatch(setShowAside(false))
   const handleShow = () => dispatch(setShowAside(true))
   const [isScrollingDown, setIsScrollingDown] = useState(false)
@@ -38,23 +39,27 @@ export default function Main() {
   }
 
   useEffect(() => {
-    decodeToken()
-    dispatch(filtersDevices(token))
-    dispatch(fetchHospitals(token))
-    dispatch(fetchWards(token))
-    dispatch(fetchUserData(token))
-    dispatch(fetchProbeData(token))
-  }, [])
-
-  useEffect(() => {
-    dispatch(fetchDevicesData(token))
-  }, [socketData])
-
-  useEffect(() => {
-    if (deviceId !== "null") {
-      dispatch(fetchDevicesLog(deviceId))
+    if (token) {
+      decodeToken()
+      dispatch(filtersDevices(token))
+      dispatch(fetchHospitals(token))
+      dispatch(fetchWards(token))
+      dispatch(fetchUserData(token))
+      dispatch(fetchProbeData(token))
     }
-  }, [deviceId])
+  }, [token])
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchDevicesData(token))
+    }
+  }, [socketData, token])
+
+  useEffect(() => {
+    if (deviceId !== "null" && token) {
+      dispatch(fetchDevicesLog({ deviceId, token }))
+    }
+  }, [deviceId, token])
 
   const handleContextMenu: MouseEventHandler<HTMLDivElement> = (_e) => {
     // e.preventDefault()

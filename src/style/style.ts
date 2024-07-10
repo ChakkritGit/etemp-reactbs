@@ -701,7 +701,7 @@ export const NavProfileContainer = styled.div<{ $primary?: boolean }>`
   gap: 5px;
   width: 100%;
   max-height: 80px;
-  border-radius: var(--border-radius-big);
+  border-radius: var(--border-radius-small);
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;

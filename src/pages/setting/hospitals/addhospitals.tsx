@@ -19,7 +19,8 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
   const [show, setShow] = useState(false)
   const { pagestate, hosdata } = addhosprop
   const dispatch = useDispatch<storeDispatchType>()
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [formdata, setFormdata] = useState({
     name: pagestate !== "add" ? hosdata?.hosName as string : '',
     address: pagestate !== "add" ? hosdata?.hosAddress as string : '',

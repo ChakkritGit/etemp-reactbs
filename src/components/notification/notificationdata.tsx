@@ -6,6 +6,8 @@ import { RiFileCloseLine, RiLoader2Line } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { NotiHead, NotiHeadBtn } from "../../style/components/notification"
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 type notilist = {
   data: notificationType[],
@@ -21,6 +23,8 @@ export default function Notificationdata(notilist: notilist) {
   const { t } = useTranslation()
   const { data, funcfetch } = notilist
   const [pageState, setPageState] = useState(1)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
 
   const setRead = async (notiID: string) => {
     try {
@@ -29,7 +33,7 @@ export default function Notificationdata(notilist: notilist) {
           {
             notiStatus: true
           }, {
-          headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { authorization: `Bearer ${token}` }
         })
       funcfetch()
     } catch (error) {

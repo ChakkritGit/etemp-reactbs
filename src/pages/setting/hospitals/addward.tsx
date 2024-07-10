@@ -20,7 +20,8 @@ export default function Addward(addwardprop: addWardProp) {
   const dispatch = useDispatch<storeDispatchType>()
   const [show, setShow] = useState(false)
   const [hosid, setHosid] = useState('')
-  const { token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { pagestate, warddata } = addwardprop
   const [formdata, setFormdata] = useState({
     ward_name: pagestate !== 'add' ? warddata?.group_name as string : '',

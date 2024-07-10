@@ -6,12 +6,16 @@ import axios, { AxiosError } from "axios"
 import { useTranslation } from "react-i18next"
 import { responseType } from "../../types/response.type"
 import { hospitalsType } from "../../types/hospital.type"
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 export default function WardDropdown(DwardProp: dropDownWardProp) {
   const { t } = useTranslation()
   const { Group_ID, Hosid, setState_ward } = DwardProp
   const [wardData, setWardData] = useState<wardsType[]>([])
   const [selectedval, setSelectedVal] = useState(Group_ID)
+  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
 
   const setWardId = (e: ChangeEvent<HTMLSelectElement>) => {
     setState_ward(e.target.value)
@@ -23,7 +27,7 @@ export default function WardDropdown(DwardProp: dropDownWardProp) {
       const url: string = `${import.meta.env.VITE_APP_API}/hospital/${Hosid}`
       try {
         const response = await axios.get<responseType<hospitalsType>>(url, {
-          headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { authorization: `Bearer ${token}` }
         })
         setWardData(response.data.data.ward)
         setState_ward(response.data.data.ward[0]?.wardId)

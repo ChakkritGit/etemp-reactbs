@@ -44,7 +44,8 @@ export default function Fullchart() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [pageNumber, setPagenumber] = useState(1)
-  const { Serial, deviceId, expand, token } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { Serial, deviceId, expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''

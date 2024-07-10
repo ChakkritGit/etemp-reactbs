@@ -124,7 +124,8 @@ export default function RoutesComponent() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [status, setStatus] = useState(true)
-  const { token, cookieEncode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieEncode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { toasts } = useToasterStore()
   const toastLimit = 5
 

@@ -18,7 +18,8 @@ import toast from "react-hot-toast"
 export default function Notification() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, token, soundMode, popUpMode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, soundMode, popUpMode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const [number, setNumber] = useState(0)
   const [show, setShow] = useState(false)
   const [notiData, setNotidata] = useState<notificationType[]>([])
@@ -54,7 +55,12 @@ export default function Notification() {
   }, [notiData])
 
   useEffect(() => {
-    fetchData()
+    if (token) {
+      fetchData()
+    }
+  }, [cookieDecode])
+
+  useEffect(() => {
     if (socketData && !soundMode && !popUpMode) {
       notiSound.play()
     } else {

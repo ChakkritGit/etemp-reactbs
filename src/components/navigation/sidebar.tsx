@@ -25,7 +25,8 @@ import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { expand, tokenDecode, token, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { expand, tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { token } = cookieDecode
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
