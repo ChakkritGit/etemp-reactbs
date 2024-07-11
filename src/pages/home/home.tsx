@@ -712,9 +712,9 @@ export default function Home() {
                   {t('showAllBox')}
                 </h5>
                 {
-                  cookieDecode.userLevel === '1' && <TagCurrentHos>
+                  cookieDecode.userLevel === '0' && <TagCurrentHos>
                     {
-                      `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
+                      `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName ?? '/'} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
                     }
                   </TagCurrentHos>
                 }
