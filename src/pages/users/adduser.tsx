@@ -30,7 +30,7 @@ export default function Adduser(AdduserProp: adduserProp) {
     user_password: '',
     display_name: pagestate !== "add" ? String(userData?.displayName) : '',
     user_level: pagestate !== "add" ? String(userData?.userLevel) : '',
-    user_status: pagestate !== "add" ? String(userData?.userStatus) : '',
+    user_status: pagestate !== "add" ? userData?.userStatus === true ? 1 : 0 : 0,
     fileupload: null as File | null,
   })
   const [hosid, setHosid] = useState('')
@@ -67,7 +67,7 @@ export default function Adduser(AdduserProp: adduserProp) {
   }
 
   const setStatus = (e: ChangeEvent<HTMLSelectElement>) => {
-    setform({ ...form, user_status: e.target.value })
+    setform({ ...form, user_status: Number(e.target.value) })
   }
 
   const reFetchdata = async () => {
@@ -141,7 +141,7 @@ export default function Adduser(AdduserProp: adduserProp) {
           user_password: '',
           display_name: '',
           user_level: '',
-          user_status: '',
+          user_status: 0,
           fileupload: null as File | null,
         })
         dispatch(fetchUserData(token))
@@ -187,7 +187,7 @@ export default function Adduser(AdduserProp: adduserProp) {
     formData.append('userName', form.user_name)
     formData.append('displayName', form.display_name)
     formData.append('userLevel', form.user_level)
-    formData.append('userStatus', form.user_status)
+    formData.append('userStatus', String(form.user_status))
     if (form.fileupload) {
       formData.append('fileupload', form.fileupload as File)
     }
@@ -254,9 +254,11 @@ export default function Adduser(AdduserProp: adduserProp) {
   ]
 
   const userstatus = [
-    { value: true, name: t('userActive') },
-    { value: false, name: t('userInactive') }
+    { value: 1, name: t('userActive') },
+    { value: 0, name: t('userInactive') }
   ]
+
+  console.log(userData)
 
   return (
     <>
@@ -423,29 +425,20 @@ export default function Adduser(AdduserProp: adduserProp) {
                       <Form.Label className="w-100">
                         {t('userStatus')}
                         <Form.Select onChange={setStatus} name="field_status" value={form.user_status}>
+                          <option key={'01'} value={''}>
+                            {t('selectStatus')}
+                          </option>
                           {
                             userstatus.map((item, index) => {
-                              const optionKey = `option_${index}`
-                              if (!userData?.userStatus && index === 0) {
+                              if (item.value === form.user_status) {
                                 return (
-                                  <React.Fragment key={optionKey}>
-                                    <option key={`${optionKey}_select`} selected value={''}>
-                                      {t('selectStatus')}
-                                    </option>
-                                    <option key={optionKey} value={item.value === false ? 1 : 0}>
-                                      {item.name}
-                                    </option>
-                                  </React.Fragment>
-                                )
-                              } else if (item.value === userData?.userStatus) {
-                                return (
-                                  <option key={optionKey} selected value={item.value === false ? 1 : 0}>
+                                  <option key={index} value={item.value}>
                                     {item.name}
                                   </option>
                                 )
                               } else {
                                 return (
-                                  <option key={optionKey} value={item.value === false ? 1 : 0}>
+                                  <option key={index} value={item.value}>
                                     {item.name}
                                   </option>
                                 )

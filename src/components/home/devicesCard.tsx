@@ -19,8 +19,9 @@ type DevCard = {
 
 export default function DevicesCard(DevCard: DevCard) {
   const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { switchcase } = DevCard
   const acTive = () => {
-    DevCard.switchcase?.(DevCard.cardname, !DevCard.active)
+    switchcase?.(DevCard.cardname, !DevCard.active)
   }
   // const countupRef = useRef(null)
 

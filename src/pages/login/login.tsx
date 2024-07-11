@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import { RiLoader3Line } from "react-icons/ri"
 import { useEffect } from 'react'
-import { setCookieEncode, setShowAlert } from '../../stores/utilsStateSlice'
+import { setCookieEncode } from '../../stores/utilsStateSlice'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../../stores/store'
 import { responseType } from '../../types/response.type'
@@ -56,13 +56,13 @@ export default function Login() {
   const submitForm = async (e: FormEvent) => {
     e.preventDefault()
     if (loginform.username !== '' && loginform.password !== '') {
-      setIsloading(true)
-      const url: string = `${import.meta.env.VITE_APP_API}/auth/login`
-      const data = {
-        username: loginform.username,
-        password: loginform.password,
-      }
       try {
+        setIsloading(true)
+        const url: string = `${import.meta.env.VITE_APP_API}/auth/login`
+        const data = {
+          username: loginform.username,
+          password: loginform.password,
+        }
         const response = await axios.post<responseType<LoginResponse>>(url, data)
         const { displayName, hosId, hosName, hosPic, token, userId, userLevel, userPic, wardId } = response.data.data
         const localDataObject = {
@@ -81,17 +81,14 @@ export default function Login() {
         navigate(`/`)
       } catch (error) {
         if (error instanceof AxiosError) {
-          if (error.response?.status === 401) {
-            dispatch(setShowAlert(true))
-          } else {
-            Swal.fire({
-              title: t('alertHeaderError'),
-              text: error.response?.data.message,
-              icon: "error",
-              timer: 2000,
-              showConfirmButton: false,
-            })
-          }
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+          setIsloading(false)
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
@@ -100,6 +97,7 @@ export default function Login() {
             timer: 2000,
             showConfirmButton: false,
           })
+          setIsloading(false)
         }
       }
     } else {
