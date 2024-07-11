@@ -49,6 +49,65 @@ export default defineConfig({
             "purpose": "maskable"
           }
         ],
+        screenshots: [
+          {
+            "src": "desktop01.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Login",
+          },
+          {
+            "src": "desktop02.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Home",
+          },
+          {
+            "src": "desktop03.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Dashboard",
+          },
+          {
+            "src": "desktop04.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Chart",
+          },
+          {
+            "src": "desktop05.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Table",
+          },
+          {
+            "src": "mobile01.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Login",
+          },
+          {
+            "src": "mobile02.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Home",
+          },
+          {
+            "src": "mobile03.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Dashboard",
+          }
+        ],
+        description: "The system show all etemp box detect temperature realtime and nofi when temperture higher then limit.",
         theme_color: '#fdfdfd',
         background_color: '#fdfdfd',
         start_url: '/',
