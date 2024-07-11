@@ -1,22 +1,22 @@
-import { useTranslation } from "react-i18next";
-import { ManageProbeAdd } from "../../../style/components/manage.probe";
-import { addprobeProps } from "../../../types/prop.type";
-import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiCloseLine, RiEditLine } from "react-icons/ri";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
-import { FormBtn, FormFlexBtn, FormSliderRange, ModalHead, RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex } from "../../../style/style";
-import { Slider } from "@mui/material";
-import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../../types/redux.type";
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import axios, { AxiosError } from "axios";
-import { responseType } from "../../../types/response.type";
-import { probeType } from "../../../types/probe.type";
-import { storeDispatchType } from "../../../stores/store";
-import { fetchProbeData } from "../../../stores/probeSlice";
-import { client } from "../../../services/mqtt";
-import { AdjustRealTimeFlex } from "../../../style/components/home.styled";
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert";
+import { useTranslation } from "react-i18next"
+import { ManageProbeAdd } from "../../../style/components/manage.probe"
+import { addprobeProps } from "../../../types/prop.type"
+import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiCloseLine, RiEditLine } from "react-icons/ri"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap"
+import { FormBtn, FormFlexBtn, FormSliderRange, ModalHead, RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex } from "../../../style/style"
+import { Slider } from "@mui/material"
+import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
+import { useDispatch, useSelector } from "react-redux"
+import Swal from "sweetalert2"
+import axios, { AxiosError } from "axios"
+import { responseType } from "../../../types/response.type"
+import { probeType } from "../../../types/probe.type"
+import { storeDispatchType } from "../../../stores/store"
+import { fetchProbeData } from "../../../stores/probeSlice"
+import { client } from "../../../services/mqtt"
+import { AdjustRealTimeFlex } from "../../../style/components/home.styled"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 export default function Addprobe(addprobe: addprobeProps) {
   const { t } = useTranslation()
@@ -89,7 +89,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -158,7 +158,7 @@ export default function Addprobe(addprobe: addprobeProps) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

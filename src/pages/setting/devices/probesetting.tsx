@@ -1,18 +1,18 @@
-import { useTranslation } from "react-i18next";
-import { Actiontableprobe, DelProbeButton, ManageProbeBody, ManageProbeContainer, ManageProbeHeader } from "../../../style/components/manage.probe";
-import Addprobe from "./addprobe";
-import DataTable, { TableColumn } from "react-data-table-component";
-import { probeType } from "../../../types/probe.type";
-import { useDispatch, useSelector } from "react-redux";
-import { DeviceStateStore, ProbeState, UtilsStateStore } from "../../../types/redux.type";
-import { swalWithBootstrapButtons } from "../../../components/dropdown/sweetalertLib";
-import { RiDeleteBin2Line } from "react-icons/ri";
-import axios, { AxiosError } from "axios";
-import { storeDispatchType } from "../../../stores/store";
-import { fetchProbeData } from "../../../stores/probeSlice";
-import Swal from "sweetalert2";
-import { responseType } from "../../../types/response.type";
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert";
+import { useTranslation } from "react-i18next"
+import { Actiontableprobe, DelProbeButton, ManageProbeBody, ManageProbeContainer, ManageProbeHeader } from "../../../style/components/manage.probe"
+import Addprobe from "./addprobe"
+import DataTable, { TableColumn } from "react-data-table-component"
+import { probeType } from "../../../types/probe.type"
+import { useDispatch, useSelector } from "react-redux"
+import { DeviceStateStore, ProbeState, UtilsStateStore } from "../../../types/redux.type"
+import { swalWithBootstrapButtons } from "../../../components/dropdown/sweetalertLib"
+import { RiDeleteBin2Line } from "react-icons/ri"
+import axios, { AxiosError } from "axios"
+import { storeDispatchType } from "../../../stores/store"
+import { fetchProbeData } from "../../../stores/probeSlice"
+import Swal from "sweetalert2"
+import { responseType } from "../../../types/response.type"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 export default function Probesetting() {
   const { t } = useTranslation()
@@ -37,7 +37,7 @@ export default function Probesetting() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

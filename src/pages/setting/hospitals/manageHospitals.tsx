@@ -15,7 +15,7 @@ import DataTable, { TableColumn } from "react-data-table-component"
 import Addhospitals from "./addhospitals"
 import Swal from "sweetalert2"
 import Addward from "./addward"
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 export default function ManageHospitals() {
   const { t } = useTranslation()
@@ -44,7 +44,7 @@ export default function ManageHospitals() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
@@ -84,7 +84,7 @@ export default function ManageHospitals() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

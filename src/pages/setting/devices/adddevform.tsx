@@ -21,7 +21,7 @@ import { client } from '../../../services/mqtt'
 import { wardsType } from '../../../types/ward.type'
 import { SendOTAtoBoard, UploadButton } from '../../../style/components/firmwareuoload'
 import { firmwareType } from '../../../types/component.type'
-import TokenExpiredAlert from '../../../components/navigation/TokenExpiredAlert'
+import { setShowAlert } from '../../../stores/utilsStateSlice'
 
 export default function Adddevform(managedevices: managedevices) {
   const { devdata, pagestate } = managedevices
@@ -64,11 +64,15 @@ export default function Adddevform(managedevices: managedevices) {
     try {
       const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devdata.wardId}`, { headers: { authorization: `Bearer ${token}` } })
       setHosid(response.data.data.hospital.hosId)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error('Unknown Error: ', error)
+        console.error('Uknown error: ', error)
       }
     }
   }
@@ -134,7 +138,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -201,7 +205,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -260,7 +264,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -320,7 +324,7 @@ export default function Adddevform(managedevices: managedevices) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -374,11 +378,15 @@ export default function Adddevform(managedevices: managedevices) {
         headers: { authorization: `Bearer ${token}` }
       })
       setFirmwareList(response.data.data)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error("Uknown error: ", error)
+        console.error('Uknown error: ', error)
       }
     }
   }

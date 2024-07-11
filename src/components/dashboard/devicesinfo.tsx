@@ -25,9 +25,10 @@ import { AdjustRealTimeFlex } from "../../style/components/home.styled"
 import { client } from "../../services/mqtt"
 import { responseType } from "../../types/response.type"
 import { probeType } from "../../types/probe.type"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import TokenExpiredAlert from "../navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 type devicesinfo = {
   devicesData: devicesType,
@@ -43,6 +44,7 @@ type dateCalType = {
 
 export default function Devicesinfo(devicesinfo: devicesinfo) {
   const { devicesData } = devicesinfo
+  const dispatch = useDispatch<storeDispatchType>()
   const { t } = useTranslation()
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { userLevel, token } = cookieDecode
@@ -117,7 +119,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

@@ -11,7 +11,7 @@ import axios, { AxiosError } from "axios"
 import Notificationdata from "../../components/notification/notificationdata"
 import notificationSound from "../../assets/sounds/notification.mp3"
 import { storeDispatchType } from "../../stores/store"
-import { setSocketData } from "../../stores/utilsStateSlice"
+import { setShowAlert, setSocketData } from "../../stores/utilsStateSlice"
 import { useTranslation } from "react-i18next"
 import toast from "react-hot-toast"
 
@@ -41,11 +41,15 @@ export default function Notification() {
           headers: { authorization: `Bearer ${token}` }
         })
       setNotidata(responseData.data.data)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error('Unknown Error: ', error)
+        console.error('Uknown error: ', error)
       }
     }
   }

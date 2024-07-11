@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import { RiLoader3Line } from "react-icons/ri"
 import { useEffect } from 'react'
-import { setCookieEncode } from '../../stores/utilsStateSlice'
+import { setCookieEncode, setShowAlert } from '../../stores/utilsStateSlice'
 import { useDispatch } from 'react-redux'
 import { storeDispatchType } from '../../stores/store'
 import { responseType } from '../../types/response.type'
@@ -22,7 +22,6 @@ import {
   LoginButton,
   TimeStap
 } from '../../style/components/login'
-import TokenExpiredAlert from '../../components/navigation/TokenExpiredAlert'
 
 export default function Login() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -83,7 +82,7 @@ export default function Login() {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

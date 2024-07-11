@@ -15,9 +15,10 @@ import { repairType } from '../../types/repair.type'
 import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
 import { responseType } from '../../types/response.type'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../../types/redux.type'
-import TokenExpiredAlert from '../../components/navigation/TokenExpiredAlert'
+import { setShowAlert } from '../../stores/utilsStateSlice'
+import { storeDispatchType } from '../../stores/store'
 
 type addrepairtype = {
   pagestate: string,
@@ -27,6 +28,7 @@ type addrepairtype = {
 
 export default function Addrepair(addrepair: addrepairtype) {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { devdata, fetchdata, pagestate } = addrepair
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, displayName, hosId, groupId } = cookieDecode
@@ -97,7 +99,7 @@ export default function Addrepair(addrepair: addrepairtype) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -151,7 +153,7 @@ export default function Addrepair(addrepair: addrepairtype) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

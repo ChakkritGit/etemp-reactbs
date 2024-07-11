@@ -3,6 +3,7 @@ import { responseType } from "../types/response.type"
 import axios from "axios"
 import { ProbeState, payloadError } from "../types/redux.type"
 import { probeType } from "../types/probe.type"
+import { cookieOptions, cookies } from "../constants/constants"
 
 export const fetchProbeData = createAsyncThunk<probeType[], string>('probe/fetchProbeData', async (token) => {
   const response = await axios.get<responseType<probeType[]>>(`${import.meta.env.VITE_APP_API}/probe`, {
@@ -43,7 +44,17 @@ const probeSlice = createSlice({
         (action) => action.type.endsWith("/rejected"),
         (state: ProbeState, action: payloadError) => {
           state.probeLoading = false
-          state.probeError = action.error.message
+          if (Number(action.error.message.split(' ')[action.error.message.split(' ').length - 1]) === 401) {
+            cookies.remove('localDataObject', cookieOptions)
+            cookies.remove('devSerial', cookieOptions)
+            cookies.remove('devid', cookieOptions)
+            cookies.remove('selectHos', cookieOptions)
+            cookies.remove('selectWard', cookieOptions)
+            cookies.update()
+            window.location.href = '/login'
+          } else {
+            state.probeError = action.error.message
+          }
         },
       )
   }

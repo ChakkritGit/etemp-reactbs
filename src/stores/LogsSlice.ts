@@ -3,8 +3,9 @@ import axios from "axios"
 import { devicesType } from "../types/device.type"
 import { LogState, payloadError } from "../types/redux.type"
 import { responseType } from "../types/response.type"
+import { cookieOptions, cookies } from "../constants/constants"
 
-export const fetchDevicesLog = createAsyncThunk<devicesType, {deviceId: string, token: string}>('deviceLogs/fetchDevicesLog', async ({deviceId, token}) => {
+export const fetchDevicesLog = createAsyncThunk<devicesType, { deviceId: string, token: string }>('deviceLogs/fetchDevicesLog', async ({ deviceId, token }) => {
   const response = await axios.get<responseType<devicesType>>(`${import.meta.env.VITE_APP_API}/device/${deviceId}`, {
     headers: { authorization: `Bearer ${token}` }
   })
@@ -47,7 +48,17 @@ const logSlice = createSlice({
         (action) => action.type.endsWith("/rejected"),
         (state: LogState, action: payloadError) => {
           state.logLoading = false
-          state.logError = action.error.message
+          if (Number(action.error.message.split(' ')[action.error.message.split(' ').length - 1]) === 401) {
+            cookies.remove('localDataObject', cookieOptions)
+            cookies.remove('devSerial', cookieOptions)
+            cookies.remove('devid', cookieOptions)
+            cookies.remove('selectHos', cookieOptions)
+            cookies.remove('selectWard', cookieOptions)
+            cookies.update()
+            window.location.href = '/login'
+          } else {
+            state.logError = action.error.message
+          }
         },
       )
   }

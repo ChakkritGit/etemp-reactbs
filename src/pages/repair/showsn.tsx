@@ -1,10 +1,12 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
 import { devicesType } from "../../types/device.type"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { Form } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 type sntype = {
   setRepairdata: Dispatch<SetStateAction<{
@@ -38,6 +40,7 @@ type sntype = {
 
 export default function Showsn(sntype: sntype) {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [devData, setDevData] = useState<devicesType[]>([])
@@ -49,17 +52,27 @@ export default function Showsn(sntype: sntype) {
   }
 
   useEffect(() => {
-    const url: string = `${import.meta.env.VITE_APP_API}/device`
-    axios
-      .get(url, {
-        headers: { authorization: `Bearer ${token}` }
-      })
-      .then((responseData) => {
-        setDevData(responseData.data.data)
-      })
-      .catch((error) => { // up
-        console.error("something wrong when fetch data: " + error)
-      })
+    const fetchData = async () => {
+      try {
+        const url: string = `${import.meta.env.VITE_APP_API}/device`
+        const response = await axios
+          .get(url, {
+            headers: { authorization: `Bearer ${token}` }
+          })
+        setDevData(response.data.data)
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 401) {
+            dispatch(setShowAlert(true))
+          } else {
+            console.error('Something wrong' + error)
+          }
+        } else {
+          console.error('Uknown error: ', error)
+        }
+      }
+    }
+    fetchData()
   }, [])
 
   return (

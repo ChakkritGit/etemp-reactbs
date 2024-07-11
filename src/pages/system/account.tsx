@@ -15,8 +15,7 @@ import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
 import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 import { storeDispatchType } from "../../stores/store"
-import { setCookieEncode } from "../../stores/utilsStateSlice"
-import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
+import { setCookieEncode, setShowAlert } from "../../stores/utilsStateSlice"
 
 export default function Account() {
   const [userpicture, setUserpicture] = useState<string>('')
@@ -69,11 +68,15 @@ export default function Account() {
         setUserData(response.data.data)
         cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
         dispatch(setCookieEncode(String(accessToken(localDataObject))))
-      } catch (error) { // up
+      } catch (error) {
         if (error instanceof AxiosError) {
-          console.error(error.response?.data.message)
+          if (error.response?.status === 401) {
+            dispatch(setShowAlert(true))
+          } else {
+            console.error('Something wrong' + error)
+          }
         } else {
-          console.error('Unknown Error')
+          console.error('Uknown error: ', error)
         }
       }
     }
@@ -105,12 +108,17 @@ export default function Account() {
           })
         toast.success(response.data.message)
         reFetchdata()
-      } catch (error) { // up
+      } catch (error) {
         if (error instanceof AxiosError) {
           toast.error(error.response?.data.message)
+          if (error.response?.status === 401) {
+            dispatch(setShowAlert(true))
+          } else {
+            console.error('Something wrong' + error)
+          }
         } else {
           toast.error('Unknown Error')
-          console.error(error)
+          console.error('Uknown error: ', error)
         }
       }
     }
@@ -140,7 +148,7 @@ export default function Account() {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -195,7 +203,7 @@ export default function Account() {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

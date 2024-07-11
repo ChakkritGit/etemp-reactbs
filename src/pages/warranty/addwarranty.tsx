@@ -5,11 +5,12 @@ import { useTranslation } from "react-i18next"
 import { FormEvent, useState } from "react"
 import { AddWarrantyButton } from "../../style/components/warranty.styled"
 import { warrantyType } from "../../types/warranty.type"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
-import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 interface AddWarrantyPropsType {
   pagestate: string,
@@ -31,6 +32,7 @@ interface WarrantyObjectEditType {
 export default function Addwarranty(warProps: AddWarrantyPropsType) {
   const { pagestate, warData, fetchData } = warProps
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
@@ -71,7 +73,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -126,7 +128,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

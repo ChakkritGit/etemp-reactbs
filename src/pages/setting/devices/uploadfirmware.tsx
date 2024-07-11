@@ -3,7 +3,7 @@ import {
   DropContainer, DropHereFile, FileDroped, FileList, FirewareContent, FirmwareContainer,
   FirmwareHeader, ProgressBar, RowChildren, UploadButton
 } from "../../../style/components/firmwareuoload"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { Form, Modal } from "react-bootstrap"
@@ -28,7 +28,8 @@ import axios, { AxiosError } from "axios"
 import Paginition from "../../../components/filter/paginition"
 import toast from "react-hot-toast"
 import TerminalComponent from "../../../components/settings/terminal"
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
+import { storeDispatchType } from "../../../stores/store"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
@@ -50,6 +51,7 @@ let transport: Transport
 
 export default function Uploadfirmware() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
@@ -87,7 +89,7 @@ export default function Uploadfirmware() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
@@ -164,7 +166,7 @@ export default function Uploadfirmware() {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -274,11 +276,15 @@ export default function Uploadfirmware() {
       }
 
       reader.readAsBinaryString(file)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error("Uknown error: ", error)
+        console.error('Uknown error: ', error)
       }
     }
   }
@@ -298,11 +304,15 @@ export default function Uploadfirmware() {
       }
 
       reader.readAsBinaryString(file)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error("Uknown error: ", error)
+        console.error('Uknown error: ', error)
       }
     }
   }
@@ -337,9 +347,13 @@ export default function Uploadfirmware() {
       }
 
       reader.readAsBinaryString(file)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
         console.error('Uknown error: ', error)
       }
@@ -363,7 +377,7 @@ export default function Uploadfirmware() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from "react"
 import { logtype } from "../../types/log.type"
 import { devicesType } from "../../types/device.type"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import Swal from "sweetalert2"
 import { useTranslation } from "react-i18next"
 import DataTable, { TableColumn } from "react-data-table-component"
@@ -23,15 +23,18 @@ import Loading from "../../components/loading/loading"
 import * as XLSX from 'xlsx'
 import { RiArrowRightSLine } from "react-icons/ri"
 import toast from "react-hot-toast"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { cookies, getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 export default function Fulltable() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const [pageNumber, setPagenumber] = useState(1)
   const [logData, setLogData] = useState<logtype[]>([])
   const [devData, setDevData] = useState<devicesType>()
@@ -51,8 +54,16 @@ export default function Fulltable() {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 
@@ -67,8 +78,16 @@ export default function Fulltable() {
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
   const Logweek = async () => {
@@ -82,8 +101,16 @@ export default function Fulltable() {
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 
@@ -96,8 +123,16 @@ export default function Fulltable() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 

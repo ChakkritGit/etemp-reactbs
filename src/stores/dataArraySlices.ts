@@ -5,6 +5,7 @@ import { hospitalsType } from "../types/hospital.type"
 import { DataArrayStore, payloadError } from "../types/redux.type"
 import axios from "axios"
 import { responseType } from "../types/response.type"
+import { cookieOptions, cookies } from "../constants/constants"
 
 const initialState: DataArrayStore = {
   device: {
@@ -82,12 +83,18 @@ const arraySlice = createSlice({
       .addMatcher(
         (action: PayloadAction) => action.type.endsWith("/rejected"),
         (state: DataArrayStore, action: payloadError) => {
-          // if (action.error.message.split(' ')[action.error.message.split(' ').length - 1] === '401') {
-          //   localStorage.clear()
-          //   window.location = '/' as unknown as Location
-          // }
           state.arrayLoading = false
-          state.arrayError = action.error.message
+          if (Number(action.error.message.split(' ')[action.error.message.split(' ').length - 1]) === 401) {
+            cookies.remove('localDataObject', cookieOptions)
+            cookies.remove('devSerial', cookieOptions)
+            cookies.remove('devid', cookieOptions)
+            cookies.remove('selectHos', cookieOptions)
+            cookies.remove('selectWard', cookieOptions)
+            cookies.update()
+            window.location.href = '/login'
+          } else {
+            state.arrayError = action.error.message
+          }
         },
       )
   },

@@ -13,7 +13,7 @@ import { DeviceStateStore, UtilsStateStore } from '../../../types/redux.type'
 import { fetchHospitals } from '../../../stores/dataArraySlices'
 import { responseType } from '../../../types/response.type'
 import { hospitalsType } from '../../../types/hospital.type'
-import TokenExpiredAlert from '../../../components/navigation/TokenExpiredAlert'
+import { setShowAlert } from '../../../stores/utilsStateSlice'
 
 export default function Addhospitals(addhosprop: addHospitalProp) {
   const { t } = useTranslation()
@@ -75,7 +75,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -137,7 +137,7 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

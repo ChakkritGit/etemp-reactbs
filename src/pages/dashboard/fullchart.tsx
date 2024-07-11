@@ -32,16 +32,19 @@ import { swalOptimizeChartButtons } from "../../components/dropdown/sweetalertLi
 import { RiArrowRightSLine } from "react-icons/ri"
 import toast from "react-hot-toast"
 import Apexchart from "../../components/dashboard/apexchart"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { cookies, getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
 import { wardsType } from "../../types/ward.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 export default function Fullchart() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
   const [pageNumber, setPagenumber] = useState(1)
   const { Serial, deviceId, expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
@@ -93,8 +96,16 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 
@@ -107,8 +118,16 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 
@@ -121,8 +140,16 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 
@@ -135,8 +162,16 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) { // up
-      console.error('Something wrong' + error)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
     }
   }
 
@@ -154,8 +189,16 @@ export default function Fullchart() {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)
-        } catch (error) { // up
-          console.error('Something wrong' + error)
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            if (error.response?.status === 401) {
+              dispatch(setShowAlert(true))
+            } else {
+              console.error('Something wrong' + error)
+            }
+          } else {
+            console.error('Uknown error: ', error)
+          }
         }
       } else {
         Swal.fire({

@@ -4,6 +4,12 @@ export default function Log() {
   return (
     <div className="p-2">
       <h2>Change Log</h2>
+      <LogSpan className="mt-3 mw-50"><b>Version 1.0-JL07</b> <span>07/07/67</span></LogSpan>
+      <ul className="mt-2">
+        <li>Security update.</li>
+        <li>Bug fixes.</li>
+        <li>Performance enhancement.</li>
+      </ul>
       <LogSpan className="mt-3 mw-50"><b>Version 1.0-JL01</b> <span>01/07/67</span></LogSpan>
       <ul className="mt-2">
         <li>Remember to select hospital and ward when filter from show all box page.</li>

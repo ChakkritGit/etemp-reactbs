@@ -15,15 +15,17 @@ import { RiCloseLine, RiDeleteBin2Line, RiPrinterLine } from "react-icons/ri"
 import Swal from "sweetalert2"
 import ReactToPrint from "react-to-print"
 import PrintComponent from "./printComponent"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
-import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 export default function Repair() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [repairData, setRepairdata] = useState<repairType[]>([])
@@ -42,11 +44,15 @@ export default function Repair() {
           headers: { authorization: `Bearer ${token}` }
         })
       setRepairdata(response.data.data)
-    } catch (error) { // up
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error('Unknown Error', error)
+        console.error('Uknown error: ', error)
       }
     }
   }
@@ -68,7 +74,7 @@ export default function Repair() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

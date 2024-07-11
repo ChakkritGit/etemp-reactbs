@@ -7,7 +7,7 @@ import { RiCloseLine, RiDeleteBin2Line, RiFileCloseLine, RiInformationLine, RiLo
 import DataTable, { TableColumn } from "react-data-table-component"
 import ReactToPrint from "react-to-print"
 import Printwarranty from "./printwarranty"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import axios, { AxiosError } from "axios"
 import { warrantyType } from "../../types/warranty.type"
@@ -17,7 +17,8 @@ import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import Addwarranty from "./addwarranty"
-import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 interface dataTableProps {
   warrantyData: warrantyType[]
@@ -25,9 +26,10 @@ interface dataTableProps {
 
 export default function Warranty() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const [pagenumber, setpagenumber] = useState(1)
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const {token} = cookieDecode
+  const { token } = cookieDecode
   const [show, setshow] = useState(false)
   const [deviceDetails, setDevicedetails] = useState<warrantyType[]>([])
   const [warrantyData, setWarrantyData] = useState<warrantyType[]>([])
@@ -42,13 +44,18 @@ export default function Warranty() {
       })
       setWarrantyData(response.data.data)
       setIsLoading(false)
-    } catch (error) { // up
-      setIsLoading(false)
+    } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response?.data.message)
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
       } else {
-        console.error('Unknown Error', error)
+        console.error('Uknown error: ', error)
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -101,7 +108,7 @@ export default function Warranty() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

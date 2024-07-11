@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux"
 import { storeDispatchType } from "../../../stores/store"
 import { fetchWards } from "../../../stores/dataArraySlices"
 import { responseType } from "../../../types/response.type"
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 export default function ManageWard() {
   const { t } = useTranslation()
@@ -41,7 +41,7 @@ export default function ManageWard() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

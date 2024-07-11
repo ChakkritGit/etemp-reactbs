@@ -10,7 +10,7 @@ import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState }
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { AsyncThunk } from "@reduxjs/toolkit"
 import { devicesType } from "../../types/device.type"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import axios, { AxiosError } from "axios"
 import Swal from "sweetalert2"
 import { useTranslation } from "react-i18next"
@@ -19,7 +19,8 @@ import { client } from "../../services/mqtt"
 import { configType } from "../../types/config.type"
 import { ConfigBtn } from "../../style/components/manage.config"
 import { MuteEtemp } from "../../style/components/sound.setting"
-import TokenExpiredAlert from "../navigation/TokenExpiredAlert"
+import { storeDispatchType } from "../../stores/store"
+import { setShowAlert } from "../../stores/utilsStateSlice"
 // import toast from "react-hot-toast"
 
 type modalAdjustType = {
@@ -32,6 +33,7 @@ type modalAdjustType = {
 const ModalAdjust = (modalProps: modalAdjustType) => {
   const { fetchData, devicesdata, show, setShow } = modalProps
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [tempvalue, setTempvalue] = useState<number[]>([Number(devicesdata.probe[0]?.tempMin), Number(devicesdata.probe[0]?.tempMax)])
@@ -98,7 +100,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
@@ -143,7 +145,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

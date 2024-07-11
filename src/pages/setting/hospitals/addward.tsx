@@ -14,7 +14,7 @@ import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { useSelector } from "react-redux"
 import { responseType } from "../../../types/response.type"
 import { wardsType } from "../../../types/ward.type"
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 export default function Addward(addwardprop: addWardProp) {
   const { t } = useTranslation()
@@ -64,7 +64,7 @@ export default function Addward(addwardprop: addWardProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),
@@ -120,7 +120,7 @@ export default function Addward(addwardprop: addWardProp) {
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
-            <TokenExpiredAlert />
+            dispatch(setShowAlert(true))
           } else {
             Swal.fire({
               title: t('alertHeaderError'),

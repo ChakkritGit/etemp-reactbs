@@ -13,7 +13,7 @@ import { fetchUserData } from "../../stores/userSlice"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
-import TokenExpiredAlert from "../navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../stores/utilsStateSlice"
 
 export default function CardUser(userProp: cardType) {
   const { t } = useTranslation()
@@ -40,7 +40,7 @@ export default function CardUser(userProp: cardType) {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

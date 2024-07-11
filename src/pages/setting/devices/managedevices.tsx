@@ -19,7 +19,7 @@ import { storeDispatchType } from "../../../stores/store"
 import { fetchDevicesData } from "../../../stores/devicesSlices"
 import PageLoading from "../../../components/loading/page.loading"
 import { responseType } from "../../../types/response.type"
-import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
+import { setShowAlert } from "../../../stores/utilsStateSlice"
 
 export default function Managedev() {
   const { t, i18n } = useTranslation()
@@ -55,7 +55,7 @@ export default function Managedev() {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
-          <TokenExpiredAlert />
+          dispatch(setShowAlert(true))
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
