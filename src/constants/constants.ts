@@ -29,13 +29,13 @@ export const decodeCookieObject = (cookieEncode: string) => CryptoJS.AES.decrypt
 const expiresDate = () => {
   // ตั้งค่า cookies พร้อม expiration date ที่ไกลในอนาคต
   const expirationDate = new Date()
-  return expirationDate.setFullYear(expirationDate.getFullYear() + 100) // 100 ปีนับจากวันนี้
+  return expirationDate.setHours(expirationDate.getHours() + 240) // 8 วันนับจากวันนี้
 }
 
 export const cookieOptions: CookieSetOptions = {
   path: '/',
-  expires: new Date(expiresDate()), // 100 ปีนับจากวันนี้
-  maxAge: Number(import.meta.env.VITE_APP_MAXAGE * 365 * 24 * 60 * 60),
+  expires: new Date(expiresDate()), // 8 วันนับจากวันนี้
+  maxAge: Number(import.meta.env.VITE_APP_MAXAGE * 24 * 60 * 60),
   domain: import.meta.env.VITE_APP_NODE_ENV === 'development' ? 'localhost' : import.meta.env.VITE_APP_DOMAIN, // ถ้าไม่ต้องการใช้ domain ให้คอมเมนต์หรือเอาบรรทัดนี้ออก
   secure: true, // ใช้ secure cookies เฉพาะเมื่อทำงานบน HTTPS
   httpOnly: false, // กำหนดเป็น true ถ้าต้องการให้ cookies สามารถเข้าถึงได้จากเซิร์ฟเวอร์เท่านั้น
