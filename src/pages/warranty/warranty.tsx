@@ -17,6 +17,7 @@ import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import Addwarranty from "./addwarranty"
+import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
 
 interface dataTableProps {
   warrantyData: warrantyType[]
@@ -41,7 +42,7 @@ export default function Warranty() {
       })
       setWarrantyData(response.data.data)
       setIsLoading(false)
-    } catch (error) {
+    } catch (error) { // up
       setIsLoading(false)
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
@@ -99,17 +100,21 @@ export default function Warranty() {
       fetchData()
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

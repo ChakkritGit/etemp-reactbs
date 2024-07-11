@@ -43,7 +43,8 @@ type UtilsStateStore = {
   hosId: string,
   wardId: string,
   cookieEncode: string,
-  cookieDecode: CookieType
+  cookieDecode: CookieType,
+  showAlert: boolean
 }
 
 type DeviceStateStore = {

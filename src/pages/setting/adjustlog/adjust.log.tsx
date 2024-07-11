@@ -20,7 +20,7 @@ export default function AdjustLog() {
         headers: { authorization: `Bearer ${token}` }
       })
       setHistory(response.data.data)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {

@@ -57,7 +57,7 @@ export default function Showsn(sntype: sntype) {
       .then((responseData) => {
         setDevData(responseData.data.data)
       })
-      .catch((error) => {
+      .catch((error) => { // up
         console.error("something wrong when fetch data: " + error)
       })
   }, [])

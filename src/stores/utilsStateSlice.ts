@@ -17,7 +17,8 @@ const initialState: UtilsStateStore = {
   hosId: cookies.get('selectHos'),
   wardId: cookies.get('selectWard') ?? 'WID-DEVELOPMENT',
   cookieEncode: cookies.get('localDataObject') || null,
-  cookieDecode: false as unknown as CookieType
+  cookieDecode: false as unknown as CookieType,
+  showAlert: false
 }
 
 const utilsSlice = createSlice({
@@ -63,10 +64,13 @@ const utilsSlice = createSlice({
     setCookieDecode: (state, action: PayloadAction<CookieType>) => {
       state.cookieDecode = action.payload
     },
+    setShowAlert: (state, action: PayloadAction<boolean>) => {
+      state.showAlert = action.payload
+    },
   },
 })
 
 export const { setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside,
-  setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId, setCookieEncode, setCookieDecode } = utilsSlice.actions
+  setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId, setCookieEncode, setCookieDecode, setShowAlert } = utilsSlice.actions
 
 export default utilsSlice.reducer

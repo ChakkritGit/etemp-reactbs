@@ -71,7 +71,7 @@ export default function Fullchart() {
     try {
       const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devData?.wardId}`, { headers: { authorization: `Bearer ${token}` } })
       setValidationData(response.data.data)
-    } catch (error) {
+    } catch (error) { //up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {
@@ -93,7 +93,7 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -107,7 +107,7 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -121,7 +121,7 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -135,7 +135,7 @@ export default function Fullchart() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -154,7 +154,7 @@ export default function Fullchart() {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data)
-        } catch (error) {
+        } catch (error) { // up
           console.error('Something wrong' + error)
         }
       } else {

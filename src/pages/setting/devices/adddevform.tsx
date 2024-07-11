@@ -21,6 +21,7 @@ import { client } from '../../../services/mqtt'
 import { wardsType } from '../../../types/ward.type'
 import { SendOTAtoBoard, UploadButton } from '../../../style/components/firmwareuoload'
 import { firmwareType } from '../../../types/component.type'
+import TokenExpiredAlert from '../../../components/navigation/TokenExpiredAlert'
 
 export default function Adddevform(managedevices: managedevices) {
   const { devdata, pagestate } = managedevices
@@ -63,7 +64,7 @@ export default function Adddevform(managedevices: managedevices) {
     try {
       const response = await axios.get<responseType<wardsType>>(`${import.meta.env.VITE_APP_API}/ward/${devdata.wardId}`, { headers: { authorization: `Bearer ${token}` } })
       setHosid(response.data.data.hospital.hosId)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {
@@ -132,17 +133,21 @@ export default function Adddevform(managedevices: managedevices) {
         client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: "Unknown Error",
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -195,17 +200,21 @@ export default function Adddevform(managedevices: managedevices) {
         client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -250,17 +259,21 @@ export default function Adddevform(managedevices: managedevices) {
         client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -306,17 +319,21 @@ export default function Adddevform(managedevices: managedevices) {
         client.publish(`${devdata.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -357,7 +374,7 @@ export default function Adddevform(managedevices: managedevices) {
         headers: { authorization: `Bearer ${token}` }
       })
       setFirmwareList(response.data.data)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.log(error.response?.data.message)
       } else {

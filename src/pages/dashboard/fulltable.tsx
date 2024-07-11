@@ -51,7 +51,7 @@ export default function Fulltable() {
           headers: { authorization: `Bearer ${token}` }
         })
       setDevData(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -67,7 +67,7 @@ export default function Fulltable() {
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -82,7 +82,7 @@ export default function Fulltable() {
         })
       setLogData(responseData.data.data.map((items) => items).reverse())
       setLoading(false)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -96,7 +96,7 @@ export default function Fulltable() {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       console.error('Something wrong' + error)
     }
   }
@@ -115,7 +115,7 @@ export default function Fulltable() {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data.map((items) => items).reverse())
-        } catch (error) {
+        } catch (error) { //up
           console.error('Something wrong' + error)
         }
       } else {

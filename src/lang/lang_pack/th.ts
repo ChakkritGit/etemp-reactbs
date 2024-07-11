@@ -362,6 +362,8 @@ export default {
     deleteFirmwareText: 'คุณจะไม่สามารถกู้คืนไฟล์ที่ลบได้',
     logoutDialog: 'คุณต้องการออกจากระบบหรือไม่',
     logoutDialogText: 'คุณจะถูกนำไปยังหน้าล็อกอิน',
+    tokenExpired: 'โทเค็นหมดอายุ',
+    tokenExpiredText: 'กรุณาเข้าสู่ระบบอีกครั้ง!',
 
     // time
     thTime: 'th-TH',

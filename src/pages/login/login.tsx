@@ -22,6 +22,7 @@ import {
   LoginButton,
   TimeStap
 } from '../../style/components/login'
+import TokenExpiredAlert from '../../components/navigation/TokenExpiredAlert'
 
 export default function Login() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -81,23 +82,25 @@ export default function Login() {
         navigate(`/`)
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
-          setIsloading(false)
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
           })
-          setIsloading(false)
         }
       }
     } else {

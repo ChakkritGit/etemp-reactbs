@@ -15,6 +15,7 @@ import DataTable, { TableColumn } from "react-data-table-component"
 import Addhospitals from "./addhospitals"
 import Swal from "sweetalert2"
 import Addward from "./addward"
+import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
 
 export default function ManageHospitals() {
   const { t } = useTranslation()
@@ -42,17 +43,21 @@ export default function ManageHospitals() {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,
@@ -78,17 +83,21 @@ export default function ManageHospitals() {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

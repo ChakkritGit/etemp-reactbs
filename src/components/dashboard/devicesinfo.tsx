@@ -27,6 +27,7 @@ import { responseType } from "../../types/response.type"
 import { probeType } from "../../types/probe.type"
 import { useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import TokenExpiredAlert from "../navigation/TokenExpiredAlert"
 
 type devicesinfo = {
   devicesData: devicesType,
@@ -115,13 +116,17 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),

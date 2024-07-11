@@ -52,7 +52,7 @@ export default function sidebar() {
         }
         cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
         dispatch(setCookieEncode(String(accessToken(localDataObject))))
-      } catch (error) {
+      } catch (error) { //up
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)
         } else {

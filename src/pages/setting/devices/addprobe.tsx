@@ -16,6 +16,7 @@ import { storeDispatchType } from "../../../stores/store";
 import { fetchProbeData } from "../../../stores/probeSlice";
 import { client } from "../../../services/mqtt";
 import { AdjustRealTimeFlex } from "../../../style/components/home.styled";
+import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert";
 
 export default function Addprobe(addprobe: addprobeProps) {
   const { t } = useTranslation()
@@ -87,17 +88,21 @@ export default function Addprobe(addprobe: addprobeProps) {
         dispatch(fetchProbeData(token))
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -152,17 +157,21 @@ export default function Addprobe(addprobe: addprobeProps) {
         client.publish(`${probeData?.device.devSerial}/adj`, 'on')
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,

@@ -14,6 +14,7 @@ import { DeviceStateStore, UtilsStateStore } from "../../../types/redux.type"
 import { useSelector } from "react-redux"
 import { responseType } from "../../../types/response.type"
 import { wardsType } from "../../../types/ward.type"
+import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
 
 export default function Addward(addwardprop: addWardProp) {
   const { t } = useTranslation()
@@ -62,17 +63,21 @@ export default function Addward(addwardprop: addWardProp) {
         dispatch(fetchHospitals(token))
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -114,17 +119,21 @@ export default function Addward(addwardprop: addWardProp) {
         dispatch(fetchHospitals(token))
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,

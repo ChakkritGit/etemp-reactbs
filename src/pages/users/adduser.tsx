@@ -16,6 +16,7 @@ import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
 import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 import { setCookieEncode } from "../../stores/utilsStateSlice"
+import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
 
 export default function Adduser(AdduserProp: adduserProp) {
   const { pagestate, userData } = AdduserProp
@@ -91,7 +92,7 @@ export default function Adduser(AdduserProp: adduserProp) {
         }
         cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
         dispatch(setCookieEncode(String(accessToken(localDataObject))))
-      } catch (error) {
+      } catch (error) { // up
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)
         } else {
@@ -144,17 +145,21 @@ export default function Adduser(AdduserProp: adduserProp) {
         reFetchdata()
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -206,17 +211,21 @@ export default function Adduser(AdduserProp: adduserProp) {
         reFetchdata()
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: 'Unknown Error',
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,

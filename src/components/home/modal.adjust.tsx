@@ -19,6 +19,7 @@ import { client } from "../../services/mqtt"
 import { configType } from "../../types/config.type"
 import { ConfigBtn } from "../../style/components/manage.config"
 import { MuteEtemp } from "../../style/components/sound.setting"
+import TokenExpiredAlert from "../navigation/TokenExpiredAlert"
 // import toast from "react-hot-toast"
 
 type modalAdjustType = {
@@ -96,17 +97,21 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       client.publish(`${devicesdata.devSerial}/adj`, 'on')
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,
@@ -137,17 +142,21 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       client.publish(`${devicesdata.devSerial}/adj`, 'on')
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

@@ -28,6 +28,7 @@ import axios, { AxiosError } from "axios"
 import Paginition from "../../../components/filter/paginition"
 import toast from "react-hot-toast"
 import TerminalComponent from "../../../components/settings/terminal"
+import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
 
 const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
@@ -85,9 +86,25 @@ export default function Uploadfirmware() {
       setDataFile(response.data.data)
     } catch (error) {
       if (error instanceof AxiosError) {
-
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
-
+        Swal.fire({
+          title: t('alertHeaderError'),
+          text: 'Uknown Error',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        })
       }
     }
   }
@@ -146,18 +163,22 @@ export default function Uploadfirmware() {
         closeModal()
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
           setError(true)
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: "Unknown Error",
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -253,7 +274,7 @@ export default function Uploadfirmware() {
       }
 
       reader.readAsBinaryString(file)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {
@@ -277,7 +298,7 @@ export default function Uploadfirmware() {
       }
 
       reader.readAsBinaryString(file)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {
@@ -316,7 +337,7 @@ export default function Uploadfirmware() {
       }
 
       reader.readAsBinaryString(file)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {
@@ -341,17 +362,21 @@ export default function Uploadfirmware() {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alert_header_Error'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
-          text: 'Unknown Error',
+          title: t('alertHeaderError'),
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

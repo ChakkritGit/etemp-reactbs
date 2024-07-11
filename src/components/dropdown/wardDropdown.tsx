@@ -31,7 +31,7 @@ export default function WardDropdown(DwardProp: dropDownWardProp) {
         })
         setWardData(response.data.data.ward)
         setState_ward(response.data.data.ward[0]?.wardId)
-      } catch (error) {
+      } catch (error) { //up
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)
         } else {

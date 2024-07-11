@@ -12,6 +12,7 @@ import { storeDispatchType } from "../../../stores/store";
 import { fetchProbeData } from "../../../stores/probeSlice";
 import Swal from "sweetalert2";
 import { responseType } from "../../../types/response.type";
+import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert";
 
 export default function Probesetting() {
   const { t } = useTranslation()
@@ -35,17 +36,21 @@ export default function Probesetting() {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

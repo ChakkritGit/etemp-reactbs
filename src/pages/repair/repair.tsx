@@ -20,6 +20,7 @@ import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
 
 export default function Repair() {
   const { t } = useTranslation()
@@ -41,7 +42,7 @@ export default function Repair() {
           headers: { authorization: `Bearer ${token}` }
         })
       setRepairdata(response.data.data)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {
@@ -66,17 +67,21 @@ export default function Repair() {
       fetchData()
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alertHeaderError'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
           title: t('alertHeaderError'),
-          text: 'Unknown Error',
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

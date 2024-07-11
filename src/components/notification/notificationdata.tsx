@@ -36,7 +36,7 @@ export default function Notificationdata(notilist: notilist) {
           headers: { authorization: `Bearer ${token}` }
         })
       funcfetch()
-    } catch (error) {
+    } catch (error) { //up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {

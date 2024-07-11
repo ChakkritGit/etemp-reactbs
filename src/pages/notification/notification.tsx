@@ -41,7 +41,7 @@ export default function Notification() {
           headers: { authorization: `Bearer ${token}` }
         })
       setNotidata(responseData.data.data)
-    } catch (error) {
+    } catch (error) { // up
       if (error instanceof AxiosError) {
         console.error(error.response?.data.message)
       } else {

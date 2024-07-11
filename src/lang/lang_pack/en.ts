@@ -362,6 +362,8 @@ export default {
     deleteFirmwareText: 'You will not be able to recover this file',
     logoutDialog: 'Do you want to logout?',
     logoutDialogText: 'You will be redirected to the login page!',
+    tokenExpired: 'Token Expired',
+    tokenExpiredText: 'Please log in again!',
 
     // time
     thTime: 'en-EN',

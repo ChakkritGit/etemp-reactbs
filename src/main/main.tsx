@@ -20,10 +20,11 @@ import { fetchProbeData } from "../stores/probeSlice"
 import { Toaster } from "react-hot-toast"
 import Bottombar from "../components/navigation/bottombar"
 import { BottomNavigateWrapper } from "../style/components/bottom.navigate"
+import TokenExpiredAlert from "../components/navigation/TokenExpiredAlert"
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, showAside, deviceId, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, showAside, deviceId, cookieDecode, showAlert } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const handleClose = () => dispatch(setShowAside(false))
   const handleShow = () => dispatch(setShowAside(true))
@@ -93,6 +94,7 @@ export default function Main() {
         position="bottom-right"
         reverseOrder={false}
       />
+      {showAlert && <TokenExpiredAlert />}
       <SideChildSide $primary>
         <Sidebar />
       </SideChildSide>

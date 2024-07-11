@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
+import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
 
 interface AddWarrantyPropsType {
   pagestate: string,
@@ -69,17 +70,21 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
         })
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: "Unknown Error",
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -120,17 +125,21 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
         })
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
-            text: "Unknown Error",
+            text: 'Uknown Error',
             icon: "error",
             timer: 2000,
             showConfirmButton: false,

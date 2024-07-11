@@ -16,6 +16,7 @@ import { usersType } from "../../types/user.type"
 import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 import { storeDispatchType } from "../../stores/store"
 import { setCookieEncode } from "../../stores/utilsStateSlice"
+import TokenExpiredAlert from "../../components/navigation/TokenExpiredAlert"
 
 export default function Account() {
   const [userpicture, setUserpicture] = useState<string>('')
@@ -68,7 +69,7 @@ export default function Account() {
         setUserData(response.data.data)
         cookies.set('localDataObject', String(accessToken(localDataObject)), cookieOptions)
         dispatch(setCookieEncode(String(accessToken(localDataObject))))
-      } catch (error) {
+      } catch (error) { // up
         if (error instanceof AxiosError) {
           console.error(error.response?.data.message)
         } else {
@@ -104,7 +105,7 @@ export default function Account() {
           })
         toast.success(response.data.message)
         reFetchdata()
-      } catch (error) {
+      } catch (error) { // up
         if (error instanceof AxiosError) {
           toast.error(error.response?.data.message)
         } else {
@@ -138,13 +139,17 @@ export default function Account() {
         reFetchdata()
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
@@ -189,13 +194,17 @@ export default function Account() {
         reFetchdata()
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),

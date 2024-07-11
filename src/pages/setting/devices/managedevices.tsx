@@ -19,6 +19,7 @@ import { storeDispatchType } from "../../../stores/store"
 import { fetchDevicesData } from "../../../stores/devicesSlices"
 import PageLoading from "../../../components/loading/page.loading"
 import { responseType } from "../../../types/response.type"
+import TokenExpiredAlert from "../../../components/navigation/TokenExpiredAlert"
 
 export default function Managedev() {
   const { t, i18n } = useTranslation()
@@ -53,17 +54,21 @@ export default function Managedev() {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: t('alert_header_Error'),
-          text: error.response?.data.message,
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-        })
+        if (error.response?.status === 401) {
+          <TokenExpiredAlert />
+        } else {
+          Swal.fire({
+            title: t('alertHeaderError'),
+            text: error.response?.data.message,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        }
       } else {
         Swal.fire({
-          title: t('alert_header_Error'),
-          text: 'Unknown Error',
+          title: t('alertHeaderError'),
+          text: 'Uknown Error',
           icon: "error",
           timer: 2000,
           showConfirmButton: false,

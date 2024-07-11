@@ -17,6 +17,7 @@ import Swal from 'sweetalert2'
 import { responseType } from '../../types/response.type'
 import { useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../../types/redux.type'
+import TokenExpiredAlert from '../../components/navigation/TokenExpiredAlert'
 
 type addrepairtype = {
   pagestate: string,
@@ -95,13 +96,17 @@ export default function Addrepair(addrepair: addrepairtype) {
         })
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
@@ -145,13 +150,17 @@ export default function Addrepair(addrepair: addrepairtype) {
         fetchdata()
       } catch (error) {
         if (error instanceof AxiosError) {
-          Swal.fire({
-            title: t('alertHeaderError'),
-            text: error.response?.data.message,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-          })
+          if (error.response?.status === 401) {
+            <TokenExpiredAlert />
+          } else {
+            Swal.fire({
+              title: t('alertHeaderError'),
+              text: error.response?.data.message,
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+            })
+          }
         } else {
           Swal.fire({
             title: t('alertHeaderError'),
