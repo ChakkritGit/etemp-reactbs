@@ -241,7 +241,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               </TooltipSpan>
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo>
-              {devicesdata.log[0]?.battery !== undefined && devicesdata.log[0]?.battery + '%' || '- -'}
+              {devicesdata.log[0]?.battery && devicesdata.log[0]?.battery + '%' || '- -'}
               <TooltipSpan>
                 {t('deviceBattery')}
               </TooltipSpan>

@@ -319,8 +319,8 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         <CardstatusSpecial
           title={t('dashTempofDay')}
           svg={<RiTempColdLine />}
-          valuesone={'↑ ' + Number(Math.max(...(devicesData !== undefined ? devicesData?.log.map((items) => items.tempAvg) : [0]))).toFixed(2)}
-          valuestwo={'↓ ' + Number(Math.min(...(devicesData !== undefined ? devicesData?.log.map((items) => items.tempAvg) : [0]))).toFixed(2)}
+          valuesone={'↑ ' + Number(Math.max(...(devicesData ? devicesData?.log.map((items) => items.tempAvg) : [0]))).toFixed(2)}
+          valuestwo={'↓ ' + Number(Math.min(...(devicesData ? devicesData?.log.map((items) => items.tempAvg) : [0]))).toFixed(2)}
           pipeone={'°C'}
           pipetwo={'°C'}
         />
@@ -351,7 +351,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                   : `${dataData.remainingDays} ${t('day')}`
               : t('tabWarrantyExpired')
           }
-          alertone={Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData !== undefined ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
+          alertone={Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
         />
         <CardstatusNomal
           title={t('dashRepair')}

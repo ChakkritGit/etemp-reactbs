@@ -71,7 +71,7 @@ export default function Adduser(AdduserProp: adduserProp) {
   }
 
   const reFetchdata = async () => {
-    if (tokenDecode.userId !== undefined) {
+    if (tokenDecode.userId) {
       try {
         const response = await axios
           .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })

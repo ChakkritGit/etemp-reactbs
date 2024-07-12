@@ -75,7 +75,7 @@ export default function AdjustLog() {
   ]
 
   // Filter Data
-  const filteredItems = history.filter(item => item.devSerial && item.devSerial.toLowerCase().includes(searchQuery.toLowerCase()) || item.user.displayName.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredItems = history.length > 0 ? history.filter(item => item.devSerial && item.devSerial.toLowerCase().includes(searchQuery.toLowerCase()) || item.user.displayName.toLowerCase().includes(searchQuery.toLowerCase())) : []
 
   return (
     <ManageHistoryBody>

@@ -171,13 +171,12 @@ export default function RoutesComponent() {
   }, [])
 
   useEffect(() => {
-    if (cookieEncode) {
-      try {
-        const CookieObject: CookieType = JSON.parse(decodeCookieObject(cookieEncode).toString(CryptoJS.enc.Utf8))
-        dispatch(setCookieDecode(CookieObject))
-      } catch (error) {
-        console.error('Decoce error: ', error)
-      }
+    if (!cookieEncode) return
+    try {
+      const CookieObject: CookieType = JSON.parse(decodeCookieObject(cookieEncode).toString(CryptoJS.enc.Utf8))
+      dispatch(setCookieDecode(CookieObject))
+    } catch (error) {
+      console.error('Decoded error: ', error)
     }
   }, [cookieEncode])
 

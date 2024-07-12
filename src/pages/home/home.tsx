@@ -441,7 +441,7 @@ export default function Home() {
     },
     {
       name: t('deviceBatteryTb'),
-      selector: (items) => items.log[0]?.battery !== undefined ? items.log[0]?.battery + '%' : '- -',
+      selector: (items) => items.log[0]?.battery ? items.log[0]?.battery + '%' : '- -',
       sortable: false,
       center: true,
       width: '83px'

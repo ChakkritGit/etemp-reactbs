@@ -84,7 +84,7 @@ export default function Fullchart() {
   }
 
   useEffect(() => {
-    if (devData !== undefined) {
+    if (devData) {
       fetchWard()
     }
   }, [devData])
@@ -430,7 +430,7 @@ export default function Fullchart() {
             </Modal.Header>
             <Modal.Body>
               {
-                convertImage !== '' && devData !== undefined ?
+                convertImage !== '' && devData ?
                   <PDFViewer style={{ width: '100%', height: '100vh' }}>
                     <Fullchartpdf
                       title={'Chart-Report'}

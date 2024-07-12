@@ -19,7 +19,7 @@ export default function Chart(chartData: chartData) {
   const navigate = useNavigate()
 
   const openFullchart = () => {
-    cookies.set('devSerial',chartData.data !== undefined ? chartData.data[0].devSerial : '' ,cookieOptions)
+    cookies.set('devSerial',chartData.data ? chartData.data[0].devSerial : '' ,cookieOptions)
     navigate('/dashboard/fullchart')
     window.scrollTo(0, 0)
   }

@@ -97,8 +97,9 @@ export default function Repair() {
   }
 
   useEffect(() => {
+    if (!token) return
     fetchData()
-  }, [])
+  }, [token])
 
   const printrepair = async (reID: string) => {
     const newArr = await repairData.filter((items) => items.repairId === reID)

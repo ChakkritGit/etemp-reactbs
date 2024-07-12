@@ -32,7 +32,7 @@ export default function sidebar() {
   const navigate = useNavigate()
 
   const reFetchdata = async () => {
-    if (tokenDecode.userId !== undefined) {
+    if (tokenDecode.userId) {
       try {
         const response = await axios
           .get<responseType<usersType>>(`${import.meta.env.VITE_APP_API}/user/${tokenDecode.userId}`, { headers: { authorization: `Bearer ${token}` } })
@@ -80,7 +80,7 @@ export default function sidebar() {
       document.title = hosName + " | " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
     }
 
-    if (hosImg !== undefined) {
+    if (hosImg) {
       changeFavicon(`${import.meta.env.VITE_APP_IMG}${hosImg}`)
     }
 
@@ -98,10 +98,7 @@ export default function sidebar() {
       <Link to="/" onClick={resetAsideandCardcount} className="d-flex flex-column align-items-center mb-3 mb-md-0 link-dark text-decoration-none">
         <SidebarLogo
           $primary={expand}
-          src={hosImg !== undefined ?
-            `${import.meta.env.VITE_APP_IMG}${hosImg}`
-            :
-            `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
+          src={hosImg ? `${import.meta.env.VITE_APP_IMG}${hosImg}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
         <HospitalName $primary={expand}>{hosName}</HospitalName>
       </Link>
       <LineHr $primary />

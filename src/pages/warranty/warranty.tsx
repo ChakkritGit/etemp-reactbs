@@ -60,8 +60,9 @@ export default function Warranty() {
   }
 
   useEffect(() => {
+    if (!token) return
     fetchData()
-  }, [])
+  }, [token])
 
   const devicesArray = warrantyData.filter((items) => items.device.devSerial.includes(searchQuery) || items.devName.includes(searchQuery))
 

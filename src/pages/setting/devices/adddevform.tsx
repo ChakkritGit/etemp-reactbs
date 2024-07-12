@@ -44,7 +44,7 @@ export default function Adddevform(managedevices: managedevices) {
   const [hosid, setHosid] = useState('')
   const dispatch = useDispatch<storeDispatchType>()
   const { cookieDecode, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, userLevel } = cookieDecode
   const [devicePicture, setDevicePicture] = useState<string>(devdata.locPic ? `${import.meta.env.VITE_APP_IMG}${devdata.locPic}` : '')
   const { config } = devdata
   const [netConfig, setNetConfig] = useState({
@@ -605,30 +605,32 @@ export default function Adddevform(managedevices: managedevices) {
                           </Form.Label>
                         </InputGroup>
                       </Row>
-                      <Row>
-                        <InputGroup className="mb-3">
-                          <Form.Label className="w-100">
-                            {t('sendOTA')}
-                            <SendOTAtoBoard>
-                              <Form.Select onChange={(e) => setFirmwareName(e.target.value)} value={firmwareName}>
-                                <option key={'select-option'} value="">{t('selectOTA')}</option>
-                                {firmwareList.map((items, index) => (
-                                  <option key={index} value={items.fileName}>{items.fileName}</option>
-                                ))}
-                              </Form.Select>
-                              <UploadButton type='button' disabled={firmwareName === ''} onClick={() => {
-                                client.publish(`${devdata.devSerial}/firmware`, firmwareName)
-                              }}>
-                                <RiMessage3Line size={24} />
-                                {t('updateButton')}
-                              </UploadButton>
-                            </SendOTAtoBoard>
-                          </Form.Label>
-                        </InputGroup>
-                        <Row>
-                          <progress max={100}></progress>
+                      {
+                        userLevel === '0' && <Row>
+                          <InputGroup className="mb-3">
+                            <Form.Label className="w-100">
+                              {t('sendOTA')}
+                              <SendOTAtoBoard>
+                                <Form.Select onChange={(e) => setFirmwareName(e.target.value)} value={firmwareName}>
+                                  <option key={'select-option'} value="">{t('selectOTA')}</option>
+                                  {firmwareList.map((items, index) => (
+                                    <option key={index} value={items.fileName}>{items.fileName}</option>
+                                  ))}
+                                </Form.Select>
+                                <UploadButton type='button' disabled={firmwareName === ''} onClick={() => {
+                                  client.publish(`${devdata.devSerial}/firmware`, firmwareName)
+                                }}>
+                                  <RiMessage3Line size={24} />
+                                  {t('updateButton')}
+                                </UploadButton>
+                              </SendOTAtoBoard>
+                            </Form.Label>
+                          </InputGroup>
+                          <Row>
+                            <progress max={100}></progress>
+                          </Row>
                         </Row>
-                      </Row>
+                      }
                     </Col>
                   </>
                   :

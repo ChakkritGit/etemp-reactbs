@@ -34,7 +34,7 @@ export default function Navprofile() {
       <Dropdown.Toggle variant="0" className="border-0 p-0">
         <NavProfileFlex>
           <NavProfileContainer className="profile-name-dark">
-            <NavProfile src={userPicture !== undefined ? `${import.meta.env.VITE_APP_IMG}${userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
+            <NavProfile src={userPicture ? `${import.meta.env.VITE_APP_IMG}${userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
             <span >{displayName}</span>
             <RiArrowDropDownLine />
           </NavProfileContainer>
@@ -43,7 +43,7 @@ export default function Navprofile() {
       <Dropdown.Menu>
         <NavbarProfileDropdown>
           <NavProfileContainer onClick={() => navigate("/setting")}>
-            <NavProfile src={userPicture !== undefined ? `${import.meta.env.VITE_APP_IMG}${userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
+            <NavProfile src={userPicture ? `${import.meta.env.VITE_APP_IMG}${userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
             <div style={{ display: 'flex', flexDirection: 'column', width: '100px', maxWidth: '100px' }}>
               <span style={{ display: 'block', width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{displayName}</span>
               <strong style={{ width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{userLevel === "1" ? t('levelSuper') : userLevel === "2" ? t('levelService') : userLevel === "3" ? t('levelAdmin') : t('levelUser')}</strong>
