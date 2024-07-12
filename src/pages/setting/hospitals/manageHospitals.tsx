@@ -120,7 +120,7 @@ export default function ManageHospitals() {
       cell: (item) => (
         <div>
           <HosTableImage
-            src={item.hosPic ? `${import.meta.env.VITE_APP_IMG}${item.hosPic}` : 'https://test.thanespgm.com/img/default-pic.png'}
+            src={item.hosPic ? `${import.meta.env.VITE_APP_IMG}${item.hosPic}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`}
             alt="hos-logo" />
         </div>
       ),

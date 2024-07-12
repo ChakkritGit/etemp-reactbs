@@ -244,7 +244,7 @@ export default function Account() {
       <ProfileFlexSetting $radius={50} $dimension={150} $imageFit>
         <div>
           <div>
-            <img src={userpicture ? userpicture : cookieDecode.userPicture !== 'null' ? `${import.meta.env.VITE_APP_IMG}${cookieDecode.userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
+            <img src={userpicture ? userpicture : cookieDecode.userPicture !== undefined ? `${import.meta.env.VITE_APP_IMG}${cookieDecode.userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="user-picture" />
             <label htmlFor={'user-file-upload'} >
               <RiEditLine />
               <input id="user-file-upload" type="file" onChange={handleChang} />

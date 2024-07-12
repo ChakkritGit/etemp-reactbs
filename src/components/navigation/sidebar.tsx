@@ -26,7 +26,7 @@ import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
   const { expand, tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, hosImg, hosName, userLevel } = cookieDecode
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
@@ -77,15 +77,17 @@ export default function sidebar() {
       link.href = href
 
       document.getElementsByTagName('head')[0].appendChild(link)
-      document.title = cookieDecode.hosName + " | " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
+      document.title = hosName + " | " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
     }
 
-    changeFavicon(`${import.meta.env.VITE_APP_IMG}${cookieDecode.hosImg}`)
+    if (hosImg !== undefined) {
+      changeFavicon(`${import.meta.env.VITE_APP_IMG}${hosImg}`)
+    }
 
     return () => {
       changeFavicon('logo.png')
     }
-  }, [location, cookieDecode])
+  }, [location, cookieDecode, hosImg])
 
   const resetAsideandCardcount = () => {
     dispatch(setShowAside(false))
@@ -96,11 +98,11 @@ export default function sidebar() {
       <Link to="/" onClick={resetAsideandCardcount} className="d-flex flex-column align-items-center mb-3 mb-md-0 link-dark text-decoration-none">
         <SidebarLogo
           $primary={expand}
-          src={cookieDecode.hosImg !== undefined ?
-            `${import.meta.env.VITE_APP_IMG}${cookieDecode.hosImg}`
+          src={hosImg !== undefined ?
+            `${import.meta.env.VITE_APP_IMG}${hosImg}`
             :
             `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="hos-logo" />
-        <HospitalName $primary={expand}>{cookieDecode.hosName}</HospitalName>
+        <HospitalName $primary={expand}>{hosName}</HospitalName>
       </Link>
       <LineHr $primary />
       <Ul $primary={expand} $maxheight className="nav nav-pills">
@@ -138,7 +140,7 @@ export default function sidebar() {
             </TooltipSpan>
           </Li>
           {
-            cookieDecode.userLevel !== '3' ?
+            userLevel !== '3' ?
               <>
                 <Li $primary={expand}>
                   <Link to="/permission" onClick={resetAsideandCardcount} className={location.pathname === "/permission" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
