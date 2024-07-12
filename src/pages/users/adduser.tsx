@@ -258,8 +258,6 @@ export default function Adduser(AdduserProp: adduserProp) {
     { value: 0, name: t('userInactive') }
   ]
 
-  console.log(userData)
-
   return (
     <>
       {pagestate === "add" ?

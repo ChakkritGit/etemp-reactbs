@@ -67,7 +67,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
         <DeviceCardHead>
           <CardHomeFlex>
             <DeviceCardHeadImg
-              src={devicesdata.locPic ? `${import.meta.env.VITE_APP_IMG}${devicesdata.locPic}` : 'https://test.thanespgm.com/img/default-pic.png'}
+              src={devicesdata.locPic ? `${import.meta.env.VITE_APP_IMG}${devicesdata.locPic}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`}
               alt="device-picture"
               $primary={devicesdata.locPic ? true : false}
               loading="lazy" />

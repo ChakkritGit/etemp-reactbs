@@ -392,8 +392,9 @@ export default function Adddevform(managedevices: managedevices) {
   }
 
   useEffect(() => {
+    if (!token) return
     fetchFirmware()
-  }, [])
+  }, [token])
 
   return (
     <div>

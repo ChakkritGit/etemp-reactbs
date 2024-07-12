@@ -38,8 +38,9 @@ export default function AdjustLog() {
   }
 
   useEffect(() => {
+    if (!token) return
     fetchHistory()
-  }, [])
+  }, [token])
 
   const columns: TableColumn<historyType>[] = [{
     name: t('noNumber'),

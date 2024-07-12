@@ -17,49 +17,41 @@ import { fetchDevicesLog } from "../stores/LogsSlice"
 import { fetchDevicesData } from "../stores/devicesSlices"
 import { fetchUserData } from "../stores/userSlice"
 import { fetchProbeData } from "../stores/probeSlice"
-import { Toaster } from "react-hot-toast"
 import Bottombar from "../components/navigation/bottombar"
 import { BottomNavigateWrapper } from "../style/components/bottom.navigate"
-import TokenExpiredAlert from "../components/navigation/TokenExpiredAlert"
+import Popupcomponent from "../components/utils/popupcomponent"
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, showAside, deviceId, cookieDecode, showAlert } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, showAside, deviceId, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const handleClose = () => dispatch(setShowAside(false))
   const handleShow = () => dispatch(setShowAside(true))
   const [isScrollingDown, setIsScrollingDown] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
 
-
   const decodeToken = async () => {
-    if (token) {
-      const decoded: jwtToken = await jwtDecode(token)
-      dispatch(setTokenDecode(decoded))
-    }
+    const decoded: jwtToken = await jwtDecode(token)
+    dispatch(setTokenDecode(decoded))
   }
 
   useEffect(() => {
-    if (token) {
-      decodeToken()
-      dispatch(filtersDevices(token))
-      dispatch(fetchHospitals(token))
-      dispatch(fetchWards(token))
-      dispatch(fetchUserData(token))
-      dispatch(fetchProbeData(token))
-    }
+    if (!token) return
+    decodeToken()
+    dispatch(filtersDevices(token))
+    dispatch(fetchHospitals(token))
+    dispatch(fetchWards(token))
+    dispatch(fetchUserData(token))
+    dispatch(fetchProbeData(token))
   }, [token])
 
   useEffect(() => {
-    if (token) {
-      dispatch(fetchDevicesData(token))
-    }
+    if (!token) return
+    dispatch(fetchDevicesData(token))
   }, [socketData, token])
 
   useEffect(() => {
-    if (deviceId !== "undefined" && token) {
-      dispatch(fetchDevicesLog({ deviceId, token }))
-    }
+    if (deviceId !== "undefined" && token) dispatch(fetchDevicesLog({ deviceId, token }))
   }, [deviceId, token])
 
   const handleContextMenu: MouseEventHandler<HTMLDivElement> = (_e) => {
@@ -90,11 +82,7 @@ export default function Main() {
 
   return (
     <SideParent onContextMenu={handleContextMenu}>
-      <Toaster
-        position="bottom-right"
-        reverseOrder={false}
-      />
-      {showAlert && <TokenExpiredAlert />}
+      <Popupcomponent />
       <SideChildSide $primary>
         <Sidebar />
       </SideChildSide>
