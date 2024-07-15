@@ -29,8 +29,8 @@ export default {
     deviceNoTb: 'ลำดับ',
     deviceDate: 'วันที่',
     deviceNameTb: 'ชื่ออุปกรณ์',
-    deviceSerialTb: 'ซีเรียล',
-    deviceLocationTb: 'ตำแหน่งติดตั้ง',
+    deviceSerialTb: 'ซีเรียลกล่อง',
+    deviceLocationTb: 'ตำแหน่งที่ติดตั้ง',
     deviceTempTb: 'อุณหภูมิ',
     deviceHumiTb: 'ความชื้น',
     deviceProbeTb: 'โพรบ',
@@ -160,7 +160,7 @@ export default {
     probeName: 'ชื่อโพรบ',
     probeType: 'ประเภทโพรบ',
     probeChanel: 'ช่องต่อโพรบ',
-    probeLocation: 'ตำแหน่งติดตั้ง',
+    probeLocation: 'ตำแหน่งที่ติดตั้งโพรบ',
     addProbe: 'เพิ่มโพรบ',
     editProbe: 'แก้ไขโพรบ',
 
@@ -255,7 +255,7 @@ export default {
     // devices
     deviceDetail: 'รายละเอียดอุปกรณ์',
     deviceSeq: 'ลำดับอุปกรณ์',
-    deviceZone: 'โซนติดตั้ง',
+    deviceZone: 'พื้นที่ในการติดตั้ง',
     devicePicture: 'รูปอุปกรณ์',
     deviceNetwork: 'ตั้งค่าเน็ตเวิร์ค',
 

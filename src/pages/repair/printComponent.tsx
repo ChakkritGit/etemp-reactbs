@@ -31,13 +31,13 @@ export default function PrintComponent(printtype: printtype) {
                 <PrintHeadPage>
                   <PrintHeadTitle>
                     <span>
-                      เล่มที่
+                      ลำดับที่
                       <span>{items.repairNo}</span>
                     </span>
                     <span>ใบแจ้งซ่อม</span>
                     <span>
                       เลขที่
-                      <span>{items.repairId.substring(0, 4)}...-{items.repairId.substring(30)}</span>
+                      <span>{items.repairId}</span>
                     </span>
                   </PrintHeadTitle>
                   <PrintHeadDescription>

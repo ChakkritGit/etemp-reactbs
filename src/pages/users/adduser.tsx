@@ -310,7 +310,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                     <WardDropdown
                       setState_ward={setValuestate}
                       Hosid={pagestate === "add" ? hosid : String(userData?.hosId)}
-                      Group_ID={String(userData?.wardId)}
+                      groupId={String(userData?.wardId)}
                     />
                   </Form.Label>
                 </InputGroup>

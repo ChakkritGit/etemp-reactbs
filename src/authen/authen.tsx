@@ -6,9 +6,7 @@ import { useSelector } from "react-redux"
 
 export function Islogout() {
   const { cookieEncode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  return (
-    cookieEncode ? <Navigate to="/" /> : <Login />
-  )
+  return cookieEncode !== '' ? <Navigate to="/" /> : <Login />
 }
 
 export function Hidesetting() {

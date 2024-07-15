@@ -3,6 +3,7 @@ import { UtilsStateStore } from "../types/redux.type"
 import { jwtToken, socketResponseType } from "../types/component.type"
 import { cookies } from "../constants/constants"
 import { CookieType } from "../types/cookie.type"
+import { notificationType } from "../types/notification.type"
 
 const initialState: UtilsStateStore = {
   deviceId: String(cookies.get('devid')),
@@ -16,9 +17,10 @@ const initialState: UtilsStateStore = {
   popUpMode: localStorage.getItem('popUpMode') === 'true',
   hosId: cookies.get('selectHos'),
   wardId: cookies.get('selectWard') ?? 'WID-DEVELOPMENT',
-  cookieEncode: cookies.get('localDataObject') || null,
+  cookieEncode: cookies.get('localDataObject'),
   cookieDecode: false as unknown as CookieType,
-  showAlert: false
+  showAlert: false,
+  notiData: []
 }
 
 const utilsSlice = createSlice({
@@ -67,10 +69,13 @@ const utilsSlice = createSlice({
     setShowAlert: (state, action: PayloadAction<boolean>) => {
       state.showAlert = action.payload
     },
+    setNotidata: (state, action: PayloadAction<notificationType[]>) => {
+      state.notiData = action.payload
+    },
   },
 })
 
-export const { setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside,
+export const { setDeviceId, setSerial, setSocketData, setSearchQuery, setExpand, setShowAside, setNotidata,
   setTokenDecode, setSoundMode, setPopUpMode, setHosId, setWardId, setCookieEncode, setCookieDecode, setShowAlert } = utilsSlice.actions
 
 export default utilsSlice.reducer

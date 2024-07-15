@@ -8,8 +8,9 @@ import { cookieOptions, cookies } from "../../constants/constants"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { storeDispatchType } from "../../stores/store"
-import { setCookieEncode } from "../../stores/utilsStateSlice"
 import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib"
+import { reset } from "../../stores/resetAction"
+import { setCookieEncode } from "../../stores/utilsStateSlice"
 
 export default function Navprofile() {
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ export default function Navprofile() {
   const { userPicture, displayName, userLevel } = cookieDecode
 
   const logOut = () => {
+    dispatch(reset())
     dispatch(setCookieEncode(''))
     cookies.remove('localDataObject', cookieOptions)
     cookies.remove('devSerial', cookieOptions)

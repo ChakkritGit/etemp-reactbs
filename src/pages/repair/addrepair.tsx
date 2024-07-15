@@ -257,7 +257,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   <WardDropdown
                     setState_ward={setValuestate}
                     Hosid={hosId}
-                    Group_ID={groupId}
+                    groupId={groupId}
                   />
                 </Form.Group>
               </Col>

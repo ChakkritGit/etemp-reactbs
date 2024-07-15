@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const ReloadPromptContainer = styled.div`
   padding: 0;
@@ -27,7 +27,22 @@ export const ReloadPromptToast = styled.div`
 `
 
 export const ReloadPromptMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 8px;
+`
+
+export const ReloadPromptMessageSpan = styled.span<{ $primary?: boolean }>`
+${props => props.$primary && css`
+  color: var(--danger-color);
+`}
+`
+
+export const ReloadPromptButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: .5rem;
 `
 
 export const ReloadPromptToastButton = styled.button`
@@ -39,6 +54,11 @@ export const ReloadPromptToastButton = styled.button`
   color: var(--white);
   padding: 3px 10px;
   width: max-content;
+
+  &:hover {
+    background-color: var(--main-color-f1);
+    transition: .3s;
+  }
 `
 
 export const ClosePromptToastButton = styled.button`

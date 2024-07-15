@@ -258,7 +258,7 @@ export default function ManageHospitals() {
   )
 
   // Filter Data
-  const filteredItems = hospitalsData.filter(item => item.hosName && item.hosName.toLowerCase().includes(searchQuery.toLowerCase()) || item.hosTelephone.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredItems = hospitalsData.filter(item => item.hosName.includes(searchQuery) || item.hosTelephone.includes(searchQuery))
 
   return (
     <ManageHospitalsContainer>

@@ -80,6 +80,7 @@ export default function Home() {
   const [showticks, setShowticks] = useState(false)
   const [listAndgrid, setListandgrid] = useState(Number(localStorage.getItem('listGrid') ?? 1))
   const [cardFilterData, setCardFilterData] = useState<cardFilter[]>([])
+  const { userLevel } = cookieDecode
 
   const showtk = () => {
     setShowticks(true)
@@ -271,7 +272,7 @@ export default function Home() {
 
   const getHospital = (hospitalID: string | undefined) => {
     updateLocalStorageAndDispatch('selectHos', hospitalID, setHosId)
-    setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID))
+    setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID || hosId))
   }
 
   const getWard = (wardID: string | undefined) => {
@@ -282,8 +283,8 @@ export default function Home() {
     const filteredDevices = wardId !== 'WID-DEVELOPMENT'
       ? devices.filter((items) => items.wardId === wardId)
       : devices
-    const filteredWard = filteredDevices.filter((items) => items.devSerial?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
-      items.devName?.toLowerCase()?.includes(searchQuery.toLowerCase()))
+    const filteredWard = filteredDevices.filter((items) => items.devSerial.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      items.devDetail.toLowerCase().includes(searchQuery.toLowerCase()))
     dispatch(setFilterDevice(filteredWard))
 
   }, [searchQuery, devices, wardId])
@@ -712,7 +713,7 @@ export default function Home() {
                   {t('showAllBox')}
                 </h5>
                 {
-                  cookieDecode.userLevel === '0' && <TagCurrentHos>
+                  userLevel === '0' && <TagCurrentHos>
                     {
                       `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName ?? '/'} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
                     }
@@ -739,40 +740,45 @@ export default function Home() {
                 <h5>{t('detailAllBox')}</h5>
                 <DeviceInfoflex>
                   {
-                    !filterdata &&
-                    <DeviceInfoSpan onClick={() => setFilterdata(true)}>
-                      {t('deviceFilter')}
-                      <RiFilter3Line />
-                    </DeviceInfoSpan>
+                    userLevel !== '3' &&
+                    <>
+                      {!filterdata &&
+                        <DeviceInfoSpan onClick={() => setFilterdata(true)}>
+                          {t('deviceFilter')}
+                          <RiFilter3Line />
+                        </DeviceInfoSpan>}
+                      <FilterHomeHOSWARD>
+                        {
+                          filterdata &&
+                          <DevHomeHead>
+                            <motion.div
+                              variants={itemsFilter}
+                              initial="hidden"
+                              animate="visible"
+                            >
+                              {
+                                userLevel !== '2' && <Select
+                                  options={mapOptions<Hospital, keyof Hospital>(hospitalsData, 'hosId', 'hosName')}
+                                  defaultValue={mapDefaultValue<Hospital, keyof Hospital>(hospitalsData, hosId, 'hosId', 'hosName')}
+                                  onChange={(e) => getHospital(e?.value)}
+                                  autoFocus={false}
+                                />
+                              }
+                              <Select
+                                options={mapOptions<Ward, keyof Ward>(wardName, 'wardId', 'wardName')}
+                                defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, wardId, 'wardId', 'wardName')}
+                                onChange={(e) => getWard(e?.value)}
+                                autoFocus={false}
+                              />
+                            </motion.div>
+                            <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>
+                              <RiCloseLine />
+                            </DeviceInfoSpanClose>
+                          </DevHomeHead>
+                        }
+                      </FilterHomeHOSWARD>
+                    </>
                   }
-                  <FilterHomeHOSWARD>
-                    {
-                      filterdata &&
-                      <DevHomeHead>
-                        <motion.div
-                          variants={itemsFilter}
-                          initial="hidden"
-                          animate="visible"
-                        >
-                          <Select
-                            options={mapOptions<Hospital, keyof Hospital>(hospitalsData, 'hosId', 'hosName')}
-                            defaultValue={mapDefaultValue<Hospital, keyof Hospital>(hospitalsData, hosId, 'hosId', 'hosName')}
-                            onChange={(e) => getHospital(e?.value)}
-                            autoFocus={false}
-                          />
-                          <Select
-                            options={mapOptions<Ward, keyof Ward>(wardName, 'wardId', 'wardName')}
-                            defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, wardId, 'wardId', 'wardName')}
-                            onChange={(e) => getWard(e?.value)}
-                            autoFocus={false}
-                          />
-                        </motion.div>
-                        <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>
-                          <RiCloseLine />
-                        </DeviceInfoSpanClose>
-                      </DevHomeHead>
-                    }
-                  </FilterHomeHOSWARD>
                   <DeviceListFlex>
                     <ListBtn $primary={listAndgrid === 1} onClick={() => {
                       localStorage.setItem('listGrid', String(1))

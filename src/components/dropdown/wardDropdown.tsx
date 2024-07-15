@@ -11,9 +11,9 @@ import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 export default function WardDropdown(DwardProp: dropDownWardProp) {
   const { t } = useTranslation()
-  const { Group_ID, Hosid, setState_ward } = DwardProp
+  const { groupId, Hosid, setState_ward } = DwardProp
   const [wardData, setWardData] = useState<wardsType[]>([])
-  const [selectedval, setSelectedVal] = useState(Group_ID)
+  const [selectedval, setSelectedVal] = useState(groupId)
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
 
@@ -23,7 +23,7 @@ export default function WardDropdown(DwardProp: dropDownWardProp) {
   }
 
   const fetchHospital = async () => {
-    if (Hosid !== "" || Group_ID !== "" && !Group_ID) {
+    if (Hosid !== "" || groupId !== "" && !groupId) {
       const url: string = `${import.meta.env.VITE_APP_API}/hospital/${Hosid}`
       try {
         const response = await axios.get<responseType<hospitalsType>>(url, {
@@ -47,10 +47,10 @@ export default function WardDropdown(DwardProp: dropDownWardProp) {
 
   return (
     <Form.Select onChange={setWardId} name="fieldSelectWard" value={selectedval} disabled={Hosid !== "" ? false : true} >
-      <option key={Group_ID} value={'default'}>{t('selectWard')}</option>
+      <option key={groupId} value={'default'}>{t('selectWard')}</option>
       {
         wardData.map((item, index) => {
-          if (item.wardId === Group_ID) {
+          if (item.wardId === groupId) {
             return <option selected key={index} value={item.wardId}>{item.wardName}</option>
           } else {
             return <option key={index} value={item.wardId}>{item.wardName}</option>

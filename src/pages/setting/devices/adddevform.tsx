@@ -22,6 +22,7 @@ import { wardsType } from '../../../types/ward.type'
 import { SendOTAtoBoard, UploadButton } from '../../../style/components/firmwareuoload'
 import { firmwareType } from '../../../types/component.type'
 import { setShowAlert } from '../../../stores/utilsStateSlice'
+import { resizeImage } from '../../../constants/constants'
 
 export default function Adddevform(managedevices: managedevices) {
   const { devdata, pagestate } = managedevices
@@ -29,15 +30,15 @@ export default function Adddevform(managedevices: managedevices) {
   const [show, setShow] = useState(false)
   const [showConfig, setShowConfig] = useState(false)
   const [formdata, setFormdata] = useState({
-    devDetail: pagestate !== "add" ? devdata.devDetail : '',
-    devSeq: pagestate !== "add" ? devdata.devSeq : '',
+    // devDetail: pagestate !== "add" ? devdata.devDetail : '',
+    // devSeq: pagestate !== "add" ? devdata.devSeq : '',
     devZone: pagestate !== "add" ? devdata.devZone : '',
     devLocation: pagestate !== "add" ? devdata.locInstall : '',
-    group_id: pagestate !== "add" ? devdata.wardId : '',
-    dev_id: pagestate !== "add" ? devdata.devId : '',
-    dev_name: pagestate !== "add" ? devdata.devDetail : '',
-    dev_sn: pagestate !== "add" ? devdata.devSerial : '',
-    location_pic: null as File | null,
+    groupId: pagestate !== "add" ? devdata.wardId : '',
+    devId: pagestate !== "add" ? devdata.devId : '',
+    devName: pagestate !== "add" ? devdata.devDetail : '',
+    devSn: pagestate !== "add" ? devdata.devSerial : '',
+    locationPic: null as File | null,
     macAddWiFi: pagestate !== "add" ? devdata.config.macAddWiFi : ''
   })
   const [Mode, setMode] = useState(1)
@@ -104,10 +105,10 @@ export default function Adddevform(managedevices: managedevices) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const url: string = `${import.meta.env.VITE_APP_API}/device`
-    if (formdata.dev_sn !== "") {
+    if (formdata.devSn !== "") {
       try {
         const response = await axios.post<responseType<devicesType>>(url, {
-          devSerial: formdata.dev_sn,
+          devSerial: formdata.devSn,
           createBy: tokenDecode.userId,
           config: {
             macAddWiFi: formdata.macAddWiFi
@@ -122,15 +123,15 @@ export default function Adddevform(managedevices: managedevices) {
           showConfirmButton: false,
         })
         setFormdata({
-          devDetail: '',
-          devSeq: '',
+          // devDetail: '',
+          // devSeq: '',
           devZone: '',
           devLocation: '',
-          group_id: '',
-          dev_id: '',
-          dev_name: '',
-          dev_sn: '',
-          location_pic: null as File | null,
+          groupId: '',
+          devId: '',
+          devName: '',
+          devSn: '',
+          locationPic: null as File | null,
           macAddWiFi: ''
         })
         dispatch(fetchDevicesData(token))
@@ -173,17 +174,17 @@ export default function Adddevform(managedevices: managedevices) {
     e.preventDefault()
     const url: string = `${import.meta.env.VITE_APP_API}/device/${devdata?.devId}`
     const formData = new FormData()
-    formData.append('comment', formdata.devDetail as string)
-    formData.append('devSeq', formdata.devSeq as string)
+    // formData.append('comment', formdata.devDetail as string)
+    // formData.append('devSeq', formdata.devSeq as string)
     formData.append('devZone', formdata.devZone as string)
     formData.append('locInstall', formdata.devLocation as string)
-    formData.append('wardId', formdata.group_id as string)
-    formData.append('devDetail', formdata.dev_name as string)
-    formData.append('devSerial', formdata.dev_sn as string)
-    if (formdata.location_pic) {
-      formData.append('fileupload', formdata.location_pic as File)
+    formData.append('wardId', formdata.groupId as string)
+    formData.append('devDetail', formdata.devName as string)
+    formData.append('devSerial', formdata.devSn as string)
+    if (formdata.locationPic) {
+      formData.append('fileupload', formdata.locationPic as File)
     }
-    if (formdata.dev_id !== '') {
+    if (formdata.devId !== '') {
       try {
         const response = await axios.put<responseType<devicesType>>(url, formData, {
           headers: {
@@ -356,19 +357,38 @@ export default function Adddevform(managedevices: managedevices) {
   }
 
   const setValuestate = (value: string) => {
-    setFormdata({ ...formdata, group_id: value })
+    setFormdata({ ...formdata, groupId: value })
   }
 
   const fileSelected = (e: ChangeEvent<HTMLInputElement>) => {
     let reader = new FileReader()
+    // const fileInput = e.target
+    // if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
+    //   reader.readAsDataURL(e.target.files[0])
+    //   reader.onload = (event) => {
+    //     let img = event.target?.result
+    //     setDevicePicture(img as string)
+    //   }
+    //   setFormdata({ ...formdata, locationPic: fileInput.files[0] as File })
+    // }
+
     const fileInput = e.target
-    if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
-      reader.readAsDataURL(e.target.files[0])
-      reader.onload = (event) => {
-        let img = event.target?.result
-        setDevicePicture(img as string)
-      }
-      setFormdata({ ...formdata, location_pic: fileInput.files[0] as File })
+    if (fileInput.files && fileInput.files.length > 0) {
+      const selectedFile = fileInput.files[0]
+
+      // Resize the image before setting the state
+      resizeImage(selectedFile)
+        .then((resizedFile) => {
+          reader.readAsDataURL(resizedFile)
+          reader.onload = (event) => {
+            let img = event.target?.result
+            setDevicePicture(img as string)
+          }
+          setFormdata({ ...formdata, locationPic: resizedFile })
+        })
+        .catch((error) => {
+          console.error('Error resizing image:', error)
+        })
     }
   }
 
@@ -456,7 +476,7 @@ export default function Adddevform(managedevices: managedevices) {
                           <WardDropdown
                             setState_ward={setValuestate}
                             Hosid={hosid}
-                            Group_ID={String(devdata?.wardId)}
+                            groupId={String(devdata?.wardId)}
                             key={devdata?.wardId}
                           />
                         </Form.Label>
@@ -475,8 +495,9 @@ export default function Adddevform(managedevices: managedevices) {
                       spellCheck={false}
                       autoComplete='off'
                       type='text'
-                      value={formdata.dev_sn}
-                      onChange={(e) => setFormdata({ ...formdata, dev_sn: e.target.value })}
+                      disabled
+                      value={formdata.devSn}
+                      onChange={(e) => setFormdata({ ...formdata, devSn: e.target.value })}
                     />
                   </Form.Label>
                 </InputGroup>
@@ -511,15 +532,15 @@ export default function Adddevform(managedevices: managedevices) {
                             spellCheck={false}
                             autoComplete='off'
                             type='text'
-                            value={formdata.dev_name}
-                            onChange={(e) => setFormdata({ ...formdata, dev_name: e.target.value })}
+                            value={formdata.devName}
+                            onChange={(e) => setFormdata({ ...formdata, devName: e.target.value })}
                           />
                         </Form.Label>
                       </InputGroup>
                     </Col>
-                    <Col lg={6}>
+                    {/* <Col lg={6}>
                       <InputGroup className="mb-3">
-                        <Form.Label className="w-100">
+                        <Form.Label className="w-100 bg-primary">
                           {t('deviceDetail')}
                           <Form.Control
                             name='form_label_hosname'
@@ -546,7 +567,7 @@ export default function Adddevform(managedevices: managedevices) {
                           />
                         </Form.Label>
                       </InputGroup>
-                    </Col>
+                    </Col> */}
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">

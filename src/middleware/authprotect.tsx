@@ -7,6 +7,7 @@ import { cookieOptions, cookies, decodeCookieObject } from '../constants/constan
 import CryptoJS from "crypto-js"
 import { setCookieEncode } from '../stores/utilsStateSlice'
 import { storeDispatchType } from '../stores/store'
+import { reset } from '../stores/resetAction'
 
 type authProps = {
   children: ReactElement
@@ -25,6 +26,7 @@ const verifyToken = (cookieEncode: string) => {
       cookies.remove('selectHos', cookieOptions)
       cookies.remove('selectWard', cookieOptions)
       cookies.update()
+      dispatch(reset())
       dispatch(setCookieEncode(''))
       return { valid: false, error: 'Token expired or invalid' }
     }
@@ -35,6 +37,7 @@ const verifyToken = (cookieEncode: string) => {
     cookies.remove('selectHos', cookieOptions)
     cookies.remove('selectWard', cookieOptions)
     cookies.update()
+    dispatch(reset())
     dispatch(setCookieEncode(''))
     return { valid: false, error }
   }
@@ -42,7 +45,7 @@ const verifyToken = (cookieEncode: string) => {
 
 const ProtectedRoute = ({ children }: authProps) => {
   const { cookieEncode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  if (cookieEncode) {
+  if (cookieEncode !== '') {
     const { valid } = verifyToken(cookieEncode)
     return valid ? children : <Navigate to="/login" />
   } else {

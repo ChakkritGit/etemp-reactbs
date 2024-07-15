@@ -78,6 +78,7 @@
   --main-last-rgba-05: rgba(0, 0, 0, 0.15);
   --main-last-rgba-03: rgba(50, 50, 50, 0.1);
   --main-white-rgba: rgba(255, 255, 255, 0.5);
+  --main-black-tb: rgba(150, 150, 150, 0.1);
 
   /* border */
   --border-radius-small: 1.25rem;

@@ -38,7 +38,7 @@ type addHospitalProp = {
 type dropDownWardProp = {
   setState_ward: (value: string) => void,
   Hosid: string,
-  Group_ID: string
+  groupId: string
 }
 // closeDropdownWardProps
 

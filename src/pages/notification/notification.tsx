@@ -11,18 +11,17 @@ import axios, { AxiosError } from "axios"
 import Notificationdata from "../../components/notification/notificationdata"
 import notificationSound from "../../assets/sounds/notification.mp3"
 import { storeDispatchType } from "../../stores/store"
-import { setShowAlert, setSocketData } from "../../stores/utilsStateSlice"
+import { setNotidata, setShowAlert, setSocketData } from "../../stores/utilsStateSlice"
 import { useTranslation } from "react-i18next"
 import toast from "react-hot-toast"
 
 export default function Notification() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, soundMode, popUpMode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, soundMode, popUpMode, cookieDecode, notiData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [number, setNumber] = useState(0)
   const [show, setShow] = useState(false)
-  const [notiData, setNotidata] = useState<notificationType[]>([])
   const countupRef = useRef(null)
   const notiSound = new Audio(notificationSound)
 
@@ -40,7 +39,7 @@ export default function Notification() {
         .get<responseType<notificationType[]>>(`${import.meta.env.VITE_APP_API}/notification`, {
           headers: { authorization: `Bearer ${token}` }
         })
-      setNotidata(responseData.data.data)
+      dispatch(setNotidata(responseData.data.data))
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
@@ -62,7 +61,7 @@ export default function Notification() {
     if (token) {
       fetchData()
     }
-  }, [cookieDecode])
+  }, [cookieDecode, socketData])
 
   useEffect(() => {
     if (socketData && !soundMode && !popUpMode) {

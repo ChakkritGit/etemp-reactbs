@@ -25,7 +25,7 @@ import { accessToken, cookieOptions, cookies } from "../../constants/constants"
 
 export default function sidebar() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { expand, tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { expand, tokenDecode, cookieDecode, notiData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, hosImg, hosName, userLevel } = cookieDecode
   const { t } = useTranslation()
   const location = useLocation()
@@ -77,7 +77,7 @@ export default function sidebar() {
       link.href = href
 
       document.getElementsByTagName('head')[0].appendChild(link)
-      document.title = hosName + " | " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
+      document.title = (notiData.filter((n) => n.notiStatus === false).length > 0 ? `(${notiData.filter((n) => n.notiStatus === false).length}) ` : '') + hosName + " - " + `${location.pathname.split("/")[1] !== '' ? location.pathname.split("/")[1] : 'home'}`
     }
 
     if (hosImg) {
@@ -87,7 +87,7 @@ export default function sidebar() {
     return () => {
       changeFavicon('logo.png')
     }
-  }, [location, cookieDecode, hosImg])
+  }, [location, cookieDecode, hosImg, notiData])
 
   const resetAsideandCardcount = () => {
     dispatch(setShowAside(false))

@@ -3487,11 +3487,13 @@ export const DatatableHome = styled.div<{ $primary?: boolean }>`
 &>div>nav {
   background-color: var(--bg-grey);
 }
+
 ${props => props.theme.mode === 'dark' &&
     css`
     &>div>div>div>div:nth-child(2)>div {
     border-bottom: 1px solid rgba(255, 255, 255, .1);
   }
+
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
@@ -3586,7 +3588,7 @@ export const PrintHeadTitle = styled.div<{ $primary?: boolean }>`
 
 &>span>span {
   color: var(--danger-color);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
 }
 `
@@ -4937,7 +4939,7 @@ export const SubWardColumnFlex = styled.div<{ $primary?: boolean }>`
 }
 
 &>div>div>div>div>div, &>div>div>div {
-  background-color: var(--soft-grey);
+  background-color: var(--main-black-tb);
 }
 
 ${props => props.theme.mode === 'dark' &&

@@ -2,6 +2,7 @@ import { jwtToken, socketResponseType } from "./component.type"
 import { CookieType } from "./cookie.type"
 import { devicesType } from "./device.type"
 import { hospitalsType } from "./hospital.type"
+import { notificationType } from "./notification.type"
 import { probeType } from "./probe.type"
 import { usersType } from "./user.type"
 import { wardsType } from "./ward.type"
@@ -44,7 +45,8 @@ type UtilsStateStore = {
   wardId: string,
   cookieEncode: string,
   cookieDecode: CookieType,
-  showAlert: boolean
+  showAlert: boolean,
+  notiData: notificationType[]
 }
 
 type DeviceStateStore = {
