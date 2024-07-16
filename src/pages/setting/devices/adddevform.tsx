@@ -497,7 +497,7 @@ export default function Adddevform(managedevices: managedevices) {
                       spellCheck={false}
                       autoComplete='off'
                       type='text'
-                      disabled
+                      disabled={pagestate === 'edit'}
                       value={formdata.devSn}
                       onChange={(e) => setFormdata({ ...formdata, devSn: e.target.value })}
                     />
