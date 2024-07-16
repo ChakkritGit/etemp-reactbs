@@ -362,8 +362,20 @@ export default function Fulltable() {
             No: index + 1,
             DeviceSN: items.device?.devSerial,
             DeviceName: items.device?.devDetail,
-            TemeratureMax: items.devSerial,
-            TemeratureMin: items.devSerial,
+            // TemeratureMax: items.probe[0]?.tempMax,
+            // TemeratureMin: items.probe[0]?.tempMin,
+            Date: new Date(items.createAt).toLocaleString('th-TH', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              timeZone: 'UTC'
+            }),
+            Time: new Date(items.createAt).toLocaleString('th-TH', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              timeZone: 'UTC'
+            }),
             Temperature: items.tempAvg,
             Humidity: items.humidityAvg,
             Door1: items.door1 === "1" ? t('stateOn') : t('stateOff'),
@@ -371,16 +383,7 @@ export default function Fulltable() {
             Door3: items.door3 === "1" ? t('stateOn') : t('stateOff'),
             Connectivity: items.internet === '1' ? t('stateDisconnect') : t('stateConnect'),
             Plug: items.ac ? t('stateProblem') : t('stateNormal'),
-            Battery: items.battery + '%',
-            Time: new Date(items.createAt).toLocaleString('th-TH', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZone: 'UTC'
-            })
+            Battery: items.battery + '%'
           }
         })
 
