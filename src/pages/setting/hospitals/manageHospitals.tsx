@@ -266,7 +266,7 @@ export default function ManageHospitals() {
         <h3>{t('titleManageHosandWard')}</h3>
         <div>
           {
-            userLevel !== "3" &&
+            userLevel !== "3" && userLevel !== "2" &&
             <Addhospitals
               pagestate={'add'}
             />

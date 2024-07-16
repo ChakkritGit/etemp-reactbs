@@ -29,7 +29,7 @@ export default function Warranty() {
   const dispatch = useDispatch<storeDispatchType>()
   const [pagenumber, setpagenumber] = useState(1)
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, userLevel } = cookieDecode
   const [show, setshow] = useState(false)
   const [deviceDetails, setDevicedetails] = useState<warrantyType[]>([])
   const [warrantyData, setWarrantyData] = useState<warrantyType[]>([])
@@ -224,7 +224,7 @@ export default function Warranty() {
             <RiInformationLine />
           </DetailWarranty>
           {
-            cookieDecode.userLevel === '4' || '3' && <>
+            userLevel !== '2' && userLevel !== '3' && <>
               <Addwarranty
                 pagestate="edit"
                 warData={items}
@@ -282,7 +282,7 @@ export default function Warranty() {
             <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
             <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
           </div>
-          {cookieDecode.userLevel === '4' || '3' && <div>
+          {userLevel !== '2' && userLevel !== '3' && <div>
             <Addwarranty
               pagestate="add"
               fetchData={fetchData}

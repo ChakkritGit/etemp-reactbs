@@ -57,12 +57,19 @@ justify-content: space-between;
 `
 
 export const FirewareContent = styled.div<{ $primary?: boolean }>`
-display: flex;
-align-items: start;
-flex-wrap: wrap;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+justify-items: center;
 gap: .5rem;
 margin-top: 1.5rem;
-/* max-height: calc(100dvh - 350px); */
+
+@media (max-width: 1185px) {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 430px) {
+  grid-template-columns: repeat(1, 1fr);
+}
 `
 
 export const UploadButton = styled.button<{ $primary?: boolean }>`
@@ -246,7 +253,7 @@ export const FileList = styled.div<{ $primary?: number }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 400px;
+  width: 100%;
   background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white)'};
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   border-radius: .8rem;

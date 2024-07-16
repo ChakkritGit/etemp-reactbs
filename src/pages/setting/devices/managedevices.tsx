@@ -27,7 +27,7 @@ export default function Managedev() {
   const langs = localStorage.getItem("lang")
   const dispatch = useDispatch<storeDispatchType>()
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, userLevel } = cookieDecode
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
 
   useEffect(() => {
@@ -169,10 +169,12 @@ export default function Managedev() {
     <ManageDevicesContainer>
       <ManageHospitalsHeader className="mb-3 mt-3">
         <h3>{t('titleManageDevices')}</h3>
-        <Adddevform
-          pagestate={'add'}
-          devdata={{} as devicesType}
-        />
+        {
+          userLevel !== '2' && userLevel !== '3' && <Adddevform
+            pagestate={'add'}
+            devdata={{} as devicesType}
+          />
+        }
       </ManageHospitalsHeader>
       <ManageDeviceBody>
         {

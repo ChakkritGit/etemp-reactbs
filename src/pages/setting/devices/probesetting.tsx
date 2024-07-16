@@ -18,7 +18,7 @@ export default function Probesetting() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token } = cookieDecode
+  const { token, userLevel } = cookieDecode
   const { probeData } = useSelector<DeviceStateStore, ProbeState>((state) => state.probe)
 
   const deleteProbe = async (probeId: string) => {
@@ -105,24 +105,26 @@ export default function Probesetting() {
             probeData={items}
             key={items.probeId}
           />
-          <DelProbeButton onClick={() =>
-            swalWithBootstrapButtons
-              .fire({
-                title: t('deleteProbe'),
-                text: t('deleteProbeText'),
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: t('confirmButton'),
-                cancelButtonText: t('cancelButton'),
-                reverseButtons: false,
-              })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  deleteProbe(items.probeId)
-                }
-              })}>
-            <RiDeleteBin2Line />
-          </DelProbeButton>
+          {
+            userLevel !== '2' && userLevel !== '3' && <DelProbeButton onClick={() =>
+              swalWithBootstrapButtons
+                .fire({
+                  title: t('deleteProbe'),
+                  text: t('deleteProbeText'),
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: t('confirmButton'),
+                  cancelButtonText: t('cancelButton'),
+                  reverseButtons: false,
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    deleteProbe(items.probeId)
+                  }
+                })}>
+              <RiDeleteBin2Line />
+            </DelProbeButton>
+          }
         </Actiontableprobe>
       ),
       center: true,
@@ -135,12 +137,14 @@ export default function Probesetting() {
 
   return (
     <ManageProbeContainer>
-      <ManageProbeHeader className="mb-3">
-        <h3>{t('titleManageProbe')}</h3>
-        <Addprobe
-          pagestate={'add'}
-        />
-      </ManageProbeHeader>
+      {
+        userLevel !== '2' && userLevel !== '3' && <ManageProbeHeader className="mb-3">
+          <h3>{t('titleManageProbe')}</h3>
+          <Addprobe
+            pagestate={'add'}
+          />
+        </ManageProbeHeader>
+      }
       <ManageProbeBody>
         <DataTable
           columns={columns}

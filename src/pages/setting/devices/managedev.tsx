@@ -9,6 +9,7 @@ import { DeviceStateStore, UtilsStateStore } from '../../../types/redux.type'
 export default function Adddevices() {
   const { t } = useTranslation()
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { userLevel } = cookieDecode
 
   return (
     <Tabs
@@ -18,9 +19,11 @@ export default function Adddevices() {
       <Tab eventKey="hospital" title={t('subTabDevice')}>
         <Managedev />
       </Tab>
-      <Tab eventKey="probe" title={t('sunTabProbe')}>
-        <Probesetting />
-      </Tab>
+      {
+        userLevel !== '3' && <Tab eventKey="probe" title={t('sunTabProbe')}>
+          <Probesetting />
+        </Tab>
+      }
       {
         cookieDecode.userLevel === '0' &&
         <Tab eventKey="firmware" title={t('sunTabFirmware')}>

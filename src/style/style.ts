@@ -1295,6 +1295,12 @@ ${props => props.theme.mode === 'dark' &&
 `
 
 export const ManageHistoryBody = styled.div<{ $primary?: boolean }>`
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1rem;
+}
+
 &>div>div>div>div,&>div>div>div {
   background-color: transparent;
 }
@@ -3017,6 +3023,7 @@ export const FulltableHeadBtn = styled.div<{ $primary?: boolean }>`
   background-color: unset;
   color: ${props => props.theme.mode === 'dark' ? 'var(--soft-grey)' : 'var(--grey-75)'};
   font-weight: bold;
+  cursor: pointer;
   padding: 0.5rem;
 
   svg {

@@ -457,18 +457,20 @@ export default function Adddevform(managedevices: managedevices) {
               {
                 pagestate !== "add" ?
                   <>
-                    <Col lg={6}>
-                      <InputGroup className="mb-3">
-                        <Form.Label className="w-100">
-                          {t('Hospitals')}
-                          <HospitalDropdown
-                            setHos_id={setHosid}
-                            Hosid={hosid}
-                            key={hosid}
-                          />
-                        </Form.Label>
-                      </InputGroup>
-                    </Col>
+                    {
+                      userLevel !== '2' && userLevel !== '3' && <Col lg={6}>
+                        <InputGroup className="mb-3">
+                          <Form.Label className="w-100">
+                            {t('Hospitals')}
+                            <HospitalDropdown
+                              setHos_id={setHosid}
+                              Hosid={hosid}
+                              key={hosid}
+                            />
+                          </Form.Label>
+                        </InputGroup>
+                      </Col>
+                    }
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
@@ -614,45 +616,47 @@ export default function Adddevform(managedevices: managedevices) {
                         </Form.Label>
                       </InputGroup>
                     </Col>
-                    <Col lg={6}>
-                      <Row>
-                        <InputGroup className="mb-3">
-                          <Form.Label className="w-100">
-                            {t('deviceNetwork')}
-                            <ManageConfigAdd type='button' onClick={openmodalConfig} className="mt-3">
-                              {t('deviceNetwork')}
-                              <RiListSettingsLine />
-                            </ManageConfigAdd>
-                          </Form.Label>
-                        </InputGroup>
-                      </Row>
-                      {
-                        userLevel === '0' && <Row>
+                    {
+                      userLevel !== '2' && userLevel !== '3' && <Col lg={6}>
+                        <Row>
                           <InputGroup className="mb-3">
                             <Form.Label className="w-100">
-                              {t('sendOTA')}
-                              <SendOTAtoBoard>
-                                <Form.Select onChange={(e) => setFirmwareName(e.target.value)} value={firmwareName}>
-                                  <option key={'select-option'} value="">{t('selectOTA')}</option>
-                                  {firmwareList.map((items, index) => (
-                                    <option key={index} value={items.fileName}>{items.fileName}</option>
-                                  ))}
-                                </Form.Select>
-                                <UploadButton type='button' disabled={firmwareName === ''} onClick={() => {
-                                  client.publish(`${devdata.devSerial}/firmware`, firmwareName)
-                                }}>
-                                  <RiMessage3Line size={24} />
-                                  {t('updateButton')}
-                                </UploadButton>
-                              </SendOTAtoBoard>
+                              {t('deviceNetwork')}
+                              <ManageConfigAdd type='button' onClick={openmodalConfig} className="mt-3">
+                                {t('deviceNetwork')}
+                                <RiListSettingsLine />
+                              </ManageConfigAdd>
                             </Form.Label>
                           </InputGroup>
-                          <Row>
-                            <progress max={100}></progress>
-                          </Row>
                         </Row>
-                      }
-                    </Col>
+                        {
+                          userLevel === '0' && <Row>
+                            <InputGroup className="mb-3">
+                              <Form.Label className="w-100">
+                                {t('sendOTA')}
+                                <SendOTAtoBoard>
+                                  <Form.Select onChange={(e) => setFirmwareName(e.target.value)} value={firmwareName}>
+                                    <option key={'select-option'} value="">{t('selectOTA')}</option>
+                                    {firmwareList.map((items, index) => (
+                                      <option key={index} value={items.fileName}>{items.fileName}</option>
+                                    ))}
+                                  </Form.Select>
+                                  <UploadButton type='button' disabled={firmwareName === ''} onClick={() => {
+                                    client.publish(`${devdata.devSerial}/firmware`, firmwareName)
+                                  }}>
+                                    <RiMessage3Line size={24} />
+                                    {t('updateButton')}
+                                  </UploadButton>
+                                </SendOTAtoBoard>
+                              </Form.Label>
+                            </InputGroup>
+                            <Row>
+                              <progress max={100}></progress>
+                            </Row>
+                          </Row>
+                        }
+                      </Col>
+                    }
                   </>
                   :
                   <></>
