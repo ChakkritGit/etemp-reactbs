@@ -5,17 +5,20 @@ import { RiArrowRightSLine, RiCloseLine, RiDashboardFill, RiFilePdf2Line, RiFold
 import { Link } from "react-router-dom"
 import CompareChartComponent from "../../components/dashboard/compare.chart.component"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Loading from "../../components/loading/loading"
 import { ExportandAuditFlex, FilterContainer, FilterSearchBtn, FullchartBodyChartCon, FullchartHead, FullchartHeadBtn, FullchartHeadExport, FullchartHeadLeft, GlobalButton, GlobalButtoncontainer, LineHr, ModalHead, TableInfoDevice } from "../../style/style"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import html2canvas from "html2canvas"
 import { PDFViewer } from "@react-pdf/renderer"
 import Fullchartpdf from "../../components/pdf/fullchartpdf"
+import { setSearchQuery } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 const Comparechart = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
   const { expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const {hosName} = cookieDecode
@@ -29,6 +32,12 @@ const Comparechart = () => {
     startDate: '',
     endDate: ''
   })
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const handleShow = () => {
     if (devices.length > 0) {

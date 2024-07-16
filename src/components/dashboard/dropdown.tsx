@@ -1,13 +1,24 @@
-import { ChangeEvent, useState } from "react"
-import { Form } from "react-bootstrap"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { setDeviceId, setSerial } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 import { setDefaultLogs } from "../../stores/LogsSlice"
 import { devicesType } from "../../types/device.type"
-import { useTranslation } from "react-i18next"
 import { cookieOptions, cookies } from "../../constants/constants"
+import Select, { SingleValue } from 'react-select'
+import { useTranslation } from "react-i18next"
+
+type Option = {
+  value: string,
+  label: string,
+}
+
+type Device = {
+  devId: string,
+  devSerial: string,
+  devDetail: string,
+}
 
 export default function Dropdown() {
   const { t } = useTranslation()
@@ -16,8 +27,9 @@ export default function Dropdown() {
   const { deviceId, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [val, setVal] = useState(`${deviceId}-${Serial}`)
 
-  const selectchang = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value
+  const selectchang = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
     const newDeviceId = selectedValue.substring(0, 40)
     const newSerial = selectedValue.substring(41)
     setVal(selectedValue)
@@ -28,17 +40,25 @@ export default function Dropdown() {
     dispatch(setSerial(newSerial))
   }
 
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, valueKey2: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: `${item[valueKey]}-${item[valueKey2]}` as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, valueKey2: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: `${item[valueKey]}-${item[valueKey2]}` as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
+
   return (
-    <Form.Select onChange={selectchang} value={val}>
-      <option key={'opt_01'} value={''}>{t('selectDeviceDrop')}</option>
-      {devices.length > 0 && devices.map((items) => {
-        const optionValue = `${items.devId}-${items.devSerial}`
-        return (
-          <option key={items.devId} value={optionValue}>
-            {items.devDetail}
-          </option>
-        )
-      })}
-    </Form.Select>
+    <Select
+      options={mapOptions<Device, keyof Device>(devices, 'devId', 'devSerial', 'devDetail')}
+      defaultValue={mapDefaultValue<Device, keyof Device>(devices, val, 'devId', 'devSerial', 'devDetail')}
+      onChange={selectchang}
+      autoFocus={false}
+      placeholder={t('selectDeviceDrop')}
+    />
   )
 }

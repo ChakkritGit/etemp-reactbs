@@ -30,8 +30,6 @@ export default function Adddevform(managedevices: managedevices) {
   const [show, setShow] = useState(false)
   const [showConfig, setShowConfig] = useState(false)
   const [formdata, setFormdata] = useState({
-    // devDetail: pagestate !== "add" ? devdata.devDetail : '',
-    // devSeq: pagestate !== "add" ? devdata.devSeq : '',
     devZone: pagestate !== "add" ? devdata.devZone : '',
     devLocation: pagestate !== "add" ? devdata.locInstall : '',
     groupId: pagestate !== "add" ? devdata.wardId : '',
@@ -78,12 +76,6 @@ export default function Adddevform(managedevices: managedevices) {
     }
   }
 
-  useEffect(() => {
-    if (devdata.wardId) {
-      fetchWard()
-    }
-  }, [])
-
   const openmodal = () => {
     setShow(true)
   }
@@ -123,8 +115,6 @@ export default function Adddevform(managedevices: managedevices) {
           showConfirmButton: false,
         })
         setFormdata({
-          // devDetail: '',
-          // devSeq: '',
           devZone: '',
           devLocation: '',
           groupId: '',
@@ -174,8 +164,6 @@ export default function Adddevform(managedevices: managedevices) {
     e.preventDefault()
     const url: string = `${import.meta.env.VITE_APP_API}/device/${devdata?.devId}`
     const formData = new FormData()
-    // formData.append('comment', formdata.devDetail as string)
-    // formData.append('devSeq', formdata.devSeq as string)
     formData.append('devZone', formdata.devZone as string)
     formData.append('locInstall', formdata.devLocation as string)
     formData.append('wardId', formdata.groupId as string)
@@ -362,16 +350,6 @@ export default function Adddevform(managedevices: managedevices) {
 
   const fileSelected = (e: ChangeEvent<HTMLInputElement>) => {
     let reader = new FileReader()
-    // const fileInput = e.target
-    // if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
-    //   reader.readAsDataURL(e.target.files[0])
-    //   reader.onload = (event) => {
-    //     let img = event.target?.result
-    //     setDevicePicture(img as string)
-    //   }
-    //   setFormdata({ ...formdata, locationPic: fileInput.files[0] as File })
-    // }
-
     const fileInput = e.target
     if (fileInput.files && fileInput.files.length > 0) {
       const selectedFile = fileInput.files[0]
@@ -414,7 +392,10 @@ export default function Adddevform(managedevices: managedevices) {
   useEffect(() => {
     if (!token) return
     fetchFirmware()
-  }, [token])
+    if (devdata.wardId) {
+      fetchWard()
+    }
+  }, [token]) // ย้ายไป component หลัก
 
   return (
     <div>
@@ -540,36 +521,6 @@ export default function Adddevform(managedevices: managedevices) {
                         </Form.Label>
                       </InputGroup>
                     </Col>
-                    {/* <Col lg={6}>
-                      <InputGroup className="mb-3">
-                        <Form.Label className="w-100 bg-primary">
-                          {t('deviceDetail')}
-                          <Form.Control
-                            name='form_label_hosname'
-                            spellCheck={false}
-                            autoComplete='off'
-                            type='text'
-                            value={formdata.devDetail}
-                            onChange={(e) => setFormdata({ ...formdata, devDetail: e.target.value })}
-                          />
-                        </Form.Label>
-                      </InputGroup>
-                    </Col>
-                    <Col lg={6}>
-                      <InputGroup className="mb-3">
-                        <Form.Label className="w-100">
-                          {t('deviceSeq')}
-                          <Form.Control
-                            name='form_label_hosname'
-                            spellCheck={false}
-                            autoComplete='off'
-                            type='text'
-                            value={formdata.devSeq}
-                            onChange={(e) => setFormdata({ ...formdata, devSeq: e.target.value })}
-                          />
-                        </Form.Label>
-                      </InputGroup>
-                    </Col> */}
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">

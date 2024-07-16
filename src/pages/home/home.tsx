@@ -66,7 +66,7 @@ export default function Home() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [filterdata, setFilterdata] = useState(false)
-  const [wardName, setWardname] = useState<wardsType[]>([])
+  const [wardName, setWardname] = useState<wardsType[]>(wardData)
   const [active, setActive] = useState({
     probe: false,
     door: false,
@@ -88,6 +88,12 @@ export default function Home() {
   const isshowtk = () => {
     setShowticks(false)
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const showToolTip = () => {
     if (localStorage.getItem('cardticks') === null) {

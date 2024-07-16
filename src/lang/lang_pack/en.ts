@@ -295,6 +295,8 @@ export default {
     addWarrantyButton: 'Add Warranty',
     reloadButton: 'Reload',
     editbutton: 'Edit',
+    closeDialogButton: 'Close',
+    continueButton: 'Continue',
 
     // dropdown
     selectDeviceDrop: 'Select Devices',
@@ -337,6 +339,7 @@ export default {
     day: 'Day',
     sourceSeq: 'Source sequence',
     destSeq: 'Destination sequence',
+    optimizeGraph: 'Optimize Chart',
 
     // router
     titleError: 'Oops!',
@@ -369,6 +372,7 @@ export default {
     deleteHosTitle: 'Do you want to delete a hospital?',
     deleteWardTitle: 'Do you want to delete a ward?',
     deleteRepairTitle: 'Do you want to delete a repair?',
+    optimizeCahrtText: 'When using this function, the graph will display differently from the actual values and adjust the graph to fit within the range of the maximum and minimum limits (tempMin, tempMax). Please note that this operation will not affect the data in the system; it is merely a temporary adjustment of the graph.',
 
     // time
     thTime: 'en-EN',

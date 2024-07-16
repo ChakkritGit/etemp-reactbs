@@ -55,3 +55,23 @@ export const BeforeSeq = styled.div`
     }
   }
 `
+
+export const MainTabManageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  border-bottom: 2.5px solid var(--main-color);
+  margin: 1rem 0;
+`
+
+export const MainTab = styled.button<{ $primary?: boolean }>`
+  width: max-content;
+  height: 40px;
+  padding: 0 .5rem;
+  border-top-left-radius: var(--border-radius-small);
+  border-top-right-radius: var(--border-radius-small);
+  border: 1.5px solid ${props => props.$primary ? 'var(--main-color)' : 'var(--grey)'};
+  border-bottom: unset;
+  background-color: ${props => props.$primary ? 'var(--main-color)' : 'transparent'};
+  color: ${props => props.$primary ? 'var(--white)' : props.theme.mode === 'dark' ? 'white' : 'black'};
+`

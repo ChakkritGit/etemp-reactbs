@@ -12,7 +12,8 @@ import { storeDispatchType } from "../../../stores/store"
 import { fetchProbeData } from "../../../stores/probeSlice"
 import Swal from "sweetalert2"
 import { responseType } from "../../../types/response.type"
-import { setShowAlert } from "../../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../../stores/utilsStateSlice"
+import { useEffect } from "react"
 
 export default function Probesetting() {
   const { t } = useTranslation()
@@ -20,6 +21,12 @@ export default function Probesetting() {
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, userLevel } = cookieDecode
   const { probeData } = useSelector<DeviceStateStore, ProbeState>((state) => state.probe)
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const deleteProbe = async (probeId: string) => {
     try {

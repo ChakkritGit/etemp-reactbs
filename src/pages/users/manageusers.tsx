@@ -6,18 +6,28 @@ import CardUser from "../../components/users/cardUser"
 import { usersType } from "../../types/user.type"
 import Adduser from "./adduser"
 import Paginition from "../../components/filter/paginition"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UserState, UtilsStateStore } from "../../types/redux.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { setSearchQuery } from "../../stores/utilsStateSlice"
+import { storeDispatchType } from "../../stores/store"
 
 export default function Permission() {
   const { t } = useTranslation()
+  const dispatch = useDispatch<storeDispatchType>()
   const { userDaata } = useSelector<DeviceStateStore, UserState>((state) => state.user)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [cardsPerPage, setCardsPerPage] = useState<number>(10)
   const [displayedCards, setDisplayedCards] = useState<usersType[]>(userDaata ? userDaata.slice(0, cardsPerPage) : [])
-  const { searchQuery, expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, expand, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { userId } = tokenDecode
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   // ส่วนของการค้นหาและเลื่อนหน้าการ์ด
   useEffect(() => {
@@ -71,7 +81,7 @@ export default function Permission() {
         </PaginitionContainer>
         <CardUserBody $primary={expand}>
           {
-            displayedCards.map((item, index) => (
+            displayedCards.filter((f) => f.userId !== userId).map((item, index) => (
               <CardUser
                 key={item.userId}
                 keyindex={index}

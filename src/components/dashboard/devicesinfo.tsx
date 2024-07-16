@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
+import { fetchDevicesLog } from "../../stores/LogsSlice"
 
 type devicesinfo = {
   devicesData: devicesType,
@@ -95,21 +96,22 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const url: string = `${import.meta.env.VITE_APP_API}/device/${devicesData?.devId}`
+    const url: string = `${import.meta.env.VITE_APP_API}/probe/${devicesData?.probe[0]?.probeId}`
     try {
       const response = await axios.put<responseType<probeType>>(url, {
-        temp_min: tempvalue[0],
-        temp_max: tempvalue[1],
-        hum_min: humvalue[0],
-        hum_max: humvalue[1],
-        adjust_temp: formdata.adjust_temp,
-        adjust_hum: formdata.adjust_hum,
+        tempMin: tempvalue[0],
+        tempMax: tempvalue[1],
+        humMin: humvalue[0],
+        humMax: humvalue[1],
+        adjustTemp: formdata.adjust_temp,
+        adjustHum: formdata.adjust_hum,
       }, {
         headers: {
           authorization: `Bearer ${token}`
         }
       })
       setShow(false)
+      dispatch(fetchDevicesLog({ deviceId: devicesData.devId, token: token }))
       Swal.fire({
         title: t('alertHeaderSuccess'),
         text: response.data.message,
@@ -282,12 +284,6 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           svg={<RiSignalWifi1Line />}
           alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 || devicesData?.log[0]?.internet === '1'}
         />
-        {/* <CardstatusNomal
-          title={t('connect')}
-          valuestext={devicesData?.dev_status !== '0' ? t('connected') : t('disconnect')}
-          svg={<RiSignalWifi1Line />}
-          alertone={devicesData?.dev_status === '0'}
-        /> */}
         <CardstatusNomal
           title={t('dashDoor')}
           valuestext={

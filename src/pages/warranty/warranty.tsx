@@ -17,7 +17,7 @@ import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import Addwarranty from "./addwarranty"
-import { setShowAlert } from "../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 
 interface dataTableProps {
@@ -35,6 +35,14 @@ export default function Warranty() {
   const [warrantyData, setWarrantyData] = useState<warrantyType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const componentRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    dispatch(setSearchQuery(''))
+
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [pagenumber])
 
   const fetchData = async () => {
     try {

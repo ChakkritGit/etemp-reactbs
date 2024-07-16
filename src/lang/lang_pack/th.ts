@@ -295,6 +295,8 @@ export default {
     addWarrantyButton: 'เพิ่มการรับประกัน',
     reloadButton: 'รีโหลด',
     editbutton: 'แก้ไข',
+    closeDialogButton: 'ปิดหน้าต่าง',
+    continueButton: 'ดำเนินการต่อ',
 
     // dropdown
     selectDeviceDrop: 'เลือกอุปกรณ์',
@@ -337,6 +339,7 @@ export default {
     day: 'วัน',
     sourceSeq: 'ลำดับต้นทาง',
     destSeq: 'ลำดับปลายทาง',
+    optimizeGraph: 'ปรับกราฟให้เหมาะสม',
 
     // router
     titleError: 'อุ๊ปส์!',
@@ -369,6 +372,7 @@ export default {
     deleteHosTitle: 'คุณต้องการลบโรงพยาบาลหรือไม่',
     deleteWardTitle: 'คุณต้องการลบวอร์ดหรือไม่',
     deleteRepairTitle: 'คุณต้องการลบแจ้งซ่อมหรือไม่',
+    optimizeCahrtText: 'เมื่อใช้ฟังก์ชันนี้กราฟจะแสดงผลต่างจากค่าจริงและปรับกราฟให้สมในช่วงของขีดจำกัดสูงสุดและต่ำสุด (tempMin, tempMax) </br> โปรดจำไว้ว่าการดำเนินการดังกล่าวจะไม่มีผลต่อข้อมูลในระบบ</br>เป็นเพียงการปรับแต่งกราฟแค่ชั่วคราว',
 
     // time
     thTime: 'th-TH',

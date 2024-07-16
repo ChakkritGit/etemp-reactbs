@@ -81,7 +81,7 @@
   --main-black-tb: rgba(150, 150, 150, 0.1);
 
   /* border */
-  --border-radius-small: 1.25rem;
+  --border-radius-small: 1rem;
   /* .55rem */
   --border-radius-big: 1.70rem;
 }

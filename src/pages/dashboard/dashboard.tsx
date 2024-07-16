@@ -5,14 +5,24 @@ import Chart from "../../components/dashboard/chart"
 import Devicesinfo from "../../components/dashboard/devicesinfo"
 import Table from "../../components/dashboard/table"
 import { DeviceStateStore, LogState, UtilsStateStore } from "../../types/redux.type"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import PageLoading from "../../components/loading/page.loading"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { useEffect } from "react"
+import { storeDispatchType } from "../../stores/store"
+import { setSearchQuery } from "../../stores/utilsStateSlice"
 
 export default function Dashboard() {
+  const dispatch = useDispatch<storeDispatchType>()
   const { devicesLogs } = useSelector<DeviceStateStore, LogState>((state) => state.logs)
   const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   return (
     <Container fluid>

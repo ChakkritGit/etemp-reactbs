@@ -19,7 +19,7 @@ import { storeDispatchType } from "../../../stores/store"
 import { fetchDevicesData } from "../../../stores/devicesSlices"
 import PageLoading from "../../../components/loading/page.loading"
 import { responseType } from "../../../types/response.type"
-import { setShowAlert } from "../../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../../stores/utilsStateSlice"
 import Moveseqdev from "./moveseqdev"
 
 export default function Managedev() {
@@ -29,6 +29,12 @@ export default function Managedev() {
   const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, userLevel } = cookieDecode
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   useEffect(() => {
     if (langs) {

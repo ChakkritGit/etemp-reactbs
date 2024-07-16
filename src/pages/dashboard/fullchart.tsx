@@ -39,7 +39,7 @@ import { responseType } from "../../types/response.type"
 import { wardsType } from "../../types/ward.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
-import { setShowAlert } from "../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 
 export default function Fullchart() {
@@ -48,7 +48,7 @@ export default function Fullchart() {
   const navigate = useNavigate()
   const [pageNumber, setPagenumber] = useState(1)
   const { Serial, deviceId, expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const { token, hosName, hosImg } = cookieDecode
+  const { token, hosName, hosImg, userLevel } = cookieDecode
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
@@ -69,6 +69,12 @@ export default function Fullchart() {
   const canvasChartRef = useRef<HTMLDivElement | null>(null)
   const tableInfoRef = useRef<HTMLDivElement | null>(null)
   const [validationData, setValidationData] = useState<wardsType>()
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const fetchWard = async () => {
     try {
@@ -280,24 +286,28 @@ export default function Fullchart() {
     }
   }
 
-  // const handleShowEdit = () => {
-  //   const newArray: logtype[] = logData.map(items => {
-  //     if (items.tempAvg >= items.device.temp_max) {
-  //       return {
-  //         ...items,
-  //         temp_avg: Math.floor(Math.random() * (items.device.temp_max - (items.device.temp_max + 5) + 1) + (items.device.temp_max - 5))
-  //       }
-  //     }
-  //     if (items.tempAvg <= items.device.temp_min) {
-  //       return {
-  //         ...items,
-  //         temp_avg: Math.floor(Math.random() * (items.device.temp_min - (items.device.temp_min - 5) + 1) + (items.device.temp_min + 5))
-  //       }
-  //     }
-  //     return items
-  //   })
-  //   setLogData(newArray)
-  // }
+  const handleShowEdit = () => {
+    const newArray: logtype[] = logData.map(items => {
+      const tempMax = items.device.probe[0]?.tempMax
+      const tempMin = items.device.probe[0]?.tempMin
+
+      if (tempMax !== undefined && items.tempAvg >= tempMax) {
+        return {
+          ...items,
+          tempAvg: Math.floor(Math.random() * (tempMax - (tempMax) + 1) + (tempMax - 1))
+        }
+      } else if (tempMin !== undefined && items.tempAvg <= tempMin) {
+        return {
+          ...items,
+          tempAvg: Math.floor(Math.random() * ((tempMin) - tempMin + 1) + tempMin)
+        }
+      } else {
+        return items
+      }
+    })
+    setLogData(newArray)
+  }
+
 
   return (
     <Container fluid>
@@ -324,32 +334,32 @@ export default function Fullchart() {
             <FullcharComparetHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullcharComparetHeadBtn>
           </FullchartHeadLeft>
           <ExportandAuditFlex>
-            <AuditGraphBtn disabled onClick={() => {
-              if (logData) {
-                swalOptimizeChartButtons
-                  .fire({
-                    title: 'คำเตือน',
-                    html: `
-                เมื่อใช้ฟังก์ชันนี้กราฟจะแสดงผลต่างจากค่าจริงและปรับกราฟให้สมดุล </br> โปรดจำไว้ว่าการดำเนินการดังกล่าวจะไม่มีผลต่อข้อมูลในระบบ</br>เป็นเพียงการปรับแต่งกราฟแค่ชั่วคราว
-                `,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: 'ดำเนินการต่อ',
-                    cancelButtonText: 'ปิดหน้าต่าง',
-                    reverseButtons: false,
-                  })
-                  .then((result) => {
-                    if (result.isConfirmed) {
-                      // handleShowEdit()
-                    }
-                  })
-              } else {
-                toast.error("Data not found")
-              }
-            }}>
-              <BsStars />
-              {t('optimizegraph')}
-            </AuditGraphBtn>
+            {
+              userLevel !== '3' && <AuditGraphBtn onClick={() => {
+                if (logData) {
+                  swalOptimizeChartButtons
+                    .fire({
+                      title: t('alertHeaderWarning'),
+                      html: t('optimizeCahrtText'),
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: t('continueButton'),
+                      cancelButtonText: t('closeDialogButton'),
+                      reverseButtons: false,
+                    })
+                    .then((result) => {
+                      if (result.isConfirmed) {
+                        handleShowEdit()
+                      }
+                    })
+                } else {
+                  toast.error("Data not found")
+                }
+              }}>
+                <BsStars />
+                {t('optimizeGraph')}
+              </AuditGraphBtn>
+            }
             <Dropdown>
               <Dropdown.Toggle variant="0" className="border-0 p-0">
                 <FullchartHeadExport>

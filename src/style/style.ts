@@ -1295,11 +1295,9 @@ ${props => props.theme.mode === 'dark' &&
 `
 
 export const ManageHistoryBody = styled.div<{ $primary?: boolean }>`
-@media (max-width: 1185px) {
   display: grid;
   grid-template-columns: auto;
   gap: 1rem;
-}
 
 &>div>div>div>div,&>div>div>div {
   background-color: transparent;
@@ -2214,7 +2212,7 @@ overflow: hidden;
 
 export const DashboardHeadFilter = styled.div<{ $primary?: boolean }>`
 margin-top: 1rem;
-width: 345px;
+/* width: 345px; */
 
 ${props => props.$primary &&
     css`
@@ -2325,15 +2323,18 @@ button>svg {
 `
 
 export const DeviceDetailsBody = styled.div<{ $primary?: boolean }>`
-display: flex;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
 gap: 1rem;
+
+@media (max-width: 1185px) {
+  grid-template-columns: repeat(1, 1fr);
+}
 `
 
 export const DeviceDetailsBodyimg = styled.img<{ $primary?: boolean }>`
-width: 100px;
-height: 130px;
-max-width: 100px;
-max-height: 130px;
+width: 100%;
+height: 180px;
 aspect-ratio: 3/4;
 border-radius: var(--border-radius-big);
 border: 2px solid transparent;
@@ -2346,25 +2347,30 @@ overflow: hidden;
   transform: scale(.95);
   transition: transform ease .3s;
 }
+
+@media (max-width: 1185px) {
+  height: 200px;
+}
 `
 
 export const DeviceDetailsBodyInfo = styled.div<{ $primary?: boolean }>`
+  width: 100%;
 
-div {
-  display: flex;
-  flex-direction: column;
+  div {
+    display: flex;
+    flex-direction: column;
 
-  span {
-    font-size: 14px;
+    span {
+      font-size: 14px;
+    }
   }
-}
 
-div>span:nth-child(1) {
-  max-width: 150px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+  div>span:nth-child(1) {
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `
 
 export const DevicesBodyStatus = styled.div<{ $primary?: boolean }>`

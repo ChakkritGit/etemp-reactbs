@@ -7,7 +7,7 @@ import { responseType } from "../../../types/response.type"
 import DataTable, { TableColumn } from "react-data-table-component"
 import { ManageHistoryBody } from "../../../style/style"
 import { useTranslation } from "react-i18next"
-import { setShowAlert } from "../../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../../stores/store"
 
 export default function AdjustLog() {
@@ -16,6 +16,12 @@ export default function AdjustLog() {
   const { cookieDecode, searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [history, setHistory] = useState<historyType[]>([])
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const fetchHistory = async () => {
     try {

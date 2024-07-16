@@ -29,7 +29,7 @@ import { cookies, getDateNow } from "../../constants/constants"
 import { responseType } from "../../types/response.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
-import { setShowAlert } from "../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 
 export default function Fulltable() {
@@ -46,6 +46,12 @@ export default function Fulltable() {
     startDate: '',
     endDate: ''
   })
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const fetchData = async () => {
     try {

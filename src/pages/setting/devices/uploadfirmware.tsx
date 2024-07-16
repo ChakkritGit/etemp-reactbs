@@ -29,7 +29,7 @@ import Paginition from "../../../components/filter/paginition"
 import toast from "react-hot-toast"
 import TerminalComponent from "../../../components/settings/terminal"
 import { storeDispatchType } from "../../../stores/store"
-import { setShowAlert } from "../../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../../stores/utilsStateSlice"
 
 const term = new Terminal({ cols: 150, rows: 40 })
 term.options = {
@@ -73,6 +73,12 @@ export default function Uploadfirmware() {
   const [cardsPerPage, setCardsPerPage] = useState<number>(10)
   const [displayedCards, setDisplayedCards] = useState<firmwareType[]>(dataFiles ? dataFiles.slice(0, cardsPerPage) : [])
   const fileTypes = ["BIN"]
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   useEffect(() => {
     if (terminalRef.current && showConsole) {
@@ -555,6 +561,17 @@ export default function Uploadfirmware() {
           </UploadButton>
         </div>
       </FirmwareHeader>
+      <PaginitionContainer className="mt-3">
+        <div></div>
+        <Paginition
+          currentPage={currentPage}
+          cardsPerPage={cardsPerPage}
+          changePage={changePage}
+          displaySelectDevices={displaySelectDevices}
+          displayedCards={displayedCards}
+          userdata={dataFiles}
+        />
+      </PaginitionContainer>
       <FirewareContent>
         {
           displayedCards.filter((filter) => !filter.fileName.startsWith('bootloader') && !filter.fileName.startsWith('partition')).map((items, index) => (
@@ -605,17 +622,6 @@ export default function Uploadfirmware() {
           ))
         }
       </FirewareContent>
-      <PaginitionContainer>
-        <div></div>
-        <Paginition
-          currentPage={currentPage}
-          cardsPerPage={cardsPerPage}
-          changePage={changePage}
-          displaySelectDevices={displaySelectDevices}
-          displayedCards={displayedCards}
-          userdata={dataFiles}
-        />
-      </PaginitionContainer>
 
       <Modal size={"xl"} show={showConsole} onHide={closeModalConsole}>
         <Modal.Header>

@@ -61,7 +61,7 @@ display: grid;
 grid-template-columns: repeat(4, 1fr);
 justify-items: center;
 gap: .5rem;
-margin-top: 1.5rem;
+margin-top: .5rem;
 
 @media (max-width: 1185px) {
   grid-template-columns: repeat(2, 1fr);

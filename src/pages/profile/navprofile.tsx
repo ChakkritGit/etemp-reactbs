@@ -48,7 +48,7 @@ export default function Navprofile() {
             <NavProfile src={userPicture ? `${import.meta.env.VITE_APP_IMG}${userPicture}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`} alt="profile" />
             <div style={{ display: 'flex', flexDirection: 'column', width: '100px', maxWidth: '100px' }}>
               <span style={{ display: 'block', width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{displayName}</span>
-              <strong style={{ width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{userLevel === "1" ? t('levelSuper') : userLevel === "2" ? t('levelService') : userLevel === "3" ? t('levelAdmin') : t('levelUser')}</strong>
+              <strong style={{ width: '100px', maxWidth: '100px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{userLevel === "0" ? t('levelSuper') : userLevel === "1" ? t('levelService') : userLevel === "2" ? t('levelAdmin') : t('levelUser')}</strong>
             </div>
           </NavProfileContainer>
           <LineHr />

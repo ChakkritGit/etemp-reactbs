@@ -1,20 +1,32 @@
 import { useTranslation } from "react-i18next"
 import ManageHospitals from "./manageHospitals"
-// import ManageWard from "./manageWard"
-import Tab from 'react-bootstrap/Tab'
-import Tabs from 'react-bootstrap/Tabs'
+import { MainTab, MainTabManageContainer } from "../../../style/components/manage.dev"
+import { cookieOptions, cookies } from "../../../constants/constants"
+import { useState } from "react"
 
 export default function Hospitals() {
   const { t } = useTranslation()
+  const [selectedTab, setSelectedTab] = useState<string>(cookies.get('selectTabHos') ?? 'hospital')
+
+  const saveSelectTab = (keyValue: string) => {
+    setSelectedTab(keyValue)
+    cookies.set('selectTabHos', keyValue, cookieOptions)
+  }
 
   return (
-    <Tabs
-      defaultActiveKey="hospital"
-      className="mb-3"
-    >
-      <Tab eventKey="hospital" title={t('subTabHosandWard')}>
-        <ManageHospitals />
-      </Tab>
-    </Tabs>
+    <>
+      <MainTabManageContainer>
+        <MainTab
+          onClick={() => saveSelectTab('hospital')}
+          $primary={selectedTab === 'hospital'}
+        >
+          {t('subTabHosandWard')}
+        </MainTab>
+      </MainTabManageContainer>
+
+      {
+        selectedTab === 'hospital' && <ManageHospitals />
+      }
+    </>
   )
 }

@@ -20,7 +20,7 @@ import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
-import { setShowAlert } from "../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 
 export default function Repair() {
@@ -32,6 +32,12 @@ export default function Repair() {
   const [repairDataPrint, setRepairdataprint] = useState<repairType[]>([])
   const [show, setshow] = useState(false)
   const componentRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(''))
+    }
+  }, [])
 
   const closemodal = () => {
     setshow(false)
