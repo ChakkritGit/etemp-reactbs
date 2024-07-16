@@ -17,7 +17,7 @@ export default function Permission() {
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [cardsPerPage, setCardsPerPage] = useState<number>(10)
   const [displayedCards, setDisplayedCards] = useState<usersType[]>(userDaata ? userDaata.slice(0, cardsPerPage) : [])
-  const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
 
   // ส่วนของการค้นหาและเลื่อนหน้าการ์ด
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function Permission() {
             userdata={userDaata}
           />
         </PaginitionContainer>
-        <CardUserBody>
+        <CardUserBody $primary={expand}>
           {
             displayedCards.map((item, index) => (
               <CardUser

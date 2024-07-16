@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import { DashBoardCardBody, DashBoardCardFlex, DashBoardCardHead, DashBoardCardSpan, DashBoardCardSpanTitle } from "../../style/style"
 import { ReactNode } from "react"
 
@@ -5,7 +6,8 @@ type CardstatusNomal = {
   title: string,
   valuestext: number | string | undefined,
   svg: ReactNode,
-  alertone?: boolean
+  alertone?: boolean,
+  pathName?: string
 }
 type CardstatusSpecial = {
   title: string,
@@ -19,8 +21,10 @@ type CardstatusSpecial = {
 }
 
 export function CardstatusNomal(CardstatusNomal: CardstatusNomal) {
+  const { pathName } = CardstatusNomal
+  const navigate = useNavigate()
   return (
-    <DashBoardCardFlex>
+    <DashBoardCardFlex onClick={() => pathName !== undefined && navigate(String(pathName))} $primary={pathName !== undefined}>
       <DashBoardCardHead>
         {CardstatusNomal.svg}
         <DashBoardCardSpanTitle>

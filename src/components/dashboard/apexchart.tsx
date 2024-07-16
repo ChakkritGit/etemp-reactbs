@@ -1,6 +1,8 @@
 import Chart from "react-apexcharts"
 import { logtype } from "../../types/log.type"
-import { ChartContainerFull } from "../../style/components/chart"
+import { useSelector } from "react-redux"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+
 type chartType = {
   chartData: logtype[],
   devicesData: { tempMin: number | undefined, tempMax: number | undefined },
@@ -9,6 +11,7 @@ type chartType = {
 }
 
 const Apexchart = (chart: chartType) => {
+  const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { chartData, devicesData } = chart
   const { tempMax, tempMin } = devicesData
   const tempAvgValues = chartData.map((items) => items.tempAvg)
@@ -186,18 +189,36 @@ const Apexchart = (chart: chartType) => {
       }
     },
     colors: ["rgba(255, 76, 60 , 1)", "rgba(52, 152, 219, .5)", "rgba(46, 204, 113, 1)", "rgba(46, 204, 113, 1)", "rgba(235, 152, 78, 1)"],
+    responsive: [
+      {
+        breakpoint: 1185,
+        options: {
+          chart: {
+            height: 600,
+            width: expand ? 1050 : 900
+          },
+        },
+      },
+      {
+        breakpoint: 430,
+        options: {
+          chart: {
+            height: 330,
+            width: 350
+          },
+        },
+      },
+    ],
   }
 
   return (
-    <ChartContainerFull>
-      <Chart
-        type="line"
-        options={options}
-        series={series}
-        height={chart.tempHeight}
-        width={chart.tempWidth}
-      />
-    </ChartContainerFull>
+    <Chart
+      type="line"
+      options={options}
+      series={series}
+      height={chart.tempHeight}
+      width={chart.tempWidth}
+    />
   )
 }
 

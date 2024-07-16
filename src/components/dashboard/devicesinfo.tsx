@@ -11,7 +11,8 @@ import {
   DeviceDetailsBody, DeviceDetailsBodyInfo, DeviceDetailsBodyimg,
   DeviceDetailsHead, DevicesBodyStatus, ExpandPicture, FormBtn,
   FormFlexBtn, FormSliderRange, ModalHead,
-  RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex, TooltipSpan
+  RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex,
+  TooltipSpanLeft
 } from "../../style/style"
 import { devicesType } from "../../types/device.type"
 import { CardstatusNomal, CardstatusSpecial } from "./cardstatus"
@@ -240,9 +241,9 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           </div>
           <CardDevBtn onClick={openmodal}>
             <RiSettings3Line />
-            <TooltipSpan>
+            <TooltipSpanLeft>
               {t('deviceToolAdjust')}
-            </TooltipSpan>
+            </TooltipSpanLeft>
           </CardDevBtn>
         </DeviceDetailsHead>
         <DeviceDetailsBody>
@@ -277,7 +278,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         <CardstatusNomal
           title={t('dashConnect')}
           valuestext={
-            ((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 || devicesData?.log[0]?.internet === '1' ? t('stateConnect') : t('stateDisconnect')}
+            ((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 || devicesData?.log[0]?.internet === '0' ? t('stateConnect') : t('stateDisconnect')}
           svg={<RiSignalWifi1Line />}
           alertone={((Number(new Date()) - Number(new Date(devicesData?.log[0]?.createAt))) / 1000) > 10 * 60 || devicesData?.log[0]?.internet === '1'}
         />
@@ -352,6 +353,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
               : t('tabWarrantyExpired')
           }
           alertone={Math.ceil((new Date(devicesData.dateInstall ?? devicesData?.dateInstall).setFullYear(new Date(devicesData ? devicesData?.dateInstall : '2024-01-01').getFullYear() + 1) - new Date().getTime()) / (1000 * 60 * 60 * 24)) <= 0}
+          pathName="/warranty"
         />
         <CardstatusNomal
           title={t('dashRepair')}
@@ -359,6 +361,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
             '- -'
           }
           svg={<RiFolderSettingsLine />}
+          pathName="/repair"
         />
       </DevicesBodyStatus>
 

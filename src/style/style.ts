@@ -376,6 +376,41 @@ export const TooltipSpan = styled.span<{ $primary?: boolean }>`
   }
 `
 
+export const TooltipSpanLeft = styled.span<{ $primary?: boolean }>`
+  visibility: hidden;
+  width: max-content;
+  font-weight: bold;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: .5rem;
+  padding: .25rem .5rem;
+  font-size: 14px;
+  opacity: 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 15%;
+  left: 100%;
+
+  ${props => props.theme.mode === 'dark' ?
+    css`
+    background-color: var(--main-color-f1);
+    color: var(--white);
+`
+    :
+    css`
+    background-color: var(--main-color-f2);
+    color: var(--main-color);
+`
+  }
+
+@media (max-width: 1185px) {
+  display: none;
+}
+`
+
 export const DeviceStateNetwork = styled.span<{ $primary?: boolean }>`
   display: flex;
   justify-content: center;
@@ -933,27 +968,17 @@ margin: 1rem 0;
 `
 
 export const CardUserBody = styled.div<{ $primary?: boolean }> `
-display: flex;
-align-content: flex-start;
-justify-content: center;
+display: grid;
+grid-template-columns: repeat(6, 1fr);
 gap: 1rem;
-flex-wrap: wrap;
 padding: 1rem;
 
+@media (max-width: 1185px) {
+  grid-template-columns: ${props => props.$primary ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)'};
+}
+
 @media (max-width: 430px) {
-  width: 100%;
-& div {
-  width: 100%;
-  & div {
-      max-width: 100%;
-      & div:nth-child(2) {
-        & span {
-          width: 120px;
-          max-width: 120px;
-        }
-      }
-    }
-  }
+  grid-template-columns: repeat(1, 1fr);
 }
 `
 
@@ -978,9 +1003,9 @@ export const UsercardFlex = styled.div<{ $primary?: boolean }> `
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 230px;
-  max-height: 100px;
-  width: 230px;
+  /* max-width: 230px;
+  max-height: 100px; */
+  width: 100%;
   height: 100px;
   border-radius: .8rem;
   padding: 1rem;
@@ -1603,6 +1628,20 @@ align-items: center;
 flex-wrap: wrap;
 gap: .5rem;
 margin-top: 1rem;
+
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: repeat(4, 0fr);
+  justify-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 430px) {
+  display: grid;
+  grid-template-columns: repeat(2, 0fr);
+  justify-items: center;
+  gap: 1rem;
+}
 `
 
 export const DevHomeHead = styled.div<{ $primary?: boolean }>`
@@ -1648,11 +1687,21 @@ gap: .5rem;
 margin-top: 1rem;
 
 & > div {
-  display: flex;
+  /* display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 1rem;
   max-width: 1480px;
+
+  @media (max-width: 1185px) {
+  grid-template-columns: repeat(3, 0fr);
+}
+
+  @media (max-width: 430px) {
+  grid-template-columns: repeat(1, 0fr);
+}
 }
 
 @media (max-width: 430px) {
@@ -1773,7 +1822,6 @@ gap: .5rem;
 `
 
 export const CardDevBtn = styled.button<{ $primary?: boolean }>`
-  display: inline-flex;
   max-width: 25px;
   max-height: 25px;
   background-color: unset;
@@ -1781,13 +1829,13 @@ export const CardDevBtn = styled.button<{ $primary?: boolean }>`
   color: black;
   position: relative;
 
-  &:hover ${TooltipSpan} {
+  /* &:hover ${TooltipSpan} {
     visibility: visible;
     opacity: 1;
     left: 115%;
     transition: ease .3s;
     z-index: 500;
-}
+} */
 
   ${props => props.theme.mode === 'dark' &&
     css`
@@ -2139,9 +2187,8 @@ opacity: .3;
 
 // Dashboard
 export const DashboardFlex = styled.div<{ $primary?: boolean }>`
-@media (max-width: 430px) {
-  overflow: hidden;
-}`
+width: 100%;
+`
 
 export const ExpandPicture = styled.div<{ $primary?: boolean }>`
 display: flex;
@@ -2194,6 +2241,11 @@ width: 100%;
   flex-wrap: wrap;
   justify-content: center;
 }
+
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
 `
 
 export const DashboardDevicesDetails = styled.div<{ $primary?: boolean }>`
@@ -2216,12 +2268,16 @@ ${props => props.theme.mode === 'dark' &&
 @media (max-width: 430px) {
   width: 100%;
 }
+
+@media (max-width: 1185px) {
+  width: 100%;
+}
 `
 
 export const DeviceDetailsHead = styled.div<{ $primary?: boolean }>`
-display: flex;
-justify-content: space-between;
-align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem .5rem 0 0;
 
 ${props => props.theme.mode === 'dark' &&
     css`
@@ -2306,13 +2362,19 @@ div>span:nth-child(1) {
 `
 
 export const DevicesBodyStatus = styled.div<{ $primary?: boolean }>`
-display: flex;
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+justify-items: center;
 width: 70%;
-flex-wrap: wrap;
-gap: .5rem;
+gap: 1rem;
 
 @media (max-width: 430px) {
+  grid-template-columns: repeat(2, .5fr);
   justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 1185px) {
   width: 100%;
 }
 `
@@ -2321,15 +2383,27 @@ export const DashBoardCardFlex = styled.div<{ $primary?: boolean }>`
 display: flex;
 flex-direction: column;
 gap: .5rem;
-width: 172px;
-height: 120px;
-max-width: 172px;
-max-height: 120px;
+width: 100%;
+height: 135px;
 padding: .5rem;
 background-color: var(--white);
 border-radius: .8rem;
 box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+transition: .3s;
 overflow: hidden;
+
+${props => props.$primary && css`
+  &:hover {
+    &>div:nth-child(1)>svg {
+      background-color: var(--blue-black);
+    }
+
+    cursor: pointer;
+    background-color: var(--main-color);
+    color: var(--white);
+    transition: .3s;
+  }
+`}
 
 ${props => props.theme.mode === 'dark' &&
     css`
@@ -2337,7 +2411,7 @@ ${props => props.theme.mode === 'dark' &&
 `}
 
 @media (max-width: 430px) {
-  width: 48%;
+  width: 100%;
   height: 130px;
 }
 `
@@ -2382,10 +2456,11 @@ div>sub {
 `
 
 export const DashBoardCardSpan = styled.span<{ $primary?: boolean, $alertone?: boolean, $alerttwo?: boolean }>`
-text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
 font-weight: bold;
 font-size: 18px;
-max-width: 155px;
 overflow: hidden;
 white-space: nowrap;
 text-overflow: ellipsis;
@@ -2414,16 +2489,20 @@ export const DashBoardCardSpanTitle = styled.span<{ $primary?: boolean }>`
 `
 
 export const Dashboardanalys = styled.div<{ $primary?: boolean }>`
-display: flex;
-flex-wrap: wrap;
-justify-content: start;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
 gap: 1rem;
 margin-top: 1rem;
 width: 100%;
 
 @media (max-width: 430px) {
-  flex-direction: column;
-  align-items: center;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (max-width: 1185px) {
+  grid-template-columns: repeat(1, 1fr);
+  justify-items: center;
+  gap: 1rem;
 }
 `
 
@@ -2433,8 +2512,7 @@ export const ChartContainer = styled.div<{ $primary?: boolean }>`
   background-color: var(--white);
   border-radius: 0.8rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  width: 49%;
-  max-width: 49%;
+  width: 100%;
   overflow: hidden;
 
   ${props => props.theme.mode === 'dark' &&
@@ -2566,9 +2644,7 @@ export const TableContainer = styled.div<{ $primary?: boolean }>`
   background-color: var(--white);
   border-radius: 0.8rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  width: 49%;
-  max-width: 49%;
-  /* max-height: 448px; */
+  width: 100%;
   overflow-y: scroll;
 
   ${props => props.theme.mode === 'dark' &&
@@ -2608,6 +2684,12 @@ export const TableContainer = styled.div<{ $primary?: boolean }>`
 `
 
 export const FulltableContainer = styled.div<{ $primary?: boolean }>`
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1rem;
+}
+
 div:nth-child(1)>div>div>div>div {
       background-color: var(--bg-grey);
     }
@@ -3357,6 +3439,12 @@ export const RepairContainer = styled.div<{ $primary?: boolean }>`
 `
 
 export const ManageRepairBody = styled.div<{ $primary?: boolean }>`
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1rem;
+}
+
 &>div>div>div>div,&>div>div>div {
   background-color: transparent;
 }
@@ -3479,6 +3567,12 @@ export const ListBtn = styled.button<{ $primary?: boolean }>`
 `
 
 export const DatatableHome = styled.div<{ $primary?: boolean }>`
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1rem;
+}
+
 &>div>div>div>div,&>div>div>div {
   background-color: transparent;
 }
@@ -4070,8 +4164,7 @@ padding: .5rem;
 `
 
 export const ChooseColorsContainer = styled.div<{ $primary?: boolean }>`
-padding: 0 1rem 0 0;
-max-height: calc(100dvh - 160px);
+max-height: calc(100dvh - 230px);
 overflow: scroll;
 
 &::-webkit-scrollbar {
@@ -4248,15 +4341,17 @@ export const FullscreenBtn = styled.button<{ $primary?: boolean }>`
 `
 
 export const ColorPalette = styled.div<{ $primary?: boolean }>`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
   gap: 1rem;
-  width: 100%;
   margin: 1rem 0 0 .5rem;
 
+  @media (max-width: 1185px) {
+    grid-template-columns: repeat(5, 1fr);
+}
+
   @media (max-width: 430px) {
-  gap: .5rem;
+    grid-template-columns: repeat(3, 1fr);
 }
 `
 
@@ -4521,8 +4616,8 @@ const getColorStyles = ($color?: string) => {
 }
 
 export const ButtonColorChang = styled.button<{ $color?: string }>`
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: var(--border-radius-big);
 
   @media (max-width: 430px) {
@@ -4881,20 +4976,29 @@ display: flex;
 justify-content: center;
 align-items: center;
 height: calc(100dvh - 80px);
-width: 100%;
+gap: 7rem;
+
+@media (max-width: 1185px) {
+  display: grid;
+  grid-template-columns: auto;
+  margin: 1rem 0;
+}
 
 @media (max-width: 430px) {
-  flex-direction: column;
-  height: unset;
-  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: auto;
+  gap: unset;
 }
 `
 
 export const ContactFlexOne = styled.div<{ $primary?: boolean }>`
 display: flex;
-justify-content: center;
 align-items: center;
-width: 40%;
+
+@media (max-width: 430px) {
+  width: 100%;
+  justify-content: center;
+}
 `
 
 export const ContactInfo = styled.div<{ $primary?: boolean }>`
@@ -4909,7 +5013,9 @@ p {
 `
 
 export const ContactIfram = styled.div<{ $primary?: boolean }>`
-width: 60%;
+@media (max-width: 430px) {
+  width: 100%;
+}
 
 iframe {
   width: 720px;

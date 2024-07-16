@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux"
 import { devicesType } from "../../types/device.type"
 import Chart from "react-apexcharts"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 type compareChart = {
   chartData: devicesType[]
@@ -14,6 +16,8 @@ interface seriesType {
 }
 
 const CompareChartComponent = ({ chartData }: compareChart) => {
+  const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+
   const seriesData = () => {
     let array: seriesType[] = []
     chartData.forEach((items) => {
@@ -131,7 +135,27 @@ const CompareChartComponent = ({ chartData }: compareChart) => {
         fontSize: '14px',
         fontFamily: undefined
       }
-    }
+    },
+    responsive: [
+      {
+        breakpoint: 1185,
+        options: {
+          chart: {
+            height: 600,
+            width: expand ? 1050 : 900
+          },
+        },
+      },
+      {
+        breakpoint: 430,
+        options: {
+          chart: {
+            height: 350,
+            width: 350
+          },
+        },
+      },
+    ],
   }
 
   return (

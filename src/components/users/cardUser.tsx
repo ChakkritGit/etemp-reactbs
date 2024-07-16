@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap"
 import { cardType } from "../../types/component.type"
 import { DelUserButton, UserDetails, UserMenu, UsercardFlex, Userimage } from "../../style/style"
 import { RiDeleteBin2Line } from "react-icons/ri"
@@ -20,7 +19,7 @@ export default function CardUser(userProp: cardType) {
   const dispatch = useDispatch<storeDispatchType>()
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
-  const { displayName, keyindex, userId, userLevel, userName, userPic } = userProp
+  const { displayName, userId, userLevel, userName, userPic } = userProp
 
   const deleteUser = async (uID: string) => {
     const url: string = `${import.meta.env.VITE_APP_API}/user/${uID}`
@@ -63,41 +62,39 @@ export default function CardUser(userProp: cardType) {
   }
 
   return (
-    <Card key={keyindex} className="border-0" style={{ backgroundColor: 'unset', border: 'unset' }}>
-      <UsercardFlex>
-        <Userimage
-          src={userPic ? `${import.meta.env.VITE_APP_IMG}${userPic}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`}
-          alt="user-picture" />
-        <UserDetails>
-          <span>{displayName}</span>
-          <span>@{userName}</span>
-          <span>{userLevel === "0" ? t('levelSuper') : userLevel === "1" ? t('levelService') : userLevel === "2" ? t('levelAdmin') : t('levelUser')}</span>
-        </UserDetails>
-        <UserMenu>
-          <Adduser
-            pagestate={'edit'}
-            userData={userProp}
-          />
-          <DelUserButton onClick={() =>
-            swalWithBootstrapButtons
-              .fire({
-                title: t('deleteuserTitle'),
-                text: t('notReverseText'),
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: t('confirmButton'),
-                cancelButtonText: t('cancelButton'),
-                reverseButtons: false,
-              })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  deleteUser(userId)
-                }
-              })}>
-            <RiDeleteBin2Line />
-          </DelUserButton>
-        </UserMenu>
-      </UsercardFlex>
-    </Card>
+    <UsercardFlex>
+      <Userimage
+        src={userPic ? `${import.meta.env.VITE_APP_IMG}${userPic}` : `${import.meta.env.VITE_APP_IMG}/img/default-pic.png`}
+        alt="user-picture" />
+      <UserDetails>
+        <span>{displayName}</span>
+        <span>@{userName}</span>
+        <span>{userLevel === "0" ? t('levelSuper') : userLevel === "1" ? t('levelService') : userLevel === "2" ? t('levelAdmin') : t('levelUser')}</span>
+      </UserDetails>
+      <UserMenu>
+        <Adduser
+          pagestate={'edit'}
+          userData={userProp}
+        />
+        <DelUserButton onClick={() =>
+          swalWithBootstrapButtons
+            .fire({
+              title: t('deleteuserTitle'),
+              text: t('notReverseText'),
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: t('confirmButton'),
+              cancelButtonText: t('cancelButton'),
+              reverseButtons: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                deleteUser(userId)
+              }
+            })}>
+          <RiDeleteBin2Line />
+        </DelUserButton>
+      </UserMenu>
+    </UsercardFlex>
   )
 }
