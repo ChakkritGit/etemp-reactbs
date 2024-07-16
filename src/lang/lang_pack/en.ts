@@ -335,6 +335,8 @@ export default {
     year: 'Year',
     month: 'Month',
     day: 'Day',
+    sourceSeq: 'Source sequence',
+    destSeq: 'Destination sequence',
 
     // router
     titleError: 'Oops!',
@@ -364,6 +366,9 @@ export default {
     logoutDialogText: 'You will be redirected to the login page!',
     tokenExpired: 'Token Expired',
     tokenExpiredText: 'Please log in again!',
+    deleteHosTitle: 'Do you want to delete a hospital?',
+    deleteWardTitle: 'Do you want to delete a ward?',
+    deleteRepairTitle: 'Do you want to delete a repair?',
 
     // time
     thTime: 'en-EN',

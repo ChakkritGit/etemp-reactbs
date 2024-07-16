@@ -335,6 +335,8 @@ export default {
     year: 'ปี',
     month: 'เดือน',
     day: 'วัน',
+    sourceSeq: 'ลำดับต้นทาง',
+    destSeq: 'ลำดับปลายทาง',
 
     // router
     titleError: 'อุ๊ปส์!',
@@ -364,6 +366,9 @@ export default {
     logoutDialogText: 'คุณจะถูกนำไปยังหน้าล็อกอิน',
     tokenExpired: 'โทเค็นหมดอายุ',
     tokenExpiredText: 'กรุณาเข้าสู่ระบบอีกครั้ง!',
+    deleteHosTitle: 'คุณต้องการลบโรงพยาบาลหรือไม่',
+    deleteWardTitle: 'คุณต้องการลบวอร์ดหรือไม่',
+    deleteRepairTitle: 'คุณต้องการลบแจ้งซ่อมหรือไม่',
 
     // time
     thTime: 'th-TH',

@@ -165,12 +165,12 @@ export default function ManageHospitals() {
             <DelUserButton onClick={() =>
               swalWithBootstrapButtons
                 .fire({
-                  title: t('deleteuserTitle'),
-                  text: t('deleteuserText'),
+                  title: t('deleteHosTitle'),
+                  text: t('notReverseText'),
                   icon: "warning",
                   showCancelButton: true,
-                  confirmButtonText: t('deletebtn'),
-                  cancelButtonText: t('cancelbtn'),
+                  confirmButtonText: t('confirmButton'),
+                  cancelButtonText: t('cancelButton'),
                   reverseButtons: false,
                 })
                 .then((result) => {
@@ -221,12 +221,12 @@ export default function ManageHospitals() {
               <DelUserButton onClick={() =>
                 swalWithBootstrapButtons
                   .fire({
-                    title: t('deleteuserTitle'),
-                    text: t('deleteuserText'),
+                    title: t('deleteWardTitle'),
+                    text: t('notReverseText'),
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonText: t('deletebtn'),
-                    cancelButtonText: t('cancelbtn'),
+                    confirmButtonText: t('confirmButton'),
+                    cancelButtonText: t('cancelButton'),
                     reverseButtons: false,
                   })
                   .then((result) => {

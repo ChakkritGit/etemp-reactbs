@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 export const ReloadPromptContainer = styled.div`
   padding: 0;
@@ -31,12 +31,6 @@ export const ReloadPromptMessage = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 8px;
-`
-
-export const ReloadPromptMessageSpan = styled.span<{ $primary?: boolean }>`
-${props => props.$primary && css`
-  color: var(--danger-color);
-`}
 `
 
 export const ReloadPromptButton = styled.div`

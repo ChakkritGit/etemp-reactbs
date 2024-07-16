@@ -20,6 +20,7 @@ import { fetchDevicesData } from "../../../stores/devicesSlices"
 import PageLoading from "../../../components/loading/page.loading"
 import { responseType } from "../../../types/response.type"
 import { setShowAlert } from "../../../stores/utilsStateSlice"
+import Moveseqdev from "./moveseqdev"
 
 export default function Managedev() {
   const { t, i18n } = useTranslation()
@@ -46,7 +47,7 @@ export default function Managedev() {
         })
       dispatch(fetchDevicesData(token))
       Swal.fire({
-        title: t('alert_header_Success'),
+        title: t('alertHeaderSuccess'),
         text: response.data.message,
         icon: "success",
         timer: 2000,
@@ -127,12 +128,11 @@ export default function Managedev() {
     },
     {
       name: t('action'),
-      cell: ((item, index) => (
-        <Actiontabledev key={index}>
+      cell: ((item) => (
+        <Actiontabledev key={item.devId}>
           <Adddevform
             pagestate={'edit'}
             devdata={item}
-            key={item.devId}
           />
           <DelUserButton onClick={() =>
             swalWithBootstrapButtons
@@ -152,6 +152,9 @@ export default function Managedev() {
               })}>
             <RiCloseCircleLine />
           </DelUserButton>
+          <Moveseqdev
+            devData={item}
+          />
         </Actiontabledev>
       )),
       sortable: false,

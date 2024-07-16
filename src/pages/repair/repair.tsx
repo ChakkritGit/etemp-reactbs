@@ -175,12 +175,12 @@ export default function Repair() {
           <DelUserButton onClick={() =>
             swalWithBootstrapButtons
               .fire({
-                title: t('deleteuserTitle'),
-                text: t('deleteuserText'),
+                title: t('deleteRepairTitle'),
+                text: t('notReverseText'),
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: t('deletebtn'),
-                cancelButtonText: t('cancelbtn'),
+                confirmButtonText: t('confirmButton'),
+                cancelButtonText: t('cancelButton'),
                 reverseButtons: false,
               })
               .then((result) => {
