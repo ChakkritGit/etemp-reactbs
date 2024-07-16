@@ -58,7 +58,6 @@ export default function Main() {
     // e.preventDefault()
   }
 
-
   const handleScroll = () => {
     const currentScrollY = window.scrollY
 

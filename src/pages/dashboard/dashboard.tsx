@@ -4,7 +4,7 @@ import Dropdown from "../../components/dashboard/dropdown"
 import Chart from "../../components/dashboard/chart"
 import Devicesinfo from "../../components/dashboard/devicesinfo"
 import Table from "../../components/dashboard/table"
-import { DeviceStateStore, LogState, UtilsStateStore } from "../../types/redux.type"
+import { DeviceState, DeviceStateStore, LogState, UtilsStateStore } from "../../types/redux.type"
 import { useDispatch, useSelector } from "react-redux"
 import PageLoading from "../../components/loading/page.loading"
 import { motion } from "framer-motion"
@@ -12,17 +12,25 @@ import { items } from "../../animation/animate"
 import { useEffect } from "react"
 import { storeDispatchType } from "../../stores/store"
 import { setSearchQuery } from "../../stores/utilsStateSlice"
+import { fetchDevicesLog } from "../../stores/LogsSlice"
 
 export default function Dashboard() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devicesLogs } = useSelector<DeviceStateStore, LogState>((state) => state.logs)
-  const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
+  const { token } = cookieDecode
 
   useEffect(() => {
     return () => {
       dispatch(setSearchQuery(''))
     }
   }, [])
+
+  useEffect(() => {
+    if (!token) return
+    dispatch(fetchDevicesLog({ deviceId: devices[0]?.devId, token }))
+  }, [devices, token])
 
   return (
     <Container fluid>
