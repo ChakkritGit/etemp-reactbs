@@ -133,7 +133,7 @@ export default {
     userHospitals: 'โรงพยาบาบาล',
     userWard: 'วอร์ด',
     userNameForm: 'ชื่อผู้ใช้',
-    userpassword: 'รหัสผ่าน',
+    userPassword: 'รหัสผ่าน',
     userDisplayName: 'ชื่อ',
     userRole: 'สิทธิ์',
     userPicture: 'รูปภาพ',
@@ -144,8 +144,8 @@ export default {
     tabManageHospitals: 'จัดการโรงพยาบาล',
     tabAdjustHistory: 'ประวัติการปรับค่าอุปกรณ์',
     subTabDevice: 'อุปกรณ์',
-    sunTabProbe: 'โพรบ',
-    sunTabFirmware: 'เฟิร์มแวร์',
+    subTabProbe: 'โพรบ',
+    subTabFirmware: 'เฟิร์มแวร์',
     subTabHosandWard: 'โรงพยาบาลและวอร์ด',
     titleFirmware: 'จัดการเฟิร์มแวร์',
     titleManageDevices: 'จัดการอุปกรณ์',
@@ -196,8 +196,8 @@ export default {
 
     // warranty
     tabWarrantyExpired: 'หมดประกัน',
-    tabWarrantyaftersale: 'อยู่ในประกัน',
-    tabWarrantyall: 'ทั้งหมด',
+    tabWarrantyAfterSale: 'อยู่ในประกัน',
+    tabWarrantyAll: 'ทั้งหมด',
     warrantyMa: 'MA',
     warrantyEtc: 'อื่น ๆ',
 
@@ -206,7 +206,7 @@ export default {
     editRepair: 'แก้ไขแจ้งซ่อม',
     sectionPersonal: 'ข้อมูลผู้แจ้ง',
     sectionProduct: 'ข้อมูลสินค้า',
-    deiveCondition: 'สภาพเครื่อง',
+    deviceCondition: 'สภาพเครื่อง',
     deviceRepairInfo: 'อุปกรณ์ที่นำมาด้วย',
 
     // contact
@@ -294,7 +294,7 @@ export default {
     updateButton: 'อัปเดท',
     addWarrantyButton: 'เพิ่มการรับประกัน',
     reloadButton: 'รีโหลด',
-    editbutton: 'แก้ไข',
+    editButton: 'แก้ไข',
     closeDialogButton: 'ปิดหน้าต่าง',
     continueButton: 'ดำเนินการต่อ',
 
@@ -324,10 +324,10 @@ export default {
     noNumber: 'ลำดับ',
     status: 'สถานะ',
     action: 'แอคชั่น',
-    Hospitals: 'โรงพยาบาบาล',
-    Ward: 'วอร์ด',
-    Delay: 'ดีเลย์ไทม์',
-    Door: 'จำนวนประตู',
+    hospitals: 'โรงพยาบาบาล',
+    ward: 'วอร์ด',
+    delay: 'ดีเลย์ไทม์',
+    door: 'จำนวนประตู',
     nodata: 'ไม่พบข้อมูล',
     loading: 'กำลังโหลด...',
     searchItemsNav: 'ค้นหา',

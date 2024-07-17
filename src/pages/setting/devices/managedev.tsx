@@ -33,7 +33,7 @@ export default function Adddevices() {
             onClick={() => saveSelectTab('probe')}
             $primary={selectedTab === 'probe'}
           >
-            {t('sunTabProbe')}
+            {t('subTabProbe')}
           </MainTab>
         }
         {
@@ -41,7 +41,7 @@ export default function Adddevices() {
             onClick={() => saveSelectTab('firmware')}
             $primary={selectedTab === 'firmware'}
           >
-            {t('sunTabFirmware')}
+            {t('subTabFirmware')}
           </MainTab>
         }
       </MainTabManageContainer>

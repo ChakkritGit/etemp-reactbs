@@ -442,7 +442,7 @@ export default function Adddevform(managedevices: managedevices) {
                       userLevel !== '2' && userLevel !== '3' && <Col lg={6}>
                         <InputGroup className="mb-3">
                           <Form.Label className="w-100">
-                            {t('Hospitals')}
+                            {t('hospitals')}
                             <HospitalDropdown
                               setHos_id={setHosid}
                               Hosid={hosid}
@@ -455,7 +455,7 @@ export default function Adddevform(managedevices: managedevices) {
                     <Col lg={6}>
                       <InputGroup className="mb-3">
                         <Form.Label className="w-100">
-                          {t('Ward')}
+                          {t('ward')}
                           <WardDropdown
                             setState_ward={setValuestate}
                             Hosid={hosid}

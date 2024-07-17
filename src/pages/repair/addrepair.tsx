@@ -253,7 +253,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                     onChange={(e) => setRepairdata({ ...repairData, telePhone: e.target.value })} />
                 </Form.Group>
                 <Form.Group className="mb-3" >
-                  <Form.Label>{t('Ward')}</Form.Label>
+                  <Form.Label>{t('ward')}</Form.Label>
                   <WardDropdown
                     setState_ward={setValuestate}
                     Hosid={hosId}
@@ -283,7 +283,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                     />
                     <Form.Check
                       inline
-                      label={t('tabWarrantyaftersale')}
+                      label={t('tabWarrantyAfterSale')}
                       className='int-ch-b'
                       type="checkbox"
                       checked={repairData.warrantyStatus === "1"}
@@ -338,7 +338,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   </Form.Group>
                   <Col lg={6}>
                     <Form.Group className="mb-3" >
-                      <Form.Label>{t('deiveCondition')}</Form.Label>
+                      <Form.Label>{t('deviceCondition')}</Form.Label>
                       <Form.Control
                         as="textarea"
                         placeholder=""

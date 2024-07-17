@@ -343,7 +343,7 @@ export default function Adduser(AdduserProp: adduserProp) {
                   <Col lg={6}>
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
-                        {t('userpassword')}
+                        {t('userPassword')}
                         <Form.Control
                           name="fieldUserpassword"
                           autoComplete='off'

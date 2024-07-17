@@ -265,7 +265,7 @@ export default function Account() {
         <div>
           <EditProfileButton onClick={openmodalProfile}>
             <RiEditLine />
-            {t('editbutton')}
+            {t('editButton')}
           </EditProfileButton>
         </div>
       </ProfileFlexSetting>

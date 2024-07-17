@@ -287,8 +287,8 @@ export default function Warranty() {
         <WarrantyHead>
           <div>
             <WarrantyHeadBtn $primary={pagenumber === 1} onClick={() => setpagenumber(1)}>{t('tabWarrantyExpired')}</WarrantyHeadBtn>
-            <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyaftersale')}</WarrantyHeadBtn>
-            <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyall')}</WarrantyHeadBtn>
+            <WarrantyHeadBtn $primary={pagenumber === 2} onClick={() => setpagenumber(2)}>{t('tabWarrantyAfterSale')}</WarrantyHeadBtn>
+            <WarrantyHeadBtn $primary={pagenumber === 3} onClick={() => setpagenumber(3)}>{t('tabWarrantyAll')}</WarrantyHeadBtn>
           </div>
           {userLevel !== '2' && userLevel !== '3' && <div>
             <Addwarranty

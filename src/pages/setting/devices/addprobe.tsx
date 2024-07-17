@@ -368,7 +368,7 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={4}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('Delay')}
+                    {t('delay')}
                     <Form.Select onChange={delayTime} name="field_select_hos" value={formdata.delay_time || '0'}>
                       <option value={'0'} disabled={!probeData?.delayTime}>
                         {t('selectDelay')}
@@ -388,7 +388,7 @@ export default function Addprobe(addprobe: addprobeProps) {
               <Col lg={4}>
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
-                    {t('Door')}
+                    {t('door')}
                     <Form.Select onChange={doorSelected} name="field_select_hos" value={formdata.door || '0'}>
                       <option value={'0'} disabled={!probeData?.door}>
                         {t('selectDoor')}

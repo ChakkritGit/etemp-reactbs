@@ -169,7 +169,7 @@ export default function Moveseqdev({ devData }: moveSeqType) {
                         devSerial: '- -',
                         devId: '',
                         devSeq: 0
-                      })}>{t('selectWard')}</option>
+                      })}>{t('selectDeviceDrop')}</option>
                       {
                         devices.filter((f) => f.devId !== devId).map((item) => {
                           return <option key={item.devId} value={JSON.stringify({ devSerial: item.devSerial, devId: item.devId, devSeq: item.devSeq })}>{item.devSerial}</option>
