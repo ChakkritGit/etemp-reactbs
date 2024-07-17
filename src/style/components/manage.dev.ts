@@ -74,4 +74,8 @@ export const MainTab = styled.button<{ $primary?: boolean }>`
   border-bottom: unset;
   background-color: ${props => props.$primary ? 'var(--main-color)' : 'transparent'};
   color: ${props => props.$primary ? 'var(--white)' : props.theme.mode === 'dark' ? 'white' : 'black'};
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `

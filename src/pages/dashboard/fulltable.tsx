@@ -431,34 +431,36 @@ export default function Fulltable() {
             <FulltableHeadBtn $primary={pageNumber === 3} onClick={Logmonth}>{t('month')}</FulltableHeadBtn>
             <FulltableHeadBtn $primary={pageNumber === 4} onClick={() => setPagenumber(4)}>{t('chartCustom')}</FulltableHeadBtn>
           </FulltableHeadLeft>
-          <Dropdown>
-            <Dropdown.Toggle variant="0" className="border-0 p-0">
-              <FulltableExportHeadBtn>
-                <RiFolderSharedLine />
-                {t('exportFile')}
-              </FulltableExportHeadBtn>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => {
-                toast.promise(
-                  convertArrayOfObjectsToExcel(tableData),
-                  {
-                    loading: 'Downloading',
-                    success: <span>Downloaded</span>,
-                    error: <span>Something wrong</span>,
-                  }
-                )
-              }}>
-                <RiFileExcel2Line />
-                <span>Excel</span>
-              </Dropdown.Item>
-              <LineHr $mg={.5} />
-              <Dropdown.Item>
-                <RiPrinterLine />
-                <span>Print</span>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <div>
+            <Dropdown>
+              <Dropdown.Toggle variant="0" className="border-0 p-0">
+                <FulltableExportHeadBtn>
+                  <RiFolderSharedLine />
+                  {t('exportFile')}
+                </FulltableExportHeadBtn>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => {
+                  toast.promise(
+                    convertArrayOfObjectsToExcel(tableData),
+                    {
+                      loading: 'Downloading',
+                      success: <span>Downloaded</span>,
+                      error: <span>Something wrong</span>,
+                    }
+                  )
+                }}>
+                  <RiFileExcel2Line />
+                  <span>Excel</span>
+                </Dropdown.Item>
+                <LineHr $mg={.5} />
+                <Dropdown.Item>
+                  <RiPrinterLine />
+                  <span>Print</span>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </FulltableHead>
         <FulltableBody $primary={pageNumber !== 4}>
           <FulltableBodyChartCon $primary={expand}>

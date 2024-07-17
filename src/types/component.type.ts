@@ -78,6 +78,7 @@ type cardFilter = {
 type socketResponseType = {
   device: string,
   message: string,
+  hospital: string,
   time: string
 }
 

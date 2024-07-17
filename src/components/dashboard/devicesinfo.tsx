@@ -361,7 +361,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         />
       </DevicesBodyStatus>
 
-      <Modal size="lg" show={show} onHide={closemodal}>
+      <Modal size="lg" show={show} onHide={closemodal} scrollable>
         <Modal.Header>
           {/* <pre style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
             {JSON.stringify(formdata)}

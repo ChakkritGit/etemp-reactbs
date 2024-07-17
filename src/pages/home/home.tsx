@@ -40,6 +40,7 @@ import { logtype } from "../../types/log.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import { TagCurrentHos } from "../../style/components/home.styled"
+import { useTheme } from "../../theme/ThemeProvider"
 
 type Option = {
   value: string,
@@ -66,7 +67,7 @@ export default function Home() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [filterdata, setFilterdata] = useState(false)
-  const [wardName, setWardname] = useState<wardsType[]>(wardData)
+  const [wardName, setWardname] = useState<wardsType[]>([])
   const [active, setActive] = useState({
     probe: false,
     door: false,
@@ -81,6 +82,7 @@ export default function Home() {
   const [listAndgrid, setListandgrid] = useState(Number(localStorage.getItem('listGrid') ?? 1))
   const [cardFilterData, setCardFilterData] = useState<cardFilter[]>([])
   const { userLevel } = cookieDecode
+  const { theme } = useTheme()
 
   const showtk = () => {
     setShowticks(true)
@@ -278,8 +280,12 @@ export default function Home() {
 
   const getHospital = (hospitalID: string | undefined) => {
     updateLocalStorageAndDispatch('selectHos', hospitalID, setHosId)
-    setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID || hosId))
+    setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID))
   }
+
+  useEffect(() => {
+    setWardname(wardData)
+  }, [wardData])
 
   const getWard = (wardID: string | undefined) => {
     updateLocalStorageAndDispatch('selectWard', wardID, setWardId)
@@ -346,8 +352,8 @@ export default function Home() {
         const probe = items.probe.filter((logItems) => logItems.devSerial === items.devSerial)
         return <DeviceCardFooterInfo
           $size
-          $primary={temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ? true : false}>
-          {temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ? true : false ?
+          $primary={temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin}>
+          {temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ?
             <RiErrorWarningLine />
             :
             <RiTempColdLine />
@@ -768,6 +774,26 @@ export default function Home() {
                                   defaultValue={mapDefaultValue<Hospital, keyof Hospital>(hospitalsData, hosId, 'hosId', 'hosName')}
                                   onChange={(e) => getHospital(e?.value)}
                                   autoFocus={false}
+                                  styles={{
+                                    control: (baseStyles, state) => ({
+                                      ...baseStyles,
+                                      backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                                      borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                                      boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                                      borderRadius: "var(--border-radius-big)",
+                                      width: "200px"
+                                    }),
+                                  }}
+                                  theme={(theme) => ({
+                                    ...theme,
+                                    colors: {
+                                      ...theme.colors,
+                                      primary25: 'var(--main-color)',
+                                      primary: 'var(--main-color)',
+                                    },
+                                  })}
+                                  className="react-select-container"
+                                  classNamePrefix="react-select"
                                 />
                               }
                               <Select
@@ -775,6 +801,26 @@ export default function Home() {
                                 defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, wardId, 'wardId', 'wardName')}
                                 onChange={(e) => getWard(e?.value)}
                                 autoFocus={false}
+                                styles={{
+                                  control: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                                    borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                                    boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                                    borderRadius: "var(--border-radius-big)",
+                                    width: "200px"
+                                  }),
+                                }}
+                                theme={(theme) => ({
+                                  ...theme,
+                                  colors: {
+                                    ...theme.colors,
+                                    primary25: 'var(--main-color)',
+                                    primary: 'var(--main-color)',
+                                  },
+                                })}
+                                className="react-select-container"
+                                classNamePrefix="react-select"
                               />
                             </motion.div>
                             <DeviceInfoSpanClose onClick={() => setFilterdata(false)}>

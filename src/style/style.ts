@@ -1093,7 +1093,7 @@ justify-content: space-between;
   & div:nth-child(2) {
     align-items: center;
   }
-  }
+}
 `
 
 export const PaginitionFlex = styled.div<{ $primary?: boolean }> `
@@ -1256,6 +1256,16 @@ justify-content: space-between;
 
 & h3 {
   margin-bottom: unset;
+}
+
+@media (max-width: 430px) {
+    flex-direction: column;
+    align-items: unset;
+    gap: 1rem;
+
+    &>div:nth-child(2) {
+      justify-content: end;
+    }
 }
 `
 
@@ -2212,16 +2222,11 @@ overflow: hidden;
 
 export const DashboardHeadFilter = styled.div<{ $primary?: boolean }>`
 margin-top: 1rem;
-/* width: 345px; */
+display: grid;
+grid-template-columns: repeat(2, 1fr);
 
-${props => props.$primary &&
-    css`
-width: 375px;
-transition: .3s;
-`}
-
-@media (max-width: 430px) {
-  width: 335px;
+@media (max-width: 1185px) {
+  grid-template-columns: repeat(1, 1fr);
 }
 
 ${props => props.theme.mode === 'dark' &&
@@ -2925,12 +2930,22 @@ margin-top: 1rem;
     color: var(--main-color);
   }
 }
+
+@media (max-width: 430px) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+}
 `
 
 export const FullchartHeadLeft = styled.div<{ $primary?: boolean }>`
 display: flex;
 align-items: center;
 gap: .5rem;
+
+&>span {
+  display: none;
+}
 
 @media (max-width: 430px) {
   flex-direction: column;
@@ -3092,6 +3107,17 @@ align-items: center;
 justify-content: space-between;
 margin-top: 1rem;
 
+&>div:nth-child(2) {
+  display: flex;
+  justify-content: end;
+}
+
+@media (max-width: 430px) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+}
+
 .dropdown-menu.show>a {
     ${props => props.theme.mode === 'dark' &&
     css`
@@ -3117,6 +3143,11 @@ display: flex;
 align-items: center;
 flex-wrap: wrap;
 gap: .5rem;
+
+@media (max-width: 430px) {
+  display: grid;
+  grid-template-columns: auto;
+}
 `
 
 export const FulltableBody = styled.div<{ $primary?: boolean }>`
@@ -4666,6 +4697,17 @@ export const WarrantyHead = styled.div<{ $primary?: boolean }>`
     flex-wrap: wrap;
     gap: .5rem;
   }
+
+  @media (max-width: 430px) {
+    flex-direction: column;
+    align-items: unset;
+    gap: 1rem;
+
+  &>div:nth-child(2) {
+    display: flex;
+    justify-content: end;
+  }
+}
 `
 
 export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`

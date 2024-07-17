@@ -11,8 +11,9 @@ import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import { useEffect } from "react"
 import { storeDispatchType } from "../../stores/store"
-import { setSearchQuery } from "../../stores/utilsStateSlice"
+import { setDeviceId, setSearchQuery, setSerial } from "../../stores/utilsStateSlice"
 import { fetchDevicesLog } from "../../stores/LogsSlice"
+import { cookies } from "../../constants/constants"
 
 export default function Dashboard() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -29,7 +30,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!token) return
+    if (cookies.get('devid')) return
     dispatch(fetchDevicesLog({ deviceId: devices[0]?.devId, token }))
+    dispatch(setDeviceId(devices[0]?.devId))
+    dispatch(setSerial(devices[0]?.devSerial))
   }, [devices, token])
 
   return (

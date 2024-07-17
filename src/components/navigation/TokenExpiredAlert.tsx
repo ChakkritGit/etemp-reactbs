@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { cookies } from '../../constants/constants'
-import { setCookieEncode, setShowAlert } from '../../stores/utilsStateSlice'
+import { setCookieEncode, setDeviceId, setSerial, setShowAlert } from '../../stores/utilsStateSlice'
 import { swalTokenInvalid } from '../dropdown/sweetalertLib'
 
 const TokenExpiredAlert = () => {
@@ -24,6 +24,8 @@ const TokenExpiredAlert = () => {
       .then((result) => {
         if (result.isConfirmed) {
           dispatch(setCookieEncode(''))
+          dispatch(setDeviceId(''))
+          dispatch(setSerial(''))
           cookies.remove('localDataObject')
           cookies.remove('devSerial')
           cookies.remove('devid')

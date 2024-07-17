@@ -17,7 +17,7 @@ import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import { swalWithBootstrapButtons } from "../../components/dropdown/sweetalertLib"
 import { cookieOptions, cookies } from "../../constants/constants"
-import { setCookieEncode } from "../../stores/utilsStateSlice"
+import { setCookieEncode, setDeviceId, setSerial } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 
 export default function System() {
@@ -29,6 +29,8 @@ export default function System() {
 
   const logOut = () => {
     dispatch(setCookieEncode(''))
+    dispatch(setDeviceId(''))
+    dispatch(setSerial(''))
     cookies.remove('localDataObject', cookieOptions)
     cookies.remove('devSerial', cookieOptions)
     cookies.remove('devid', cookieOptions)

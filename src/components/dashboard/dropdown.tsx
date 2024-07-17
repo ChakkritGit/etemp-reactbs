@@ -8,6 +8,7 @@ import { devicesType } from "../../types/device.type"
 import { cookieOptions, cookies } from "../../constants/constants"
 import Select, { SingleValue } from 'react-select'
 import { useTranslation } from "react-i18next"
+import { useTheme } from "../../theme/ThemeProvider"
 
 type Option = {
   value: string,
@@ -15,6 +16,7 @@ type Option = {
 }
 
 type Device = {
+  wardId: string,
   devId: string,
   devSerial: string,
   devDetail: string,
@@ -26,6 +28,7 @@ export default function Dropdown() {
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
   const { deviceId, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [val, setVal] = useState(`${deviceId}-${Serial}`)
+  const { theme } = useTheme()
 
   const selectchang = (e: SingleValue<Option>) => {
     const selectedValue = e?.value
@@ -47,18 +50,41 @@ export default function Dropdown() {
     }))
 
   const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, valueKey2: K, labelKey: K): Option | undefined =>
-    data.filter(item => item[valueKey] === id).map(item => ({
+    data.filter(item => `${item[valueKey]}-${item[valueKey2]}` === id).map(item => ({
       value: `${item[valueKey]}-${item[valueKey2]}` as unknown as string,
       label: item[labelKey] as unknown as string
     }))[0]
 
   return (
-    <Select
-      options={mapOptions<Device, keyof Device>(devices, 'devId', 'devSerial', 'devDetail')}
-      defaultValue={mapDefaultValue<Device, keyof Device>(devices, val, 'devId', 'devSerial', 'devDetail')}
-      onChange={selectchang}
-      autoFocus={false}
-      placeholder={t('selectDeviceDrop')}
-    />
+    <>
+      {
+        devices.length > 0 && <Select
+          options={mapOptions<Device, keyof Device>(devices, 'devId', 'devSerial', 'devDetail')}
+          defaultValue={mapDefaultValue<Device, keyof Device>(devices, val, 'devId', 'devSerial', 'devDetail')}
+          onChange={selectchang}
+          autoFocus={false}
+          placeholder={t('selectDeviceDrop')}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+              borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+              boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+              borderRadius: "var(--border-radius-big)"
+            }),
+          }}
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: 'var(--main-color)',
+              primary: 'var(--main-color)',
+            },
+          })}
+          className="react-select-container"
+          classNamePrefix="react-select"
+        />
+      }
+    </>
   )
 }

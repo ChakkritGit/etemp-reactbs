@@ -61,7 +61,7 @@ export default function Notification() {
     if (token) {
       fetchData()
     }
-  }, [cookieDecode, socketData])
+  }, [socketData, token])
 
   useEffect(() => {
     if (socketData && !soundMode && !popUpMode) {

@@ -171,7 +171,7 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
 }
 
 .apexcharts-gridline {
-  stroke: var(--grey);
+  stroke: var(--border-dark-color);
 }
 
 .form-select {
@@ -199,9 +199,30 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
 .compare-text {
   color: white;
 }
+
+.react-select__menu {
+  color: white !important;
+  background-color: var(--main-last-color) !important;
+}
+
+.react-select__input-container, .react-select__single-value {
+  color: white !important;
+}
+
+.react-select__control {
+  border-color: var(--border-dark-color) !important;
+}
+
+.react-select__control:hover {
+  border-color: var(--main-color) !important;
+}
 `
       :
-      ``
+      `
+      .react-select__control:hover {
+      border-color: var(--main-color) !important;
+      }
+      `
   }`
 
 export default GlobalStyles

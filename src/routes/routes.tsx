@@ -124,8 +124,9 @@ export default function RoutesComponent() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [status, setStatus] = useState(true)
-  const { cookieEncode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieEncode, cookieDecode, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
+  const { userLevel, hosId } = tokenDecode
   const { toasts } = useToasterStore()
   const toastLimit = 5
 
@@ -144,9 +145,14 @@ export default function RoutesComponent() {
     })
 
     socket.on("receive_message", (response: socketResponseType) => {
-      dispatch(setSocketData(response))
+      if (!userLevel && !hosId) return
+      if (userLevel === "0" || userLevel === "1") {
+        dispatch(setSocketData(response))
+      } else if (hosId === response.hospital) {
+        dispatch(setSocketData(response))
+      }
     })
-  }, [])
+  }, [userLevel, hosId])
 
   useEffect(() => {
     try {
@@ -163,12 +169,6 @@ export default function RoutesComponent() {
       .filter((_, index) => index >= toastLimit) // Is toast index over limit?
       .forEach((toasts) => toast.dismiss(toasts.id)) // Dismiss – Use toast.remove(t.id) for no exit animation
   }, [toasts])
-
-  useEffect(() => {
-    console.info("%cหยุด!", "color:red; font-size: 52px; font-weight: bold; -webkit-text-stroke: 1px black;")
-    console.info(`%cฟีเจอร์นี้เป็นฟีเจอร์ของเบราว์เซอร์ที่มีจุดมุ่งหมายให้ใช้สำหรับผู้พัฒนา หากมีคนบอกให้คุณคัดลอกแล้ววางข้อความบางอย่างที่นี่เพื่อเข้าถึงบางส่วนของระบบ "โดยมิชอบ" คำบอกกล่าวเช่นนี้ถือเป็นการละเมิดการใช้งานระบบ`, "font-size: 18px")
-    // console.info('%c Look like warm 🌡️!!', 'font-weight: bold; font-size: 50px; font-family: "Anuphan", sans-serif; color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)')
-  }, [])
 
   useEffect(() => {
     if (!cookieEncode) return

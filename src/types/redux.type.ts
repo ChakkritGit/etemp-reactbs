@@ -31,7 +31,6 @@ type LogState = {
 }
 
 type UtilsStateStore = {
-  // token: string,
   deviceId: string,
   Serial: string,
   socketData: socketResponseType | null,
