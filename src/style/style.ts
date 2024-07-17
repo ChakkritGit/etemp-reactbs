@@ -2224,9 +2224,11 @@ export const DashboardHeadFilter = styled.div<{ $primary?: boolean }>`
 margin-top: 1rem;
 display: grid;
 grid-template-columns: repeat(2, 1fr);
+width: 60%;
 
 @media (max-width: 1185px) {
   grid-template-columns: repeat(1, 1fr);
+  width: unset;
 }
 
 ${props => props.theme.mode === 'dark' &&

@@ -14,7 +14,7 @@ import { fetchUserData } from "../../stores/userSlice"
 import { storeDispatchType } from "../../stores/store"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
-import { accessToken, cookieOptions, cookies } from "../../constants/constants"
+import { accessToken, cookieOptions, cookies, resizeImage } from "../../constants/constants"
 import { setCookieEncode, setShowAlert } from "../../stores/utilsStateSlice"
 
 export default function Adduser(AdduserProp: adduserProp) {
@@ -49,12 +49,21 @@ export default function Adduser(AdduserProp: adduserProp) {
     let reader = new FileReader()
     const fileInput = e.target
     if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
-      reader.readAsDataURL(e.target.files[0])
-      reader.onload = (event) => {
-        let img = event.target?.result
-        setUserPicture(img as string)
-      }
-      setform({ ...form, fileupload: fileInput.files[0] as File })
+      const selectedFile = fileInput.files[0]
+
+      // Resize the image before setting the state
+      resizeImage(selectedFile)
+        .then((resizedFile) => {
+          reader.readAsDataURL(resizedFile)
+          reader.onload = (event) => {
+            let img = event.target?.result
+            setUserPicture(img as string)
+          }
+          setform({ ...form, fileupload: resizedFile })
+        })
+        .catch((error) => {
+          console.error('Error resizing image:', error)
+        })
     }
   }
 

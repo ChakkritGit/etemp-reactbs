@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
-import { accessToken, cookieOptions, cookies } from "../../constants/constants"
+import { accessToken, cookieOptions, cookies, resizeImage } from "../../constants/constants"
 import { storeDispatchType } from "../../stores/store"
 import { setCookieEncode, setShowAlert } from "../../stores/utilsStateSlice"
 
@@ -88,14 +88,21 @@ export default function Account() {
     const formData = new FormData()
 
     if (e.target && e.target.files && e.target.files.length > 0) {
-      reader.readAsDataURL(e.target.files[0])
+      const selectedFile = e.target.files[0]
 
-      reader.onload = (event) => {
-        let img = event.target?.result
-        setUserpicture(img as string)
-      }
-
-      formData.append('fileupload', e.target?.files[0] as File)
+      // Resize the image before setting the state
+      resizeImage(selectedFile)
+        .then((resizedFile) => {
+          reader.readAsDataURL(resizedFile)
+          reader.onload = (event) => {
+            let img = event.target?.result
+            setUserpicture(img as string)
+          }
+          formData.append('fileupload', resizedFile)
+        })
+        .catch((error) => {
+          console.error('Error resizing image:', error)
+        })
 
       try {
         const response = await axios

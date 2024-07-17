@@ -14,6 +14,7 @@ import { fetchHospitals } from '../../../stores/dataArraySlices'
 import { responseType } from '../../../types/response.type'
 import { hospitalsType } from '../../../types/hospital.type'
 import { setShowAlert } from '../../../stores/utilsStateSlice'
+import { resizeImage } from '../../../constants/constants'
 
 export default function Addhospitals(addhosprop: addHospitalProp) {
   const { t } = useTranslation()
@@ -172,12 +173,21 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
     let reader = new FileReader()
     const fileInput = e.target
     if (e.target && fileInput.files && e.target.files && e.target.files.length > 0) {
-      reader.readAsDataURL(e.target.files[0])
-      reader.onload = (event) => {
-        let img = event.target?.result
-        setHosPicture(img as string)
-      }
-      setFormdata({ ...formdata, picture: fileInput.files[0] as File })
+      const selectedFile = fileInput.files[0]
+
+      // Resize the image before setting the state
+      resizeImage(selectedFile)
+        .then((resizedFile) => {
+          reader.readAsDataURL(resizedFile)
+          reader.onload = (event) => {
+            let img = event.target?.result
+            setHosPicture(img as string)
+          }
+          setFormdata({ ...formdata, picture: resizedFile })
+        })
+        .catch((error) => {
+          console.error('Error resizing image:', error)
+        })
     }
   }
 
