@@ -246,7 +246,7 @@ export default function sidebar() {
           </Li>
         </Ul>
       </SettingSystem>
-      <AboutVersion $primary={expand} onClick={() => { navigate('/changeLog'); resetAsideandCardcount() }}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
+      <AboutVersion $primary={expand} onClick={() => { import.meta.env.VITE_APP_NODE_ENV === 'development' ? navigate('/changeLog') : null; resetAsideandCardcount() }}>{import.meta.env.VITE_APP_VERSION}</AboutVersion>
     </Sidebar>
   )
 }
