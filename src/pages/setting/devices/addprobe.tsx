@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 import { ManageProbeAdd } from "../../../style/components/manage.probe"
 import { addprobeProps } from "../../../types/prop.type"
 import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiCloseLine, RiEditLine } from "react-icons/ri"
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Col, Form, InputGroup, Modal, Row } from "react-bootstrap"
 import { FormBtn, FormFlexBtn, FormSliderRange, ModalHead, RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex } from "../../../style/style"
 import { Slider } from "@mui/material"
@@ -17,6 +17,22 @@ import { fetchProbeData } from "../../../stores/probeSlice"
 import { client } from "../../../services/mqtt"
 import { AdjustRealTimeFlex } from "../../../style/components/home.styled"
 import { setShowAlert } from "../../../stores/utilsStateSlice"
+import Select, { SingleValue } from 'react-select'
+import { useTheme } from "../../../theme/ThemeProvider"
+
+type Option = {
+  value: string,
+  label: string,
+}
+
+type Probe = {
+  devSerial: string
+}
+
+type OptionData = {
+  value: string,
+  name: string
+}
 
 export default function Addprobe(addprobe: addprobeProps) {
   const { t } = useTranslation()
@@ -40,6 +56,7 @@ export default function Addprobe(addprobe: addprobeProps) {
     humvalue: [pagestate !== "add" ? Number(probeData?.humMin) : 0, pagestate !== "add" ? Number(probeData?.humMax) : 0]
   })
   const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
+  const { theme } = useTheme()
 
   const openmodal = () => {
     setShow(true)
@@ -202,17 +219,25 @@ export default function Addprobe(addprobe: addprobeProps) {
     setFormdata({ ...formdata, adjust_hum: newValue as number })
   }
 
-  const delayTime = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormdata({ ...formdata, delay_time: e.target.value })
+  const delayTime = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setFormdata({ ...formdata, delay_time: selectedValue })
   }
-  const doorSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormdata({ ...formdata, door: e.target.value })
+  const doorSelected = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setFormdata({ ...formdata, door: selectedValue })
   }
-  const deviceSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormdata({ ...formdata, devSerial: e.target.value })
+  const deviceSelected = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setFormdata({ ...formdata, devSerial: selectedValue })
   }
-  const channelSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    setFormdata({ ...formdata, probeCh: e.target.value })
+  const channelSelected = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setFormdata({ ...formdata, probeCh: selectedValue })
   }
 
   const delayTimeArray = [
@@ -262,6 +287,18 @@ export default function Addprobe(addprobe: addprobeProps) {
     }
   }, [show])
 
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
+
   return (
     <>
       {
@@ -301,19 +338,32 @@ export default function Addprobe(addprobe: addprobeProps) {
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
                         {t('selectDeviceDrop')}
-                        <Form.Select onChange={deviceSelected} name="field_select_hos" value={formdata.devSerial || '0'}>
-                          <option value={'0'} disabled={!probeData?.devSerial}>
-                            {t('selectDeviceDrop')}
-                          </option>
-                          {devices.map((items, index) => {
-                            const optionKey = `option_${index}`
-                            return (
-                              <option key={optionKey} value={items.devSerial}>
-                                {items.devSerial}
-                              </option>
-                            )
+                        <Select
+                          options={mapOptions<Probe, keyof Probe>(devices, 'devSerial', 'devSerial')}
+                          defaultValue={mapDefaultValue<Probe, keyof Probe>(devices, formdata.devSerial || '0', 'devSerial', 'devSerial')}
+                          onChange={deviceSelected}
+                          autoFocus={false}
+                          placeholder={t('selectDeviceDrop')}
+                          styles={{
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                              borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                              boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                              borderRadius: "var(--border-radius-big)"
+                            }),
+                          }}
+                          theme={(theme) => ({
+                            ...theme,
+                            colors: {
+                              ...theme.colors,
+                              primary25: 'var(--main-color)',
+                              primary: 'var(--main-color)',
+                            },
                           })}
-                        </Form.Select>
+                          className="react-select-container"
+                          classNamePrefix="react-select"
+                        />
                       </Form.Label>
                     </InputGroup>
                   </Col>
@@ -369,19 +419,32 @@ export default function Addprobe(addprobe: addprobeProps) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('delay')}
-                    <Form.Select onChange={delayTime} name="field_select_hos" value={formdata.delay_time || '0'}>
-                      <option value={'0'} disabled={!probeData?.delayTime}>
-                        {t('selectDelay')}
-                      </option>
-                      {delayTimeArray.map((item, index) => {
-                        const optionKey = `option_${index}`
-                        return (
-                          <option key={optionKey} value={item.value}>
-                            {item.name}
-                          </option>
-                        )
+                    <Select
+                      options={mapOptions<OptionData, keyof OptionData>(delayTimeArray, 'value', 'name')}
+                      defaultValue={mapDefaultValue<OptionData, keyof OptionData>(delayTimeArray, formdata.delay_time || '0', 'value', 'name')}
+                      onChange={delayTime}
+                      autoFocus={false}
+                      placeholder={t('selectDelay')}
+                      styles={{
+                        control: (baseStyles, state) => ({
+                          ...baseStyles,
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                          borderRadius: "var(--border-radius-big)"
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'var(--main-color)',
+                          primary: 'var(--main-color)',
+                        },
                       })}
-                    </Form.Select>
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                    />
                   </Form.Label>
                 </InputGroup>
               </Col>
@@ -389,19 +452,32 @@ export default function Addprobe(addprobe: addprobeProps) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('door')}
-                    <Form.Select onChange={doorSelected} name="field_select_hos" value={formdata.door || '0'}>
-                      <option value={'0'} disabled={!probeData?.door}>
-                        {t('selectDoor')}
-                      </option>
-                      {doorArray.map((item, index) => {
-                        const optionKey = `option_${index}`
-                        return (
-                          <option key={optionKey} value={item.value}>
-                            {item.name}
-                          </option>
-                        )
+                    <Select
+                      options={mapOptions<OptionData, keyof OptionData>(doorArray, 'value', 'name')}
+                      defaultValue={mapDefaultValue<OptionData, keyof OptionData>(doorArray, String(formdata.door) || '0', 'value', 'name')}
+                      onChange={doorSelected}
+                      autoFocus={false}
+                      placeholder={t('selectDoor')}
+                      styles={{
+                        control: (baseStyles, state) => ({
+                          ...baseStyles,
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                          borderRadius: "var(--border-radius-big)"
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'var(--main-color)',
+                          primary: 'var(--main-color)',
+                        },
                       })}
-                    </Form.Select>
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                    />
                   </Form.Label>
                 </InputGroup>
               </Col>
@@ -409,19 +485,32 @@ export default function Addprobe(addprobe: addprobeProps) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('probeChanel')}
-                    <Form.Select onChange={channelSelected} name="field_select_hos" value={formdata.probeCh || '0'}>
-                      <option value={'0'} disabled={!probeData?.probeCh}>
-                        {t('selectChanel')}
-                      </option>
-                      {channelArray.map((item, index) => {
-                        const optionKey = `option_${index}`
-                        return (
-                          <option key={optionKey} value={item.value}>
-                            {item.name}
-                          </option>
-                        )
+                    <Select
+                      options={mapOptions<OptionData, keyof OptionData>(channelArray, 'value', 'name')}
+                      defaultValue={mapDefaultValue<OptionData, keyof OptionData>(channelArray, String(formdata.probeCh) || '0', 'value', 'name')}
+                      onChange={channelSelected}
+                      autoFocus={false}
+                      placeholder={t('selectChanel')}
+                      styles={{
+                        control: (baseStyles, state) => ({
+                          ...baseStyles,
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                          borderRadius: "var(--border-radius-big)"
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'var(--main-color)',
+                          primary: 'var(--main-color)',
+                        },
                       })}
-                    </Form.Select>
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                    />
                   </Form.Label>
                 </InputGroup>
               </Col>

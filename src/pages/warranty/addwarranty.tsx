@@ -11,6 +11,8 @@ import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
 import { setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
+import Select from 'react-select'
+import { useTheme } from "../../theme/ThemeProvider"
 
 interface AddWarrantyPropsType {
   pagestate: string,
@@ -29,6 +31,16 @@ interface WarrantyObjectEditType {
   invoice?: string | undefined;
 }
 
+type Option = {
+  value: string,
+  label: string,
+}
+
+type WarrantyOption = {
+  devId: string,
+  devSerial: string,
+}
+
 export default function Addwarranty(warProps: AddWarrantyPropsType) {
   const { pagestate, warData, fetchData } = warProps
   const { t } = useTranslation()
@@ -42,6 +54,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
     invoice: warData?.invoice,
     expire: warData?.expire.substring(0, 10)
   })
+  const { theme } = useTheme()
 
   const openModal = () => {
     setShowe(true)
@@ -162,6 +175,18 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
     }
   }
 
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
+
   return (
     <>
       {
@@ -202,14 +227,32 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
                 <Col lg={12}>
                   <Form.Label className="w-100">
                     {t('selectDeviceDrop')}
-                    <Form.Select onChange={(e) => setWarrantyObject({ ...warrantyObject, devName: e.target.value })} value={warrantyObject.devName} className="mt-2">
-                      <option value={''}>Select Device</option>
-                      {
-                        devices.map((items) => {
-                          return <option key={items.devId} value={items.devName}>{items.devSerial}</option>
-                        })
-                      }
-                    </Form.Select>
+                    <Select
+                      options={mapOptions<WarrantyOption, keyof WarrantyOption>(devices, 'devId', 'devSerial')}
+                      defaultValue={mapDefaultValue<WarrantyOption, keyof WarrantyOption>(devices, String(warrantyObject.devName), 'devId', 'devSerial')}
+                      onChange={(e) => setWarrantyObject({ ...warrantyObject, devName: e?.value })}
+                      autoFocus={false}
+                      placeholder={t('selectDeviceDrop')}
+                      styles={{
+                        control: (baseStyles, state) => ({
+                          ...baseStyles,
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                          borderRadius: "var(--border-radius-big)"
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'var(--main-color)',
+                          primary: 'var(--main-color)',
+                        },
+                      })}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                    />
                   </Form.Label>
                 </Col>
               }

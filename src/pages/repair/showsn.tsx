@@ -1,12 +1,13 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { devicesType } from "../../types/device.type"
 import axios, { AxiosError } from "axios"
-import { Form } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
+import Select, { SingleValue } from 'react-select'
+import { useTheme } from "../../theme/ThemeProvider"
 
 type sntype = {
   setRepairdata: Dispatch<SetStateAction<{
@@ -38,6 +39,16 @@ type sntype = {
   dev_idkey: string
 }
 
+type Option = {
+  value: string,
+  label: string,
+}
+
+type RepairOption = {
+  devId: string,
+  devSerial: string,
+}
+
 export default function Showsn(sntype: sntype) {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
@@ -45,10 +56,13 @@ export default function Showsn(sntype: sntype) {
   const { token } = cookieDecode
   const [devData, setDevData] = useState<devicesType[]>([])
   const [selectedval, setSelectedVal] = useState('')
+  const { theme } = useTheme()
 
-  const setDevId = (e: ChangeEvent<HTMLSelectElement>) => {
-    sntype.setRepairdata({ ...sntype.repairData, devId: e.target.value })
-    setSelectedVal(e.target.value)
+  const setDevId = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    sntype.setRepairdata({ ...sntype.repairData, devId: selectedValue })
+    setSelectedVal(selectedValue)
   }
 
   useEffect(() => {
@@ -75,19 +89,46 @@ export default function Showsn(sntype: sntype) {
     fetchData()
   }, [])
 
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
+
   return (
-    <Form.Select onChange={setDevId} name="field_select_ward" value={selectedval}>
-      {
-        devData.map((item, index) => {
-          if (sntype.dev_idkey === '') {
-            return <option key={'dev-1'} selected value={''}>{t('field_select_dev')}</option>
-          } else if (item.devId === sntype.dev_idkey) {
-            return <option selected defaultChecked key={index} value={item.devId}>{item.devSerial}</option>
-          } else {
-            return <option key={index} value={item.devId}>{item.devSerial}</option>
-          }
-        })
-      }
-    </Form.Select>
+    <>
+      <Select
+        options={mapOptions<RepairOption, keyof RepairOption>(devData, 'devId', 'devSerial')}
+        defaultValue={mapDefaultValue<RepairOption, keyof RepairOption>(devData, selectedval, 'devId', 'devSerial')}
+        onChange={setDevId}
+        autoFocus={false}
+        placeholder={t('selectDeviceDrop')}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+            borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+            boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+            borderRadius: "var(--border-radius-big)"
+          }),
+        }}
+        theme={(theme) => ({
+          ...theme,
+          colors: {
+            ...theme.colors,
+            primary25: 'var(--main-color)',
+            primary: 'var(--main-color)',
+          },
+        })}
+        className="react-select-container"
+        classNamePrefix="react-select"
+      />
+    </>
   )
 }

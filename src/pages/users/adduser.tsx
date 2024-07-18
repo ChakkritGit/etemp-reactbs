@@ -2,7 +2,7 @@ import { Modal, Form, Row, Col, InputGroup } from "react-bootstrap"
 import { AddUserButton, FormBtn, FormFlexBtn, ModalHead, ProfileFlex } from "../../style/style"
 import { RiCloseLine, RiEditLine, RiUserAddLine } from "react-icons/ri"
 import { useTranslation } from "react-i18next"
-import React, { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useState } from "react"
 import { adduserProp } from "../../types/prop.type"
 import HospitalDropdown from "../../components/dropdown/hospitalDropdown"
 import WardDropdown from "../../components/dropdown/wardDropdown"
@@ -16,6 +16,18 @@ import { responseType } from "../../types/response.type"
 import { usersType } from "../../types/user.type"
 import { accessToken, cookieOptions, cookies, resizeImage } from "../../constants/constants"
 import { setCookieEncode, setShowAlert } from "../../stores/utilsStateSlice"
+import Select, { SingleValue } from 'react-select'
+import { useTheme } from "../../theme/ThemeProvider"
+
+type Option = {
+  value: string,
+  label: string,
+}
+
+type dataType = {
+  value: string,
+  name: string,
+}
 
 export default function Adduser(AdduserProp: adduserProp) {
   const { pagestate, userData } = AdduserProp
@@ -35,6 +47,7 @@ export default function Adduser(AdduserProp: adduserProp) {
   })
   const [hosid, setHosid] = useState('')
   const [userPicture, setUserPicture] = useState<string>(userData?.userPic ? `${import.meta.env.VITE_APP_IMG}${userData?.userPic}` : '')
+  const { theme } = useTheme()
 
   const openmodal = () => {
     setShow(true)
@@ -71,12 +84,16 @@ export default function Adduser(AdduserProp: adduserProp) {
     setform({ ...form, group_id: value })
   }
 
-  const setLevel = (e: ChangeEvent<HTMLSelectElement>) => {
-    setform({ ...form, user_level: e.target.value })
+  const setLevel = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setform({ ...form, user_level: selectedValue })
   }
 
-  const setStatus = (e: ChangeEvent<HTMLSelectElement>) => {
-    setform({ ...form, user_status: Number(e.target.value) })
+  const setStatus = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setform({ ...form, user_status: Number(selectedValue) })
   }
 
   const reFetchdata = async () => {
@@ -263,9 +280,21 @@ export default function Adduser(AdduserProp: adduserProp) {
   ]
 
   const userstatus = [
-    { value: 1, name: t('userActive') },
-    { value: 0, name: t('userInactive') }
+    { value: '1', name: t('userActive') },
+    { value: '0', name: t('userInactive') }
   ]
+
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
 
   return (
     <>
@@ -375,37 +404,32 @@ export default function Adduser(AdduserProp: adduserProp) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('userRole')}
-                    <Form.Select onChange={setLevel} name="fieldUserLevel" value={form.user_level}>
-                      {
-                        userlevel.map((item, index) => {
-                          const optionKey = `option_${index}`
-                          if (!userData?.userId && index === 0) {
-                            return (
-                              <React.Fragment key={optionKey}>
-                                <option key={`${optionKey}_select`} selected value={''}>
-                                  {t('selectRole')}
-                                </option>
-                                <option key={optionKey} value={item.value}>
-                                  {item.name}
-                                </option>
-                              </React.Fragment>
-                            )
-                          } else if (item.value === userData?.userLevel) {
-                            return (
-                              <option key={optionKey} selected value={item.value}>
-                                {item.name}
-                              </option>
-                            )
-                          } else {
-                            return (
-                              <option key={optionKey} value={item.value}>
-                                {item.name}
-                              </option>
-                            )
-                          }
-                        })
-                      }
-                    </Form.Select>
+                    <Select
+                      options={mapOptions<dataType, keyof dataType>(userlevel, 'value', 'name')}
+                      defaultValue={mapDefaultValue<dataType, keyof dataType>(userlevel, form.user_level, 'value', 'name')}
+                      onChange={setLevel}
+                      autoFocus={false}
+                      placeholder={t('selectRole')}
+                      styles={{
+                        control: (baseStyles, state) => ({
+                          ...baseStyles,
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                          borderRadius: "var(--border-radius-big)"
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'var(--main-color)',
+                          primary: 'var(--main-color)',
+                        },
+                      })}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                    />
                   </Form.Label>
                 </InputGroup>
               </Col>
@@ -431,28 +455,32 @@ export default function Adduser(AdduserProp: adduserProp) {
                     <InputGroup className="mb-3">
                       <Form.Label className="w-100">
                         {t('userStatus')}
-                        <Form.Select onChange={setStatus} name="field_status" value={form.user_status}>
-                          <option key={'01'} value={''}>
-                            {t('selectStatus')}
-                          </option>
-                          {
-                            userstatus.map((item, index) => {
-                              if (item.value === form.user_status) {
-                                return (
-                                  <option key={index} value={item.value}>
-                                    {item.name}
-                                  </option>
-                                )
-                              } else {
-                                return (
-                                  <option key={index} value={item.value}>
-                                    {item.name}
-                                  </option>
-                                )
-                              }
-                            })
-                          }
-                        </Form.Select>
+                        <Select
+                          options={mapOptions<dataType, keyof dataType>(userstatus, 'value', 'name')}
+                          defaultValue={mapDefaultValue<dataType, keyof dataType>(userstatus, String(form.user_status), 'value', 'name')}
+                          onChange={setStatus}
+                          autoFocus={false}
+                          placeholder={t('selectStatus')}
+                          styles={{
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                              borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                              boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                              borderRadius: "var(--border-radius-big)"
+                            }),
+                          }}
+                          theme={(theme) => ({
+                            ...theme,
+                            colors: {
+                              ...theme.colors,
+                              primary25: 'var(--main-color)',
+                              primary: 'var(--main-color)',
+                            },
+                          })}
+                          className="react-select-container"
+                          classNamePrefix="react-select"
+                        />
                       </Form.Label>
                     </InputGroup>
                   </Col>

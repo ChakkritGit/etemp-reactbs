@@ -6,7 +6,7 @@ import {
 import { RiArrowDownLine, RiArrowLeftSLine, RiArrowRightLine, RiCloseLine, RiSpeakerLine, RiVolumeMuteLine, RiVolumeUpLine } from "react-icons/ri"
 import { Slider } from "@mui/material"
 import { AdjustRealTimeFlex, ModalMuteHead, OpenSettingBuzzer } from "../../style/components/home.styled"
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { AsyncThunk } from "@reduxjs/toolkit"
 import { devicesType } from "../../types/device.type"
@@ -21,13 +21,24 @@ import { ConfigBtn } from "../../style/components/manage.config"
 import { MuteEtemp } from "../../style/components/sound.setting"
 import { storeDispatchType } from "../../stores/store"
 import { setShowAlert } from "../../stores/utilsStateSlice"
-// import toast from "react-hot-toast"
+import Select, { SingleValue } from 'react-select'
+import { useTheme } from "../../theme/ThemeProvider"
 
 type modalAdjustType = {
   fetchData: AsyncThunk<devicesType[], string, {}>,
   devicesdata: devicesType,
   setShow: Dispatch<SetStateAction<boolean>>,
   show: boolean
+}
+
+type Option = {
+  value: string,
+  label: string,
+}
+
+type Ward = {
+  probeId: string,
+  probeName: string,
 }
 
 const ModalAdjust = (modalProps: modalAdjustType) => {
@@ -58,6 +69,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   const [muteEtemp, setMuteEtemp] = useState(false)
   const { choichOne, choichfour, choichthree, choichtwo } = muteMode
   const { userLevel } = tokenDecode
+  const { theme } = useTheme()
 
   const handleTempChange = (_event: Event, newValue: number | number[]) => {
     setTempvalue(newValue as number[])
@@ -207,9 +219,11 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     }
   }, [show])
 
-  const selectProbe = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectProbeI(e.target.value)
-    const newProbeData = devicesdata.probe.filter((items) => items.probeId === e.target.value)
+  const selectProbe = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    setSelectProbeI(selectedValue)
+    const newProbeData = devicesdata.probe.filter((items) => items.probeId === selectedValue)
     setFormData({ ...formData, adjust_temp: newProbeData[0]?.adjustTemp, adjust_hum: newProbeData[0]?.adjustHum })
     setHumvalue([newProbeData[0]?.humMin, newProbeData[0]?.humMax])
     setTempvalue([newProbeData[0]?.tempMin, newProbeData[0]?.tempMax])
@@ -224,6 +238,18 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       client.publish(`${devicesdata.devSerial}/mute/short`, 'on')
     }
   }, [muteEtemp])
+
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string ?? t('nameNotRegister')
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: item[valueKey] as unknown as string,
+      label: item[labelKey] as unknown as string ?? t('nameNotRegister')
+    }))[0]
 
   return (
     <>
@@ -247,11 +273,31 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
               <Form.Label>
                 <span><b>{t('selectProbe')}</b></span>
                 <LineHr />
-                <Form.Select value={selectProbeI} onChange={selectProbe} className="mt-2">
-                  {devicesdata.probe.map((items) => {
-                    return <option key={items.probeId} value={items.probeId}>{items.probeName ? items.probeName : t('nameNotRegister')}</option>
+                <Select
+                  options={mapOptions<Ward, keyof Ward>(devicesdata.probe, 'probeId', 'probeName')}
+                  defaultValue={mapDefaultValue<Ward, keyof Ward>(devicesdata.probe, selectProbeI, 'probeId', 'probeName')}
+                  onChange={selectProbe}
+                  autoFocus={false}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                      borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                      boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                      borderRadius: "var(--border-radius-big)"
+                    }),
+                  }}
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: 'var(--main-color)',
+                      primary: 'var(--main-color)',
+                    },
                   })}
-                </Form.Select>
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                />
               </Form.Label>
             </Row>
             <Row className="mt-3">

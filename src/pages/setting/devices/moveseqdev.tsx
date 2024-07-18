@@ -1,7 +1,7 @@
 import { RiCloseLine, RiDragMove2Fill } from 'react-icons/ri'
 import { BeforeSeq, OpenModalButton } from '../../../style/components/manage.dev'
 import { devicesType } from '../../../types/device.type'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { Col, Form, InputGroup, Modal, Row } from 'react-bootstrap'
 import { FormBtn, FormFlexBtn, ModalHead } from '../../../style/style'
 import { useTranslation } from 'react-i18next'
@@ -12,9 +12,22 @@ import axios, { AxiosError } from 'axios'
 import { setShowAlert } from '../../../stores/utilsStateSlice'
 import { storeDispatchType } from '../../../stores/store'
 import { fetchDevicesData } from '../../../stores/devicesSlices'
+import { useTheme } from '../../../theme/ThemeProvider'
+import Select, { SingleValue } from 'react-select'
 
 type moveSeqType = {
   devData: devicesType
+}
+
+type Option = {
+  value: string,
+  label: string,
+}
+
+type Seq = {
+  devSerial: string,
+  devId: string,
+  devSeq: number
 }
 
 export default function Moveseqdev({ devData }: moveSeqType) {
@@ -25,6 +38,7 @@ export default function Moveseqdev({ devData }: moveSeqType) {
   const { token } = cookieDecode
   const { devId, devSeq, devSerial } = devData
   const [show, setShow] = useState(false)
+  const { theme } = useTheme()
   const [selectDev, setSelectDev] = useState({
     devSerial: '- -',
     devId: '',
@@ -93,12 +107,33 @@ export default function Moveseqdev({ devData }: moveSeqType) {
     }
   }
 
-  const setWardId = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectData: devicesType = JSON.parse(e.target.value)
+  const setNewSeq = (e: SingleValue<Option>) => {
+    const selectedValue = e?.value
+    if (!selectedValue) return
+    const selectData: devicesType = JSON.parse(selectedValue)
     const { devId, devSeq, devSerial } = selectData
     setSelectDev({ devSerial: devSerial, devId: devId, devSeq: devSeq })
   }
 
+  const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, valueKey2: K, labelKey: K): Option[] =>
+    data.map(item => ({
+      value: JSON.stringify({
+        devSerial: item[labelKey],
+        devId: item[valueKey],
+        devSeq: item[valueKey2]
+      }) as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))
+
+  const mapDefaultValue = <T, K extends keyof T>(data: T[], id: string, valueKey: K, valueKey2: K, labelKey: K): Option | undefined =>
+    data.filter(item => item[valueKey] === id).map(item => ({
+      value: JSON.stringify({
+        devSerial: item[labelKey],
+        devId: item[valueKey],
+        devSeq: item[valueKey2]
+      }) as unknown as string,
+      label: item[labelKey] as unknown as string
+    }))[0]
 
   return (
     <>
@@ -164,18 +199,32 @@ export default function Moveseqdev({ devData }: moveSeqType) {
                 <InputGroup className="mb-3">
                   <Form.Label className="w-100">
                     {t('deviceSerialTb')}
-                    <Form.Select onChange={setWardId} name="fieldSelectWard" value={JSON.stringify(selectDev)} >
-                      <option value={JSON.stringify({
-                        devSerial: '- -',
-                        devId: '',
-                        devSeq: 0
-                      })}>{t('selectDeviceDrop')}</option>
-                      {
-                        devices.filter((f) => f.devId !== devId).map((item) => {
-                          return <option key={item.devId} value={JSON.stringify({ devSerial: item.devSerial, devId: item.devId, devSeq: item.devSeq })}>{item.devSerial}</option>
-                        })
-                      }
-                    </Form.Select>
+                    <Select
+                      options={mapOptions<Seq, keyof Seq>(devices.filter((f) => f.devId !== devId), 'devId', 'devSeq', 'devSerial')}
+                      defaultValue={mapDefaultValue<Seq, keyof Seq>(devices.filter((f) => f.devId !== devId), JSON.stringify(selectDev), 'devId', 'devSeq', 'devSerial')}
+                      onChange={setNewSeq}
+                      autoFocus={false}
+                      placeholder={t('selectDeviceDrop')}
+                      styles={{
+                        control: (baseStyles, state) => ({
+                          ...baseStyles,
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+                          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+                          borderRadius: "var(--border-radius-big)"
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        colors: {
+                          ...theme.colors,
+                          primary25: 'var(--main-color)',
+                          primary: 'var(--main-color)',
+                        },
+                      })}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                    />
                   </Form.Label>
                 </InputGroup>
               </Col>
