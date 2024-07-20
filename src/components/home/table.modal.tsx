@@ -16,6 +16,7 @@ const TableModal = (tableModalProps: TableModalProps) => {
   const openmodal = () => {
     setShow(true)
   }
+
   return (
     <>
       <DeviceCardHeadHandle>

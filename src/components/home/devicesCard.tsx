@@ -5,19 +5,19 @@ import {
 } from '../../style/style'
 import { useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../../types/redux.type'
-// import { CountUp } from "countup.js"
+import { FilterText } from '../../types/component.type'
 
-type DevCard = {
-  title: string,
-  count: number,
-  times: string,
-  svg: ReactNode,
-  switchcase?: (text: string, active: boolean) => void,
-  cardname: string,
+type DevCardProps = {
+  title: string
+  count: number
+  times: string
+  svg: ReactNode
+  switchcase?: (filtertext: FilterText, cardactive: boolean) => void
+  cardname: FilterText
   active: boolean
 }
 
-export default function DevicesCard(DevCard: DevCard) {
+export default function DevicesCard(DevCard: DevCardProps) {
   const { expand } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { switchcase } = DevCard
   const acTive = () => {

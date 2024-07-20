@@ -28,6 +28,8 @@ export default {
     // home table
     deviceNoTb: 'ลำดับ',
     deviceDate: 'วันที่',
+    deviceNameBox: 'ชื่อกล่อง',
+    deviceSnBox: 'S/N',
     deviceNameTb: 'ชื่ออุปกรณ์',
     deviceSerialTb: 'ซีเรียลกล่อง',
     deviceLocationTb: 'ตำแหน่งที่ติดตั้ง',
@@ -96,8 +98,8 @@ export default {
     // dashboard
     temperatureName: 'อุณหภูมิ',
     humidityName: 'ความชื้น',
-    minValueUnit: 'ต่ำ',
-    maxValueUnit: 'สูง',
+    tempValueUnit: 'เซตอุณหภูมิ',
+    humValueUnit: 'เซตค่าความชื้น',
     dashProbe: 'โพรบ',
     dashConnect: 'การเชื่อมต่อ',
     dashDoor: 'ประตู',
@@ -340,6 +342,10 @@ export default {
     sourceSeq: 'ลำดับต้นทาง',
     destSeq: 'ลำดับปลายทาง',
     optimizeGraph: 'ปรับกราฟให้เหมาะสม',
+
+    // connect
+    ipAddress: 'IP',
+    macAddress: 'MAC',
 
     // router
     titleError: 'อุ๊ปส์!',

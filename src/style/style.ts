@@ -1705,7 +1705,7 @@ margin-top: 1rem;
   align-items: center;
   flex-wrap: wrap; */
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   max-width: 1480px;
 
@@ -2263,7 +2263,7 @@ export const DashboardDevicesDetails = styled.div<{ $primary?: boolean }>`
 display: flex;
 flex-direction: column;
 flex-wrap: wrap;
-width: 30%;
+width: 40%;
 gap: 1rem;
 padding: 1rem;
 background-color: var(--white);
@@ -2285,6 +2285,11 @@ ${props => props.theme.mode === 'dark' &&
 }
 `
 
+export const SpanCardDash = styled.div`
+  display: flex;
+  gap: .3rem;
+`
+
 export const DeviceDetailsHead = styled.div<{ $primary?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -2299,7 +2304,7 @@ ${props => props.theme.mode === 'dark' &&
     }
 `}
 
-div {
+&div:nth-child(1) {
   display: flex;
   flex-direction: column;
 
@@ -2344,13 +2349,12 @@ width: 100%;
 height: 180px;
 aspect-ratio: 3/4;
 border-radius: var(--border-radius-big);
-border: 2px solid transparent;
+padding: 3px;
+box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 cursor: pointer;
 overflow: hidden;
 
 &:hover {
-  border-color: var(--main-color);
-  padding: 3px;
   transform: scale(.95);
   transition: transform ease .3s;
 }
@@ -2366,17 +2370,16 @@ export const DeviceDetailsBodyInfo = styled.div<{ $primary?: boolean }>`
   div {
     display: flex;
     flex-direction: column;
+    gap: .3rem;
 
     span {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
 
-  div>span:nth-child(1) {
-    max-width: 150px;
+  div>li:nth-child(1) {
+    max-height: 45px;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 `
 
@@ -2384,7 +2387,7 @@ export const DevicesBodyStatus = styled.div<{ $primary?: boolean }>`
 display: grid;
 grid-template-columns: repeat(5, 1fr);
 justify-items: center;
-width: 70%;
+width: 60%;
 gap: 1rem;
 
 @media (max-width: 430px) {
@@ -2480,6 +2483,7 @@ justify-content: center;
 align-items: center;
 font-weight: bold;
 font-size: 18px;
+gap: 5px;
 overflow: hidden;
 white-space: nowrap;
 text-overflow: ellipsis;

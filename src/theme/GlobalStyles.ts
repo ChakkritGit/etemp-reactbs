@@ -479,6 +479,10 @@ img {
   border: var(--bs-border-width) solid var(--bs-border-color) !important;
 }
 
+.home-lg {
+  max-width: 1450px;
+}
+
 ${(props) =>
     props.theme.mode === 'dark' ?
       css`

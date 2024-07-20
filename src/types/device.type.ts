@@ -35,7 +35,8 @@ interface devicesType extends devices {
     warranty: number,
     repair: number,
     history: number,
-    noti: number
+    noti: number,
+    log: number
   }
 }
 

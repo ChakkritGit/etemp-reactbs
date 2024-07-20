@@ -12,6 +12,7 @@ import {
   DeviceDetailsHead, DevicesBodyStatus, ExpandPicture, FormBtn,
   FormFlexBtn, FormSliderRange, ModalHead,
   RangeInputText, SliderFlex, SliderLabelFlex, SliderRangeFlex,
+  SpanCardDash,
   TooltipSpanLeft
 } from "../../style/style"
 import { devicesType } from "../../types/device.type"
@@ -234,12 +235,16 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
       <DashboardDevicesDetails>
         <DeviceDetailsHead>
           <div>
-            <strong>
-              {devicesData?.devSerial}
-            </strong>
-            <span>
-              {devicesData?.devDetail}
-            </span>
+            <SpanCardDash>
+              <b>{t('deviceNameBox')}</b>
+              <span>•</span>
+              <span>{devicesData?.devDetail}</span>
+            </SpanCardDash>
+            <SpanCardDash>
+              <b>{t('deviceSnBox')}</b>
+              <span>•</span>
+              <span>{devicesData?.devSerial}</span>
+            </SpanCardDash>
           </div>
           <CardDevBtn onClick={openmodal}>
             <RiSettings3Line />
@@ -256,12 +261,11 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
             loading="lazy" />
           <DeviceDetailsBodyInfo>
             <div>
-              <span title={devicesData?.locInstall ? devicesData?.locInstall : '- -'}>{devicesData?.locInstall ? devicesData?.locInstall : '- -'}</span>
-              <span>{t('temperatureName')}</span>
-              <span>{t('minValueUnit')}: {probe[0]?.tempMin.toFixed(2)}°C {t('maxValueUnit')}: {probe[0]?.tempMax.toFixed(2)}°C</span>
-              <span>{t('humidityName')}</span>
-              <span>{t('minValueUnit')}: {probe[0]?.humMin.toFixed(2)}% {t('maxValueUnit')}: {probe[0]?.humMax.toFixed(2)}%</span>
-              <span>{devicesData?.config?.ip ? devicesData?.config?.ip : '- -'}</span>
+              <li><b title={devicesData?.locInstall ? devicesData?.locInstall : '- -'}>{devicesData?.locInstall ? devicesData?.locInstall : '- -'}</b></li>
+              <li><b>{t('tempValueUnit')}</b>: {probe[0]?.tempMin} - {probe[0]?.tempMax} °C</li>
+              <li><b>{t('humValueUnit')}</b>: {probe[0]?.humMin} - {probe[0]?.humMax} %RH</li>
+              <li><b>{t('ipAddress')}</b>: {devicesData?.config?.ip ? devicesData?.config?.ip : '- -'}</li>
+              <li><b>{t('macAddress')}</b>: {devicesData?.config?.macAddWiFi ? devicesData?.config?.macAddWiFi : '- -'}</li>
             </div>
           </DeviceDetailsBodyInfo>
         </DeviceDetailsBody>
@@ -270,10 +274,10 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         <CardstatusSpecial
           title={t('dashProbe')}
           svg={<RiTempColdLine />}
-          valuesone={'T: ' + devicesData?.log[0]?.tempAvg.toFixed(2)}
-          valuestwo={'H: ' + devicesData?.log[0]?.humidityAvg.toFixed(2)}
+          valuesone={'Temp: ' + devicesData?.log[0]?.tempAvg.toFixed(2)}
+          valuestwo={'Hum: ' + devicesData?.log[0]?.humidityAvg.toFixed(2)}
           pipeone={'°C'}
-          pipetwo={'%'}
+          pipetwo={'%RH'}
           alertone={Number(devicesData?.log[0]?.tempAvg.toFixed(2)) === 0 || Number(devicesData?.log[0]?.tempAvg.toFixed(2)) >= probe[0]?.tempMax || Number(devicesData?.log[0]?.tempAvg.toFixed(2)) <= probe[0]?.tempMin}
           alerttwo={Number(devicesData?.log[0]?.humidityAvg.toFixed(2)) === 0 || Number(devicesData?.log[0]?.humidityAvg.toFixed(2)) >= probe[0]?.humMax || Number(Number(devicesData?.log[0]?.humidityAvg.toFixed(2))) <= probe[0]?.humMin}
         />

@@ -56,7 +56,7 @@ export function CardstatusSpecial(CardstatusSpecial: CardstatusSpecial) {
         </div>
         <div>
           <DashBoardCardSpan $alerttwo={CardstatusSpecial.alertone}>
-            {CardstatusSpecial.valuestwo}
+            <span>{CardstatusSpecial.valuestwo}</span>
             <sub>{CardstatusSpecial.pipetwo}</sub>
           </DashBoardCardSpan>
         </div>

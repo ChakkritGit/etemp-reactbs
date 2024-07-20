@@ -28,7 +28,9 @@ export default {
     // home table
     deviceNoTb: 'No',
     deviceDate: 'Date',
+    deviceNameBox: 'Name',
     deviceNameTb: 'Device Name',
+    deviceSnBox: 'S/N',
     deviceSerialTb: 'Device Serial',
     deviceLocationTb: 'Device Location',
     deviceTempTb: 'Temperature',
@@ -96,8 +98,8 @@ export default {
     // dashboard
     temperatureName: 'Temperature',
     humidityName: 'Humidity',
-    minValueUnit: 'Min',
-    maxValueUnit: 'Max',
+    tempValueUnit: 'Temp',
+    humValueUnit: 'Humi',
     dashProbe: 'Probe',
     dashConnect: 'Connectivity',
     dashDoor: 'Doors',
@@ -340,6 +342,10 @@ export default {
     sourceSeq: 'Source Sequence',
     destSeq: 'Destination Sequence',
     optimizeGraph: 'Optimize Chart',
+
+    // connect
+    ipAddress: 'IP',
+    macAddress: 'MAC',
 
     // router
     titleError: 'Oops!',

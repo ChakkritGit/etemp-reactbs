@@ -34,13 +34,13 @@ import DataTable, { TableColumn } from "react-data-table-component"
 import TableModal from "../../components/home/table.modal"
 import PageLoading from "../../components/loading/page.loading"
 import { probeType } from "../../types/probe.type"
-import { cardFilter } from "../../types/component.type"
+import { cardFilter, FilterText } from "../../types/component.type"
 import { cookieOptions, cookies, resetActive } from "../../constants/constants"
-import { logtype } from "../../types/log.type"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import { TagCurrentHos } from "../../style/components/home.styled"
 import { useTheme } from "../../theme/ThemeProvider"
+import { notificationType } from "../../types/notification.type"
 
 type Option = {
   value: string,
@@ -83,6 +83,8 @@ export default function Home() {
   const [cardFilterData, setCardFilterData] = useState<cardFilter[]>([])
   const { userLevel } = cookieDecode
   const { theme } = useTheme()
+  const [onFilteres, setOnFilteres] = useState(false)
+  const [rowPerPage, setRowPerPage] = useState(cookies.get('rowperpage') ?? 10)
 
   const showtk = () => {
     setShowticks(true)
@@ -106,163 +108,77 @@ export default function Home() {
     }
   }
 
-  const Switchcase = (filtertext: string, cardactive: boolean) => {
+  const Switchcase = (filtertext: FilterText, cardactive: boolean) => {
     showToolTip()
-
+    setOnFilteres(cardactive)
     let tempFilter: devicesType[] = []
     dispatch(setSearchQuery(''))
 
-    switch (filtertext) {
-      case 'probe':
-        tempFilter = devices.filter((devItems) => devItems.noti.length > 0)
-        break
-      case 'door':
-        tempFilter = devices.filter(device =>
-          device.log.some(logItem =>
-            logItem.door1 === "1" || logItem.door2 === "1" || logItem.door3 === "1"
-          ) && device.log.some(logItem => logItem.devSerial === device.devSerial)
-        )
-        break
-      case 'connect':
-        tempFilter = devices.filter(device =>
-          device.log.some(logItem => logItem.internet === "1")
-        )
-        break
-      case 'plug':
-        tempFilter = devices.filter(device =>
-          device.log.some(logItem => logItem.ac === "1")
-        )
-        break
-      case 'sd':
-        tempFilter = devices.filter(device =>
-          device.log.some(logItem => logItem.sdCard === "1")
-        )
-        break
-      case 'adjust':
-        navigate("/management/logadjust")
-        break
-      case 'repair':
-        navigate("/repair")
-        break
-      case 'warranty':
-        navigate("/warranty")
-        break
-      default:
-        break
+    const filterMap: {
+      [key in FilterText]: () => devicesType[] | void
+    } = {
+      probe: () => devices.filter(dev => dev.noti.some(n => ['LOWER', 'OVER'].includes(n.notiDetail.split('/')[1]))),
+      door: () => devices.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0].startsWith('PROBE'))),
+      connect: () => devices.filter(dev => dev._count?.log),
+      plug: () => devices.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0] === 'AC')),
+      sd: () => devices.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0] === 'SD')),
+      adjust: () => navigate("/management/logadjust"),
+      repair: () => navigate("/repair"),
+      warranty: () => navigate("/warranty"),
+    }
+
+    if (filtertext in filterMap) {
+      const result = filterMap[filtertext]()
+      if (Array.isArray(result)) {
+        tempFilter = result
+      }
     }
 
     if (!filtertext) {
       setActive({ ...resetActive, [filtertext]: true })
     } else {
       setActive({ ...resetActive, [filtertext]: cardactive })
-      dispatch(setFilterDevice(cardactive ? tempFilter : wardId !== 'WID-DEVELOPMENT'
-        ? devices.filter((items) => items.wardId === wardId)
-        : devices))
+      dispatch(setFilterDevice(cardactive ? tempFilter : (wardId !== 'WID-DEVELOPMENT' ? devices.filter(item => item.wardId === wardId) : devices)))
     }
 
-    if (!!active.adjust && !!active.probe && !!active.door && !!active.connect && !!active.plug
-      && !!active.sd && !!active.adjust && !!active.repair && !!active.warranty) {
+    const allActive = Object.values(active).every(Boolean)
+    if (allActive) {
       dispatch(setFilterDevice(devices))
     }
   }
 
   useEffect(() => {
-    const getCount = <K extends keyof devicesType>(key: K, condition: (items: logtype) => boolean): number =>
-      devicesFilter
-        .flatMap(devItems => Array.isArray(devItems[key]) ? devItems[key] as (logtype)[] : [])
-        .filter((items): items is logtype => 'devSerial' in items && typeof items === 'object' && condition(items))
-        .length
-
     const getSum = (key: keyof NonNullable<devicesType['_count']>): number =>
-      devicesFilter
-        .map((devItems) => devItems._count?.[key] ?? 0) // Use 0 as the default value if undefined
-        .reduce((acc, val) => acc + val, 0)
+      devicesFilter.reduce((acc, devItems) => acc + (devItems._count?.[key] ?? 0), 0)
+
+    const getFilteredCount = (predicate: (n: notificationType) => boolean): number =>
+      devicesFilter.flatMap(i => i.noti).filter(predicate).length
+
+    const createCard = (id: number, title: string, count: number, times: string, svg: JSX.Element, cardname: string, active: boolean) => ({
+      id,
+      title: t(title),
+      count,
+      times: t(times),
+      svg,
+      cardname,
+      switchcase: Switchcase,
+      active
+    })
 
     const CardFilterData = [
-      {
-        id: 1,
-        title: t('countProbe'),
-        count: getCount('noti', () => true),
-        times: t('countNormalUnit'),
-        svg: <RiTempColdLine />,
-        cardname: 'probe',
-        switchcase: Switchcase,
-        active: active.probe
-      },
-      {
-        id: 2,
-        title: t('countDoor'),
-        count: getSum('noti'),
-        times: t('countNormalUnit'),
-        svg: <RiDoorClosedLine />,
-        cardname: 'door',
-        switchcase: Switchcase,
-        active: active.door
-      },
-      {
-        id: 3,
-        title: t('countConnect'),
-        count: getCount('log', (items) => items.internet === "1"),
-        times: t('countNormalUnit'),
-        svg: <RiSignalWifi1Line />,
-        cardname: 'connect',
-        switchcase: Switchcase,
-        active: active.connect
-      },
-      {
-        id: 4,
-        title: t('countPlug'),
-        count: getCount('log', (items) => items.ac === "1"),
-        times: t('countNormalUnit'),
-        svg: <RiPlugLine />,
-        cardname: 'plug',
-        switchcase: Switchcase,
-        active: active.plug
-      },
-      {
-        id: 5,
-        title: t('countSdCard'),
-        count: getCount('log', (items) => items.sdCard === "1"),
-        times: t('countNormalUnit'),
-        svg: <RiSdCardMiniLine />,
-        cardname: 'sd',
-        switchcase: Switchcase,
-        active: active.sd
-      },
-      {
-        id: 6,
-        title: t('countAdjust'),
-        count: getSum('history'),
-        times: t('countNormalUnit'),
-        svg: <RiListSettingsLine />,
-        cardname: 'adjust',
-        switchcase: Switchcase,
-        active: active.adjust
-      },
-      {
-        id: 8,
-        title: t('countWarranty'),
-        count: getSum('warranty'),
-        times: t('countDeviceUnit'),
-        svg: <RiShieldCheckLine />,
-        cardname: 'warranty',
-        switchcase: Switchcase,
-        active: active.warranty
-      },
-      {
-        id: 7,
-        title: t('countRepair'),
-        count: getSum('repair'),
-        times: t('countDeviceUnit'),
-        svg: <RiFolderSettingsLine />,
-        cardname: 'repair',
-        switchcase: Switchcase,
-        active: active.repair
-      }
+      createCard(1, 'countProbe', getFilteredCount(n => ['LOWER', 'OVER'].includes(n.notiDetail.split('/')[1])), 'countNormalUnit', <RiTempColdLine />, 'probe', active.probe),
+      createCard(2, 'countDoor', getFilteredCount(n => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE'), 'countNormalUnit', <RiDoorClosedLine />, 'door', active.door),
+      createCard(3, 'countConnect', getSum('log'), 'countNormalUnit', <RiSignalWifi1Line />, 'connect', active.connect),
+      createCard(4, 'countPlug', getFilteredCount(n => n.notiDetail.split('/')[0] === 'AC'), 'countNormalUnit', <RiPlugLine />, 'plug', active.plug),
+      createCard(5, 'countSdCard', getFilteredCount(n => n.notiDetail.split('/')[0] === 'SD'), 'countNormalUnit', <RiSdCardMiniLine />, 'sd', active.sd),
+      createCard(6, 'countAdjust', getSum('history'), 'countNormalUnit', <RiListSettingsLine />, 'adjust', active.adjust),
+      createCard(7, 'countRepair', getSum('repair'), 'countDeviceUnit', <RiFolderSettingsLine />, 'repair', active.repair),
+      createCard(8, 'countWarranty', getSum('warranty'), 'countDeviceUnit', <RiShieldCheckLine />, 'warranty', active.warranty),
     ]
 
     setCardFilterData(CardFilterData)
   }, [devicesFilter, t])
+
 
   const handleRowClicked = (row: devicesType) => {
     cookies.set('devid', row.devId, cookieOptions)
@@ -350,15 +266,22 @@ export default function Home() {
       cell: ((items) => {
         const temp = items.log.filter((logItems) => logItems.devSerial === items.devSerial)
         const probe = items.probe.filter((logItems) => logItems.devSerial === items.devSerial)
-        return <DeviceCardFooterInfo
-          $size
-          $primary={temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin}>
-          {temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ?
-            <RiErrorWarningLine />
+        return (
+          !onFilteres ?
+            <DeviceCardFooterInfo
+              $size
+              $primary={temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin}>
+              {temp[0]?.tempAvg >= probe[0]?.tempMax || temp[0]?.tempAvg <= probe[0]?.tempMin ?
+                <RiErrorWarningLine />
+                :
+                <RiTempColdLine />
+              }
+            </DeviceCardFooterInfo>
             :
-            <RiTempColdLine />
-          }
-        </DeviceCardFooterInfo>
+            <div>
+              {`${items.noti.filter((n) => n.notiDetail.split('/')[1] === 'LOWER' || n.notiDetail.split('/')[1] === 'OVER').length} ${t('countNormalUnit')}`}
+            </div>
+        )
       }),
       sortable: false,
       center: true,
@@ -366,98 +289,105 @@ export default function Home() {
     },
     {
       name: t('deviceDoorTb'),
-      cell: ((items) => (<DeviceCardFooterDoorFlex key={items.devId} $primary>
-        {
-          items.probe[0]?.door === 1 ?
-            <DeviceCardFooterDoor
-              $primary={items.log[0]?.door1 === "1"}
-            >
-              {
-                items.log[0]?.door1 === "1" ?
-                  <RiDoorOpenLine />
+      cell: ((items) => (
+        !onFilteres ?
+          <DeviceCardFooterDoorFlex key={items.devId} $primary>
+            {
+              items.probe[0]?.door === 1 ?
+                <DeviceCardFooterDoor
+                  $primary={items.log[0]?.door1 === "1"}
+                >
+                  {
+                    items.log[0]?.door1 === "1" ?
+                      <RiDoorOpenLine />
+                      :
+                      <RiDoorClosedLine />
+                  }
+                </DeviceCardFooterDoor>
+                :
+                items.probe[0]?.door === 2 ?
+                  <>
+                    <DeviceCardFooterDoor
+                      $primary={items.log[0]?.door1 === "1"}
+                    >
+                      {
+                        items.log[0]?.door1 === "1" ?
+                          <RiDoorOpenLine />
+                          :
+                          <RiDoorClosedLine />
+                      }
+                    </DeviceCardFooterDoor>
+                    <DeviceCardFooterDoor
+                      $primary={items.log[0]?.door2 === "1"}
+                    >
+                      {
+                        items.log[0]?.door2 === "1" ?
+                          <RiDoorOpenLine />
+                          :
+                          <RiDoorClosedLine />
+                      }
+                    </DeviceCardFooterDoor>
+                  </>
                   :
-                  <RiDoorClosedLine />
-              }
-            </DeviceCardFooterDoor>
-            :
-            items.probe[0]?.door === 2 ?
-              <>
-                <DeviceCardFooterDoor
-                  $primary={items.log[0]?.door1 === "1"}
-                >
-                  {
-                    items.log[0]?.door1 === "1" ?
-                      <RiDoorOpenLine />
-                      :
-                      <RiDoorClosedLine />
-                  }
-                </DeviceCardFooterDoor>
-                <DeviceCardFooterDoor
-                  $primary={items.log[0]?.door2 === "1"}
-                >
-                  {
-                    items.log[0]?.door2 === "1" ?
-                      <RiDoorOpenLine />
-                      :
-                      <RiDoorClosedLine />
-                  }
-                </DeviceCardFooterDoor>
-              </>
-              :
-              <>
-                <DeviceCardFooterDoor
-                  $primary={items.log[0]?.door1 === "1"}
-                >
-                  {
-                    items.log[0]?.door1 === "1" ?
-                      <RiDoorOpenLine />
-                      :
-                      <RiDoorClosedLine />
-                  }
-                </DeviceCardFooterDoor>
-                <DeviceCardFooterDoor
-                  $primary={items.log[0]?.door2 === "1"}
-                >
-                  {
-                    items.log[0]?.door2 === "1" ?
-                      <RiDoorOpenLine />
-                      :
-                      <RiDoorClosedLine />
-                  }
-                </DeviceCardFooterDoor>
-                <DeviceCardFooterDoor
-                  $primary={items.log[0]?.door3 === "1"}
-                >
-                  {
-                    items.log[0]?.door3 === "1" ?
-                      <RiDoorOpenLine />
-                      :
-                      <RiDoorClosedLine />
-                  }
-                </DeviceCardFooterDoor>
-              </>
-        }
-      </DeviceCardFooterDoorFlex>)),
+                  <>
+                    <DeviceCardFooterDoor
+                      $primary={items.log[0]?.door1 === "1"}
+                    >
+                      {
+                        items.log[0]?.door1 === "1" ?
+                          <RiDoorOpenLine />
+                          :
+                          <RiDoorClosedLine />
+                      }
+                    </DeviceCardFooterDoor>
+                    <DeviceCardFooterDoor
+                      $primary={items.log[0]?.door2 === "1"}
+                    >
+                      {
+                        items.log[0]?.door2 === "1" ?
+                          <RiDoorOpenLine />
+                          :
+                          <RiDoorClosedLine />
+                      }
+                    </DeviceCardFooterDoor>
+                    <DeviceCardFooterDoor
+                      $primary={items.log[0]?.door3 === "1"}
+                    >
+                      {
+                        items.log[0]?.door3 === "1" ?
+                          <RiDoorOpenLine />
+                          :
+                          <RiDoorClosedLine />
+                      }
+                    </DeviceCardFooterDoor>
+                  </>
+            }
+          </DeviceCardFooterDoorFlex>
+          :
+          <div>
+            {`${items.noti.filter((n) => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE').length} ${t('countNormalUnit')}`}
+          </div>
+      )),
       sortable: false,
       center: true
     },
     {
       name: t('deviceConnectTb'),
       cell: (items) => {
-        return <DeviceStateNetwork $primary={items.log[0]?.internet === "1" || items.log?.length <= 0 || ((Number(new Date()) - Number(new Date(items.log[0]?.createAt))) / 1000) > 10 * 60}>
-          {items.log[0]?.internet === "1" || items.log?.length <= 0 || ((Number(new Date()) - Number(new Date(items.log[0]?.createAt))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline')}
-        </DeviceStateNetwork>
+        return (
+          !onFilteres ?
+            <DeviceStateNetwork $primary={items.log[0]?.internet === "1" || items.log?.length <= 0 || ((Number(new Date()) - Number(new Date(items.log[0]?.createAt))) / 1000) > 10 * 60}>
+              {items.log[0]?.internet === "1" || items.log?.length <= 0 || ((Number(new Date()) - Number(new Date(items.log[0]?.createAt))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline')}
+            </DeviceStateNetwork>
+            :
+            <div>
+              {`${items._count?.log} ${t('countNormalUnit')}`}
+            </div>
+        )
       },
       sortable: false,
       center: true,
       width: '90px'
-    },
-    {
-      name: t('deviceBatteryTb'),
-      selector: (items) => items.log[0]?.battery ? items.log[0]?.battery + '%' : '- -',
-      sortable: false,
-      center: true,
-      width: '83px'
     },
     {
       name: t('devicePlugTb'),
@@ -465,6 +395,13 @@ export default function Home() {
       sortable: false,
       center: true,
       width: '70px'
+    },
+    {
+      name: t('deviceBatteryTb'),
+      selector: (items) => items.log[0]?.battery ? items.log[0]?.battery + '%' : '- -',
+      sortable: false,
+      center: true,
+      width: '83px'
     },
     {
       name: t('deviceWarrantyTb'),
@@ -708,7 +645,7 @@ export default function Home() {
     }))[0]
 
   return (
-    <Container fluid>
+    <Container className="home-lg">
       <motion.div
         variants={items}
         initial="hidden"
@@ -741,7 +678,7 @@ export default function Home() {
                       count={items.count}
                       times={items.times}
                       svg={items.svg}
-                      cardname={items.cardname}
+                      cardname={items.cardname as FilterText}
                       switchcase={items.switchcase}
                       active={items.active}
                     />
@@ -856,9 +793,10 @@ export default function Home() {
                       // data={devicesFilter.length > 0 ? devicesFilter.filter((items) => { if (items.log.length > 0) { return items } }) : devicesFilter}
                       data={devicesFilter}
                       paginationRowsPerPageOptions={[10, 20, 40, 60, 80, 100]}
-                      paginationPerPage={10}
+                      paginationPerPage={rowPerPage}
                       onRowClicked={handleRowClicked}
                       expandableRowsComponent={ExpandedComponent}
+                      onChangeRowsPerPage={(n) => { setRowPerPage(n); cookies.set('rowperpage', n, cookieOptions) }}
                       pagination
                       dense
                       expandableRows
@@ -887,6 +825,7 @@ export default function Home() {
                               keyindex={index}
                               key={item.devSerial}
                               fetchData={filtersDevices}
+                              onFilter={onFilteres}
                             />
                           )
                           :
@@ -913,7 +852,7 @@ export default function Home() {
                     count={Math.floor(Math.random() * 9)}
                     times={'ครั้ง'}
                     svg={<RiTempColdLine />}
-                    cardname={''}
+                    cardname={'' as FilterText}
                     active={true}
                   />
                 </div>
@@ -940,7 +879,7 @@ export default function Home() {
                     count={Math.floor(Math.random() * 9)}
                     times={'ครั้ง'}
                     svg={<RiTempColdLine />}
-                    cardname={''}
+                    cardname={'' as FilterText}
                     active={false}
                   />
                 </div>

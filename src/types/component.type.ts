@@ -64,14 +64,16 @@ type jwtToken = {
 }
 // jwtTokenComponent
 
+type FilterText = 'probe' | 'door' | 'connect' | 'plug' | 'sd' | 'adjust' | 'repair' | 'warranty'
+
 type cardFilter = {
-  id: number,
-  title: string,
-  count: number,
-  times: string,
-  svg: JSX.Element,
-  cardname: string,
-  switchcase: (filtertext: string, cardactive: boolean) => void,
+  id: number
+  title: string
+  count: number
+  times: string
+  svg: JSX.Element
+  cardname: string
+  switchcase: (filtertext: FilterText, cardactive: boolean) => void
   active: boolean
 }
 
@@ -88,4 +90,4 @@ type firmwareType = {
   createDate: string
 }
 
-export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter, socketResponseType, firmwareType }
+export type { cardType, MyComponentFilters, countProblem, dataTableLog, jwtToken, cardFilter, socketResponseType, firmwareType, FilterText }

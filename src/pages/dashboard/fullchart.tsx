@@ -329,7 +329,7 @@ export default function Fullchart() {
             <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FullchartHeadBtn>
             <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
             <FullchartHeadBtn $primary={pageNumber === 3} onClick={Logmonth}>{t('month')}</FullchartHeadBtn>
-            <FullchartHeadBtn $primary={pageNumber === 4} onClick={() => setPagenumber(4)}>{t('chartCustom')}</FullchartHeadBtn>
+            <FullchartHeadBtn $primary={pageNumber === 4} onClick={() => {setPagenumber(4); setLogData([])}}>{t('chartCustom')}</FullchartHeadBtn>
             <span>|</span>
             <FullcharComparetHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullcharComparetHeadBtn>
           </FullchartHeadLeft>
@@ -408,7 +408,7 @@ export default function Fullchart() {
                 <FilterSearchBtn onClick={Logcustom}>{t('searchButton')}</FilterSearchBtn>
               </FilterContainer>}
             {
-              logData ?
+              logData.length > 0 ?
                 <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
                   <TableInfoDevice ref={tableInfoRef}>
                     <h4>{hosName}</h4>

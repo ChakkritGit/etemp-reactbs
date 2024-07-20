@@ -26,10 +26,11 @@ type DevicesInfoCard = {
   devicesdata: devicesType,
   keyindex: number,
   fetchData: AsyncThunk<devicesType[], string, object>,
+  onFilter: boolean
 }
 
 export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
-  const { devicesdata, fetchData } = DevicesInfoCard
+  const { devicesdata, fetchData, onFilter } = DevicesInfoCard
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [show, setShow] = useState(false)
@@ -104,87 +105,94 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
           <span title={devicesdata.locInstall ? devicesdata.locInstall : '- -'}>{devicesdata.locInstall ? devicesdata.locInstall : '- -'}</span>
         </DeviceCardBody>
         <DeviceCardFooter>
-          <DeviceCardFooterDoorFlex>
-            {
-              devicesdata.probe[0]?.door === 1 ?
-                <DeviceCardFooterDoor
-                  $primary={
-                    devicesdata.log[0]?.door1 === "1"
-                  }>
-                  {
-                    devicesdata.log[0]?.door1 === "1" ?
-                      <RiDoorOpenLine />
+          {
+            !onFilter ?
+              <DeviceCardFooterDoorFlex>
+                {
+                  devicesdata.probe[0]?.door === 1 ?
+                    <DeviceCardFooterDoor
+                      $primary={
+                        devicesdata.log[0]?.door1 === "1"
+                      }>
+                      {
+                        devicesdata.log[0]?.door1 === "1" ?
+                          <RiDoorOpenLine />
+                          :
+                          <RiDoorClosedLine />
+                      }
+                    </DeviceCardFooterDoor>
+                    :
+                    devicesdata.probe[0]?.door === 2 ?
+                      <>
+                        <DeviceCardFooterDoor
+                          $primary={
+                            devicesdata.log[0]?.door1 === "1"
+                          }>
+                          {
+                            devicesdata.log[0]?.door1 === "1" ?
+                              <RiDoorOpenLine />
+                              :
+                              <RiDoorClosedLine />
+                          }
+                        </DeviceCardFooterDoor>
+                        <DeviceCardFooterDoor
+                          $primary={
+                            devicesdata.log[0]?.door2 === "1"
+                          }>
+                          {
+                            devicesdata.log[0]?.door2 === "1" ?
+                              <RiDoorOpenLine />
+                              :
+                              <RiDoorClosedLine />
+                          }
+                        </DeviceCardFooterDoor>
+                      </>
                       :
-                      <RiDoorClosedLine />
-                  }
-                </DeviceCardFooterDoor>
-                :
-                devicesdata.probe[0]?.door === 2 ?
-                  <>
-                    <DeviceCardFooterDoor
-                      $primary={
-                        devicesdata.log[0]?.door1 === "1"
-                      }>
-                      {
-                        devicesdata.log[0]?.door1 === "1" ?
-                          <RiDoorOpenLine />
-                          :
-                          <RiDoorClosedLine />
-                      }
-                    </DeviceCardFooterDoor>
-                    <DeviceCardFooterDoor
-                      $primary={
-                        devicesdata.log[0]?.door2 === "1"
-                      }>
-                      {
-                        devicesdata.log[0]?.door2 === "1" ?
-                          <RiDoorOpenLine />
-                          :
-                          <RiDoorClosedLine />
-                      }
-                    </DeviceCardFooterDoor>
-                  </>
-                  :
-                  <>
-                    <DeviceCardFooterDoor
-                      $primary={
-                        devicesdata.log[0]?.door1 === "1"
-                      }>
-                      {
-                        devicesdata.log[0]?.door1 === "1" ?
-                          <RiDoorOpenLine />
-                          :
-                          <RiDoorClosedLine />
-                      }
-                    </DeviceCardFooterDoor>
-                    <DeviceCardFooterDoor
-                      $primary={
-                        devicesdata.log[0]?.door2 === "1"
-                      }>
-                      {
-                        devicesdata.log[0]?.door2 === "1" ?
-                          <RiDoorOpenLine />
-                          :
-                          <RiDoorClosedLine />
-                      }
-                    </DeviceCardFooterDoor>
-                    <DeviceCardFooterDoor
-                      $primary={
-                        devicesdata.log[0]?.door3 === "1"
-                      }>
-                      {
-                        devicesdata.log[0]?.door3 === "1" ?
-                          <RiDoorOpenLine />
-                          :
-                          <RiDoorClosedLine />
-                      }
-                    </DeviceCardFooterDoor>
-                  </>
-            }
-            <TooltipSpan>
-              {t('deviceDoor')}
-            </TooltipSpan>
-          </DeviceCardFooterDoorFlex>
+                      <>
+                        <DeviceCardFooterDoor
+                          $primary={
+                            devicesdata.log[0]?.door1 === "1"
+                          }>
+                          {
+                            devicesdata.log[0]?.door1 === "1" ?
+                              <RiDoorOpenLine />
+                              :
+                              <RiDoorClosedLine />
+                          }
+                        </DeviceCardFooterDoor>
+                        <DeviceCardFooterDoor
+                          $primary={
+                            devicesdata.log[0]?.door2 === "1"
+                          }>
+                          {
+                            devicesdata.log[0]?.door2 === "1" ?
+                              <RiDoorOpenLine />
+                              :
+                              <RiDoorClosedLine />
+                          }
+                        </DeviceCardFooterDoor>
+                        <DeviceCardFooterDoor
+                          $primary={
+                            devicesdata.log[0]?.door3 === "1"
+                          }>
+                          {
+                            devicesdata.log[0]?.door3 === "1" ?
+                              <RiDoorOpenLine />
+                              :
+                              <RiDoorClosedLine />
+                          }
+                        </DeviceCardFooterDoor>
+                      </>
+                }
+                <TooltipSpan>
+                  {t('deviceDoor')}
+                </TooltipSpan>
+              </DeviceCardFooterDoorFlex>
+              :
+              <div>
+                {`${t('deviceDoorTb')} ${devicesdata._count?.noti} ${t('countNormalUnit')}`}
+              </div>
+          }
           <DeviceCardFooterTemp>
             <DeviceCardFooterTempT>
               {devicesdata.log[0]?.tempAvg.toFixed(2) || '- -'}
@@ -214,11 +222,16 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                 devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin
               }>
               {
-                devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
-                  devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin ?
-                  <RiErrorWarningLine />
+                !onFilter ?
+                  devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
+                    devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin ?
+                    <RiErrorWarningLine />
+                    :
+                    <RiTempColdLine />
                   :
-                  <RiTempColdLine />
+                  <div>
+                    {devicesdata.noti.length}
+                  </div>
               }
               <TooltipSpan>
                 {t('deviceProbe')}
