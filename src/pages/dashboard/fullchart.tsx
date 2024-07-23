@@ -209,7 +209,7 @@ export default function Fullchart() {
       } else {
         Swal.fire({
           title: t('alertHeaderWarning'),
-          text: t('CustomMessageLogData'),
+          text: t('customMessageLogData'),
           icon: "warning",
           timer: 3000,
           showConfirmButton: false,

@@ -379,7 +379,6 @@ export default {
     deleteWardTitle: 'Do you want to delete this ward?',
     deleteRepairTitle: 'Do you want to delete this repair?',
     optimizeChartText: 'When using this function, the graph will display differently from the actual values and adjust the graph to fit within the range of the maximum and minimum limits (tempMin, tempMax). This operation will not affect the data in the system; it is merely a temporary adjustment of the graph.',
-
     // time
     thTime: 'en-EN',
 

@@ -23,14 +23,6 @@ export default function DevicesCard(DevCard: DevCardProps) {
   const acTive = () => {
     switchcase?.(DevCard.cardname, !DevCard.active)
   }
-  // const countupRef = useRef(null)
-
-  // useEffect(() => {
-  //   if (countupRef.current) {
-  //     const numAnim = new CountUp(countupRef.current, DevCard.count ?? 0)
-  //     numAnim.start()
-  //   }
-  // }, [DevCard.count])
 
   return (
     <DevCardContainer
