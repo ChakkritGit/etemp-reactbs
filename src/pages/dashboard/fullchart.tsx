@@ -340,7 +340,7 @@ export default function Fullchart() {
                   swalOptimizeChartButtons
                     .fire({
                       title: t('alertHeaderWarning'),
-                      html: t('optimizeCahrtText'),
+                      html: t('optimizeChartText'),
                       icon: "warning",
                       showCancelButton: true,
                       confirmButtonText: t('continueButton'),

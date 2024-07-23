@@ -79,7 +79,7 @@ export default function CardUser(userProp: cardType) {
         <DelUserButton onClick={() =>
           swalWithBootstrapButtons
             .fire({
-              title: t('deleteuserTitle'),
+              title: t('deleteUserTitle'),
               text: t('notReverseText'),
               icon: "warning",
               showCancelButton: true,

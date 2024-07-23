@@ -1,5 +1,6 @@
 import {
   CardDevBtn,
+  CardDoorSection,
   CardHomeFlex,
   DeviceCard, DeviceCardBody, DeviceCardFooter, DeviceCardFooterDoor,
   DeviceCardFooterDoorFlex, DeviceCardFooterI, DeviceCardFooterInfo, DeviceCardFooterTemp,
@@ -7,6 +8,7 @@ import {
   DeviceCardHeadStatus, DeviceStateNetwork, TooltipSpan
 } from "../../style/style"
 import {
+  RiBatteryChargeLine,
   RiDashboardLine, RiDoorClosedLine, RiDoorOpenLine, RiErrorWarningLine,
   RiPlugLine, RiSdCardMiniLine, RiSettings3Line, RiTempColdLine
 } from "react-icons/ri"
@@ -189,9 +191,10 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                 </TooltipSpan>
               </DeviceCardFooterDoorFlex>
               :
-              <div>
-                {`${t('deviceDoorTb')} ${devicesdata._count?.noti} ${t('countNormalUnit')}`}
-              </div>
+              <CardDoorSection>
+                <RiDoorOpenLine size={16} />
+                <span>{`${devicesdata.noti.filter((n) => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE').length} ${t('countNormalUnit')}`}</span>
+              </CardDoorSection>
           }
           <DeviceCardFooterTemp>
             <DeviceCardFooterTempT>
@@ -220,7 +223,9 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               $primary={
                 devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
                 devicesdata.log[0]?.tempAvg <= devicesdata.probe[0]?.tempMin
-              }>
+              }
+              $onFilter={onFilter}
+            >
               {
                 !onFilter ?
                   devicesdata.log[0]?.tempAvg >= devicesdata.probe[0]?.tempMax ||
@@ -230,7 +235,8 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                     <RiTempColdLine />
                   :
                   <div>
-                    {devicesdata.noti.length}
+                    <span>{`${devicesdata.noti.filter((n) => n.notiDetail.split('/')[1] === 'LOWER' || n.notiDetail.split('/')[1] === 'OVER').length}`}</span>
+                    <RiErrorWarningLine size={16} />
                   </div>
               }
               <TooltipSpan>
@@ -239,22 +245,55 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo $primary={
               devicesdata.log[0]?.ac === '1'
-            }>
-              <RiPlugLine />
+            }
+              $onFilter={onFilter}
+            >
+              {
+                !onFilter ?
+                  <RiPlugLine />
+                  :
+                  <div>
+                    <span>{`${devicesdata.noti.filter((n) => n.notiDetail.split('/')[0] === 'AC').length}`}</span>
+                    <RiPlugLine size={16} />
+                  </div>
+              }
               <TooltipSpan>
                 {t('devicePlug')}
               </TooltipSpan>
             </DeviceCardFooterInfo>
             <DeviceCardFooterInfo $primary={
               devicesdata.log[0]?.sdCard === "1"
-            }>
-              <RiSdCardMiniLine />
+            }
+              $onFilter={onFilter}
+            >
+              {
+                !onFilter ?
+                  <RiSdCardMiniLine />
+                  :
+                  <div>
+                    <span>{`${devicesdata.noti.filter((n) => n.notiDetail.split('/')[0] === 'SD').length}`}</span>
+                    <RiSdCardMiniLine size={16} />
+                  </div>
+              }
               <TooltipSpan>
                 {t('deviceSdCard')}
               </TooltipSpan>
             </DeviceCardFooterInfo>
-            <DeviceCardFooterInfo>
-              {devicesdata.log[0]?.battery && devicesdata.log[0]?.battery + '%' || '- -'}
+            <DeviceCardFooterInfo
+              $onFilter={onFilter}
+            >
+              {
+                !onFilter ?
+                  <>
+                    <RiBatteryChargeLine />
+                    <span>{devicesdata.log[0]?.battery && devicesdata.log[0]?.battery + '%' || '- -'}</span>
+                  </>
+                  :
+                  <div>
+                    <span>{devicesdata.log[0]?.battery && devicesdata.log[0]?.battery + '%' || '- -'}</span>
+                    <RiBatteryChargeLine size={16} />
+                  </div>
+              }
               <TooltipSpan>
                 {t('deviceBattery')}
               </TooltipSpan>

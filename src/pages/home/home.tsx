@@ -391,10 +391,17 @@ export default function Home() {
     },
     {
       name: t('devicePlugTb'),
-      selector: (items) => items.log[0]?.ac === '1' ? t('stateProblem') : t('stateNormal'),
+      cell: (items) => {
+        return (
+          !onFilteres ?
+            <span>{items.log[0]?.ac === '1' ? t('stateProblem') : t('stateNormal')}</span>
+            :
+            <div>{`${items.noti.filter((n) => n.notiDetail.split('/')[0] === 'AC').length} ${t('countNormalUnit')}`}</div>
+        )
+      },
       sortable: false,
       center: true,
-      width: '70px'
+      width: '80px'
     },
     {
       name: t('deviceBatteryTb'),

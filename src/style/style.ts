@@ -1813,7 +1813,7 @@ gap: .5rem;
 width: 230px;
 height: max-content;
 max-width: 230px;
-max-height: 350px;
+max-height: 380px;
 padding: 1rem;
 border-radius: .8rem;
 background-color: var(--white);
@@ -1903,6 +1903,12 @@ display: flex;
 flex-direction: column;
 gap: .5rem;
 width: 100%;
+`
+
+export const CardDoorSection = styled.div<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `
 
 export const DeviceCardHeadImg = styled.img<{ $primary?: boolean }>`
@@ -2025,20 +2031,27 @@ ${props => props.theme.mode === 'dark' &&
 `}
 `
 
-export const DeviceCardFooterInfo = styled.div<{ $primary?: boolean, $size?: boolean }>`
+export const DeviceCardFooterInfo = styled.div<{ $primary?: boolean, $size?: boolean, $onFilter?: boolean }>`
 display: flex;
 justify-content: center;
 align-items: center;
-max-width: 50px;
-max-height: 32px;
-width: max-content;
-height: 32px;
+gap: 5px;
+max-width: ${props => props.$onFilter ? '50px' : 'max-content'};
+max-height: ${props => props.$onFilter ? '80px' : '32px'};
+width: ${props => props.$onFilter ? '50px' : 'max-content'};
+height: ${props => props.$onFilter ? 'max-content' : '32px'};
 font-size: 14px;
 border-radius: .5rem;
-padding: 0 5px;
+padding: ${props => props.$onFilter ? '5px' : '0'} 5px;
 background-color: var(--white);
 border: 1px solid var(--grey);
 position: relative;
+
+&>div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 &:hover ${TooltipSpan} {
   visibility: visible;
