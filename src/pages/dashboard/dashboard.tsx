@@ -62,8 +62,10 @@ export default function Dashboard() {
                   />
                   <Table
                     data={devicesLogs.log.slice(0, 80)}
-                    dev_sn={devicesLogs.devSerial}
+                    devSn={devicesLogs.devSerial}
                     devStatus={devicesLogs.devStatus}
+                    tempMin={devicesLogs.probe[0]?.tempMin}
+                    tempMax={devicesLogs.probe[0]?.tempMax}
                   />
                 </Dashboardanalys>
               </>

@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
             element: <Fullchart />,
           },
           {
-            path: "dashboard/fulltable",
+            path: "dashboard/fulltable/:id",
             element: <Fulltable />,
           },
           {

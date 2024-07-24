@@ -1,5 +1,5 @@
 import { Container, Dropdown, Form } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import {
@@ -35,19 +35,30 @@ import { storeDispatchType } from "../../stores/store"
 export default function Fulltable() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
+  const navigate = useNavigate()
+  const { id } = useParams()
   const [pageNumber, setPagenumber] = useState(1)
   const [logData, setLogData] = useState<logtype[]>([])
   const [devData, setDevData] = useState<devicesType>()
   const [loading, setLoading] = useState(false)
   const [tableData, setTableData] = useState<logtype[]>([])
+  const [tempLimit, setTempLimit] = useState({ tempMin: 0, tempMax: 0 })
   const { searchQuery, deviceId, expand, cookieDecode, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
+  const { tempMin, tempMax } = tempLimit
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
   })
 
   useEffect(() => {
+    try {
+      setTempLimit(JSON.parse(String(id)))
+    } catch (error) {
+      console.log('Error: Parameter is null')
+      navigate(-1)
+    }
+
     return () => {
       dispatch(setSearchQuery(''))
     }
@@ -124,11 +135,13 @@ export default function Fulltable() {
     setPagenumber(3)
     setLogData([])
     try {
+      setLoading(true)
       const responseData = await axios
         .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=month&devSerial=${Serial ? Serial : cookies.get('devSerial')}&type=table`, {
           headers: { authorization: `Bearer ${token}` }
         })
       setLogData(responseData.data.data)
+      setLoading(false)
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
@@ -180,15 +193,11 @@ export default function Fulltable() {
   }
 
   useEffect(() => {
-    if (token) {
-      fetchData()
-    }
+    if (token) fetchData()
   }, [pageNumber, token])
 
   useEffect(() => {
-    if (token) {
-      Logday()
-    }
+    if (token) Logday()
   }, [token])
 
   useEffect(() => {
@@ -368,8 +377,8 @@ export default function Fulltable() {
             No: index + 1,
             DeviceSN: items.device?.devSerial,
             DeviceName: items.device?.devDetail,
-            // TemeratureMax: items.probe[0]?.tempMax,
-            // TemeratureMin: items.probe[0]?.tempMin,
+            TemperatureMin: tempMin,
+            TemperatureMax: tempMax,
             Date: new Date(items.createAt).toLocaleString('th-TH', {
               day: '2-digit',
               month: '2-digit',

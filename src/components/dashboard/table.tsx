@@ -11,8 +11,10 @@ import { cookieOptions, cookies } from "../../constants/constants"
 
 type tableType = {
   data: logtype[],
-  dev_sn: string,
-  devStatus: boolean
+  devSn: string,
+  devStatus: boolean,
+  tempMin: number,
+  tempMax: number
 }
 
 export default function Table(tableType: tableType) {
@@ -20,7 +22,7 @@ export default function Table(tableType: tableType) {
   const { searchQuery } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const [tableData, setTableData] = useState<logtype[]>([])
   const navigate = useNavigate()
-  const { data, dev_sn } = tableType
+  const { data, devSn, tempMin, tempMax } = tableType
 
   useEffect(() => {
     const filtered = data.filter((items) =>
@@ -40,7 +42,7 @@ export default function Table(tableType: tableType) {
     },
     {
       name: t('deviceSerialTb'),
-      cell: () => <span title={dev_sn}>...{dev_sn.substring(17)}</span>,
+      cell: () => <span title={devSn}>...{devSn.substring(17)}</span>,
       sortable: false,
       center: true
     },
@@ -72,7 +74,7 @@ export default function Table(tableType: tableType) {
 
   const openFulltable = () => {
     cookies.set('devSerial', data ? data[0].devSerial : '', cookieOptions)
-    navigate('/dashboard/fulltable')
+    navigate(`/dashboard/fulltable/${JSON.stringify({ tempMin: tempMin, tempMax: tempMax })}`)
     window.scrollTo(0, 0)
   }
 
