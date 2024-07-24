@@ -167,7 +167,7 @@ export default function Home() {
 
     const CardFilterData = [
       createCard(1, 'countProbe', getFilteredCount(n => ['LOWER', 'OVER'].includes(n.notiDetail.split('/')[1])), 'countNormalUnit', <RiTempColdLine />, 'probe', active.probe),
-      createCard(2, 'countDoor', getFilteredCount(n => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE'), 'countNormalUnit', <RiDoorClosedLine />, 'door', active.door),
+      createCard(2, 'countDoor', getFilteredCount(n => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE' && n.notiDetail.split('/')[2].substring(0, 5) === 'ON'), 'countNormalUnit', <RiDoorClosedLine />, 'door', active.door),
       createCard(3, 'countConnect', getSum('log'), 'countNormalUnit', <RiSignalWifi1Line />, 'connect', active.connect),
       createCard(4, 'countPlug', getFilteredCount(n => n.notiDetail.split('/')[0] === 'AC'), 'countNormalUnit', <RiPlugLine />, 'plug', active.plug),
       createCard(5, 'countSdCard', getFilteredCount(n => n.notiDetail.split('/')[0] === 'SD'), 'countNormalUnit', <RiSdCardMiniLine />, 'sd', active.sd),

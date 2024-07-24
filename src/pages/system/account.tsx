@@ -91,7 +91,7 @@ export default function Account() {
       const selectedFile = e.target.files[0]
 
       // Resize the image before setting the state
-      resizeImage(selectedFile)
+      await resizeImage(selectedFile)
         .then((resizedFile) => {
           reader.readAsDataURL(resizedFile)
           reader.onload = (event) => {
