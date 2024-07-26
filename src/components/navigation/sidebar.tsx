@@ -121,9 +121,9 @@ export default function sidebar() {
             </TooltipSpan>
           </Li>
           <Li $primary={expand}>
-            <Link to="/dashboard" onClick={resetAsideandCardcount} className={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname.split('/')[2] === "fulltable" || location.pathname === "/dashboard/fullchart/compare" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
+            <Link to="/dashboard" onClick={resetAsideandCardcount} className={location.pathname === "/dashboard" || location.pathname.split('/')[2] === "fullchart" || location.pathname.split('/')[2] === "fulltable" || location.pathname === "/dashboard/fullchart/compare" ? "nav-link d-flex align-items-center gap-2  active" : "nav-link d-flex align-items-center gap-2 text-dark"}>
               {
-                location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname.split('/')[2] === "fulltable" || location.pathname === "/dashboard/fullchart/compare" ?
+                location.pathname === "/dashboard" || location.pathname.split('/')[2] === "fullchart" || location.pathname.split('/')[2] === "fulltable" || location.pathname === "/dashboard/fullchart/compare" ?
                   <RiDashboardFill />
                   :
                   <RiDashboardLine />

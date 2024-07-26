@@ -86,8 +86,18 @@ export const router = createBrowserRouter([
             element: <Fullchart />,
           },
           {
+            path: "dashboard/fulltable",
+            element: <Fulltable />,
+          },
+          {
+            path: "dashboard/fullchart/:id",
+            element: <Fullchart />,
+            errorElement: <ErrorPage />
+          },
+          {
             path: "dashboard/fulltable/:id",
             element: <Fulltable />,
+            errorElement: <ErrorPage />
           },
           {
             path: "dashboard/fullchart/compare",

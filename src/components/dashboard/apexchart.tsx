@@ -5,7 +5,7 @@ import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 
 type chartType = {
   chartData: logtype[],
-  devicesData: { tempMin: number | undefined, tempMax: number | undefined },
+  devicesData: { tempMin: number, tempMax: number },
   tempHeight: number | string | undefined,
   tempWidth: number | string | undefined
 }

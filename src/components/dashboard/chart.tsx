@@ -19,8 +19,8 @@ export default function Chart(chartData: chartData) {
   const navigate = useNavigate()
 
   const openFullchart = () => {
-    cookies.set('devSerial',chartData.data ? chartData.data[0].devSerial : '' ,cookieOptions)
-    navigate('/dashboard/fullchart')
+    cookies.set('devSerial', chartData.data ? chartData.data[0].devSerial : '', cookieOptions)
+    navigate(`/dashboard/fullchart/${JSON.stringify({ tempMin: chartData.tempMin, tempMax: chartData.tempMax })}`)
     window.scrollTo(0, 0)
   }
 

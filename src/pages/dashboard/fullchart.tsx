@@ -1,5 +1,5 @@
 import { Container, Dropdown, Form, Modal } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import {
@@ -46,6 +46,7 @@ export default function Fullchart() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
+  const { id } = useParams()
   const [pageNumber, setPagenumber] = useState(1)
   const { Serial, deviceId, expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, hosName, hosImg, userLevel } = cookieDecode
@@ -55,6 +56,8 @@ export default function Fullchart() {
   })
   const [logData, setLogData] = useState<logtype[]>([])
   const [devData, setDevData] = useState<devicesType>()
+  const [tempLimit, setTempLimit] = useState({ tempMin: 0, tempMax: 0 })
+  const { tempMax, tempMin } = tempLimit
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => {
@@ -71,6 +74,13 @@ export default function Fullchart() {
   const [validationData, setValidationData] = useState<wardsType>()
 
   useEffect(() => {
+    try {
+      setTempLimit(JSON.parse(String(id)))
+    } catch (error) {
+      console.log('Error: Parameter is null')
+      navigate(-1)
+    }
+
     return () => {
       dispatch(setSearchQuery(''))
     }
@@ -419,8 +429,8 @@ export default function Fullchart() {
                   <Apexchart
                     chartData={logData}
                     devicesData={{
-                      tempMin: devData?.probe[0]?.tempMin,
-                      tempMax: devData?.probe[0].tempMax
+                      tempMin,
+                      tempMax
                     }}
                     tempHeight={680}
                     tempWidth={1480}
