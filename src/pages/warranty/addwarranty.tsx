@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import Swal from "sweetalert2"
 import axios, { AxiosError } from "axios"
-import { setShowAlert } from "../../stores/utilsStateSlice"
+import { setRefetchdata, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 import Select from 'react-select'
 import { useTheme } from "../../theme/ThemeProvider"
@@ -46,7 +46,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode, reFetchData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [show, setShowe] = useState(false)
   const [warrantyObject, setWarrantyObject] = useState({
@@ -83,6 +83,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
           timer: 2000,
           showConfirmButton: false,
         })
+        dispatch(setRefetchdata(!reFetchData))
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
@@ -138,6 +139,7 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
           timer: 2000,
           showConfirmButton: false,
         })
+        dispatch(setRefetchdata(!reFetchData))
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {

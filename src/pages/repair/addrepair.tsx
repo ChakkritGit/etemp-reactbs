@@ -17,7 +17,7 @@ import Swal from 'sweetalert2'
 import { responseType } from '../../types/response.type'
 import { useDispatch, useSelector } from 'react-redux'
 import { DeviceStateStore, UtilsStateStore } from '../../types/redux.type'
-import { setShowAlert } from '../../stores/utilsStateSlice'
+import { setRefetchdata, setShowAlert } from '../../stores/utilsStateSlice'
 import { storeDispatchType } from '../../stores/store'
 
 type addrepairtype = {
@@ -30,7 +30,7 @@ export default function Addrepair(addrepair: addrepairtype) {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const { devdata, fetchdata, pagestate } = addrepair
-  const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { cookieDecode, reFetchData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, displayName, hosId, groupId } = cookieDecode
   const [show, setShow] = useState(false)
   const [repairData, setRepairdata] = useState({
@@ -96,6 +96,7 @@ export default function Addrepair(addrepair: addrepairtype) {
           repairInfo1: '',
           repairInfo2: ''
         })
+        dispatch(setRefetchdata(!reFetchData))
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {
@@ -150,6 +151,7 @@ export default function Addrepair(addrepair: addrepairtype) {
           showConfirmButton: false,
         })
         fetchdata()
+        dispatch(setRefetchdata(!reFetchData))
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response?.status === 401) {

@@ -23,7 +23,7 @@ import Popupcomponent from "../components/utils/popupcomponent"
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
-  const { socketData, showAside, deviceId, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { socketData, showAside, deviceId, cookieDecode, reFetchData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const handleClose = () => dispatch(setShowAside(false))
   const handleShow = () => dispatch(setShowAside(true))
@@ -48,7 +48,7 @@ export default function Main() {
   useEffect(() => {
     if (!token) return
     dispatch(fetchDevicesData(token))
-  }, [socketData, token])
+  }, [socketData, token, reFetchData])
 
   useEffect(() => {
     if (deviceId !== "undefined" && token) dispatch(fetchDevicesLog({ deviceId, token }))

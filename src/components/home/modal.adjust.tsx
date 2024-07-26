@@ -20,7 +20,7 @@ import { configType } from "../../types/config.type"
 import { ConfigBtn } from "../../style/components/manage.config"
 import { MuteEtemp } from "../../style/components/sound.setting"
 import { storeDispatchType } from "../../stores/store"
-import { setShowAlert } from "../../stores/utilsStateSlice"
+import { setRefetchdata, setShowAlert } from "../../stores/utilsStateSlice"
 import Select, { SingleValue } from 'react-select'
 import { useTheme } from "../../theme/ThemeProvider"
 
@@ -45,7 +45,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   const { fetchData, devicesdata, show, setShow } = modalProps
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { tokenDecode, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { tokenDecode, cookieDecode, reFetchData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [tempvalue, setTempvalue] = useState<number[]>([Number(devicesdata.probe[0]?.tempMin), Number(devicesdata.probe[0]?.tempMax)])
   const [humvalue, setHumvalue] = useState<number[]>([Number(devicesdata.probe[0]?.humMin), Number(devicesdata.probe[0]?.humMax)])
@@ -88,16 +88,16 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const url: string = `${import.meta.env.VITE_APP_API}/probe/${selectProbeI}`
-    const bodyData = {
-      tempMin: tempvalue[0],
-      tempMax: tempvalue[1],
-      humMin: humvalue[0],
-      humMax: humvalue[1],
-      adjustTemp: formData.adjust_temp,
-      adjustHum: formData.adjust_hum,
-    }
     try {
+      const url: string = `${import.meta.env.VITE_APP_API}/probe/${selectProbeI}`
+      const bodyData = {
+        tempMin: tempvalue[0],
+        tempMax: tempvalue[1],
+        humMin: humvalue[0],
+        humMax: humvalue[1],
+        adjustTemp: formData.adjust_temp,
+        adjustHum: formData.adjust_hum,
+      }
       const response = await axios.put<responseType<devicesType>>(url, bodyData, { headers: { authorization: `Bearer ${token}` } })
       // setShow(false)
       Swal.fire({
@@ -109,6 +109,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       })
       fetchData(token)
       client.publish(`${devicesdata.devSerial}/adj`, 'on')
+      dispatch(setRefetchdata(!reFetchData))
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {
@@ -154,6 +155,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       })
       fetchData(token)
       client.publish(`${devicesdata.devSerial}/adj`, 'on')
+      dispatch(setRefetchdata(!reFetchData))
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {

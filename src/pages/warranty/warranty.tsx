@@ -17,7 +17,7 @@ import Swal from "sweetalert2"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import Addwarranty from "./addwarranty"
-import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
+import { setRefetchdata, setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 
 interface dataTableProps {
@@ -28,7 +28,7 @@ export default function Warranty() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [pagenumber, setpagenumber] = useState(1)
-  const { searchQuery, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, cookieDecode, reFetchData } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, userLevel } = cookieDecode
   const [show, setshow] = useState(false)
   const [deviceDetails, setDevicedetails] = useState<warrantyType[]>([])
@@ -114,6 +114,7 @@ export default function Warranty() {
         showConfirmButton: false,
       })
       fetchData()
+      dispatch(setRefetchdata(!reFetchData))
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {

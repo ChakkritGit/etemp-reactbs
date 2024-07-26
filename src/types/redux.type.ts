@@ -45,7 +45,8 @@ type UtilsStateStore = {
   cookieEncode: string,
   cookieDecode: CookieType,
   showAlert: boolean,
-  notiData: notificationType[]
+  notiData: notificationType[],
+  reFetchData: boolean
 }
 
 type DeviceStateStore = {
