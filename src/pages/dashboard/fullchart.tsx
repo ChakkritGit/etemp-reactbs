@@ -251,6 +251,7 @@ export default function Fullchart() {
 
   const exportChart = async () => {
     if (canvasChartRef.current) {
+      canvasChartRef.current.style.color = 'black'
       const canvas = canvasChartRef.current
       await html2canvas(canvas).then((canvasImage) => {
         setConvertImage(canvasImage.toDataURL('image/png', 1.0))

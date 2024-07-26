@@ -345,6 +345,7 @@ export default {
     // router
     titleError: 'Oops!',
     descriptionError: '404 Not found',
+    descriptionErrorWrong: '(code 41) Something wrong please try again',
     buttonErrorBack: 'Back to home',
     titleNotAccess: 'Access denied',
     descriptionNotAccess: `You don't have permission to access this page!`,

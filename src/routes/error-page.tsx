@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useEffect } from "react"
+import { ErrorPageStyled } from "../style/components/error.page"
 
 export default function ErrorPage() {
   const { t, i18n } = useTranslation()
@@ -31,12 +32,12 @@ export default function ErrorPage() {
   }, [])
 
   return (
-    <div className="error-page">
+    <ErrorPageStyled>
       <h1>{t('titleError')}</h1>
       <p>{t('descriptionError')}</p>
       <p>
         <i onClick={() => navigate('/')}>{t('buttonErrorBack')}</i>
       </p>
-    </div>
+    </ErrorPageStyled>
   )
 }

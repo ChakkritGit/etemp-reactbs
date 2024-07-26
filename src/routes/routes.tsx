@@ -30,89 +30,108 @@ import Log from '../pages/log/log'
 import ESPToolComponent from '../pages/setting/devices/serial.port'
 import CryptoJS from "crypto-js"
 import { decodeCookieObject } from '../constants/constants'
+import SomethingWrong from './something-wrong'
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthRoute />,
+    errorElement: <SomethingWrong />,
     children: [
       {
         path: "/",
         element: <Main />,
+        errorElement: <SomethingWrong />,
         children: [
           {
             path: "/",
             element: <Home />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "dashboard",
             element: <Dashboard />,
+            errorElement: <SomethingWrong />
           },
           {
             element: <Hidesetting />,
+            errorElement: <SomethingWrong />,
             children: [
               {
                 path: "permission",
                 element: <Permission />,
+                errorElement: <SomethingWrong />
               },
               {
                 path: "management",
                 element: <Setting />,
+                errorElement: <SomethingWrong />
               },
               {
                 path: "management/:id",
                 element: <Setting />,
+                errorElement: <SomethingWrong />
               },
             ],
           },
           {
             path: "warranty",
             element: <Warranty />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "repair",
             element: <Repair />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "contact",
             element: <Contact />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "setting",
             element: <System />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "dashboard/fullchart",
             element: <Fullchart />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "dashboard/fulltable",
             element: <Fulltable />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "dashboard/fullchart/:id",
             element: <Fullchart />,
-            errorElement: <ErrorPage />
+            errorElement: <SomethingWrong />
           },
           {
             path: "dashboard/fulltable/:id",
             element: <Fulltable />,
-            errorElement: <ErrorPage />
+            errorElement: <SomethingWrong />
           },
           {
             path: "dashboard/fullchart/compare",
             element: <Comparechart />,
+            errorElement: <SomethingWrong />
           },
           {
             path: "changeLog",
             element: <Log />,
+            errorElement: <SomethingWrong />
           },
           {
             element: <HideFlashFW />,
+            errorElement: <SomethingWrong />,
             children: [
               {
                 path: "management/flasher",
                 element: <ESPToolComponent />,
+                errorElement: <SomethingWrong />
               },
             ]
           }
@@ -123,10 +142,12 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <Islogout />,
+    errorElement: <SomethingWrong />
   },
   {
     path: "*",
     element: <ErrorPage />,
+    errorElement: <SomethingWrong />
   },
 ])
 

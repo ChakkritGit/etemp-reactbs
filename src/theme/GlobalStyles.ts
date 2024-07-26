@@ -33,26 +33,6 @@ body {
   background: var(--blue-black);
 }
 
-/* routes/error-page */
-.error-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  height: calc(100dvh - 80px);
-
-  & p>i {
-    cursor: pointer;
-    color: grey;
-  }
-
-  & p>i:hover {
-    text-decoration: underline;
-    text-underline-offset: 5px;
-  }
-}
-
 /* bootstrap navlink */
 .nav-tabs .nav-link {
   color: var(--real-black);
@@ -662,10 +642,6 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
   background-color: var(--main-last-rgba) !important;
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  color: white;
-}
-
-.error-page {
   color: white;
 }
 
