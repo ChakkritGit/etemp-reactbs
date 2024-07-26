@@ -342,6 +342,7 @@ export default {
     sourceSeq: 'ลำดับต้นทาง',
     destSeq: 'ลำดับปลายทาง',
     optimizeGraph: 'ปรับกราฟให้เหมาะสม',
+    print: 'ปริ้น',
 
     // connect
     ipAddress: 'IP',
@@ -364,6 +365,8 @@ export default {
     customMessageLogData: 'ช่วงเวลาที่เลือกห่างกันมากกว่า 30 วัน',
     deactivateDevice: 'คุณต้องการปิดการใช้งานหรือไม่',
     deactivateDeviceText: 'หากคุณปิดการใช้งานอุปกรณ์จะหยุดทำงานทันที',
+    reactivateDevice: 'คุณต้องการเปิดการใช้งานหรือไม่',
+    reactivateDeviceText: 'หากคุณเปิดการใช้งานอุปกรณ์จะกลับมาทำงานทันที',
     deleteProbe: 'คุณต้องการลบโพรบหรือไม่',
     deleteProbeText: 'คุณจะไม่สามารถกู้คืนการตั้งค่าโพรบได้',
     deleteWarranty: 'คุณต้องการลบประกันหรือไม่',

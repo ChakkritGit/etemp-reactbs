@@ -304,7 +304,7 @@ export default function Adduser(AdduserProp: adduserProp) {
           <RiUserAddLine />
         </AddUserButton>
         : <AddUserButton onClick={openmodal} >
-          <RiEditLine />
+          <RiEditLine size={16} />
         </AddUserButton>}
       <Modal size="lg" show={show} onHide={closemodal}>
         <Modal.Header>

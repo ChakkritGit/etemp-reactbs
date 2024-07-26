@@ -60,7 +60,7 @@ interface Ward {
 export default function Home() {
   const dispatch = useDispatch<storeDispatchType>()
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
-  const { searchQuery, hosId, wardId, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const { searchQuery, hosId, wardId, cookieDecode, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const devicesFilter = useSelector<DeviceStateStore, devicesType[]>((state) => state.arraySlice.device.devicesFilter)
   const hospitalsData = useSelector<DeviceStateStore, hospitalsType[]>((state) => state.arraySlice.hospital.hospitalsData)
   const wardData = useSelector<DeviceStateStore, wardsType[]>((state) => state.arraySlice.ward.wardData)
@@ -81,7 +81,7 @@ export default function Home() {
   const [showticks, setShowticks] = useState(false)
   const [listAndgrid, setListandgrid] = useState(Number(localStorage.getItem('listGrid') ?? 1))
   const [cardFilterData, setCardFilterData] = useState<cardFilter[]>([])
-  const { userLevel } = cookieDecode
+  const { userLevel, hosName, groupId } = cookieDecode
   const { theme } = useTheme()
   const [onFilteres, setOnFilteres] = useState(false)
   const [rowPerPage, setRowPerPage] = useState(cookies.get('rowperpage') ?? 10)
@@ -113,15 +113,16 @@ export default function Home() {
     setOnFilteres(cardactive)
     let tempFilter: devicesType[] = []
     dispatch(setSearchQuery(''))
+    const filter: devicesType[] = wardId !== 'WID-DEVELOPMENT' ? devices.filter((f) => f.wardId === wardId) : devices
 
     const filterMap: {
       [key in FilterText]: () => devicesType[] | void
     } = {
-      probe: () => devices.filter(dev => dev.noti.some(n => ['LOWER', 'OVER'].includes(n.notiDetail.split('/')[1]))),
-      door: () => devices.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0].startsWith('PROBE'))),
-      connect: () => devices.filter(dev => dev._count?.log),
-      plug: () => devices.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0] === 'AC')),
-      sd: () => devices.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0] === 'SD')),
+      probe: () => filter.filter(dev => dev.noti.some(n => ['LOWER', 'OVER'].includes(n.notiDetail.split('/')[1]))),
+      door: () => filter.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0].startsWith('PROBE'))),
+      connect: () => filter.filter(dev => dev._count?.log),
+      plug: () => filter.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0] === 'AC')),
+      sd: () => filter.filter(dev => dev.noti.some(n => n.notiDetail.split('/')[0] === 'SD')),
       adjust: () => navigate("/management/logadjust"),
       repair: () => navigate("/repair"),
       warranty: () => navigate("/warranty"),
@@ -138,7 +139,7 @@ export default function Home() {
       setActive({ ...resetActive, [filtertext]: true })
     } else {
       setActive({ ...resetActive, [filtertext]: cardactive })
-      dispatch(setFilterDevice(cardactive ? tempFilter : (wardId !== 'WID-DEVELOPMENT' ? devices.filter(item => item.wardId === wardId) : devices)))
+      dispatch(setFilterDevice(cardactive ? tempFilter : filter))
     }
 
     const allActive = Object.values(active).every(Boolean)
@@ -148,11 +149,13 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const filter: devicesType[] = wardId !== 'WID-DEVELOPMENT' ? devices.filter((f) => f.wardId === wardId) : devices
+
     const getSum = (key: keyof NonNullable<devicesType['_count']>): number =>
-      devicesFilter.reduce((acc, devItems) => acc + (devItems._count?.[key] ?? 0), 0)
+      filter.reduce((acc, devItems) => acc + (devItems._count?.[key] ?? 0), 0)
 
     const getFilteredCount = (predicate: (n: notificationType) => boolean): number =>
-      devicesFilter.flatMap(i => i.noti).filter(predicate).length
+      filter.flatMap(i => i.noti).filter(predicate).length
 
     const createCard = (id: number, title: string, count: number, times: string, svg: JSX.Element, cardname: string, active: boolean) => ({
       id,
@@ -177,7 +180,7 @@ export default function Home() {
     ]
 
     setCardFilterData(CardFilterData)
-  }, [devicesFilter, t])
+  }, [devicesFilter, t, wardId])
 
 
   const handleRowClicked = (row: devicesType) => {
@@ -195,8 +198,11 @@ export default function Home() {
   }
 
   const getHospital = (hospitalID: string | undefined) => {
-    updateLocalStorageAndDispatch('selectHos', hospitalID, setHosId)
-    setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID))
+    if (hospitalID) {
+      updateLocalStorageAndDispatch('selectHos', hospitalID, setHosId)
+      setWardname(wardData.filter((items) => items.hospital.hosId === hospitalID))
+    } else {
+    }
   }
 
   useEffect(() => {
@@ -237,7 +243,7 @@ export default function Home() {
     },
     {
       name: t('deviceSerialTb'),
-      cell: (items) => <span title={items.devSerial}>...{items.devSerial.substring(17)}</span>,
+      cell: (items) => items.devSerial,
       sortable: false,
       center: true
     },
@@ -365,7 +371,7 @@ export default function Home() {
           </DeviceCardFooterDoorFlex>
           :
           <div>
-            {`${items.noti.filter((n) => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE').length} ${t('countNormalUnit')}`}
+            {`${items.noti.filter((n) => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE' && n.notiDetail.split('/')[2].substring(0, 5) === 'ON').length} ${t('countNormalUnit')}`}
           </div>
       )),
       sortable: false,
@@ -671,7 +677,7 @@ export default function Home() {
                 {
                   userLevel === '0' && <TagCurrentHos>
                     {
-                      `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName ?? '/'} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
+                      `${hospitalsData.filter((f) => f.hosId === hosId)[0]?.hosName ?? hosName} - ${wardData.filter((w) => w.wardId === wardId)[0]?.wardName}`
                     }
                   </TagCurrentHos>
                 }
@@ -715,7 +721,7 @@ export default function Home() {
                               {
                                 userLevel !== '2' && <Select
                                   options={mapOptions<Hospital, keyof Hospital>(hospitalsData, 'hosId', 'hosName')}
-                                  defaultValue={mapDefaultValue<Hospital, keyof Hospital>(hospitalsData, hosId, 'hosId', 'hosName')}
+                                  defaultValue={mapDefaultValue<Hospital, keyof Hospital>(hospitalsData, hosId || tokenDecode.hosId, 'hosId', 'hosName')}
                                   onChange={(e) => getHospital(e?.value)}
                                   autoFocus={false}
                                   styles={{
@@ -742,7 +748,7 @@ export default function Home() {
                               }
                               <Select
                                 options={mapOptions<Ward, keyof Ward>(wardName, 'wardId', 'wardName')}
-                                defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, wardId, 'wardId', 'wardName')}
+                                defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, wardId !== groupId ? groupId : wardId, 'wardId', 'wardName')}
                                 onChange={(e) => getWard(e?.value)}
                                 autoFocus={false}
                                 styles={{
@@ -811,7 +817,7 @@ export default function Home() {
                     />
                   </DatatableHome>
                   :
-                  <DevHomeDetails>
+                  <DevHomeDetails $primary={devicesFilter.length === 0}>
                     <div>
                       {
                         devicesFilter.length > 0 ?

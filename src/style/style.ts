@@ -884,9 +884,6 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: .5rem;
-width: 30px;
-height: 30px;
-max-height: 45px;
 border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
 background-color: unset;
@@ -910,8 +907,6 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: .5rem;
-width: 30px;
-max-height: 30px;
 border-radius: var(--border-radius-big);
 border: 2px solid var(--danger-color);
 background-color: unset;
@@ -921,6 +916,31 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--danger-color);
+  color: var(--white);
+  transition: .3s;
+}
+
+& svg {
+  stroke-width: 1px;
+}
+`
+
+export const Reactive = styled.button<{ $primary?: boolean }> `
+display: flex;
+align-items: center;
+justify-content: center;
+gap: .5rem;
+/* width: 30px;
+max-height: 30px; */
+border-radius: var(--border-radius-big);
+border: 2px solid var(--secondary-color-badge);
+background-color: unset;
+color: var(--secondary-color-badge);
+font-weight: bold;
+padding: .5rem;
+
+&:hover {
+  background-color: var(--secondary-color-badge);
   color: var(--white);
   transition: .3s;
 }
@@ -987,7 +1007,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 gap: .5rem;
-height: 100%;
 
 & div>button::after {
   display: none;
@@ -1249,11 +1268,6 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 
-&>div {
-  display: flex;
-  gap: .5rem;
-}
-
 & h3 {
   margin-bottom: unset;
 }
@@ -1267,6 +1281,19 @@ justify-content: space-between;
       justify-content: end;
     }
 }
+`
+
+export const ManageHospitalsHeaderAction = styled.div<{ $primary?: boolean }>`
+display: flex;
+align-items: center;
+gap: .5rem;
+`
+
+export const SpanStatusDev = styled.span<{ $primary?: boolean }>`
+background-color: ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
+color: var(--white);
+border-radius: var(--border-radius-small);
+padding: .35rem .5rem;
 `
 
 export const ManageHospitalsBody = styled.div<{ $primary?: boolean }>`
@@ -1399,12 +1426,6 @@ background-color: unset;
 color: var(--main-color);
 font-weight: bold;
 padding: .5rem;
-
-${props => props.$primary &&
-    css`
-  width: 30px;
-  height: 30px;
-`}
 
 &:hover {
   background-color: var(--main-color);
@@ -1701,10 +1722,7 @@ gap: .5rem;
 margin-top: 1rem;
 
 & > div {
-  /* display: flex;
-  align-items: center;
-  flex-wrap: wrap; */
-  display: grid;
+  display: ${props => props.$primary ? 'flex' : 'grid'};
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   max-width: 1480px;
@@ -2518,10 +2536,10 @@ margin-top: .7rem;
 `
 
 export const DashBoardCardSpanTitle = styled.span<{ $primary?: boolean }>`
-  max-width: 100px;
+  /* max-width: 100px;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 `
 
 export const Dashboardanalys = styled.div<{ $primary?: boolean }>`
@@ -3675,16 +3693,12 @@ export const RepairPrintBtn = styled.button<{ $primary?: boolean }>`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  width: 40px;
-  height: 30px;
-  max-width: 165px;
-  max-height: 45px;
   border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: unset;
   color: var(--main-color);
   font-weight: bold;
-  padding: 0.5rem;
+  padding: .5rem;
 
   svg {
     stroke-width: 1px;

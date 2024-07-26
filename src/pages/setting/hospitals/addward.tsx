@@ -160,8 +160,8 @@ export default function Addward(addwardprop: addWardProp) {
             <RiAddLine />
           </ManageWardAdd>
           :
-          <ManageWardAdd onClick={openmodal} style={{ width: '30px', height: '30px' }} >
-            <RiEditLine />
+          <ManageWardAdd onClick={openmodal} >
+            <RiEditLine size={16} />
           </ManageWardAdd>
       }
       <Modal show={show} onHide={closemodal}>

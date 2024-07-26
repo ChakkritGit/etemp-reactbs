@@ -90,8 +90,6 @@ export const DelProbeButton = styled.button<{ $primary?: boolean }>`
   align-items: center;
   justify-content: center;
   gap: .5rem;
-  width: 30px;
-  max-height: 30px;
   border-radius: var(--border-radius-big);
   border: 2px solid var(--danger-color);
   background-color: unset;

@@ -196,8 +196,8 @@ export default function Addwarranty(warProps: AddWarrantyPropsType) {
             <RiAddLine />
           </AddWarrantyButton>
           :
-          <AddWarrantyButton $primary onClick={openModal} >
-            <RiEditLine />
+          <AddWarrantyButton onClick={openModal} >
+            <RiEditLine size={16} />
           </AddWarrantyButton>
       }
       <Modal size='lg' show={show} onHide={closeModal}>

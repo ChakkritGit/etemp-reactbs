@@ -193,8 +193,8 @@ export default function Addrepair(addrepair: addrepairtype) {
             <RiAddLine />
           </AddrepairBtn>
           :
-          <AddrepairBtn onClick={openmodal} style={{ width: '30px', height: '30px' }}>
-            <RiEditLine />
+          <AddrepairBtn onClick={openmodal} >
+            <RiEditLine size={16} />
           </AddrepairBtn>
       }
 
@@ -268,7 +268,7 @@ export default function Addrepair(addrepair: addrepairtype) {
                   <Showsn
                     repairData={repairData}
                     setRepairdata={setRepairdata}
-                    dev_idkey={devdata.devId}
+                    devIdkey={devdata.devId}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">

@@ -190,6 +190,7 @@ export default function Fullchart() {
     if (startDate !== '' && endDate !== '') {
       if (diffDays <= 31) {
         try {
+          setLogData([])
           const responseData = await axios
             .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : cookies.get('devSerial')}`, {
               headers: { authorization: `Bearer ${token}` }
@@ -329,7 +330,7 @@ export default function Fullchart() {
             <FullchartHeadBtn $primary={pageNumber === 1} onClick={Logday}>{t('chartDay')}</FullchartHeadBtn>
             <FullchartHeadBtn $primary={pageNumber === 2} onClick={Logweek}>{t('chartWeek')}</FullchartHeadBtn>
             <FullchartHeadBtn $primary={pageNumber === 3} onClick={Logmonth}>{t('month')}</FullchartHeadBtn>
-            <FullchartHeadBtn $primary={pageNumber === 4} onClick={() => { setPagenumber(4); setLogData([]) }}>{t('chartCustom')}</FullchartHeadBtn>
+            <FullchartHeadBtn $primary={pageNumber === 4} onClick={() => { setPagenumber(4) }}>{t('chartCustom')}</FullchartHeadBtn>
             <span>|</span>
             <FullcharComparetHeadBtn onClick={() => navigate('compare')}>{t('chartCompare')}</FullcharComparetHeadBtn>
           </FullchartHeadLeft>

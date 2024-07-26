@@ -194,7 +194,7 @@ export default function Repair() {
                   deleteRepair(item.repairId)
                 }
               })}>
-            <RiDeleteBin2Line />
+            <RiDeleteBin2Line size={16} />
           </DelUserButton>
         </Actiontabledev>
       )),
@@ -205,7 +205,7 @@ export default function Repair() {
       name: t('print'),
       cell: ((items) => {
         return <RepairPrintBtn key={items.repairId} onClick={() => printrepair(items.repairId)}>
-          <RiPrinterLine />
+          <RiPrinterLine size={16} />
         </RepairPrintBtn>
       }),
       sortable: false,

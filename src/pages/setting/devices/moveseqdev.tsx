@@ -138,7 +138,7 @@ export default function Moveseqdev({ devData }: moveSeqType) {
   return (
     <>
       <OpenModalButton onClick={openModal}>
-        <RiDragMove2Fill />
+        <RiDragMove2Fill size={16} />
       </OpenModalButton>
 
       <Modal

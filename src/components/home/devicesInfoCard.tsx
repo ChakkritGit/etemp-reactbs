@@ -200,7 +200,7 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
               :
               <CardDoorSection>
                 <RiDoorOpenLine size={16} />
-                <span>{`${devicesdata.noti.filter((n) => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE').length} ${t('countNormalUnit')}`}</span>
+                <span>{`${devicesdata.noti.filter((n) => n.notiDetail.split('/')[0].substring(0, 5) === 'PROBE' && n.notiDetail.split('/')[2].substring(0, 5) === 'ON').length} ${t('countNormalUnit')}`}</span>
               </CardDoorSection>
           }
           <DeviceCardFooterTemp>

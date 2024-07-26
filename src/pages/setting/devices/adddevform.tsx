@@ -406,8 +406,8 @@ export default function Adddevform(managedevices: managedevices) {
             <RiAddLine />
           </AddDevices>
           :
-          <AddDevices onClick={openmodal} $primary>
-            <RiEditLine />
+          <AddDevices onClick={openmodal}>
+            <RiEditLine size={16} />
           </AddDevices>
       }
       <Modal

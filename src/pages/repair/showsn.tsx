@@ -36,7 +36,7 @@ type sntype = {
     repairInfo1: string,
     repairInfo2: string
   }
-  dev_idkey: string
+  devIdkey: string
 }
 
 type Option = {
@@ -55,7 +55,7 @@ export default function Showsn(sntype: sntype) {
   const { cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const [devData, setDevData] = useState<devicesType[]>([])
-  const [selectedval, setSelectedVal] = useState('')
+  const [selectedval, setSelectedVal] = useState(sntype.devIdkey ?? '')
   const { theme } = useTheme()
 
   const setDevId = (e: SingleValue<Option>) => {
@@ -103,32 +103,35 @@ export default function Showsn(sntype: sntype) {
 
   return (
     <>
-      <Select
-        options={mapOptions<RepairOption, keyof RepairOption>(devData, 'devId', 'devSerial')}
-        defaultValue={mapDefaultValue<RepairOption, keyof RepairOption>(devData, selectedval, 'devId', 'devSerial')}
-        onChange={setDevId}
-        autoFocus={false}
-        placeholder={t('selectDeviceDrop')}
-        styles={{
-          control: (baseStyles, state) => ({
-            ...baseStyles,
-            backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
-            borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
-            boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
-            borderRadius: "var(--border-radius-big)"
-          }),
-        }}
-        theme={(theme) => ({
-          ...theme,
-          colors: {
-            ...theme.colors,
-            primary25: 'var(--main-color)',
-            primary: 'var(--main-color)',
-          },
-        })}
-        className="react-select-container"
-        classNamePrefix="react-select"
-      />
+      {
+        devData.length > 0 &&
+        <Select
+          options={mapOptions<RepairOption, keyof RepairOption>(devData, 'devId', 'devSerial')}
+          defaultValue={mapDefaultValue<RepairOption, keyof RepairOption>(devData, selectedval, 'devId', 'devSerial')}
+          onChange={setDevId}
+          autoFocus={false}
+          placeholder={t('selectDeviceDrop')}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+              borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+              boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+              borderRadius: "var(--border-radius-big)"
+            }),
+          }}
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: 'var(--main-color)',
+              primary: 'var(--main-color)',
+            },
+          })}
+          className="react-select-container"
+          classNamePrefix="react-select"
+        />
+      }
     </>
   )
 }

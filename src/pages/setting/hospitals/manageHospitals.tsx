@@ -1,4 +1,4 @@
-import { Actiontablehos, DelUserButton, HosTableImage, ManageHospitalsBody, ManageHospitalsContainer, ManageHospitalsHeader, SubWardColumnFlex } from "../../../style/style"
+import { Actiontablehos, DelUserButton, HosTableImage, ManageHospitalsBody, ManageHospitalsContainer, ManageHospitalsHeader, ManageHospitalsHeaderAction, SubWardColumnFlex } from "../../../style/style"
 import { useTranslation } from "react-i18next"
 import { hospitalsType } from "../../../types/hospital.type"
 import { swalWithBootstrapButtons } from "../../../components/dropdown/sweetalertLib"
@@ -186,7 +186,7 @@ export default function ManageHospitals() {
                       deletehospital(item.hosId)
                     }
                   })}>
-                <RiDeleteBin2Line />
+                <RiDeleteBin2Line size={16} />
               </DelUserButton>
             }
           </Actiontablehos>
@@ -243,7 +243,7 @@ export default function ManageHospitals() {
                       deleteward(item.wardId)
                     }
                   })}>
-                <RiDeleteBin2Line />
+                <RiDeleteBin2Line size={16} />
               </DelUserButton>
             </Actiontablehos>
           )
@@ -273,7 +273,7 @@ export default function ManageHospitals() {
     <ManageHospitalsContainer>
       <ManageHospitalsHeader className="mb-3">
         <h3>{t('titleManageHosandWard')}</h3>
-        <div>
+        <ManageHospitalsHeaderAction>
           {
             userLevel !== "3" && userLevel !== "2" &&
             <Addhospitals
@@ -283,7 +283,7 @@ export default function ManageHospitals() {
           <Addward
             pagestate={'add'}
           />
-        </div>
+        </ManageHospitalsHeaderAction>
       </ManageHospitalsHeader>
       <ManageHospitalsBody>
         {/* {

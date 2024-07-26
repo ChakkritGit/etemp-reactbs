@@ -129,7 +129,7 @@ export default function Probesetting() {
                     deleteProbe(items.probeId)
                   }
                 })}>
-              <RiDeleteBin2Line />
+              <RiDeleteBin2Line size={16} />
             </DelProbeButton>
           }
         </Actiontableprobe>

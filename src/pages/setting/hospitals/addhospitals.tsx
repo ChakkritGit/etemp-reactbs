@@ -200,8 +200,8 @@ export default function Addhospitals(addhosprop: addHospitalProp) {
             <RiAddLine />
           </ManageHospitalsAdd>
           :
-          <ManageHospitalsAdd onClick={openmodal} style={{ width: '30px', height: '30px' }} >
-            <RiEditLine />
+          <ManageHospitalsAdd onClick={openmodal} >
+            <RiEditLine size={16} />
           </ManageHospitalsAdd>
       }
       <Modal size='lg' show={show} onHide={closemodal}>

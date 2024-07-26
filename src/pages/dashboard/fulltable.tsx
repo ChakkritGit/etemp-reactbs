@@ -164,11 +164,13 @@ export default function Fulltable() {
     if (startDate !== '' && endDate !== '') {
       if (diffDays <= 31) {
         try {
+          setLoading(true)
           const responseData = await axios
             .get<responseType<logtype[]>>(`${import.meta.env.VITE_APP_API}/log?filter=${filterDate.startDate},${filterDate.endDate}&devSerial=${Serial ? Serial : cookies.get('devSerial')}&type=table`, {
               headers: { authorization: `Bearer ${token}` }
             })
           setLogData(responseData.data.data.map((items) => items).reverse())
+          setLoading(false)
         } catch (error) { //up
           console.error('Something wrong' + error)
         }
@@ -276,7 +278,7 @@ export default function Fulltable() {
       name: t('deviceDoorTb'),
       cell: (items) => (
         <DoorTableContainer>
-          {devData?.log[0]?.door1 ?
+          {items.device.probe[0]?.door === 1 ?
             <DeviceCardFooterDoor
               $primary={
                 items.door1 === "1"
@@ -289,7 +291,7 @@ export default function Fulltable() {
               }
             </DeviceCardFooterDoor>
             :
-            devData?.log[0]?.door2 ?
+            items.device.probe[0]?.door === 2 ?
               <>
                 <DeviceCardFooterDoor
                   $primary={
@@ -397,7 +399,7 @@ export default function Fulltable() {
             Door2: items.door2 === "1" ? t('stateOn') : t('stateOff'),
             Door3: items.door3 === "1" ? t('stateOn') : t('stateOff'),
             Connectivity: items.internet === '1' ? t('stateDisconnect') : t('stateConnect'),
-            Plug: items.ac ? t('stateProblem') : t('stateNormal'),
+            Plug: items.ac === '1' ? t('stateProblem') : t('stateNormal'),
             Battery: items.battery + '%'
           }
         })

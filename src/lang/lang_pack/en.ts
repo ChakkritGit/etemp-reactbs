@@ -144,8 +144,8 @@ export default {
     tabManageHospitals: 'Manage Hospitals',
     tabAdjustHistory: 'Adjust Logs',
     subTabDevice: 'Devices',
-    sunTabProbe: 'Probe',
-    sunTabFirmware: 'Firmware',
+    subTabProbe: 'Probe',
+    subTabFirmware: 'Firmware',
     subTabHosandWard: 'Hospital and Ward',
     titleFirmware: 'Manage Firmware',
     titleManageDevices: 'Manage Devices',
@@ -340,6 +340,7 @@ export default {
     sourceSeq: 'Source sequence',
     destSeq: 'Destination sequence',
     optimizeGraph: 'Optimize Chart',
+    print: 'Print',
 
     // router
     titleError: 'Oops!',
@@ -358,6 +359,8 @@ export default {
     CustomMessageLogData: 'The selected time periods are more than 30 days apart.',
     deactivateDevice: 'Do you want to deactivate a device?',
     deactivateDeviceText: 'If you deactivated it, the device will stop working immediately!',
+    reactivateDevice: 'Do you want to reactivate a device?',
+    reactivateDeviceText: 'If you reactivate it, the device will start working immediately!',
     deleteProbe: 'Do you want to delete probe?',
     deleteProbeText: 'You will not be able to reverse probe settings!',
     deleteWarranty: 'Do you want to warranty probe?',

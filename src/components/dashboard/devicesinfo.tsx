@@ -1,7 +1,8 @@
 import {
   RiArrowDownLine,
   RiArrowRightLine,
-  RiCloseLine, RiDoorClosedLine, RiFolderSettingsLine,
+  RiBatteryChargeLine,
+  RiCloseLine, RiCollageLine, RiCpuLine, RiDoorClosedLine, RiFolderSettingsLine,
   RiPlugLine, RiSdCardMiniLine, RiSettings3Line, RiShieldCheckLine,
   RiSignalWifi1Line, RiTempColdLine
 } from "react-icons/ri"
@@ -273,7 +274,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
       <DevicesBodyStatus>
         <CardstatusSpecial
           title={t('dashProbe')}
-          svg={<RiTempColdLine />}
+          svg={<RiCpuLine />}
           valuesone={'Temp: ' + devicesData?.log[0]?.tempAvg.toFixed(2)}
           valuestwo={'Hum: ' + devicesData?.log[0]?.humidityAvg.toFixed(2)}
           pipeone={'°C'}
@@ -314,7 +315,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
           valuestext={
             devicesData?.log[0]?.battery + '%'
           }
-          svg={<RiTempColdLine />}
+          svg={<RiBatteryChargeLine />}
           alertone={devicesData?.log[0]?.battery === 0}
         />
         <CardstatusSpecial
@@ -335,9 +336,9 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
         />
         <CardstatusSpecial
           title={t('dashProbeandDoor')}
-          svg={<RiTempColdLine />}
-          valuesone={Number(devicesData?.probe.length)}
-          valuestwo={Number(devicesData?.probe[0]?.door)}
+          svg={<RiCollageLine />}
+          valuesone={`${devicesData?.probe.length} P.`}
+          valuestwo={`${devicesData?.probe[0]?.door} D.`}
           pipetwo={''}
         />
         <CardstatusNomal

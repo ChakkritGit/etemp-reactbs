@@ -308,8 +308,8 @@ export default function Addprobe(addprobe: addprobeProps) {
             <RiAddLine />
           </ManageProbeAdd>
           :
-          <ManageProbeAdd onClick={openmodal} style={{ width: '30px', height: '30px' }} >
-            <RiEditLine />
+          <ManageProbeAdd onClick={openmodal} >
+            <RiEditLine size={16} />
           </ManageProbeAdd>
       }
       <Modal size={"lg"} show={show} onHide={closemodal}>

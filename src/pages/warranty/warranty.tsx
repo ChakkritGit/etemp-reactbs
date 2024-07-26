@@ -160,7 +160,16 @@ export default function Warranty() {
     },
     {
       name: t('deviceDate'),
-      selector: (items) => items.device.dateInstall,
+      selector: (items) => `${new Date(items.device.dateInstall).toLocaleString('th-TH', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: 'UTC'
+      })} ${new Date(items.device.dateInstall).toLocaleString('th-TH', {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'UTC'
+      })}`,
       sortable: false,
       center: true,
     },
@@ -229,7 +238,7 @@ export default function Warranty() {
           <DetailWarranty
             key={items.warrId}
             onClick={() => openmodal(items.warrId)}>
-            <RiInformationLine />
+            <RiInformationLine size={16} />
           </DetailWarranty>
           {
             userLevel !== '2' && userLevel !== '3' && <>
@@ -254,7 +263,7 @@ export default function Warranty() {
                       deleteWarranty(items.warrId)
                     }
                   })}>
-                <RiDeleteBin2Line />
+                <RiDeleteBin2Line size={16} />
               </DelWarrantyButton>
             </>
           }

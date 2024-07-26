@@ -70,32 +70,37 @@ export default function WardDropdown(DwardProp: dropDownWardProp) {
     }))[0]
 
   return (
-    <Select
-      options={mapOptions<Ward, keyof Ward>(wardData, 'wardId', 'wardName')}
-      defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, String(groupId), 'wardId', 'wardName')}
-      onChange={setWardId}
-      autoFocus={false}
-      isDisabled={Hosid !== "" ? false : true}
-      placeholder={t('selectWard')}
-      styles={{
-        control: (baseStyles, state) => ({
-          ...baseStyles,
-          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
-          borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
-          boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
-          borderRadius: "var(--border-radius-big)"
-        }),
-      }}
-      theme={(theme) => ({
-        ...theme,
-        colors: {
-          ...theme.colors,
-          primary25: 'var(--main-color)',
-          primary: 'var(--main-color)',
-        },
-      })}
-      className="react-select-container"
-      classNamePrefix="react-select"
-    />
+    <>
+      {
+        wardData.length > 0 &&
+        <Select
+          options={mapOptions<Ward, keyof Ward>(wardData, 'wardId', 'wardName')}
+          defaultValue={mapDefaultValue<Ward, keyof Ward>(wardData, String(groupId), 'wardId', 'wardName')}
+          onChange={setWardId}
+          autoFocus={false}
+          isDisabled={Hosid !== "" ? false : true}
+          placeholder={t('selectWard')}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+              borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
+              boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
+              borderRadius: "var(--border-radius-big)"
+            }),
+          }}
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: 'var(--main-color)',
+              primary: 'var(--main-color)',
+            },
+          })}
+          className="react-select-container"
+          classNamePrefix="react-select"
+        />
+      }
+    </>
   )
 }
