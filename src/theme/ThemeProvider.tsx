@@ -1,5 +1,5 @@
 // ThemeProvider.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode, useLayoutEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components'
 
 interface Theme {
@@ -40,14 +40,6 @@ const ThemeProviders: React.FC<ThemeProvidersProps> = ({ children }) => {
       : 'light'
     setTheme({ mode: storedTheme || defaultTheme })
   }, [])
-
-  useLayoutEffect(() => {
-    if (theme.mode === 'dark') {
-      document.documentElement.setAttribute('theme-color', '#353535')
-    } else {
-      document.documentElement.setAttribute('theme-color', '#fdfdfd')
-    }
-  }, [theme])
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
