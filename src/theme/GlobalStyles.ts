@@ -465,7 +465,7 @@ img {
 
 #nprogress .bar {
   background: linear-gradient(90deg, var(--main-color-f1) 0%, var(--blue-black) 50%, var(--main-color) 100%);
-  height: 5px;
+  height: 3px;
 }
 
 ${(props) =>
