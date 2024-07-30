@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import Sidebar from "../components/navigation/sidebar"
 import { SideParent, SideChild, SideChildOutlet, SideChildSide, HamburgerExpand } from "../style/style"
 import Navbar from "../components/navigation/navbar"
@@ -20,6 +20,7 @@ import { fetchProbeData } from "../stores/probeSlice"
 import Bottombar from "../components/navigation/bottombar"
 import { BottomNavigateWrapper } from "../style/components/bottom.navigate"
 import Popupcomponent from "../components/utils/popupcomponent"
+import { TopBarProgress } from "../style/components/log.update"
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -29,6 +30,9 @@ export default function Main() {
   const handleShow = () => dispatch(setShowAside(true))
   const [isScrollingDown, setIsScrollingDown] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [progress, setProgress] = useState(false)
+  const [prevLoc, setPrevLoc] = useState("")
+  const location = useLocation()
 
   const decodeToken = async () => {
     const decoded: jwtToken = await jwtDecode(token)
@@ -79,8 +83,21 @@ export default function Main() {
     }
   }, [lastScrollY])
 
+  useEffect(() => {
+    setPrevLoc(location.pathname)
+    setProgress(true)
+    if (location.pathname === prevLoc) {
+      setPrevLoc('')
+    }
+  }, [location])
+
+  useEffect(() => {
+    setProgress(false)
+  }, [prevLoc])
+
   return (
     <SideParent onContextMenu={handleContextMenu}>
+      {progress && <TopBarProgress />}
       <Popupcomponent />
       <SideChildSide $primary>
         <Sidebar />

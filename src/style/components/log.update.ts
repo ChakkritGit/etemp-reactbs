@@ -50,3 +50,13 @@ justify-content: center;
   }
 }
 `
+
+export const TopBarProgress = styled.div<{ $primary?: boolean }>`
+  background: linear-gradient(90deg, var(--main-color-f1) 0%, var(--blue-black) 50%, var(--main-color) 100%);
+  height: 5px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  transition: .3s ease-in-out;
+`

@@ -50,7 +50,6 @@ export default function Fulltable() {
   })
 
   useEffect(() => {
-    console.log(state)
     return () => {
       dispatch(setSearchQuery(''))
     }
