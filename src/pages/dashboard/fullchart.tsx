@@ -42,6 +42,8 @@ import { items } from "../../animation/animate"
 import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
 import { useTheme } from "../../theme/ThemeProvider"
+import ReactToPrint from "react-to-print"
+import { PrintButton } from "../../style/components/warranty.styled"
 
 export default function Fullchart() {
   const { t } = useTranslation()
@@ -395,8 +397,25 @@ export default function Fullchart() {
                 </Dropdown.Item>
                 <LineHr $mg={.5} />
                 <Dropdown.Item>
-                  <RiPrinterLine />
-                  <span>Print</span>
+                  <ReactToPrint
+                    trigger={() =>
+                      <PrintButton>
+                        <RiPrinterLine />
+                        {t('print')}
+                      </PrintButton>}
+                    content={() => {
+                      if (canvasChartRef.current && tableInfoRef.current) {
+                        tableInfoRef.current.style.display = 'flex'
+                      }
+                      return canvasChartRef.current
+                    }}
+                    pageStyle={`@page { size: landscape; margin: 5mm; padding: 0mm; }`}
+                    onAfterPrint={() => {
+                      if (canvasChartRef.current && tableInfoRef.current) {
+                        tableInfoRef.current.style.display = 'none'
+                      }
+                    }}
+                  />
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

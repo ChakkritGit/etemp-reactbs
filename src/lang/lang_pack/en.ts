@@ -28,7 +28,7 @@ export default {
     // home table
     deviceNoTb: 'No',
     deviceDate: 'Date',
-    deviceNameTb: 'Device Name',
+    deviceNameBox: 'Device Name',
     deviceSerialTb: 'Device Serial',
     deviceLocationTb: 'Device Location',
     deviceTempTb: 'Temperature',
@@ -96,8 +96,8 @@ export default {
     // dashboard
     temperatureName: 'Temperature',
     humidityName: 'Humidity',
-    minValueUnit: 'Min',
-    maxValueUnit: 'Max',
+    tempValueUnit: 'Temp Settings',
+    humValueUnit: 'Hum Settings',
     dashProbe: 'Probe',
     dashConnect: 'Connectivity',
     dashDoor: 'Doors',

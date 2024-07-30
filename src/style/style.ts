@@ -3103,7 +3103,7 @@ export const FulltableHeadBtn = styled.div<{ $primary?: boolean }>`
 }
 `
 
-export const FulltableExportHeadBtn = styled.div<{ $primary?: boolean }>`
+export const FulltableExportHeadBtn = styled.button<{ $primary?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;

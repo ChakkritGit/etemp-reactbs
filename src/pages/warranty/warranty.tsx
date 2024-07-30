@@ -377,10 +377,10 @@ export default function Warranty() {
                 trigger={() =>
                   <FormBtn type="submit">
                     <RiPrinterLine />
-                    Print
+                    {t('print')}
                   </FormBtn>}
                 content={() => componentRef.current}
-                pageStyle={`@page { size: portrait margin: 5mm padding: 0mm }`}
+                pageStyle={`@page { size: portrait; margin: 5mm; padding: 0mm; }`}
               />
             </FormFlexBtn>
           </Modal.Footer>
