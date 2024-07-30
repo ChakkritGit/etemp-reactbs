@@ -7,7 +7,6 @@ export const ErrorPageStyled = styled.div`
   align-items: center;
   gap: 25px;
   height: calc(100dvh - 80px);
-  color: white;
 
   & p>i {
     cursor: pointer;

@@ -1,5 +1,5 @@
 import { Container, Dropdown, Form, Modal } from "react-bootstrap"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import {
@@ -41,12 +41,12 @@ import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
 import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
+import { useTheme } from "../../theme/ThemeProvider"
 
 export default function Fullchart() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const navigate = useNavigate()
-  const { id } = useParams()
   const [pageNumber, setPagenumber] = useState(1)
   const { Serial, deviceId, expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token, hosName, hosImg, userLevel } = cookieDecode
@@ -56,10 +56,22 @@ export default function Fullchart() {
   })
   const [logData, setLogData] = useState<logtype[]>([])
   const [devData, setDevData] = useState<devicesType>()
-  const [tempLimit, setTempLimit] = useState({ tempMin: 0, tempMax: 0 })
-  const { tempMax, tempMin } = tempLimit
+  const { state } = useLocation()
+  const { tempMin, tempMax } = state
   const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
+  const [convertImage, setConvertImage] = useState('')
+  const canvasChartRef = useRef<HTMLDivElement | null>(null)
+  const tableInfoRef = useRef<HTMLDivElement | null>(null)
+  const [validationData, setValidationData] = useState<wardsType>()
+  const { theme, toggleTheme } = useTheme()
+
+  const handleClose = () => {
+    setShow(false)
+    if (canvasChartRef.current) {
+      canvasChartRef.current.style.width = '100%'
+    }
+  }
+
   const handleShow = () => {
     if (logData) {
       exportChart()
@@ -68,19 +80,8 @@ export default function Fullchart() {
       toast.error("Data not found")
     }
   }
-  const [convertImage, setConvertImage] = useState('')
-  const canvasChartRef = useRef<HTMLDivElement | null>(null)
-  const tableInfoRef = useRef<HTMLDivElement | null>(null)
-  const [validationData, setValidationData] = useState<wardsType>()
 
   useEffect(() => {
-    try {
-      setTempLimit(JSON.parse(String(id)))
-    } catch (error) {
-      console.log('Error: Parameter is null')
-      navigate(-1)
-    }
-
     return () => {
       dispatch(setSearchQuery(''))
     }
@@ -238,10 +239,8 @@ export default function Fullchart() {
   }
 
   useEffect(() => {
-    if (token) {
-      fetchData()
-    }
-  }, [pageNumber, token])
+    if (String(deviceId) !== 'undefined' && token) fetchData()
+  }, [pageNumber, token, deviceId])
 
   useEffect(() => {
     if (token) {
@@ -251,7 +250,9 @@ export default function Fullchart() {
 
   const exportChart = async () => {
     if (canvasChartRef.current) {
-      canvasChartRef.current.style.color = 'black'
+      canvasChartRef.current.style.width = '1645px'
+      if (theme.mode === 'dark') toggleTheme()
+      await new Promise(resolve => setTimeout(resolve, 500))
       const canvas = canvasChartRef.current
       await html2canvas(canvas).then((canvasImage) => {
         setConvertImage(canvasImage.toDataURL('image/png', 1.0))

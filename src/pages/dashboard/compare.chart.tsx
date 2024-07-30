@@ -104,9 +104,6 @@ const Comparechart = () => {
         <Link to={'/dashboard'}>
           <RiDashboardFill fontSize={20} />
         </Link>
-        <Link to={'/dashboard/fullchart'}>
-          {t('pageChart')}
-        </Link>
         <Typography className="compare-text">{t('chartCompare')}</Typography>
       </Breadcrumbs>
       <FullchartHead>

@@ -1,11 +1,12 @@
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useRouteError } from "react-router-dom"
 import { ErrorPageStyled } from "../style/components/error.page"
 
 export default function SomethingWrong() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+  const error = useRouteError()
   const langs = localStorage.getItem("lang")
 
   useEffect(() => {
@@ -13,6 +14,12 @@ export default function SomethingWrong() {
       i18n.changeLanguage(langs)
     }
   }, [i18n])
+
+  useEffect(() => {
+    if (error) {
+      console.error(error)
+    }
+  }, [error])
 
   return (
     <ErrorPageStyled>

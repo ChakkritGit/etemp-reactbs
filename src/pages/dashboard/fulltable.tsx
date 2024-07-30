@@ -1,5 +1,5 @@
 import { Container, Dropdown, Form } from "react-bootstrap"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Typography from '@mui/material/Typography'
 import {
@@ -35,30 +35,22 @@ import { storeDispatchType } from "../../stores/store"
 export default function Fulltable() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const navigate = useNavigate()
-  const { id } = useParams()
+  const { state } = useLocation()
+  const { tempMin, tempMax } = state
   const [pageNumber, setPagenumber] = useState(1)
   const [logData, setLogData] = useState<logtype[]>([])
   const [devData, setDevData] = useState<devicesType>()
   const [loading, setLoading] = useState(false)
   const [tableData, setTableData] = useState<logtype[]>([])
-  const [tempLimit, setTempLimit] = useState({ tempMin: 0, tempMax: 0 })
   const { searchQuery, deviceId, expand, cookieDecode, Serial } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
-  const { tempMin, tempMax } = tempLimit
   const [filterDate, setFilterDate] = useState({
     startDate: '',
     endDate: ''
   })
 
   useEffect(() => {
-    try {
-      setTempLimit(JSON.parse(String(id)))
-    } catch (error) {
-      console.log('Error: Parameter is null')
-      navigate(-1)
-    }
-
+    console.log(state)
     return () => {
       dispatch(setSearchQuery(''))
     }
@@ -195,8 +187,8 @@ export default function Fulltable() {
   }
 
   useEffect(() => {
-    if (token) fetchData()
-  }, [pageNumber, token])
+    if (String(deviceId) !== 'undefined' && token) fetchData()
+  }, [pageNumber, token, deviceId])
 
   useEffect(() => {
     if (token) Logday()

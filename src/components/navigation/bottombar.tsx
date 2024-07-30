@@ -83,7 +83,7 @@ export default function Bottombar({ isScrollingDown }: BottombarProps) {
             <RiDashboardLine />
         }
         <span>{t('sideDashboard')}</span>
-        <ActiveNavBlur $primary={location.pathname === "/dashboard" || location.pathname === "/dashboard/fullchart" || location.pathname === "/dashboard/fulltable" || location.pathname === "/dashboard/fullchart/compare"} />
+        <ActiveNavBlur $primary={location.pathname === "/dashboard" || location.pathname.split('/')[2] === "fullchart" || location.pathname.split('/')[2] === "fulltable" || location.pathname === "/dashboard/fullchart/compare"} />
       </NavigationItems>
       {
         cookieDecode.userLevel !== '3' ?

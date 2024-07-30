@@ -105,16 +105,6 @@ export const router = createBrowserRouter([
             errorElement: <SomethingWrong />
           },
           {
-            path: "dashboard/fullchart/:id",
-            element: <Fullchart />,
-            errorElement: <SomethingWrong />
-          },
-          {
-            path: "dashboard/fulltable/:id",
-            element: <Fulltable />,
-            errorElement: <SomethingWrong />
-          },
-          {
             path: "dashboard/fullchart/compare",
             element: <Comparechart />,
             errorElement: <SomethingWrong />

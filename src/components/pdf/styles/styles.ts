@@ -59,7 +59,7 @@ export const StylesPdf = StyleSheet.create({
     justifyContent: 'center'
   },
   img_width : {
+    objectFit: 'contain',
     width: 750,
-    // height: 480
   }
 })
