@@ -20,7 +20,8 @@ import { fetchProbeData } from "../stores/probeSlice"
 import Bottombar from "../components/navigation/bottombar"
 import { BottomNavigateWrapper } from "../style/components/bottom.navigate"
 import Popupcomponent from "../components/utils/popupcomponent"
-import { TopBarProgress } from "../style/components/log.update"
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 export default function Main() {
   const dispatch = useDispatch<storeDispatchType>()
@@ -30,8 +31,6 @@ export default function Main() {
   const handleShow = () => dispatch(setShowAside(true))
   const [isScrollingDown, setIsScrollingDown] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
-  const [progress, setProgress] = useState(false)
-  const [prevLoc, setPrevLoc] = useState("")
   const location = useLocation()
 
   const decodeToken = async () => {
@@ -84,20 +83,25 @@ export default function Main() {
   }, [lastScrollY])
 
   useEffect(() => {
-    setPrevLoc(location.pathname)
-    setProgress(true)
-    if (location.pathname === prevLoc) {
-      setPrevLoc('')
-    }
-  }, [location])
+    NProgress.configure({
+      speed: 300,
+      showSpinner: false
+    })
 
-  useEffect(() => {
-    setProgress(false)
-  }, [prevLoc])
+    const handleRouteChangeStart = () => {
+      NProgress.start()
+    }
+
+    const handleRouteChangeComplete = () => {
+      NProgress.done()
+    }
+
+    handleRouteChangeStart()
+    handleRouteChangeComplete()
+  }, [location.pathname])
 
   return (
     <SideParent onContextMenu={handleContextMenu}>
-      {progress && <TopBarProgress />}
       <Popupcomponent />
       <SideChildSide $primary>
         <Sidebar />
