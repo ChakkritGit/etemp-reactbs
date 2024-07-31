@@ -24,9 +24,11 @@ export const AddWarrantyButton = styled.button<{ $primary?: boolean }>`
 `
 
 export const PrintButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: .5rem;
   width: 100%;
   height: 40px;
   border: unset;
   background-color: unset;
-  text-align: left;
 `

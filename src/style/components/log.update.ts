@@ -21,7 +21,7 @@ height: 35px;
 padding: .5rem;
 
 &:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--second-color);
   transition: .3s;
 }
 `

@@ -133,3 +133,14 @@ export const ManageProbeAdd = styled.button<{ $primary?: boolean }>`
   stroke-width: 1px;
 }
 `
+
+export const ProbeCH = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--main-color-opacity1);
+  border-radius: var(--border-radius-small);
+  font-size: 18px;
+`

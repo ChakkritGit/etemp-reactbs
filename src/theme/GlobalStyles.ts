@@ -30,7 +30,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary-color);
+  background: var(--second-color);
 }
 
 /* bootstrap navlink */
@@ -464,7 +464,7 @@ img {
 }
 
 #nprogress .bar {
-  background: linear-gradient(90deg, var(--main-color-opacity1) 0%, var(--secondary-color) 70%, var(--main-color) 100%);
+  background: linear-gradient(90deg, var(--main-color-opacity1) 0%, var(--second-color) 70%, var(--main-color) 100%);
 }
 
 #nprogress .peg {

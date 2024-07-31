@@ -479,7 +479,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={userLevel === '4'}
+                          disabled={userLevel === '3'}
                           value={formdata.adjust_temp}
                           onChange={(e) => setFormdata({ ...formdata, adjust_temp: Number(e.target.value) })} />
                         <strong>°C</strong>
@@ -487,14 +487,14 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="temp"
-                      $disabled={userLevel === '4'}
+                      $disabled={userLevel === '3'}
                     >
                       <Slider
                         color="error"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={userLevel === '4'}
+                        disabled={userLevel === '3'}
                         value={formdata.adjust_temp}
                         onChange={handleAdjusttempChange}
                         valueLabelDisplay="off" />
@@ -512,7 +512,7 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                           min={-20}
                           max={20}
                           step={.1}
-                          disabled={userLevel === '4'}
+                          disabled={userLevel === '3'}
                           value={formdata.adjust_hum}
                           onChange={(e) => setFormdata({ ...formdata, adjust_hum: Number(e.target.value) })} />
                         <strong>%</strong>
@@ -520,14 +520,14 @@ export default function Devicesinfo(devicesinfo: devicesinfo) {
                     </SliderLabelFlex>
                     <FormSliderRange
                       $primary="hum"
-                      $disabled={userLevel === '4'}
+                      $disabled={userLevel === '3'}
                     >
                       <Slider
                         color="primary"
                         min={-20}
                         max={20}
                         step={.1}
-                        disabled={userLevel === '4'}
+                        disabled={userLevel === '3'}
                         value={formdata.adjust_hum}
                         onChange={handleAdjusthumChange}
                         valueLabelDisplay="off" />

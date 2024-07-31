@@ -933,14 +933,14 @@ gap: .5rem;
 /* width: 30px;
 max-height: 30px; */
 border-radius: var(--border-radius-big);
-border: 2px solid var(--secondary-color-badge);
+border: 2px solid var(--second-color-badge);
 background-color: unset;
-color: var(--secondary-color-badge);
+color: var(--second-color-badge);
 font-weight: bold;
 padding: .5rem;
 
 &:hover {
-  background-color: var(--secondary-color-badge);
+  background-color: var(--second-color-badge);
   color: var(--white-grey-1);
   transition: .3s;
 }
@@ -2448,7 +2448,7 @@ overflow: hidden;
 ${props => props.$primary && css`
   &:hover {
     &>div:nth-child(1)>svg {
-      background-color: var(--secondary-color);
+      background-color: var(--second-color);
     }
 
     cursor: pointer;
@@ -2817,11 +2817,11 @@ ${props => props.$primary === true &&
     css`
   @keyframes rotateAnimation {
   0% {
-    color: var(--secondary-color);
+    color: var(--second-color);
     transform: rotate(0deg);
   }
   100% {
-    color: var(--secondary-color);
+    color: var(--second-color);
     transform: rotate(360deg);
   }
 }
@@ -3217,8 +3217,8 @@ export const FilterSearchBtn = styled.button<{ $primary?: boolean }>`
   padding: 0.5rem;
 
   &:hover {
-  border-color: var(--secondary-color);
-  background-color: var(--secondary-color);
+  border-color: var(--second-color);
+  background-color: var(--second-color);
   color: var(--white-grey-1);
   transition: .3s;
 }
@@ -4319,7 +4319,7 @@ margin: 1rem 0;
 }
 
 &>div:nth-child(1)>div:nth-child(1)>label:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--second-color);
   transition: .3s;
 }
 
@@ -5258,7 +5258,7 @@ margin: 1rem 0;
 }
 
 &>div>label:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--second-color);
   transition: .3s;
 }
 

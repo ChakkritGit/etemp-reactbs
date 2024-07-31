@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { Actiontableprobe, DelProbeButton, ManageProbeBody, ManageProbeContainer, ManageProbeHeader } from "../../../style/components/manage.probe"
+import { Actiontableprobe, DelProbeButton, ManageProbeBody, ManageProbeContainer, ManageProbeHeader, ProbeCH } from "../../../style/components/manage.probe"
 import Addprobe from "./addprobe"
 import DataTable, { TableColumn } from "react-data-table-component"
 import { probeType } from "../../../types/probe.type"
@@ -87,7 +87,7 @@ export default function Probesetting() {
     },
     {
       name: t('probeChanel'),
-      cell: (items) => <span>{items.probeCh}</span>,
+      cell: (items) => <ProbeCH>{items.probeCh}</ProbeCH>,
       sortable: false,
       center: true
     },
