@@ -255,7 +255,7 @@ export const FileList = styled.div<{ $primary?: number }>`
   justify-content: space-between;
   width: 100%;
   background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white-grey-1)'};
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
   border-radius: .8rem;
   padding: .7rem 1.5rem;
   height: 100px;

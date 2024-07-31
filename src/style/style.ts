@@ -930,17 +930,15 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: .5rem;
-/* width: 30px;
-max-height: 30px; */
 border-radius: var(--border-radius-big);
-border: 2px solid var(--second-color-badge);
+border: 2px solid var(--secondary-color-badge);
 background-color: unset;
-color: var(--second-color-badge);
+color: var(--secondary-color-badge);
 font-weight: bold;
 padding: .5rem;
 
 &:hover {
-  background-color: var(--second-color-badge);
+  background-color: var(--secondary-color-badge);
   color: var(--white-grey-1);
   transition: .3s;
 }
@@ -1022,14 +1020,12 @@ export const UsercardFlex = styled.div<{ $primary?: boolean }> `
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  /* max-width: 230px;
-  max-height: 100px; */
   width: 100%;
   height: 100px;
   border-radius: .8rem;
   padding: 1rem;
   background-color: var(--white-grey-1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
 
   ${props => props.theme.mode === 'dark' &&
     css`
@@ -1567,7 +1563,7 @@ max-height: 130px;
 overflow: hidden;
 padding: .8rem;
 border-radius: .8rem;
-box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
 transition: .3s;
 cursor: pointer;
 
@@ -1835,7 +1831,7 @@ max-height: 380px;
 padding: 1rem;
 border-radius: .8rem;
 background-color: var(--white-grey-1);
-box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
 
 ${props => props.theme.mode === 'dark' &&
     css`
@@ -2299,8 +2295,7 @@ gap: 1rem;
 padding: 1rem;
 background-color: var(--white-grey-1);
 border-radius: .8rem;
-box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-transition: .3s;
+box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
 
 ${props => props.theme.mode === 'dark' &&
     css`
@@ -2381,7 +2376,7 @@ height: 180px;
 aspect-ratio: 3/4;
 border-radius: var(--border-radius-big);
 padding: 3px;
-box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
 cursor: pointer;
 overflow: hidden;
 
@@ -2441,8 +2436,7 @@ height: 135px;
 padding: .5rem;
 background-color: var(--white-grey-1);
 border-radius: .8rem;
-box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-transition: .3s;
+box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
 overflow: hidden;
 
 ${props => props.$primary && css`
@@ -2565,7 +2559,7 @@ export const ChartContainer = styled.div<{ $primary?: boolean }>`
   padding: 1rem;
   background-color: var(--white-grey-1);
   border-radius: 0.8rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
   width: 100%;
   overflow: hidden;
 
@@ -2697,7 +2691,7 @@ export const TableContainer = styled.div<{ $primary?: boolean }>`
   padding: 1rem;
   background-color: var(--white-grey-1);
   border-radius: 0.8rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  box-shadow: 0 12px 28px ${props => props.theme.mode === 'dark' ? 'rgb(50 50 50 / 10%)' : 'rgb(190 190 190 / 25%)'};
   width: 100%;
   overflow-y: scroll;
 
