@@ -18,7 +18,7 @@ export const MuteEtemp = styled.button<{ $primary?: boolean }>`
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: ${(propss) => (propss.$primary ? 'var(--white)' : 'var(--white)')};
+    background-color: ${(propss) => (propss.$primary ? 'var(--white-grey-1)' : 'var(--white-grey-1)')};
     transition: transform 0.3s ease;
     transform: ${(propss) =>
     propss.$primary ? 'translateX(22px)' : 'translateX(2px)'};

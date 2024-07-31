@@ -21,8 +21,8 @@ export const ReloadPromptToast = styled.div`
   z-index: 1;
   text-align: left;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white)'};
-  color: ${props => props.theme.mode === 'dark' ? 'var(--white)' : 'var(--main-last-color)'};
+  background-color: ${props => props.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white-grey-1)'};
+  color: ${props => props.theme.mode === 'dark' ? 'var(--white-grey-1)' : 'var(--main-last-color)'};
   transition: .3s;
 `
 
@@ -45,12 +45,12 @@ export const ReloadPromptToastButton = styled.button`
   margin-right: 5px;
   border-radius: var(--border-radius-big);
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   padding: 3px 10px;
   width: max-content;
 
   &:hover {
-    background-color: var(--main-color-f1);
+    background-color: var(--main-color-opacity1);
     transition: .3s;
   }
 `
@@ -61,7 +61,7 @@ export const ClosePromptToastButton = styled.button`
   margin-right: 5px;
   border-radius: var(--border-radius-big);
   background-color: transparent;
-  color: ${props => props.theme.mode === 'dark' ? 'var(--white)' : 'var(--main-last-color)'};
+  color: ${props => props.theme.mode === 'dark' ? 'var(--white-grey-1)' : 'var(--main-last-color)'};
   padding: 3px 10px;
   width: max-content;
 `

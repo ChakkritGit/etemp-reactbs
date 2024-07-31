@@ -13,19 +13,19 @@ export const LangSwitchButton = styled.button<{ $lang?: boolean }>`
   border: unset;
   padding: .5rem;
   border-radius: var(--border-radius-big);
-  color: var(--real-black);
+  color: var(--black);
   ${(propss) => (propss.theme.mode === 'dark' && css`
-    color: var(--white);
+    color: var(--white-grey-1);
   `)}
 
   ${props => props.$lang && css`
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   `}
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `

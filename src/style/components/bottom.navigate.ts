@@ -36,7 +36,7 @@ export const NavigationBottom = styled.nav<{ $primary?: boolean }>`
     css`
   background-color: rgba(53, 53, 53, .6);
   border-color: var(--border-dark-color);
-  color: var(--white);
+  color: var(--white-grey-1-grey-1);
 `}
 `
 
@@ -49,12 +49,12 @@ export const NavigationItems = styled.button<{ $primary?: boolean }>`
   height: 100%;
   width: 100%;
   background-color: transparent;
-  color: var(--real-black);
+  color: var(--black);
   border: unset;
 
   ${props => props.theme.mode === 'dark' &&
     css`
-  color: var(--white);
+  color: var(--white-grey-1-grey-1);
 `}
 
   ${props => props.$primary && css`

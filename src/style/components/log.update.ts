@@ -14,14 +14,14 @@ export const LogSpan = styled.div<{ $primary?: boolean }>`
 
 export const LogDetailsButton = styled.button<{ $primary?: boolean }>`
 background-color: var(--main-color);
-color: var(--white);
+color: var(--white-grey-1);
 border-radius: var(--border-radius-small);
 border: unset;
 height: 35px;
 padding: .5rem;
 
 &:hover {
-  background-color: var(--blue-black);
+  background-color: var(--secondary-color);
   transition: .3s;
 }
 `

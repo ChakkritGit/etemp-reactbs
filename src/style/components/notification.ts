@@ -29,14 +29,14 @@ export const NotiHeadBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 
   ${props => props.$primary &&
     css`
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 `
 
@@ -83,7 +83,7 @@ export const NotificationSoundButton = styled.button<{ $primary?: boolean }>`
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: ${(propss) => (propss.$primary ? 'var(--white)' : 'var(--white)')};
+    background-color: ${(propss) => (propss.$primary ? 'var(--white-grey-1)' : 'var(--white-grey-1)')};
     transition: transform 0.3s ease;
     transform: ${(propss) =>
     propss.$primary ? 'translateX(25.5px)' : 'translateX(2.7px)'};

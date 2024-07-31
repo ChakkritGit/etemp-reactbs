@@ -77,7 +77,7 @@ border: 2px solid var(--main-color);
   transition: .3s;
 
   & > svg, span {
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
   }
 }
@@ -91,6 +91,6 @@ gap: .5rem;
 
 export const TagCurrentHos = styled.span`
   padding: 7px .8rem;
-  background-color: var(--main-color-f2);
+  background-color: var(--main-color-opacity2);
   border-radius: var(--border-radius-big);
 `

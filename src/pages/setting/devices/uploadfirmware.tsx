@@ -665,7 +665,7 @@ export default function Uploadfirmware() {
                 types={fileTypes}
                 label={t('uploadLabel')}
                 children={<UploadJSXStyle />}
-                dropMessageStyle={{ backgroundColor: 'var(--main-color-f2)' }}
+                dropMessageStyle={{ backgroundColor: 'var(--main-color-opacity2)' }}
                 onDraggingStateChange={handleDrag} />
             </RowChildren>
           </Modal.Body>

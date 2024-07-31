@@ -18,7 +18,7 @@ export const ToggleButtonWrapper = styled.button`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background-color: ${(propss) => (propss.theme.mode === 'dark' ? 'var(--white)' : 'var(--white)')};
+    background-color: ${(propss) => (propss.theme.mode === 'dark' ? 'var(--white-grey-1)' : 'var(--white-grey-1)')};
     transition: transform 0.3s ease;
     transform: ${(propss) =>
     propss.theme.mode === 'dark' ? 'translateX(16.5px)' : 'translateX(1.5px)'};
@@ -99,7 +99,7 @@ ${props => props.$primary === false && props.theme.mode === 'dark' &&
 ${props => props.theme.mode === 'dark' &&
     css`
 button>svg {
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 border-color: var(--border-dark-color);
 `}
@@ -150,7 +150,7 @@ margin: 0;
 ${props => props.theme.mode === 'dark' &&
     css`
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 `}
 
 ${props => props.$primary &&
@@ -208,7 +208,7 @@ height: 100%;
 width: 235px;
 padding: 1rem;
 border-right: 1.5px solid var(--soft-grey);
-background-color: var(--white);
+background-color: var(--white-grey-1);
 transition: width ease .3s;
 
 ${props => props.$primary &&
@@ -223,7 +223,7 @@ ${props => props.theme.mode === 'dark' &&
 
   .nav-link,
   ${HospitalName} {
-    color: var(--white) !important;
+    color: var(--white-grey-1) !important;
   }
 `}
 
@@ -251,7 +251,7 @@ export const SidebarLogo = styled.img<{ $primary?: boolean }>`
   max-width: 100px;
   max-height: 100px;
   margin-bottom: .5rem;
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   border-radius: var(--border-radius-big);
   transition: .3s;
   overflow: hidden;
@@ -305,7 +305,7 @@ export const ExpandSidebar = styled.button<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 `
 
@@ -365,12 +365,12 @@ export const TooltipSpan = styled.span<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' ?
     css`
-    background-color: var(--main-color-f1);
-    color: var(--white);
+    background-color: var(--main-color-opacity1);
+    color: var(--white-grey-1);
 `
     :
     css`
-    background-color: var(--main-color-f2);
+    background-color: var(--main-color-opacity2);
     color: var(--main-color);
 `
   }
@@ -396,12 +396,12 @@ export const TooltipSpanLeft = styled.span<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' ?
     css`
-    background-color: var(--main-color-f1);
-    color: var(--white);
+    background-color: var(--main-color-opacity1);
+    color: var(--white-grey-1);
 `
     :
     css`
-    background-color: var(--main-color-f2);
+    background-color: var(--main-color-opacity2);
     color: var(--main-color);
 `
   }
@@ -472,12 +472,12 @@ ${props => props.$primary &&
 
 & a.nav-link:hover {
   background-color: var(--main-color) !important;
-  color: var(--white) !important;
+  color: var(--white-grey-1) !important;
   transition: .3s;
 }
 
 & .nav-link:focus-visible {
-  box-shadow: 0 0 0 .25rem var(--main-color-f2);
+  box-shadow: 0 0 0 .25rem var(--main-color-opacity2);
 }
 `
 
@@ -520,7 +520,7 @@ ${props => props.theme.mode === 'dark' &&
     css`
   background-color: rgba(53, 53, 53, .6);
   border-color: var(--border-dark-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 `}
 `
 
@@ -550,7 +550,7 @@ cursor: pointer;
 
 ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 @media (max-width: 430px) {
   padding: 0 3rem;
@@ -609,7 +609,7 @@ export const SearhIcon = styled.div<{ $primary?: boolean }> `
 
     ${props => props.theme.mode === 'dark' &&
     css`
-      color: var(--white);
+      color: var(--white-grey-1);
 `}
   }
 `
@@ -669,7 +669,7 @@ export const MBSearchCloseIcon = styled.div<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' &&
     css`
-color: var(--white);
+color: var(--white-grey-1);
 `}
 }
 `
@@ -721,7 +721,7 @@ color: red;
 
 &:hover {
   background-color: red;
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -742,7 +742,7 @@ export const NavProfileContainer = styled.div<{ $primary?: boolean }>`
   cursor: pointer;
 
   &:hover {
-  color: var(--white);
+  color: var(--white-grey-1);
   background-color: var(--main-color);
   transition: .3s;
 }
@@ -781,7 +781,7 @@ export const NavProfileContainer = styled.div<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' &&
     css`
-color: var(--white);
+color: var(--white-grey-1);
 `}
 `
 
@@ -789,7 +789,7 @@ export const NavProfileFlex = styled.div<{ $primary?: boolean }>`
 `
 
 export const NavProfile = styled.img<{ $primary?: boolean }>`
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   max-width: 32px;
   max-height: 32px;
   width: 32px;
@@ -810,7 +810,7 @@ export const LangSwitch = styled.div<{ $primary?: boolean }>`
   align-items: center;
   background-color: unset;
   border: unset;
-  color: var(--real-black);
+  color: var(--black);
   font-size: 24px;
   width: 35px;
   height: 35px;
@@ -818,7 +818,7 @@ export const LangSwitch = styled.div<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' &&
     css`
-color: var(--white);
+color: var(--white-grey-1);
 `}
 
   &:hover {
@@ -867,7 +867,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -893,7 +893,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -916,7 +916,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--danger-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -941,7 +941,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--secondary-color-badge);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -967,7 +967,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--danger-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -1028,7 +1028,7 @@ export const UsercardFlex = styled.div<{ $primary?: boolean }> `
   height: 100px;
   border-radius: .8rem;
   padding: 1rem;
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 
   ${props => props.theme.mode === 'dark' &&
@@ -1051,7 +1051,7 @@ width: 60px;
 height: 60px;
 border-radius: var(--border-radius-big);
 box-shadow: 0 0 5px 2px rgba(0, 0, 0, .05);
-background-color: var(--white);
+background-color: var(--white-grey-1);
 object-fit: cover;
 `
 
@@ -1073,7 +1073,7 @@ flex-direction: column;
 
   ${props => props.theme.mode === 'dark' &&
     css`
-      color: var(--white);
+      color: var(--white-grey-1);
 `}
 }
 & span:nth-child(2) {
@@ -1143,7 +1143,7 @@ border-radius: var(--border-radius-big);
 
   ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 }
 
@@ -1173,7 +1173,7 @@ color: black;
 
 ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
     background-color: var(--main-seccond-color);
 `}
 `
@@ -1218,7 +1218,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -1244,7 +1244,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -1291,7 +1291,7 @@ gap: .5rem;
 
 export const SpanStatusDev = styled.span<{ $primary?: boolean }>`
 background-color: ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
-color: var(--white);
+color: var(--white-grey-1);
 border-radius: var(--border-radius-small);
 padding: .35rem .5rem;
 `
@@ -1314,12 +1314,12 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -1353,12 +1353,12 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -1388,12 +1388,12 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -1429,7 +1429,7 @@ padding: .5rem;
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -1443,19 +1443,19 @@ ${props => props.theme.mode === 'dark' &&
     css`
     .hiTDLB-st>div>div>div>div,
     .hiTDLB-st>div>div>div {
-      color: var(--white);
+      color: var(--white-grey-1);
       background-color: var(--main-seccond-color);
       border-bottom-color: var(--border-dark-color);
     }
 
     div>nav {
       background-color: var(--main-seccond-color);
-      color: var(--white);
+      color: var(--white-grey-1);
       border-top-color: var(--border-dark-color);
 
       div>button {
-        color: var(--white) !important;
-        fill: var(--white) !important;
+        color: var(--white-grey-1) !important;
+        fill: var(--white-grey-1) !important;
       }
 
       &>div>button:disabled {
@@ -1559,7 +1559,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 gap: 5px;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 width: 145px;
 height: max-content;
 max-width: 150px;
@@ -1583,11 +1583,11 @@ ${props => props.theme.mode === 'dark' &&
 
 ${props => props.$primary && css`
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 
   ${DevCards} & span:nth-child(2) {
-    color: var(--invert-color);
+    color: var(--white);
   }
 `}
 
@@ -1755,7 +1755,7 @@ border: unset;
 ${props => props.theme.mode === 'dark' &&
     css`
     background-color: var(--main-last-color);
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 
 &:focus {
@@ -1798,7 +1798,7 @@ ${props => props.$rangename === 'hum' &&
     span>span:nth-child(3),
     span>span:nth-child(4) {
     &:hover {
-      box-shadow: 0px 0px 0px 8px var(--main-color-f1);
+      box-shadow: 0px 0px 0px 8px var(--main-color-opacity1);
 }
     }
 `}
@@ -1834,7 +1834,7 @@ max-width: 230px;
 max-height: 380px;
 padding: 1rem;
 border-radius: .8rem;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 
 ${props => props.theme.mode === 'dark' &&
@@ -1871,7 +1871,7 @@ export const CardDevBtn = styled.button<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 
   & svg {
@@ -1981,7 +1981,7 @@ max-width: 32px;
 max-height: 32px;
 width: 32px;
 height: 32px;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 border-radius: .5rem;
 border: 1px solid var(--grey);
 overflow: hidden;
@@ -1993,11 +1993,11 @@ ${props => props.theme.mode === 'dark' &&
 
 & svg {
   font-size: 20px;
-  color: var(--real-black);
+  color: var(--black);
 
   ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 }
 
@@ -2006,7 +2006,7 @@ ${props => props.$primary &&
   background-color: var(--danger-color);
   border-color: var(--danger-color);
   & svg {
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 `}
 `
@@ -2032,7 +2032,7 @@ height: 32px;
 padding: 0 5px;
 font-size: 14px;
 border-radius: .5rem;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 border: 1px solid var(--grey);
 position: relative;
 
@@ -2061,7 +2061,7 @@ height: ${props => props.$onFilter ? 'max-content' : '32px'};
 font-size: 14px;
 border-radius: .5rem;
 padding: ${props => props.$onFilter ? '5px' : '0'} 5px;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 border: 1px solid var(--grey);
 position: relative;
 
@@ -2095,11 +2095,11 @@ ${props => props.theme.mode === 'dark' &&
 
 & svg {
   font-size: 20px;
-  color: var(--real-black);
+  color: var(--black);
 
   ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 }
 
@@ -2109,7 +2109,7 @@ ${props => props.$primary &&
   border-color: var(--danger-color);
 
   & svg {
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 `}
 `
@@ -2140,7 +2140,7 @@ padding: 0 .5rem 0 0;
 
   ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 
   & svg {
@@ -2166,7 +2166,7 @@ cursor: pointer;
 
 ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 
 & svg {
@@ -2180,7 +2180,7 @@ cursor: pointer;
 
 ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 
 & svg {
@@ -2219,7 +2219,7 @@ span {
     span>span:nth-child(3),
     span>span:nth-child(4) {
     &:hover {
-      box-shadow: 0px 0px 0px 8px var(--main-color-f1);
+      box-shadow: 0px 0px 0px 8px var(--main-color-opacity1);
 }
     }
 `}
@@ -2266,7 +2266,7 @@ ${props => props.theme.mode === 'dark' &&
     css`
     select {
       background-color: var(--main-last-color);
-      color: var(--white);
+      color: var(--white-grey-1);
       border-color: var(--border-dark-color);
       color-scheme: dark;
     }
@@ -2297,7 +2297,7 @@ flex-wrap: wrap;
 width: 40%;
 gap: 1rem;
 padding: 1rem;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 border-radius: .8rem;
 box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 transition: .3s;
@@ -2330,7 +2330,7 @@ ${props => props.theme.mode === 'dark' &&
     css`
     button {
       svg {
-        color: var(--white);
+        color: var(--white-grey-1);
       }
     }
 `}
@@ -2439,7 +2439,7 @@ gap: .5rem;
 width: 100%;
 height: 135px;
 padding: .5rem;
-background-color: var(--white);
+background-color: var(--white-grey-1);
 border-radius: .8rem;
 box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 transition: .3s;
@@ -2448,12 +2448,12 @@ overflow: hidden;
 ${props => props.$primary && css`
   &:hover {
     &>div:nth-child(1)>svg {
-      background-color: var(--blue-black);
+      background-color: var(--secondary-color);
     }
 
     cursor: pointer;
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `}
@@ -2563,7 +2563,7 @@ width: 100%;
 // chart
 export const ChartContainer = styled.div<{ $primary?: boolean }>`
   padding: 1rem;
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   border-radius: 0.8rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   width: 100%;
@@ -2603,7 +2603,7 @@ export const ChartCardHeahBtn = styled.button<{ $primary?: boolean }>`
 
     ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
   }
 `
@@ -2663,8 +2663,8 @@ export const LineChartControllerDimension = styled.div<{ $color?: string }>`
 `
       :
       css`
-  border: 2px solid var(--main-color-f1);
-  background-color: var(--main-color-f1);
+  border: 2px solid var(--main-color-opacity1);
+  background-color: var(--main-color-opacity1);
 `}
 `
 
@@ -2673,7 +2673,7 @@ height: 17px;
 
 ${props => props.theme.mode === 'dark' &&
     css`
-    color: var(--white);
+    color: var(--white-grey-1);
 `}
 `
 
@@ -2687,7 +2687,7 @@ export const DisabledChart = styled.div<{ $primary?: boolean }>`
 
     ${props => props.theme.mode === 'dark' &&
         css`
-    background-color: var(--white);
+    background-color: var(--white-grey-1);
 `}
   `}
 `
@@ -2695,7 +2695,7 @@ export const DisabledChart = styled.div<{ $primary?: boolean }>`
 // table
 export const TableContainer = styled.div<{ $primary?: boolean }>`
   padding: 1rem;
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   border-radius: 0.8rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   width: 100%;
@@ -2707,16 +2707,16 @@ export const TableContainer = styled.div<{ $primary?: boolean }>`
 
     div>div>div>div>div {
       background-color: var(--main-last-color);
-      color: var(--white);
+      color: var(--white-grey-1);
     }
 
     div>nav {
       background-color: var(--main-last-color);
-      color: var(--white);
+      color: var(--white-grey-1);
 
       div>button {
-        color: var(--white) !important;
-        fill: var(--white) !important;
+        color: var(--white-grey-1) !important;
+        fill: var(--white-grey-1) !important;
       }
 
       &>div>button:disabled {
@@ -2758,16 +2758,16 @@ ${props => props.theme.mode === 'dark' &&
 
     div:nth-child(1)>div>div>div>div {
       background-color: var(--main-seccond-color);
-      color: var(--white);
+      color: var(--white-grey-1);
     }
 
     div>nav {
       background-color: var(--main-seccond-color);
-      color: var(--white);
+      color: var(--white-grey-1);
 
       div>button {
-        color: var(--white) !important;
-        fill: var(--white) !important;
+        color: var(--white-grey-1) !important;
+        fill: var(--white-grey-1) !important;
       }
 
       &>div>button:disabled {
@@ -2805,7 +2805,7 @@ svg {
   color: black;
   ${props => props.theme.mode === 'dark' &&
     css`
-color: var(--white);
+color: var(--white-grey-1);
 `}
   ${props => props.$primary === true &&
     css`
@@ -2817,11 +2817,11 @@ ${props => props.$primary === true &&
     css`
   @keyframes rotateAnimation {
   0% {
-    color: var(--blue-black);
+    color: var(--secondary-color);
     transform: rotate(0deg);
   }
   100% {
-    color: var(--blue-black);
+    color: var(--secondary-color);
     transform: rotate(360deg);
   }
 }
@@ -2832,11 +2832,11 @@ ${props => props.theme.mode === 'dark' &&
     css`
   @keyframes rotateAnimation {
   0% {
-    color: var(--white);
+    color: var(--white-grey-1);
     transform: rotate(0deg);
   }
   100% {
-    color: var(--white);
+    color: var(--white-grey-1);
     transform: rotate(360deg);
   }
 }
@@ -2866,12 +2866,12 @@ export const FullchartHeadExport = styled.div<{ $primary?: boolean }>`
   ${props => props.$primary &&
     css`
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   `}
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -2898,13 +2898,13 @@ export const FullchartHeadBtn = styled.button<{ $primary?: boolean }>`
     css`
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 
   &:hover {
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
 }
 `
@@ -2932,13 +2932,13 @@ export const FullcharComparetHeadBtn = styled.button<{ $primary?: boolean }>`
     css`
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 
   &:hover {
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
 }
 `
@@ -2952,7 +2952,7 @@ margin-top: 1rem;
 .dropdown-menu.show>a {
     ${props => props.theme.mode === 'dark' &&
     css`
-  color: var(--white);
+  color: var(--white-grey-1);
   `}
   }
 
@@ -3062,7 +3062,7 @@ export const AuditGraphBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--danger-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `
@@ -3092,13 +3092,13 @@ export const FulltableHeadBtn = styled.div<{ $primary?: boolean }>`
     css`
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 
   &:hover {
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
 }
 `
@@ -3126,13 +3126,13 @@ export const FulltableExportHeadBtn = styled.button<{ $primary?: boolean }>`
     css`
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 
   &:hover {
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
 }
 `
@@ -3158,7 +3158,7 @@ margin-top: 1rem;
 .dropdown-menu.show>a {
     ${props => props.theme.mode === 'dark' &&
     css`
-  color: var(--white);
+  color: var(--white-grey-1);
   `}
   }
 
@@ -3212,14 +3212,14 @@ export const FilterSearchBtn = styled.button<{ $primary?: boolean }>`
   border-radius: var(--border-radius-big);
   border: 2px solid var(--main-color);
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   font-weight: bold;
   padding: 0.5rem;
 
   &:hover {
-  border-color: var(--blue-black);
-  background-color: var(--blue-black);
-  color: var(--white);
+  border-color: var(--secondary-color);
+  background-color: var(--secondary-color);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -3415,7 +3415,7 @@ svg {
 
 ${props => props.theme.mode === 'dark' &&
     css`
-  color: var(--white);
+  color: var(--white-grey-1);
 `}
 
 @media (max-width: 430px) {
@@ -3426,7 +3426,7 @@ ${props => props.theme.mode === 'dark' &&
 export const NotificationBadge = styled.div<{ $primary?: boolean }>`
 position: absolute;
 background-color: var(--main-color);
-color: var(--white);
+color: var(--white-grey-1);
 border-radius: 50%;
 left: 12px;
 bottom: 10px;
@@ -3434,7 +3434,7 @@ width: 25px;
 height: 25px;
 font-size: 12px;
 font-weight: bold;
-border: 2px solid var(--white);
+border: 2px solid var(--white-grey-1);
 display: flex;
 align-items: center;
 justify-content: center;
@@ -3543,11 +3543,11 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    fill: var(--white) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -3576,7 +3576,7 @@ export const AddrepairBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 
@@ -3636,14 +3636,14 @@ export const ListBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 
   ${props => props.$primary &&
     css`
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 `
 
@@ -3672,11 +3672,11 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
   div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -3706,7 +3706,7 @@ export const RepairPrintBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `
@@ -3728,7 +3728,7 @@ export const PrintContent = styled.div<{ $primary?: boolean }>`
 
   ${props => props.theme.mode === 'dark' &&
     css`
-background-color: var(--white);
+background-color: var(--white-grey-1);
 `}
 `
 
@@ -4197,14 +4197,14 @@ export const ListMenu = styled.div<{ $primary?: boolean, $logout?: boolean }>`
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
   }
 
   ${props => props.$primary &&
     css`
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 
 span {
@@ -4220,7 +4220,7 @@ ${props => props.$logout &&
 
   &:hover {
     background-color: var(--danger-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 `}
 
@@ -4290,10 +4290,10 @@ margin: 1rem 0;
   max-width: ${props => props.$dimension + 'px'};
   max-height: ${props => props.$dimension + 'px'};
   border-radius: ${porps => porps.$radius + '%'};
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   object-fit: ${props => props.$imageFit ? 'cover' : 'contain'};
   aspect-ratio: 1/1;
-  border: 3px solid var(--white);
+  border: 3px solid var(--white-grey-1);
   overflow: hidden;
 }
 
@@ -4308,18 +4308,18 @@ margin: 1rem 0;
   align-items: center;
   justify-content: center;
   background-color: var(--main-color);
-  border: 3px solid var(--white);
+  border: 3px solid var(--white-grey-1);
   cursor: pointer;
   overflow: hidden;
 
   &>svg {
     font-size: 18px;
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 }
 
 &>div:nth-child(1)>div:nth-child(1)>label:hover {
-  background-color: var(--blue-black);
+  background-color: var(--secondary-color);
   transition: .3s;
 }
 
@@ -4356,7 +4356,7 @@ export const EditProfileButton = styled.button`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `
@@ -4385,7 +4385,7 @@ export const SecurityPasswordBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `
@@ -4412,7 +4412,7 @@ export const FullscreenBtn = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 `
@@ -4706,7 +4706,7 @@ export const ButtonColorChang = styled.button<{ $color?: string }>`
   svg {
     font-size: 42px;
     border-radius: 50%;
-    color: var(--white);
+    color: var(--white-grey-1);
 
     @media (max-width: 430px) {
       font-size: 32px;
@@ -4761,7 +4761,7 @@ export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`
   &:hover {
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 
@@ -4769,7 +4769,7 @@ export const WarrantyHeadBtn = styled.button<{ $primary?: boolean }>`
     css`
     background-color: var(--main-color);
     border: 2px solid var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
   `}
 `
 
@@ -4792,12 +4792,12 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -4839,7 +4839,7 @@ export const DetailWarranty = styled.button<{ $primary?: boolean }>`
     background-color: var(--main-color);
     transition: .3s;
     svg {
-      color: var(--white);
+      color: var(--white-grey-1);
       transition: .3s;
     }
   }
@@ -5145,12 +5145,12 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-dark-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -5194,7 +5194,7 @@ visibility: ${props => props.$show ? 'visible' : 'hidden'};
   width: 100%;
   height: ${props => props.$primary ? '0px' : '30px'};
   background-color: ${props => props.$primary ? 'var(--main-color)' : 'var(--danger-color)'};
-  color: var(--white);
+  color: var(--white-grey-1);
   opacity: ${props => props.$primary ? 0 : 1};
   position: fixed;
   bottom: 0;
@@ -5229,10 +5229,10 @@ margin: 1rem 0;
   max-width: ${props => props.$dimension + 'px'};
   max-height: ${props => props.$dimension + 'px'};
   border-radius: ${porps => porps.$radius + '%'};
-  background-color: var(--white);
+  background-color: var(--white-grey-1);
   object-fit: ${props => props.$imageFit ? 'cover' : 'contain'};
   aspect-ratio: 1/1;
-  border: 3px solid var(--white);
+  border: 3px solid var(--white-grey-1);
   overflow: hidden;
 }
 
@@ -5247,18 +5247,18 @@ margin: 1rem 0;
   align-items: center;
   justify-content: center;
   background-color: var(--main-color);
-  border: 3px solid var(--white);
+  border: 3px solid var(--white-grey-1);
   cursor: pointer;
   overflow: hidden;
 
   &>svg {
     font-size: 18px;
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 }
 
 &>div>label:hover {
-  background-color: var(--blue-black);
+  background-color: var(--secondary-color);
   transition: .3s;
 }
 

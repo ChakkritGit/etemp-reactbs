@@ -5,19 +5,19 @@ ${props => props.theme.mode === 'dark' &&
     css`
     .hiTDLB-st>div>div>div>div,
     .hiTDLB-st>div>div>div {
-      color: var(--white);
+      color: var(--white-grey-1);
       background-color: var(--main-seccond-color);
       border-bottom-color: var(--border-dark-color);
     }
 
     div>nav {
       background-color: var(--main-seccond-color);
-      color: var(--white);
+      color: var(--white-grey-1);
       border-top-color: var(--border-dark-color);
 
       div>button {
-        color: var(--white) !important;
-        fill: var(--white) !important;
+        color: var(--white-grey-1) !important;
+        fill: var(--white-grey-1) !important;
       }
 
       &>div>button:disabled {
@@ -104,7 +104,7 @@ ${props => props.$primary &&
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -121,7 +121,7 @@ height: 500px;
 max-height: 500px;
 border-radius: .5rem;
 border: 3px dashed ${props => props.$primary ? 'var(--main-color)' : 'var(--grey)'};
-background-color: ${props => props.$primary ? 'var(--main-color-f2)' : propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-seccond-color)' : 'var(--soft-grey)'};
+background-color: ${props => props.$primary ? 'var(--main-color-opacity2)' : propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-seccond-color)' : 'var(--soft-grey)'};
 transition: .3s;
 
 ${props => props.$error && css`
@@ -208,7 +208,7 @@ ${props => props.$primary && css`
   }
 
   .CircularProgressbar .CircularProgressbar-trail {
-    stroke: var(--main-color-f1);
+    stroke: var(--main-color-opacity1);
   }
 
   .CircularProgressbar .CircularProgressbar-path {
@@ -254,7 +254,7 @@ export const FileList = styled.div<{ $primary?: number }>`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white)'};
+  background-color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--main-last-color)' : 'var(--white-grey-1)'};
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   border-radius: .8rem;
   padding: .7rem 1.5rem;
@@ -313,7 +313,7 @@ export const FileList = styled.div<{ $primary?: number }>`
         height: 40px;
         background-color: transparent;
         border: unset;
-        color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
+        color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white-grey-1)' : 'var(--black)'};
 
         &:hover {
           color: var(--main-color);
@@ -325,7 +325,7 @@ export const FileList = styled.div<{ $primary?: number }>`
         height: 40px;
         background-color: transparent;
         border: unset;
-        color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white)' : 'var(--real-black)'};
+        color: ${propsTheme => propsTheme.theme.mode === 'dark' ? 'var(--white-grey-1)' : 'var(--black)'};
 
         &:hover {
           color: var(--danger-color);
@@ -411,7 +411,7 @@ export const ConnectButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -433,7 +433,7 @@ export const DisConnectButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--danger-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -465,7 +465,7 @@ export const TraceButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -487,7 +487,7 @@ export const EraseButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--danger-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -519,7 +519,7 @@ export const ProgramButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -558,7 +558,7 @@ export const StartConsoleButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -580,7 +580,7 @@ export const StopConsoleButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--danger-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `
@@ -602,7 +602,7 @@ export const ResetButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 `

@@ -20,8 +20,16 @@
 }
 
 :root {
-  --real-black: #000;
-  --invert-color: #fff;
+  --black: #000;
+  --white: #fff;
+  --white-grey-1: #fdfdfd;
+  --grey: #949494;
+  --bg-grey: #f5f5f5;
+  --soft-grey: #f0f0f0;
+  --soft-grey-hover: #f2f2f2;
+  --grey-75: #444444;
+  --grey-50: #929292;
+  --grey-25: #e0e0e0;
   --login-btn-hover: #373a3e;
   --active-sidebar: #fdfdfd;
   --int-hover: #e4e4e4;
@@ -30,14 +38,6 @@
   --main-color-hover: #dae5f3;
   --sidebar-active: #dae5f3;
   --sidebar-none-active: #81878f;
-  --white: #fdfdfd;
-  --bg-grey: #f5f5f5;
-  --grey: #949494;
-  --grey-75: #444444;
-  --grey-50: #929292;
-  --grey-25: #e0e0e0;
-  --soft-grey: #f0f0f0;
-  --soft-grey-hover: #f2f2f2;
   --danger-color: #e74c3c;
   --danger-color-hover: #943126;
   --danger-warning-color: #ff614f;

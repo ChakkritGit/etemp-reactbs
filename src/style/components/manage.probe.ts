@@ -5,19 +5,19 @@ ${props => props.theme.mode === 'dark' &&
     css`
     .hiTDLB-st>div>div>div>div,
     .hiTDLB-st>div>div>div {
-      color: var(--white);
+      color: var(--white-grey-1);
       background-color: var(--main-seccond-color);
       border-bottom-color: var(--border-dark-color);
     }
 
     div>nav {
       background-color: var(--main-seccond-color);
-      color: var(--white);
+      color: var(--white-grey-1);
       border-top-color: var(--border-dark-color);
 
       div>button {
-        color: var(--white) !important;
-        fill: var(--white) !important;
+        color: var(--white-grey-1) !important;
+        fill: var(--white-grey-1) !important;
       }
 
       &>div>button:disabled {
@@ -62,12 +62,12 @@ ${props => props.theme.mode === 'dark' &&
 &>div>div>div>div>div,
 &>div>nav {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   &>div>button {
-    color: var(--white) !important;
-    fill: var(--white) !important;
+    color: var(--white-grey-1) !important;
+    fill: var(--white-grey-1) !important;
   }
 
   &>div>button:disabled {
@@ -99,7 +99,7 @@ export const DelProbeButton = styled.button<{ $primary?: boolean }>`
 
 &:hover {
   background-color: var(--danger-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 
@@ -125,7 +125,7 @@ export const ManageProbeAdd = styled.button<{ $primary?: boolean }>`
 
 &:hover {
   background-color: var(--main-color);
-  color: var(--white);
+  color: var(--white-grey-1);
   transition: .3s;
 }
 

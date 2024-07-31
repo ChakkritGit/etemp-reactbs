@@ -14,7 +14,7 @@ export const AddWarrantyButton = styled.button<{ $primary?: boolean }>`
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--white);
+    color: var(--white-grey-1);
     transition: .3s;
   }
 

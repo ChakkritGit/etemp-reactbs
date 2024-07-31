@@ -30,12 +30,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--blue-black);
+  background: var(--secondary-color);
 }
 
 /* bootstrap navlink */
 .nav-tabs .nav-link {
-  color: var(--real-black);
+  color: var(--black);
   border-top-left-radius: var(--border-radius-big) !important;
   border-top-right-radius: var(--border-radius-big) !important;
 }
@@ -51,7 +51,7 @@ body {
 
 /* bootstrap offcanvas */
 .offcanvas {
-  background-color: var(--white) !important;
+  background-color: var(--white-grey-1) !important;
 }
 
 /* sweetalert */
@@ -69,13 +69,13 @@ div:where(.swal2-container) div:where(.swal2-actions) {
   & .btn.btn-warning {
     background-color: var(--warning-primary);
     border-color: var(--warning-primary);
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 
   & .btn.btn-warning:hover {
     background-color: var(--warning-seccond);
     border-color: var(--warning-seccond);
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 
   & .btn.btn-warning:focus {
@@ -214,7 +214,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input:focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 0.25rem var(--main-color-f2) !important;
+  box-shadow: 0 0 0 0.25rem var(--main-color-opacity2) !important;
   border-color: var(--main-color) !important;
 }
 
@@ -464,7 +464,7 @@ img {
 }
 
 #nprogress .bar {
-  background: linear-gradient(90deg, var(--main-color-f1) 0%, var(--blue-black) 70%, var(--main-color) 100%);
+  background: linear-gradient(90deg, var(--main-color-opacity1) 0%, var(--secondary-color) 70%, var(--main-color) 100%);
 }
 
 #nprogress .peg {
@@ -480,18 +480,18 @@ body {
 .login-card,
 .modal-content {
   background-color: var(--main-last-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .form-control {
   background-color: var(--main-last-color);
   border-color: var(--border-dark-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .form-control:focus {
   background-color: var(--main-last-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .form-floating>.form-control:focus~label {
@@ -524,17 +524,17 @@ body {
 
   .nav-link,
   .sidebar-dark-text {
-    color: var(--white) !important;
+    color: var(--white-grey-1) !important;
   }
 }
 
 .outlet-dark-bg {
   background-color: var(--main-seccond-color) !important;
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .lang-switcher-dark {
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .dropdown-menu {
@@ -542,14 +542,14 @@ body {
   border-color: var(--border-dark-color);
 
   & a {
-    color: var(--white);
+    color: var(--white-grey-1);
   }
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: var(--main-seccond-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .dropdown-item.disabled,
@@ -562,12 +562,12 @@ hr {
 }
 
 .profile-name-dark {
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 div:where(.swal2-container).swal2-center>.swal2-popup {
   background-color: var(--main-last-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .nav-tabs {
@@ -581,11 +581,11 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
 .nav-tabs .nav-link.active {
   background-color: var(--main-last-color);
   border-color: var(--border-dark-color);
-  color: var(--white) !important;
+  color: var(--white-grey-1) !important;
 }
 
 .nav-tabs .nav-link:hover {
-  color: var(--white);
+  color: var(--white-grey-1);
   border-color: var(--border-dark-color);
 }
 
@@ -601,7 +601,7 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
 
 .go2072408551 {
   background-color: var(--main-last-color);
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .apexcharts-tooltip {
@@ -643,7 +643,7 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
   background-color: var(--main-last-color);
   border-color: var(--border-dark-color);
   border-width: 1.5px;
-  color: var(--white);
+  color: var(--white-grey-1);
 }
 
 .swal2-popup.swal2-toast {

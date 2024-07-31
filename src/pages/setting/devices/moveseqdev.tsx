@@ -208,7 +208,7 @@ export default function Moveseqdev({ devData }: moveSeqType) {
                       styles={{
                         control: (baseStyles, state) => ({
                           ...baseStyles,
-                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white)",
+                          backgroundColor: theme.mode === 'dark' ? "var(--main-last-color)" : "var(--white-grey-1)",
                           borderColor: theme.mode === 'dark' ? "var(--border-dark-color)" : "var(--grey)",
                           boxShadow: state.isFocused ? "0 0 0 1px var(--main-color)" : "",
                           borderRadius: "var(--border-radius-big)"
