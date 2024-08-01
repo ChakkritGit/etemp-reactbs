@@ -31,6 +31,11 @@ import ESPToolComponent from '../pages/setting/devices/serial.port'
 import CryptoJS from "crypto-js"
 import { decodeCookieObject } from '../constants/constants'
 import SomethingWrong from './something-wrong'
+import { fetchDevicesData } from '../stores/devicesSlices'
+import { fetchHospitals, fetchWards, filtersDevices } from '../stores/dataArraySlices'
+import { fetchUserData } from '../stores/userSlice'
+import { fetchDevicesLog } from '../stores/LogsSlice'
+import { fetchProbeData } from '../stores/probeSlice'
 
 export const router = createBrowserRouter([
   {
@@ -144,8 +149,8 @@ export const router = createBrowserRouter([
 export default function RoutesComponent() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const [status, setStatus] = useState(true)
-  const { cookieEncode, cookieDecode, tokenDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
+  const [status, setStatus] = useState(false)
+  const { cookieEncode, cookieDecode, tokenDecode, deviceId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const { userLevel, hosId } = tokenDecode
   const { toasts } = useToasterStore()
@@ -153,11 +158,9 @@ export default function RoutesComponent() {
 
   useEffect(() => {
     socket.on("connect", () => {
-      setStatus(true)
     })
 
     socket.on("disconnect", (reason) => {
-      setStatus(false)
       console.error("Disconnected from Socket server:", reason)
     })
 
@@ -201,10 +204,28 @@ export default function RoutesComponent() {
     }
   }, [cookieEncode])
 
+  useEffect(() => {
+    window.addEventListener('offline', () => {
+      setStatus(true)
+    })
+
+    window.addEventListener('online', () => {
+      setStatus(false)
+      if (!token) return
+      if (deviceId !== "undefined" && token) dispatch(fetchDevicesLog({ deviceId, token }))
+      dispatch(fetchDevicesData(token))
+      dispatch(filtersDevices(token))
+      dispatch(fetchHospitals(token))
+      dispatch(fetchWards(token))
+      dispatch(fetchUserData(token))
+      dispatch(fetchProbeData(token))
+    })
+  }, [token, deviceId])
+
   return (
     <>
       <RouterProvider router={router} />
-      <TabConnect $primary={status} $show={token !== 'null'}>{status ? t('stateConnect') : t('stateDisconnect')}</TabConnect>
+      <TabConnect $primary={status} $show={token !== 'null'}>{status ? t('stateDisconnect') : t('stateConnect')}</TabConnect>
     </>
   )
 }

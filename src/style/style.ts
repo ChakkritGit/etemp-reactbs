@@ -5181,15 +5181,15 @@ width: 100%;
 `
 
 export const TabConnect = styled.div<{ $primary?: boolean, $show?: boolean }>`
-visibility: ${props => props.$show ? 'visible' : 'hidden'};
+  visibility: ${props => props.$show ? 'visible' : 'hidden'};
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: ${props => props.$primary ? '0px' : '30px'};
-  background-color: ${props => props.$primary ? 'var(--main-color)' : 'var(--danger-color)'};
+  height: ${props => props.$primary ? '30px' : '0px'};
+  background-color: ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
   color: var(--white-grey-1);
-  opacity: ${props => props.$primary ? 0 : 1};
+  opacity: ${props => props.$primary ? 1: 0};
   position: fixed;
   bottom: 0;
   z-index: 999999;
