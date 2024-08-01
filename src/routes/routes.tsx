@@ -150,6 +150,7 @@ export default function RoutesComponent() {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
   const [status, setStatus] = useState(false)
+  const [show, setShow] = useState(false)
   const { cookieEncode, cookieDecode, tokenDecode, deviceId } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { token } = cookieDecode
   const { userLevel, hosId } = tokenDecode
@@ -157,31 +158,33 @@ export default function RoutesComponent() {
   const toastLimit = 5
 
   useEffect(() => {
-    socket.on("connect", () => {
-    })
-
-    socket.on("disconnect", (reason) => {
-      console.error("Disconnected from Socket server:", reason)
-    })
-
-    socket.on("error", (error) => {
-      console.error("Socket error:", error)
-    })
-
-    socket.on("receive_message", (response: socketResponseType) => {
+    const handleConnect = () => { }
+    const handleDisconnect = (reason: any) => console.error("Disconnected from Socket server:", reason)
+    const handleError = (error: any) => console.error("Socket error:", error)
+    const handleMessage = (response: socketResponseType) => {
       if (!userLevel && !hosId) return
-      if (userLevel === "0" || userLevel === "1") {
-        dispatch(setSocketData(response))
-      } else if (hosId === response.hospital) {
+      if (userLevel === "0" || userLevel === "1" || hosId === response.hospital) {
         dispatch(setSocketData(response))
       }
-    })
+    }
+
+    socket.on("connect", handleConnect)
+    socket.on("disconnect", handleDisconnect)
+    socket.on("error", handleError)
+    socket.on("receive_message", handleMessage)
+
+    return () => {
+      socket.off("connect", handleConnect)
+      socket.off("disconnect", handleDisconnect)
+      socket.off("error", handleError)
+      socket.off("receive_message", handleMessage)
+    }
   }, [userLevel, hosId])
 
   useEffect(() => {
     try {
-      client.on('connect', () => { })
-      client.on('disconnect', () => { })
+      client.on('connect', () => { setStatus(false); setTimeout(() => { setShow(false) }, 3000) })
+      client.on('disconnect', () => { setStatus(true); setShow(true) })
     } catch (error) {
       console.error("MQTT Error: ", error)
     }
@@ -189,9 +192,9 @@ export default function RoutesComponent() {
 
   useEffect(() => {
     toasts
-      .filter((toasts) => toasts.visible) // Only consider visible toasts
-      .filter((_, index) => index >= toastLimit) // Is toast index over limit?
-      .forEach((toasts) => toast.dismiss(toasts.id)) // Dismiss – Use toast.remove(t.id) for no exit animation
+      .filter((toasts) => toasts.visible)
+      .filter((_, index) => index >= toastLimit)
+      .forEach((toasts) => toast.dismiss(toasts.id))
   }, [toasts])
 
   useEffect(() => {
@@ -205,27 +208,38 @@ export default function RoutesComponent() {
   }, [cookieEncode])
 
   useEffect(() => {
-    window.addEventListener('offline', () => {
-      setStatus(true)
-    })
-
-    window.addEventListener('online', () => {
+    const handleOffline = () => { setStatus(true); setShow(true) }
+    const handleOnline = () => {
       setStatus(false)
+      setTimeout(() => { setShow(false) }, 3000)
       if (!token) return
-      if (deviceId !== "undefined" && token) dispatch(fetchDevicesLog({ deviceId, token }))
+      if (deviceId !== "undefined") dispatch(fetchDevicesLog({ deviceId, token }))
       dispatch(fetchDevicesData(token))
       dispatch(filtersDevices(token))
       dispatch(fetchHospitals(token))
       dispatch(fetchWards(token))
       dispatch(fetchUserData(token))
       dispatch(fetchProbeData(token))
-    })
+    }
+
+    window.addEventListener('offline', handleOffline)
+    window.addEventListener('online', handleOnline)
+
+    return () => {
+      window.removeEventListener('offline', handleOffline)
+      window.removeEventListener('online', handleOnline)
+    }
   }, [token, deviceId])
 
   return (
     <>
-      <RouterProvider router={router} />
-      <TabConnect $primary={status} $show={token !== 'null'}>{status ? t('stateDisconnect') : t('stateConnect')}</TabConnect>
+      <RouterProvider
+        router={router}
+        future={{ v7_startTransition: true }}
+      />
+      {show && <TabConnect $primary={status} $show={show}>
+        <span>{status ? t('stateDisconnect') : t('stateConnect')}</span>
+      </TabConnect>}
     </>
   )
 }

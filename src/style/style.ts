@@ -5181,19 +5181,23 @@ width: 100%;
 `
 
 export const TabConnect = styled.div<{ $primary?: boolean, $show?: boolean }>`
-  visibility: ${props => props.$show ? 'visible' : 'hidden'};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: ${props => props.$primary ? '30px' : '0px'};
-  background-color: ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
-  color: var(--white-grey-1);
-  opacity: ${props => props.$primary ? 1: 0};
   position: fixed;
   bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: ${props => props.$primary ? 'var(--danger-color)' : 'var(--main-color)'};
+  opacity: ${props => props.$show ? 1 : 0};
   z-index: 999999;
-  transition: ease-in .5s;
+  transition: ease-in .3s;
+
+  &>span{
+    color: var(--white-grey-1);
+    font-size: 16px;
+    line-height: 2rem;
+    font-weight: bold;
+    padding: 4px 0px;
+  }
 
   @media (max-width: 430px) {
     bottom: 75px;
