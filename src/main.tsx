@@ -15,28 +15,31 @@ import { ColorProvider } from './theme/ColorsProvider'
 import { store } from './stores/store'
 import { Provider } from 'react-redux'
 import ReloadPrompt from './components/reloadSW/ReloadPrompt'
+import React from 'react'
 
 if (import.meta.env.VITE_APP_NODE_ENV === 'production') {
   console.log = () => { }
 }
 
 ReactDOM.createRoot(document.getElementById('appWrapper')!).render(
-  <Provider store={store}>
-    <I18nextProvider i18n={i18n}>
-      <StyleSheetManager shouldForwardProp={isPropValid}>
-        <ThemeProvider
-          breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-          minBreakpoint="xxs">
-          <ThemeProviders>
-            <ColorProvider>
-              <ReloadPrompt />
-              <GlobalStyles />
-              <GlobalColors />
-              <RoutesComponent />
-            </ColorProvider>
-          </ThemeProviders>
-        </ThemeProvider>
-      </StyleSheetManager>
-    </I18nextProvider>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <I18nextProvider i18n={i18n}>
+        <StyleSheetManager shouldForwardProp={isPropValid}>
+          <ThemeProvider
+            breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+            minBreakpoint="xxs">
+            <ThemeProviders>
+              <ColorProvider>
+                <ReloadPrompt />
+                <GlobalStyles />
+                <GlobalColors />
+                <RoutesComponent />
+              </ColorProvider>
+            </ThemeProviders>
+          </ThemeProvider>
+        </StyleSheetManager>
+      </I18nextProvider>
+    </Provider>
+  </React.StrictMode>
 )
