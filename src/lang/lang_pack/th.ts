@@ -62,7 +62,11 @@ export default {
     adjustAfterTemp: 'อุณหภูมิหลังปรับชดเชย',
     muteSetting: 'ตั้งค่าเสียง',
     notificationSettings: 'ตั้งค่าการแจ้งเตือน',
+    muteSettings: 'ตั้งค่าการปิดเสียง',
     adjustButtonSubmit: 'บันทึก',
+    muteTemporary: 'ปิดเสียงชั่วคราว',
+    muteAlways: 'ปิดเสียงตลอดเวลา',
+    muteDoor: 'ปิดเสียงประตู',
 
     // notification setting itemp
     choiceOne: '1. ส่งข้อความครั้งแรก',

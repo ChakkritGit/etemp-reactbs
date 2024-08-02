@@ -627,13 +627,13 @@ export default function Adddevform(managedevices: managedevices) {
       <Modal size={"lg"} show={showConfig} onHide={closemodalConfig}>
         <Modal.Header>
           <ModalHead>
-            <ModalMuteHead>
-              <button onClick={closemodalConfig}>
+            <ModalMuteHead onClick={closemodalConfig}>
+              <button>
                 <RiArrowLeftSLine />
               </button>
-              <strong>
+              <span>
                 {t('deviceNetwork')}
-              </strong>
+              </span>
             </ModalMuteHead>
             {/* <pre>{JSON.stringify(netConfig, null, 2)}</pre> */}
           </ModalHead>

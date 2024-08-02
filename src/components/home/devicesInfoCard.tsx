@@ -93,10 +93,10 @@ export default function DevicesInfoCard(DevicesInfoCard: DevicesInfoCard) {
                 </TooltipSpan>
               </CardDevBtn>
             </DeviceCardHeadHandle>
-            <DeviceStateNetwork $primary={devicesdata.log[0]?.internet === "1" || devicesdata.log?.length <= 0 || ((Number(new Date()) - Number(new Date(devicesdata.log[0]?.createAt))) / 1000) > 10 * 60}>
+            <DeviceStateNetwork $primary={devicesdata.log[0]?.internet === "1" || devicesdata.log?.length <= 0}>
               {
                 !onFilter ?
-                  devicesdata.log[0]?.internet === "1" || devicesdata.log?.length <= 0 || ((Number(new Date()) - Number(new Date(devicesdata.log[0]?.createAt))) / 1000) > 10 * 60 ? t('deviceOffline') : t('deviceOnline')
+                  devicesdata.log[0]?.internet === "1" || devicesdata.log?.length <= 0 ? t('deviceOffline') : t('deviceOnline')
                   :
                   <div>
                     {`${devicesdata._count?.log} ${t('countNormalUnit')}`}

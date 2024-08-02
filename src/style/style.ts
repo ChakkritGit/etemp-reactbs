@@ -1999,9 +1999,14 @@ ${props => props.theme.mode === 'dark' &&
 
 ${props => props.$primary &&
     css`
-  background-color: var(--danger-color);
-  border-color: var(--danger-color);
-  & svg {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+
+  & > span {
+    color: var(--white-grey-1);
+  }
+
+  & > svg {
     color: var(--white-grey-1);
   }
 `}

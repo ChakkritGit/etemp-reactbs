@@ -2,8 +2,8 @@ import styled from "styled-components"
 
 export const MuteEtemp = styled.button<{ $primary?: boolean }>`
   position: relative;
-  width: 50px;
-  height: 30px;
+  width: 60px;
+  height: 35px;
   background-color: ${(propss) => (propss.$primary ? 'var(--main-color)' : '#ddd')};
   border: 1px solid ${(propss) => (propss.$primary ? 'var(--main-color)' : '#ccc')};
   border-radius: 20px;
@@ -15,13 +15,13 @@ export const MuteEtemp = styled.button<{ $primary?: boolean }>`
   overflow: hidden;
 
   .icon {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: ${(propss) => (propss.$primary ? 'var(--white-grey-1)' : 'var(--white-grey-1)')};
     transition: transform 0.3s ease;
     transform: ${(propss) =>
-    propss.$primary ? 'translateX(22px)' : 'translateX(2px)'};
+    propss.$primary ? 'translateX(25.5px)' : 'translateX(2px)'};
     display: flex;
     align-items: center;
     justify-content: center;

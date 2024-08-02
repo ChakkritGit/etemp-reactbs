@@ -86,11 +86,38 @@ border: 2px solid var(--main-color);
 export const ModalMuteHead = styled.div<{ $primary?: boolean }>`
 display: flex;
 align-items: center;
-gap: .5rem;
+gap: .3rem;
+cursor: pointer;
+
+&:hover {
+  color: var(--grey);
+  transition: .3s;
+
+  & > button {
+  & svg {
+    color: var(--grey);
+    transition: .3s;
+  }
+}
+}
+
+
 `
 
 export const TagCurrentHos = styled.span`
   padding: 7px .8rem;
   background-color: var(--main-color-opacity2);
   border-radius: var(--border-radius-big);
+`
+
+export const NotiActionFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `

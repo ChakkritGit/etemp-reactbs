@@ -3,9 +3,13 @@ import {
   FormBtn, FormFlexBtn, FormSliderRange, LineHr, ModalHead, RangeInputText,
   SliderFlex, SliderLabelFlex, SliderRangeFlex
 } from "../../style/style"
-import { RiArrowDownLine, RiArrowLeftSLine, RiArrowRightLine, RiCloseLine, RiSpeakerLine, RiVolumeMuteLine, RiVolumeUpLine } from "react-icons/ri"
+import {
+  RiAlarmWarningFill, RiArrowDownLine, RiArrowLeftSLine, RiArrowRightLine,
+  RiBellFill,
+  RiCloseLine
+} from "react-icons/ri"
 import { Slider } from "@mui/material"
-import { AdjustRealTimeFlex, ModalMuteHead, OpenSettingBuzzer } from "../../style/components/home.styled"
+import { AdjustRealTimeFlex, ModalMuteHead, NotiActionFlex, OpenSettingBuzzer } from "../../style/components/home.styled"
 import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
 import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { AsyncThunk } from "@reduxjs/toolkit"
@@ -23,6 +27,7 @@ import { storeDispatchType } from "../../stores/store"
 import { setRefetchdata, setShowAlert } from "../../stores/utilsStateSlice"
 import Select, { SingleValue } from 'react-select'
 import { useTheme } from "../../theme/ThemeProvider"
+import { cookieOptions, cookies } from "../../constants/constants"
 
 type modalAdjustType = {
   fetchData: AsyncThunk<devicesType[], string, {}>,
@@ -50,6 +55,7 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   const [tempvalue, setTempvalue] = useState<number[]>([Number(devicesdata.probe[0]?.tempMin), Number(devicesdata.probe[0]?.tempMax)])
   const [humvalue, setHumvalue] = useState<number[]>([Number(devicesdata.probe[0]?.humMin), Number(devicesdata.probe[0]?.humMax)])
   const [showSetting, setShowSetting] = useState(false)
+  const [showSettingMute, setShowSettingMute] = useState(false)
   const [formData, setFormData] = useState({
     adjustTemp: devicesdata.probe[0]?.adjustTemp,
     adjustHum: devicesdata.probe[0]?.adjustHum
@@ -66,7 +72,11 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   })
   const [mqttData, setMqttData] = useState({ temp: 0, humi: 0 })
   const [selectProbeI, setSelectProbeI] = useState(devicesdata.probe[0]?.probeId)
-  const [muteEtemp, setMuteEtemp] = useState(false)
+  const [muteEtemp, setMuteEtemp] = useState({
+    temporary: false,
+    always: cookies.get(devicesdata.devSerial) === 'always' ?? false,
+    door: cookies.get(devicesdata.devSerial) === 'door' ?? false,
+  })
   const { choichOne, choichfour, choichthree, choichtwo } = muteMode
   const { userLevel } = tokenDecode
   const { theme } = useTheme()
@@ -196,6 +206,16 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     setShow(true)
   }
 
+  const openSettingMute = () => {
+    setShow(false)
+    setShowSettingMute(true)
+  }
+
+  const closeSettingMute = () => {
+    setShowSettingMute(false)
+    setShow(true)
+  }
+
   useEffect(() => {
     if (show) {
       client.subscribe(`${devicesdata.devSerial}/temp/real`, (err) => {
@@ -231,15 +251,34 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
     setTempvalue([newProbeData[0]?.tempMin, newProbeData[0]?.tempMax])
   }
 
-  const switchMute = () => {
-    setMuteEtemp(!muteEtemp)
-  }
-
-  useEffect(() => {
-    if (muteEtemp) {
-      client.publish(`${devicesdata.devSerial}/mute/short`, 'on')
+  const switchMute = (mode: string) => {
+    if (mode === 'temporary') {
+      setMuteEtemp({ ...muteEtemp, temporary: !muteEtemp.temporary })
+      if (muteEtemp.temporary) {
+        client.publish(`${devicesdata.devSerial}/mute/short`, 'on')
+      } else {
+        client.publish(`${devicesdata.devSerial}/mute/short`, 'off')
+      }
+    } else if (mode === 'always') {
+      setMuteEtemp({ ...muteEtemp, always: !muteEtemp.always })
+      if (muteEtemp.always) {
+        client.publish(`${devicesdata.devSerial}/mute/long`, 'on')
+        cookies.remove(devicesdata.devSerial)
+      } else {
+        client.publish(`${devicesdata.devSerial}/mute/long`, 'off')
+        cookies.set(devicesdata.devSerial, 'always', cookieOptions)
+      }
+    } else {
+      setMuteEtemp({ ...muteEtemp, door: !muteEtemp.door })
+      if (muteEtemp.door) {
+        client.publish(`${devicesdata.devSerial}/mute/door`, 'on')
+        cookies.remove(devicesdata.devSerial)
+      } else {
+        client.publish(`${devicesdata.devSerial}/mute/door`, 'off')
+        cookies.set(devicesdata.devSerial, 'door', cookieOptions)
+      }
     }
-  }, [muteEtemp])
+  }
 
   const mapOptions = <T, K extends keyof T>(data: T[], valueKey: K, labelKey: K): Option[] =>
     data.map(item => ({
@@ -487,27 +526,15 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
                   <LineHr />
                 </Form.Label>
               </Col>
-              <Col lg={6}>
-                <Form.Label className="w-100">
-                  <span>iTEMP</span>
-                  <OpenSettingBuzzer type="button" className="mt-3" onClick={openSetting}>
-                    <RiSpeakerLine size={24} />
-                    <span>{t('notificationSettings')}</span>
-                  </OpenSettingBuzzer>
-                </Form.Label>
-              </Col>
-              <Col lg={6}>
-                <Form.Label className="w-100">
-                  <span>eTEMP</span>
-                  {
-                    devicesdata.devSerial.substring(0, 3) === "eTP" &&
-                    <MuteEtemp type="button" className="mt-3" onClick={switchMute} $primary={muteEtemp}>
-                      <div className="icon">
-                        {muteEtemp ? <RiVolumeMuteLine /> : <RiVolumeUpLine />}
-                      </div>
-                    </MuteEtemp>
-                  }
-                </Form.Label>
+              <Col lg={12} className="w-100 d-flex justify-content-around">
+                <OpenSettingBuzzer type="button" onClick={openSetting}>
+                  <RiAlarmWarningFill size={24} />
+                  <span>{t('notificationSettings')}</span>
+                </OpenSettingBuzzer>
+                <OpenSettingBuzzer type="button" onClick={openSettingMute}>
+                  <RiBellFill size={24} />
+                  <span>{t('muteSettings')}</span>
+                </OpenSettingBuzzer>
               </Col>
             </Row>
           </Modal.Body>
@@ -524,8 +551,8 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
       <Modal size="lg" show={showSetting} onHide={closeSetting}>
         <Modal.Header>
           <ModalHead>
-            <ModalMuteHead>
-              <button onClick={closeSetting}>
+            <ModalMuteHead onClick={closeSetting}>
+              <button>
                 <RiArrowLeftSLine />
               </button>
               <span>
@@ -669,6 +696,56 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
             </FormFlexBtn>
           </Modal.Footer>
         </Form>
+      </Modal>
+
+      <Modal size="lg" show={showSettingMute} onHide={closeSettingMute}>
+        <Modal.Header>
+          <ModalHead>
+            <ModalMuteHead onClick={closeSettingMute}>
+              <button>
+                <RiArrowLeftSLine />
+              </button>
+              <span>
+                {t('muteSettings')}
+              </span>
+            </ModalMuteHead>
+          </ModalHead>
+        </Modal.Header>
+        <Modal.Body>
+          <NotiActionFlex>
+            <div>
+              <span>{t('muteTemporary')}</span>
+              <MuteEtemp type="button" onClick={() => switchMute('temporary')} $primary={!muteEtemp.temporary}>
+                <div className="icon">
+                  {!muteEtemp.temporary ? t('stateOn') : t('stateOff')}
+                </div>
+              </MuteEtemp>
+            </div>
+            <div>
+              <span>{t('muteAlways')}</span>
+              <MuteEtemp type="button" onClick={() => switchMute('always')} $primary={!muteEtemp.always}>
+                <div className="icon">
+                  {!muteEtemp.always ? t('stateOn') : t('stateOff')}
+                </div>
+              </MuteEtemp>
+            </div>
+            <div>
+              <span>{t('muteDoor')}</span>
+              <MuteEtemp type="button" onClick={() => switchMute('door')} $primary={!muteEtemp.door}>
+                <div className="icon">
+                  {!muteEtemp.door ? t('stateOn') : t('stateOff')}
+                </div>
+              </MuteEtemp>
+            </div>
+          </NotiActionFlex>
+        </Modal.Body>
+        <Modal.Footer>
+          <FormFlexBtn>
+            <FormBtn type="submit">
+              {t('notificationButtonSubmit')}
+            </FormBtn>
+          </FormFlexBtn>
+        </Modal.Footer>
       </Modal>
     </>
   )

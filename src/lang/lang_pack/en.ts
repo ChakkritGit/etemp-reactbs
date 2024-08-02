@@ -60,7 +60,11 @@ export default {
     adjustAfterTemp: 'Temperature after adjust',
     muteSetting: 'Mute Settings',
     notificationSettings: 'Notification Settings',
+    muteSettings: 'Mute Settings',
     adjustButtonSubmit: 'Save',
+    muteTemporary: 'Temporary Mute',
+    muteAlways: 'Mute Always',
+    muteDoor: 'Mute Door',
 
     // notification setting itemp
     choiceOne: '1. Sending message for the first time.',
