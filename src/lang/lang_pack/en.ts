@@ -345,6 +345,7 @@ export default {
     destSeq: 'Destination sequence',
     optimizeGraph: 'Optimize Chart',
     print: 'Print',
+    follow: 'Follow Us',
 
     // router
     titleError: 'Oops!',

@@ -3,6 +3,9 @@ import { ContactContainer, ContactFlexOne, ContactIfram, ContactInfo } from "../
 import { useTranslation } from "react-i18next"
 import { motion } from "framer-motion"
 import { items } from "../../animation/animate"
+import { RiMailFill, RiPhoneFill } from "react-icons/ri"
+import LineIcon from "../../assets/images/line.png"
+import FacebookIcon from "../../assets/images/facebook.png"
 
 export default function Contact() {
   const { t } = useTranslation()
@@ -16,19 +19,34 @@ export default function Contact() {
         <ContactContainer>
           <ContactFlexOne>
             <ContactInfo>
-              <h2>{t('contactUs')}</h2>
-              <p>
-                {t('contactInfo1')}
-                <br />
-                Phone: 02-791-4500
-                <br />
-                Email: thanes@thanesgroup.com
-              </p>
-              <p>
-                Monday - Friday (Except Public Holidays)
-                <br />
-                08:00 AM - 05:00 PM
-              </p>
+              <div>
+                <h2>{t('contactUs')}</h2>
+                <p>
+                  {t('contactInfo1')}
+                  <br />
+                  <RiPhoneFill size={18} /> <a href="tel:027914500">02-791-4500</a>
+                  <br />
+                  <RiMailFill size={18} /> <a href="mailto:thanes@thanesgroup.com">thanes@thanesgroup.com</a>
+                </p>
+                <p>
+                  Monday - Friday (Except Public Holidays)
+                  <br />
+                  08:00 AM - 05:00 PM
+                </p>
+              </div>
+              <div>
+                <label htmlFor="span">
+                  <b>{t('follow')}</b>
+                  <div className="mt-2">
+                    <a href="https://line.me/R/ti/p/%40925maysc">
+                      <img src={LineIcon} width={32} alt="LineIcon" />
+                    </a>
+                    <a href="https://www.facebook.com/thanesgroup">
+                      <img src={FacebookIcon} width={32} alt="FacebookIcon" />
+                    </a>
+                  </div>
+                </label>
+              </div>
             </ContactInfo>
           </ContactFlexOne>
           <ContactIfram>

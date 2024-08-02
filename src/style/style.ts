@@ -3464,7 +3464,7 @@ display: flex;
 flex-direction: column;
 border-bottom: 1px solid var(--grey-25);
 padding: .5rem;
-cursor: ${props => props.$readed ? 'unset' : 'pointer'};
+cursor: ${props => props.$readed ? 'pointer' : 'unset'};
 
 ${props => props.$primary &&
     css`
@@ -3472,7 +3472,6 @@ ${props => props.$primary &&
 
     ${props => props.theme.mode === 'dark' &&
         css`
-      color: var(--black);
       background-color: var(--main-seccond-color);
 `}
 `}
@@ -5089,6 +5088,15 @@ align-items: center;
 `
 
 export const ContactInfo = styled.div<{ $primary?: boolean }>`
+display: flex;
+flex-direction: column;
+gap: 1rem;
+
+&>div>label>div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
 
 h2 {
   margin-bottom: 1rem;

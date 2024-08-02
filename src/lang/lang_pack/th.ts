@@ -347,6 +347,7 @@ export default {
     destSeq: 'ลำดับปลายทาง',
     optimizeGraph: 'ปรับกราฟให้เหมาะสม',
     print: 'ปริ้น',
+    follow: 'ติดตามเรา',
 
     // connect
     ipAddress: 'IP',

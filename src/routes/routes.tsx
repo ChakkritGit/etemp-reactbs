@@ -41,7 +41,6 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthRoute />,
-    errorElement: <SomethingWrong />,
     children: [
       {
         path: "/",

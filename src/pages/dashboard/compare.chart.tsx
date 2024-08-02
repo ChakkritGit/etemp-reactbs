@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import { RiArrowRightSLine, RiCloseLine, RiDashboardFill, RiFilePdf2Line, RiFolderSharedLine, RiImageLine, RiLoader3Line, RiPrinterLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import CompareChartComponent from "../../components/dashboard/compare.chart.component"
-import { DeviceState, DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
+import { DeviceStateStore, UtilsStateStore } from "../../types/redux.type"
 import { useDispatch, useSelector } from "react-redux"
 import Loading from "../../components/loading/loading"
 import { ExportandAuditFlex, FilterContainer, FilterSearchBtn, FullchartBodyChartCon, FullchartHead, FullchartHeadBtn, FullchartHeadExport, FullchartHeadLeft, GlobalButton, GlobalButtoncontainer, LineHr, ModalHead, TableInfoDevice } from "../../style/style"
@@ -13,15 +13,16 @@ import toast from "react-hot-toast"
 import html2canvas from "html2canvas"
 import { PDFViewer } from "@react-pdf/renderer"
 import Fullchartpdf from "../../components/pdf/fullchartpdf"
-import { setSearchQuery } from "../../stores/utilsStateSlice"
+import { setSearchQuery, setShowAlert } from "../../stores/utilsStateSlice"
 import { storeDispatchType } from "../../stores/store"
+import axios, { AxiosError } from "axios"
+import Swal from "sweetalert2"
 
 const Comparechart = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch<storeDispatchType>()
-  const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
   const { expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
-  const {hosName} = cookieDecode
+  const { hosName, token } = cookieDecode
   const [pageNumber, setPagenumber] = useState(1)
   const canvasChartRef = useRef<HTMLDivElement | null>(null)
   const tableInfoRef = useRef<HTMLDivElement | null>(null)
@@ -32,6 +33,77 @@ const Comparechart = () => {
     startDate: '',
     endDate: ''
   })
+  const [devices, setDevices] = useState<any>([])
+
+  const fetchCompare = async () => {
+    try {
+      setDevices([])
+      const res = await axios.get(`${import.meta.env.VITE_APP_API}/compare`, {
+        headers: { authorization: `Bearer ${token}` }
+      })
+      setDevices(res.data.data)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          dispatch(setShowAlert(true))
+        } else {
+          console.error('Something wrong' + error)
+        }
+      } else {
+        console.error('Uknown error: ', error)
+      }
+    }
+  }
+
+  const fetchCompareCustom = async () => {
+    const { endDate, startDate } = filterDate
+    let startDateNew = new Date(filterDate.startDate)
+    let endDateNew = new Date(filterDate.endDate)
+    let timeDiff = Math.abs(endDateNew.getTime() - startDateNew.getTime())
+    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
+    if (startDate !== '' || endDate !== '') {
+      if (diffDays <= 31) {
+        try {
+          setDevices([])
+          const res = await axios.get(`${import.meta.env.VITE_APP_API}/compare?start=${startDate}&end=${endDate}`, {
+            headers: { authorization: `Bearer ${token}` }
+          })
+          setDevices(res.data.data)
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            if (error.response?.status === 401) {
+              dispatch(setShowAlert(true))
+            } else {
+              console.error('Something wrong' + error)
+            }
+          } else {
+            console.error('Uknown error: ', error)
+          }
+        }
+      } else {
+        Swal.fire({
+          title: t('alertHeaderWarning'),
+          text: t('customMessageLogData'),
+          icon: "warning",
+          timer: 3000,
+          showConfirmButton: false,
+        })
+      }
+    } else {
+      Swal.fire({
+        title: t('alertHeaderWarning'),
+        text: t('completeField'),
+        icon: "warning",
+        timer: 2000,
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!token) return
+    fetchCompare()
+  }, [token])
 
   useEffect(() => {
     return () => {
@@ -108,9 +180,8 @@ const Comparechart = () => {
       </Breadcrumbs>
       <FullchartHead>
         <FullchartHeadLeft>
-          <FullchartHeadBtn $primary={pageNumber === 1} onClick={() => setPagenumber(1)}>{t('chartDay')}</FullchartHeadBtn>
-          {/* <FullchartHeadBtn $primary={pageNumber === 2} onClick={() => { }}>{t('chartWeek')}</FullchartHeadBtn>
-          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn> */}
+          <FullchartHeadBtn $primary={pageNumber === 1} onClick={() => setPagenumber(1)}>{t('month')}</FullchartHeadBtn>
+          <FullchartHeadBtn $primary={pageNumber === 3} onClick={() => setPagenumber(3)}>{t('chartCustom')}</FullchartHeadBtn>
         </FullchartHeadLeft>
         <ExportandAuditFlex>
           <Dropdown>
@@ -145,14 +216,14 @@ const Comparechart = () => {
       {pageNumber === 3 &&
         <FilterContainer>
           <Form.Control
-            type="datetime-local"
+            type="date"
             value={filterDate.startDate}
             onChange={(e) => setFilterDate({ ...filterDate, startDate: e.target.value })} />
           <Form.Control
-            type="datetime-local"
+            type="date"
             value={filterDate.endDate}
             onChange={(e) => setFilterDate({ ...filterDate, endDate: e.target.value })} />
-          <FilterSearchBtn onClick={() => { }}>{t('searchButton')}</FilterSearchBtn>
+          <FilterSearchBtn onClick={() => fetchCompareCustom()}>{t('searchButton')}</FilterSearchBtn>
         </FilterContainer>}
       <FullchartBodyChartCon $primary={expand} ref={canvasChartRef}>
         <TableInfoDevice ref={tableInfoRef}>
