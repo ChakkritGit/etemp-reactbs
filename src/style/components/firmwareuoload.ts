@@ -77,8 +77,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: .5rem;
-width: max-content;
-max-width: 165px;
+width: 100%;
 max-height: 45px;
 border-radius: var(--border-radius-big);
 border: 2px solid var(--main-color);
@@ -358,18 +357,21 @@ export const ProgressBar = styled.div<{ $primary?: string }>`
 `
 
 export const SendOTAtoBoard = styled.div<{ $primary?: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, .5fr);
+  gap: .5rem;
 
   &>select {
-    width: 200px;
+    width: 100%;
     height: 45px;
-    max-width: 200px;
     max-height: 45px;
     overflow: hidden;
     border-radius: var(--border-radius-big);
   }
+
+  @media (max-width: 430px) {
+    grid-template-columns: repeat(1, 1fr);
+}
 `
 
 export const FlashFirmwareContainer = styled.div<{ $primary?: boolean }>`

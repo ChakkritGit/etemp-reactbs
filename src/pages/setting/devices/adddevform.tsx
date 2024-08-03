@@ -601,9 +601,9 @@ export default function Adddevform(managedevices: managedevices) {
                                 </SendOTAtoBoard>
                               </Form.Label>
                             </InputGroup>
-                            <Row>
+                            {/* <Row>
                               <progress max={100}></progress>
-                            </Row>
+                            </Row> */}
                           </Row>
                         }
                       </Col>

@@ -74,8 +74,8 @@ const ModalAdjust = (modalProps: modalAdjustType) => {
   const [selectProbeI, setSelectProbeI] = useState(devicesdata.probe[0]?.probeId)
   const [muteEtemp, setMuteEtemp] = useState({
     temporary: false,
-    always: cookies.get(devicesdata.devSerial) === 'always' ?? false,
-    door: cookies.get(devicesdata.devSerial) === 'door' ?? false,
+    always: cookies.get(devicesdata.devSerial) === 'always' || false,
+    door: cookies.get(devicesdata.devSerial) === 'door' || false,
   })
   const { choichOne, choichfour, choichthree, choichtwo } = muteMode
   const { userLevel } = tokenDecode
