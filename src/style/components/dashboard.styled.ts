@@ -37,9 +37,13 @@ export const OfflineDataFlex = styled.div`
         justify-content: center;
         align-items: center;
         background-color: ${props => props.theme.mode === 'dark' ? "var(--main-seccond-color)" : "var(--soft-grey)"};
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
         border-radius: var(--border-radius-small);
+
+        &>svg {
+          fill: ${props => props.theme.mode === 'dark' ? "var(--white)" : "var(--grey-75)"};
+        }
       }
 
       &>div:nth-child(2) {
@@ -50,7 +54,7 @@ export const OfflineDataFlex = styled.div`
         width: 100%;
 
         &>span {
-          font-size: 24px;
+          font-size: 20px;
           font-weight: bold;
         }
 
