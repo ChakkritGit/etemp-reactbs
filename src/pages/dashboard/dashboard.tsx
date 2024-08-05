@@ -14,9 +14,15 @@ import { storeDispatchType } from "../../stores/store"
 import { setDeviceId, setSearchQuery, setSerial } from "../../stores/utilsStateSlice"
 import { fetchDevicesLog } from "../../stores/LogsSlice"
 import { cookies } from "../../constants/constants"
+import { useNavigate } from "react-router-dom"
+import { OfflineDataFlex } from "../../style/components/dashboard.styled"
+import { RiBarChartBoxLine, RiTableView } from "react-icons/ri"
+import { useTranslation } from "react-i18next"
 
 export default function Dashboard() {
   const dispatch = useDispatch<storeDispatchType>()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
   const { devicesLogs } = useSelector<DeviceStateStore, LogState>((state) => state.logs)
   const { expand, cookieDecode } = useSelector<DeviceStateStore, UtilsStateStore>((state) => state.utilsState)
   const { devices } = useSelector<DeviceStateStore, DeviceState>((state) => state.devices)
@@ -70,7 +76,38 @@ export default function Dashboard() {
                 </Dashboardanalys>
               </>
               :
-              <PageLoading />
+              devicesLogs.log?.length === 0 ?
+                <OfflineDataFlex>
+                  <span>{t('todayNoData')}</span>
+                  <div>
+                    <div>
+                      <div>
+                        <RiBarChartBoxLine size={62} />
+                      </div>
+                      <div>
+                        <span>{t('pageChart')}</span>
+                        <button
+                          onClick={() => navigate(`/dashboard/fullchart`, { state: { tempMin: devicesLogs.probe[0]?.tempMin, tempMax: devicesLogs.probe[0]?.tempMax } })}>
+                          {t('seeLastData')}
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <RiTableView size={62} />
+                      </div>
+                      <div>
+                        <span>{t('pageTable')}</span>
+                        <button
+                          onClick={() => navigate(`/dashboard/fulltable`, { state: { tempMin: devicesLogs.probe[0]?.tempMin, tempMax: devicesLogs.probe[0]?.tempMax } })}>
+                          {t('seeLastData')}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </OfflineDataFlex>
+                :
+                <PageLoading />
           }
         </DashboardFlex>
       </motion.div>

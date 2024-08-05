@@ -346,6 +346,8 @@ export default {
     optimizeGraph: 'Optimize Chart',
     print: 'Print',
     follow: 'Follow Us',
+    todayNoData: 'No data today',
+    seeLastData: 'See last data',
 
     // router
     titleError: 'Oops!',

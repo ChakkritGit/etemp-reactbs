@@ -348,6 +348,8 @@ export default {
     optimizeGraph: 'ปรับกราฟให้เหมาะสม',
     print: 'ปริ้น',
     follow: 'ติดตามเรา',
+    todayNoData: 'ไม่พบข้อมูลวันนี้',
+    seeLastData: 'ข้อมูลย้อนหลัง',
 
     // connect
     ipAddress: 'IP',
